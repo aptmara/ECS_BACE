@@ -5,6 +5,7 @@
 #include <d3d11.h>
 #include <wrl/client.h>
 #include <cstdint>
+#include <cstdio>
 
 // ========================================================
 // GfxDevice - DirectX11デバイス管理クラス
@@ -40,7 +41,19 @@ public:
             device_.ReleaseAndGetAddressOf(),
             &fl,
             context_.ReleaseAndGetAddressOf());
-        if (FAILED(hr)) return false;
+        
+        if (FAILED(hr)) {
+            // エラーの詳細をログ出力
+            char errorMsg[256];
+            sprintf_s(errorMsg, 
+                "Failed to create D3D11 device.\nHRESULT: 0x%08X\n"
+                "Please check:\n"
+                "- DirectX 11 is installed\n"
+                "- Graphics drivers are up to date", 
+                hr);
+            MessageBoxA(nullptr, errorMsg, "DirectX Error", MB_OK | MB_ICONERROR);
+            return false;
+        }
 
         return createBackbufferResources();
     }
@@ -74,15 +87,32 @@ public:
     // サイズ取得
     uint32_t Width() const { return width_; }
     uint32_t Height() const { return height_; }
+    
+    // デストラクタでリソースを明示的に解放
+    ~GfxDevice() {
+        // ComPtrは自動で解放されるが、念のため明示的にリセット
+        dsv_.Reset();
+        rtv_.Reset();
+        swap_.Reset();
+        context_.Reset();
+        device_.Reset();
+    }
 
 private:
     // バックバッファリソースの作成
     bool createBackbufferResources() {
         Microsoft::WRL::ComPtr<ID3D11Texture2D> back;
         HRESULT hr = swap_->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)back.GetAddressOf());
-        if (FAILED(hr)) return false;
+        if (FAILED(hr)) {
+            MessageBoxA(nullptr, "Failed to get back buffer", "DirectX Error", MB_OK | MB_ICONERROR);
+            return false;
+        }
+        
         hr = device_->CreateRenderTargetView(back.Get(), nullptr, rtv_.ReleaseAndGetAddressOf());
-        if (FAILED(hr)) return false;
+        if (FAILED(hr)) {
+            MessageBoxA(nullptr, "Failed to create render target view", "DirectX Error", MB_OK | MB_ICONERROR);
+            return false;
+        }
 
         // 深度ステンシルバッファ
         D3D11_TEXTURE2D_DESC td{};
@@ -97,9 +127,16 @@ private:
 
         Microsoft::WRL::ComPtr<ID3D11Texture2D> depth;
         hr = device_->CreateTexture2D(&td, nullptr, depth.GetAddressOf());
-        if (FAILED(hr)) return false;
+        if (FAILED(hr)) {
+            MessageBoxA(nullptr, "Failed to create depth stencil texture", "DirectX Error", MB_OK | MB_ICONERROR);
+            return false;
+        }
+        
         hr = device_->CreateDepthStencilView(depth.Get(), nullptr, dsv_.ReleaseAndGetAddressOf());
-        if (FAILED(hr)) return false;
+        if (FAILED(hr)) {
+            MessageBoxA(nullptr, "Failed to create depth stencil view", "DirectX Error", MB_OK | MB_ICONERROR);
+            return false;
+        }
 
         return true;
     }

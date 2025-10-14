@@ -126,18 +126,32 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentSamples.h" />
+    <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GfxDevice.h" />
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="MiniGame.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Rotator.h" />
+    <ClInclude Include="SampleScenes.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="VideoPlayer.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BUG_FIX_ITERATOR_INVALIDATION.md" />
+    <None Include="CHANGELOG_v3.md" />
+    <None Include="CHANGELOG_v4.md" />
+    <None Include="LEARNING_GUIDE.md" />
+    <None Include="QUICK_REFERENCE.md" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
