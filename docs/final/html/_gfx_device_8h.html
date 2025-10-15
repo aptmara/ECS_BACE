@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: include/graphics/GfxDevice.h ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('_gfx_device_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">GfxDevice.h ファイル</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>DirectX11デバイス管理クラス  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &lt;Windows.h&gt;</code><br />
+<code>#include &lt;d3d11.h&gt;</code><br />
+<code>#include &lt;wrl/client.h&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstdio&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+GfxDevice.h の依存先関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="_gfx_device_8h__incl.png" border="0" usemap="#ainclude_2graphics_2_gfx_device_8h" loading="lazy" alt=""/></div>
+<map name="ainclude_2graphics_2_gfx_device_8h" id="ainclude_2graphics_2_gfx_device_8h">
+<area shape="rect" title="DirectX11デバイス管理クラス" alt="" coords="152,5,345,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,92,107"/>
+<area shape="poly" title=" " alt="" coords="215,35,99,77,97,72,213,30"/>
+<area shape="rect" title=" " alt="" coords="115,80,182,107"/>
+<area shape="poly" title=" " alt="" coords="233,35,180,73,177,68,230,30"/>
+<area shape="rect" title=" " alt="" coords="206,80,291,107"/>
+<area shape="poly" title=" " alt="" coords="251,33,251,64,246,64,246,33"/>
+<area shape="rect" title=" " alt="" coords="314,80,375,107"/>
+<area shape="poly" title=" " alt="" coords="267,30,317,68,314,73,264,35"/>
+<area shape="rect" title=" " alt="" coords="399,80,455,107"/>
+<area shape="poly" title=" " alt="" coords="281,30,386,72,384,77,279,35"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+被依存関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="_gfx_device_8h__dep__incl.png" border="0" usemap="#ainclude_2graphics_2_gfx_device_8hdep" loading="lazy" alt=""/></div>
+<map name="ainclude_2graphics_2_gfx_device_8hdep" id="ainclude_2graphics_2_gfx_device_8hdep">
+<area shape="rect" title="DirectX11デバイス管理クラス" alt="" coords="162,5,354,32"/>
+<area shape="rect" href="_app_8h.html" title="ミニゲームのメインアプリケーションクラス" alt="" coords="241,352,366,379"/>
+<area shape="poly" title=" " alt="" coords="197,39,128,65,93,83,61,103,34,126,16,152,9,181,14,213,28,243,44,265,65,283,94,302,130,320,168,335,241,353,240,358,166,340,127,325,91,306,62,287,40,269,24,246,9,214,3,181,11,150,30,123,58,99,90,78,126,60,195,34"/>
+<area shape="rect" href="_debug_draw_8h.html" title="デバッグ用の線描画システム" alt="" coords="23,179,221,205"/>
+<area shape="poly" title=" " alt="" coords="241,46,134,180,130,176,237,43"/>
+<area shape="rect" href="_render_system_8h.html" title="テクスチャ対応レンダリングシステム" alt="" coords="121,269,339,296"/>
+<area shape="poly" title=" " alt="" coords="258,48,234,269,229,269,252,47"/>
+<area shape="rect" href="_texture_manager_8h.html" title="テクスチャ管理システム" alt="" coords="296,80,458,123"/>
+<area shape="poly" title=" " alt="" coords="291,39,348,77,345,82,288,43"/>
+<area shape="rect" href="_video_player_8h.html" title=" " alt="" coords="482,88,682,115"/>
+<area shape="poly" title=" " alt="" coords="325,34,531,85,530,90,323,39"/>
+<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="255,427,352,453"/>
+<area shape="poly" title=" " alt="" coords="306,394,306,426,301,426,301,394"/>
+<area shape="poly" title=" " alt="" coords="112,220,101,262,103,283,111,302,137,328,170,345,206,355,241,360,240,366,204,360,168,350,134,332,107,306,97,285,96,262,107,219"/>
+<area shape="poly" title=" " alt="" coords="254,306,294,350,290,354,250,309"/>
+<area shape="poly" title=" " alt="" coords="381,138,376,216,368,261,354,305,338,332,319,353,315,350,333,329,349,303,363,260,371,216,375,138"/>
+<area shape="poly" title=" " alt="" coords="353,136,242,271,238,267,348,133"/>
+<area shape="rect" href="_animation_8h.html" title="アニメーションコンポーネントの定義" alt="" coords="730,179,925,205"/>
+<area shape="poly" title=" " alt="" coords="473,121,759,175,758,181,472,126"/>
+<area shape="rect" href="_mesh_renderer_8h.html" title="メッシュ描画コンポーネントの定義" alt="" coords="451,171,588,213"/>
+<area shape="poly" title=" " alt="" coords="425,129,488,168,485,172,422,134"/>
+<area shape="rect" href="_sample_scenes_8h.html" title="学習用サンプルシーン集" alt="" coords="708,352,920,379"/>
+<area shape="poly" title=" " alt="" coords="871,211,900,232,922,260,929,283,922,305,909,322,893,335,858,354,855,349,890,331,905,318,917,303,924,283,917,263,896,236,868,215"/>
+<area shape="poly" title=" " alt="" coords="489,227,397,306,326,354,323,349,394,302,485,222"/>
+<area shape="poly" title=" " alt="" coords="438,221,272,271,271,266,436,216"/>
+<area shape="poly" title=" " alt="" coords="584,218,660,259,685,280,710,302,790,349,788,354,707,306,682,284,657,264,581,223"/>
+<area shape="rect" href="_component_samples_8h.html" title="学習用コンポーネント集" alt="" coords="721,261,907,304"/>
+<area shape="poly" title=" " alt="" coords="603,216,746,258,744,263,602,221"/>
+<area shape="rect" href="_mini_game_8h.html" title="シンプルなシューティングゲーム" alt="" coords="464,269,647,296"/>
+<area shape="poly" title=" " alt="" coords="536,227,553,268,548,270,531,229"/>
+<area shape="poly" title=" " alt="" coords="817,320,817,351,811,351,811,320"/>
+<area shape="poly" title=" " alt="" coords="503,304,344,354,342,349,501,298"/>
+</map>
+</div>
+</div>
+<p><a href="_gfx_device_8h_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+クラス</h2></td></tr>
+<tr class="memitem:GfxDevice" id="r_GfxDevice"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gfx_device.html">GfxDevice</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">DirectX11デバイス管理クラス  <a href="class_gfx_device.html#details">[詳解]</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+マクロ定義</h2></td></tr>
+<tr class="memitem:ac7bef5d85e3dcd73eef56ad39ffc84a9" id="r_ac7bef5d85e3dcd73eef56ad39ffc84a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7bef5d85e3dcd73eef56ad39ffc84a9">WIN32_LEAN_AND_MEAN</a></td></tr>
+<tr class="memitem:a9f918755b601cf4bffca775992e6fb90" id="r_a9f918755b601cf4bffca775992e6fb90"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f918755b601cf4bffca775992e6fb90">NOMINMAX</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">詳解</h2>
+<div class="textblock"><p>DirectX11デバイス管理クラス </p>
+<p>DirectX11の初期化、デバイス・コンテキストの管理、描画フレームの制御を行います </p>
+</div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">マクロ定義詳解</h2>
+<a id="a9f918755b601cf4bffca775992e6fb90" name="a9f918755b601cf4bffca775992e6fb90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f918755b601cf4bffca775992e6fb90">&#9670;&#160;</a></span>NOMINMAX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NOMINMAX</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac7bef5d85e3dcd73eef56ad39ffc84a9" name="ac7bef5d85e3dcd73eef56ad39ffc84a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7bef5d85e3dcd73eef56ad39ffc84a9">&#9670;&#160;</a></span>WIN32_LEAN_AND_MEAN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WIN32_LEAN_AND_MEAN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_c17ed8a99c2aafc6034c524ffcf900dc.html">graphics</a></li><li class="navelem"><a href="_gfx_device_8h.html">GfxDevice.h</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

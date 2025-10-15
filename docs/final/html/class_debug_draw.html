@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: DebugDraw クラス</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('class_debug_draw.html','','class_debug_draw-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">DebugDraw クラス</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>デバッグ用の線描画システム  
+ <a href="#details">[詳解]</a></p>
+
+<p><code>#include &lt;<a class="el" href="_debug_draw_8h_source.html">DebugDraw.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+クラス</h2></td></tr>
+<tr class="memitem:Line" id="r_Line"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_debug_draw_1_1_line.html">Line</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">線分の定義（開始点、終了点、色）  <a href="struct_debug_draw_1_1_line.html#details">[詳解]</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+公開メンバ関数</h2></td></tr>
+<tr class="memitem:a767aed59dcbe6a27d54804a552611b4a" id="r_a767aed59dcbe6a27d54804a552611b4a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a767aed59dcbe6a27d54804a552611b4a">Init</a> (<a class="el" href="class_gfx_device.html">GfxDevice</a> &amp;gfx)</td></tr>
+<tr class="memdesc:a767aed59dcbe6a27d54804a552611b4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">初期化  <br /></td></tr>
+<tr class="memitem:ad803161dc2e3449790217355e53ddd7a" id="r_ad803161dc2e3449790217355e53ddd7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad803161dc2e3449790217355e53ddd7a">AddLine</a> (const DirectX::XMFLOAT3 &amp;start, const DirectX::XMFLOAT3 &amp;end, const DirectX::XMFLOAT3 &amp;color)</td></tr>
+<tr class="memdesc:ad803161dc2e3449790217355e53ddd7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">線を追加  <br /></td></tr>
+<tr class="memitem:a3220a1d6b9923874557f248ee76f5649" id="r_a3220a1d6b9923874557f248ee76f5649"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3220a1d6b9923874557f248ee76f5649">DrawGrid</a> (float size=10.0f, int divisions=10, const DirectX::XMFLOAT3 &amp;color={0.5f, 0.5f, 0.5f})</td></tr>
+<tr class="memdesc:a3220a1d6b9923874557f248ee76f5649"><td class="mdescLeft">&#160;</td><td class="mdescRight">グリッドを描画  <br /></td></tr>
+<tr class="memitem:ae2214e1ec59a72886f6e237ff67dd990" id="r_ae2214e1ec59a72886f6e237ff67dd990"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2214e1ec59a72886f6e237ff67dd990">DrawAxes</a> (float length=5.0f)</td></tr>
+<tr class="memdesc:ae2214e1ec59a72886f6e237ff67dd990"><td class="mdescLeft">&#160;</td><td class="mdescRight">座標軸を描画  <br /></td></tr>
+<tr class="memitem:a300be23bbb7a7a32cc3ab34f2583f29a" id="r_a300be23bbb7a7a32cc3ab34f2583f29a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a300be23bbb7a7a32cc3ab34f2583f29a">Render</a> (<a class="el" href="class_gfx_device.html">GfxDevice</a> &amp;gfx, const <a class="el" href="struct_camera.html">Camera</a> &amp;cam)</td></tr>
+<tr class="memdesc:a300be23bbb7a7a32cc3ab34f2583f29a"><td class="mdescLeft">&#160;</td><td class="mdescRight">すべての線を描画  <br /></td></tr>
+<tr class="memitem:ad9e4d0a4ffc0f4b58474be4bc472c27d" id="r_ad9e4d0a4ffc0f4b58474be4bc472c27d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9e4d0a4ffc0f4b58474be4bc472c27d">Clear</a> ()</td></tr>
+<tr class="memdesc:ad9e4d0a4ffc0f4b58474be4bc472c27d"><td class="mdescLeft">&#160;</td><td class="mdescRight">フレーム終了時にクリア  <br /></td></tr>
+<tr class="memitem:a93508da688a24cfb92fa7e91ad468f68" id="r_a93508da688a24cfb92fa7e91ad468f68"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93508da688a24cfb92fa7e91ad468f68">~DebugDraw</a> ()</td></tr>
+<tr class="memdesc:a93508da688a24cfb92fa7e91ad468f68"><td class="mdescLeft">&#160;</td><td class="mdescRight">デストラクタ  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">詳解</h2>
+<div class="textblock"><p>デバッグ用の線描画システム </p>
+<p>開発中にグリッド、座標軸、任意の線を描画するためのクラスです。 ワールド空間でのデバッグ情報の可視化に使用します。</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+主な用途:</h3>
+<ul>
+<li>グリッド表示（基準となる平面）</li>
+<li>座標軸表示（X, Y, Z軸）</li>
+<li>当たり判定の可視化</li>
+<li>移動経路の表示</li>
+</ul>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><a class="code hl_class" href="class_debug_draw.html">DebugDraw</a> debugDraw;</div>
+<div class="line">debugDraw.<a class="code hl_function" href="#a767aed59dcbe6a27d54804a552611b4a">Init</a>(gfx);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// グリッドと軸を描画</span></div>
+<div class="line">debugDraw.<a class="code hl_function" href="#a3220a1d6b9923874557f248ee76f5649">DrawGrid</a>(20.0f, 20);</div>
+<div class="line">debugDraw.<a class="code hl_function" href="#ae2214e1ec59a72886f6e237ff67dd990">DrawAxes</a>(5.0f);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// カスタム線を描画</span></div>
+<div class="line">debugDraw.<a class="code hl_function" href="#ad803161dc2e3449790217355e53ddd7a">AddLine</a>(</div>
+<div class="line">    DirectX::XMFLOAT3{0, 0, 0},</div>
+<div class="line">    DirectX::XMFLOAT3{5, 5, 5},</div>
+<div class="line">    DirectX::XMFLOAT3{1, 1, 0}  <span class="comment">// 黄色</span></div>
+<div class="line">);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 描画実行</span></div>
+<div class="line">debugDraw.<a class="code hl_function" href="#a300be23bbb7a7a32cc3ab34f2583f29a">Render</a>(gfx, camera);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// フレーム終了時にクリア</span></div>
+<div class="line">debugDraw.<a class="code hl_function" href="#ad9e4d0a4ffc0f4b58474be4bc472c27d">Clear</a>();</div>
+<div class="ttc" id="aclass_debug_draw_html"><div class="ttname"><a href="class_debug_draw.html">DebugDraw</a></div><div class="ttdoc">デバッグ用の線描画システム</div><div class="ttdef"><b>Definition</b> DebugDraw.h:65</div></div>
+<div class="ttc" id="aclass_debug_draw_html_a300be23bbb7a7a32cc3ab34f2583f29a"><div class="ttname"><a href="#a300be23bbb7a7a32cc3ab34f2583f29a">DebugDraw::Render</a></div><div class="ttdeci">void Render(GfxDevice &amp;gfx, const Camera &amp;cam)</div><div class="ttdoc">すべての線を描画</div><div class="ttdef"><b>Definition</b> DebugDraw.h:229</div></div>
+<div class="ttc" id="aclass_debug_draw_html_a3220a1d6b9923874557f248ee76f5649"><div class="ttname"><a href="#a3220a1d6b9923874557f248ee76f5649">DebugDraw::DrawGrid</a></div><div class="ttdeci">void DrawGrid(float size=10.0f, int divisions=10, const DirectX::XMFLOAT3 &amp;color={0.5f, 0.5f, 0.5f})</div><div class="ttdoc">グリッドを描画</div><div class="ttdef"><b>Definition</b> DebugDraw.h:170</div></div>
+<div class="ttc" id="aclass_debug_draw_html_a767aed59dcbe6a27d54804a552611b4a"><div class="ttname"><a href="#a767aed59dcbe6a27d54804a552611b4a">DebugDraw::Init</a></div><div class="ttdeci">bool Init(GfxDevice &amp;gfx)</div><div class="ttdoc">初期化</div><div class="ttdef"><b>Definition</b> DebugDraw.h:82</div></div>
+<div class="ttc" id="aclass_debug_draw_html_ad803161dc2e3449790217355e53ddd7a"><div class="ttname"><a href="#ad803161dc2e3449790217355e53ddd7a">DebugDraw::AddLine</a></div><div class="ttdeci">void AddLine(const DirectX::XMFLOAT3 &amp;start, const DirectX::XMFLOAT3 &amp;end, const DirectX::XMFLOAT3 &amp;color)</div><div class="ttdoc">線を追加</div><div class="ttdef"><b>Definition</b> DebugDraw.h:160</div></div>
+<div class="ttc" id="aclass_debug_draw_html_ad9e4d0a4ffc0f4b58474be4bc472c27d"><div class="ttname"><a href="#ad9e4d0a4ffc0f4b58474be4bc472c27d">DebugDraw::Clear</a></div><div class="ttdeci">void Clear()</div><div class="ttdoc">フレーム終了時にクリア</div><div class="ttdef"><b>Definition</b> DebugDraw.h:274</div></div>
+<div class="ttc" id="aclass_debug_draw_html_ae2214e1ec59a72886f6e237ff67dd990"><div class="ttname"><a href="#ae2214e1ec59a72886f6e237ff67dd990">DebugDraw::DrawAxes</a></div><div class="ttdeci">void DrawAxes(float length=5.0f)</div><div class="ttdoc">座標軸を描画</div><div class="ttdef"><b>Definition</b> DebugDraw.h:201</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section note"><dt>覚え書き</dt><dd>デバッグビルド(_DEBUG定義時)のみ使用を推奨</dd></dl>
+<dl class="section author"><dt>著者</dt><dd>山内陽 </dd></dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">構築子と解体子</h2>
+<a id="a93508da688a24cfb92fa7e91ad468f68" name="a93508da688a24cfb92fa7e91ad468f68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93508da688a24cfb92fa7e91ad468f68">&#9670;&#160;</a></span>~DebugDraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DebugDraw::~DebugDraw </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>デストラクタ </p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">関数詳解</h2>
+<a id="ad803161dc2e3449790217355e53ddd7a" name="ad803161dc2e3449790217355e53ddd7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad803161dc2e3449790217355e53ddd7a">&#9670;&#160;</a></span>AddLine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DebugDraw::AddLine </td>
+          <td>(</td>
+          <td class="paramtype">const DirectX::XMFLOAT3 &amp;</td>          <td class="paramname"><span class="paramname"><em>start</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DirectX::XMFLOAT3 &amp;</td>          <td class="paramname"><span class="paramname"><em>end</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DirectX::XMFLOAT3 &amp;</td>          <td class="paramname"><span class="paramname"><em>color</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>線を追加 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">start</td><td>線の開始点 </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>線の終了点 </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>線の色（RGB: 0.0～1.0） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad9e4d0a4ffc0f4b58474be4bc472c27d" name="ad9e4d0a4ffc0f4b58474be4bc472c27d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9e4d0a4ffc0f4b58474be4bc472c27d">&#9670;&#160;</a></span>Clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DebugDraw::Clear </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>フレーム終了時にクリア </p>
+<p>蓄積された線データをクリアします。 毎フレーム呼び出す必要があります。 </p>
+
+</div>
+</div>
+<a id="ae2214e1ec59a72886f6e237ff67dd990" name="ae2214e1ec59a72886f6e237ff67dd990"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2214e1ec59a72886f6e237ff67dd990">&#9670;&#160;</a></span>DrawAxes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DebugDraw::DrawAxes </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>length</em></span><span class="paramdefsep"> = </span><span class="paramdefval">5.0f</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>座標軸を描画 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>軸の長さ</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>X軸（赤）、Y軸（緑）、Z軸（青）を原点から描画します。 </p>
+
+</div>
+</div>
+<a id="a3220a1d6b9923874557f248ee76f5649" name="a3220a1d6b9923874557f248ee76f5649"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3220a1d6b9923874557f248ee76f5649">&#9670;&#160;</a></span>DrawGrid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DebugDraw::DrawGrid </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>size</em></span><span class="paramdefsep"> = </span><span class="paramdefval">10.0f</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>divisions</em></span><span class="paramdefsep"> = </span><span class="paramdefval">10</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DirectX::XMFLOAT3 &amp;</td>          <td class="paramname"><span class="paramname"><em>color</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{0.5f,&#160;0.5f,&#160;0.5f}</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>グリッドを描画 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>グリッドのサイズ（全体の幅と奥行き） </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">divisions</td><td>分割数（何本の線を引くか） </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>グリッドの色（デフォルト: 灰色） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a767aed59dcbe6a27d54804a552611b4a" name="a767aed59dcbe6a27d54804a552611b4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a767aed59dcbe6a27d54804a552611b4a">&#9670;&#160;</a></span>Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool DebugDraw::Init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_gfx_device.html">GfxDevice</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>gfx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>初期化 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">gfx</td><td>グラフィックスデバイス </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>bool 初期化が成功した場合は true </dd></dl>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_debug_draw_a767aed59dcbe6a27d54804a552611b4a_cgraph.png" border="0" usemap="#aclass_debug_draw_a767aed59dcbe6a27d54804a552611b4a_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_debug_draw_a767aed59dcbe6a27d54804a552611b4a_cgraph" id="aclass_debug_draw_a767aed59dcbe6a27d54804a552611b4a_cgraph">
+<area shape="rect" title="初期化" alt="" coords="5,5,122,32"/>
+<area shape="rect" href="class_gfx_device.html#a99d6cead18e76f4c4134c3a4a1000668" title="デバイスアクセス" alt="" coords="170,5,285,32"/>
+<area shape="poly" title=" " alt="" coords="122,16,154,16,154,21,122,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a300be23bbb7a7a32cc3ab34f2583f29a" name="a300be23bbb7a7a32cc3ab34f2583f29a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a300be23bbb7a7a32cc3ab34f2583f29a">&#9670;&#160;</a></span>Render()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DebugDraw::Render </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_gfx_device.html">GfxDevice</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>gfx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_camera.html">Camera</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cam</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>すべての線を描画 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">gfx</td><td>グラフィックスデバイス </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cam</td><td>カメラ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>このクラス詳解は次のファイルから抽出されました:<ul>
+<li>include/graphics/<a class="el" href="_debug_draw_8h_source.html">DebugDraw.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_debug_draw.html">DebugDraw</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

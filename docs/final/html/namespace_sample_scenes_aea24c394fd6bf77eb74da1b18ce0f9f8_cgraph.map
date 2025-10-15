@@ -1,0 +1,7 @@
+<map id="SampleScenes::ChangeAllColors" name="SampleScenes::ChangeAllColors">
+<area shape="rect" id="Node000001" title="全MeshRendererの色を変更" alt="" coords="5,5,221,32"/>
+<area shape="rect" id="Node000002" href="$class_world.html#ae124179a03963d43b30a38507d36b4dd" title="全コンポーネントに対して処理を実行" alt="" coords="269,5,380,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,16,253,16,253,21,221,21"/>
+<area shape="rect" id="Node000003" href="$class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="428,5,530,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="381,16,412,16,412,21,381,21"/>
+</map>

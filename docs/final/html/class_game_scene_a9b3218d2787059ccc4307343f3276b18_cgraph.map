@@ -1,0 +1,14 @@
+<map id="GameScene::OnEnter" name="GameScene::OnEnter">
+<area shape="rect" id="Node000001" title="シーン開始時の初期化" alt="" coords="5,105,155,132"/>
+<area shape="rect" id="Node000002" href="$class_world.html#a18bdd2340fff0f069b264d9cddb3a96a" title="エンティティを作成する（ビルダー版）&#45; おすすめ！" alt="" coords="217,80,318,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,106,202,99,203,105,155,111"/>
+<area shape="rect" id="Node000005" href="$class_entity_builder.html#ab879c9d226c91227abea6c20f9a75a7e" title="コンポーネントを追加する（メソッドチェーン対応）" alt="" coords="203,131,333,157"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="155,126,188,131,187,136,155,131"/>
+<area shape="rect" id="Node000003" href="$class_world.html#a0c70c6587e8b452015ec829aa1b88631" title="エンティティを作成する（基本版）" alt="" coords="402,5,537,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="297,77,380,42,401,34,403,39,382,46,299,82"/>
+<area shape="rect" id="Node000004" href="$class_world.html#a90d8bb5a96912218713ef1d17271a91a" title="EntityBuilderからprivateメンバにアクセス可能" alt="" coords="402,80,538,107"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="319,91,386,91,386,96,319,96"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="435,81,429,71,433,62,447,55,470,53,494,56,507,62,504,67,492,61,470,59,449,61,437,65,435,71,440,78"/>
+<area shape="rect" id="Node000006" href="$class_entity_builder.html#ae739fd643c8d8defb94b9bdc8f8c120b" title="コンストラクタ" alt="" coords="381,131,558,157"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="333,141,365,141,365,147,333,147"/>
+</map>

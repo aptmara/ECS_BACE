@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: include/components/Transform.h ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('_transform_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Transform.h ファイル</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>位置・回転・スケールコンポーネントの定義  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &lt;DirectXMath.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Transform.h の依存先関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="_transform_8h__incl.png" border="0" usemap="#ainclude_2components_2_transform_8h" loading="lazy" alt=""/></div>
+<map name="ainclude_2components_2_transform_8h" id="ainclude_2components_2_transform_8h">
+<area shape="rect" title="位置・回転・スケールコンポーネントの定義" alt="" coords="5,5,143,48"/>
+<area shape="rect" title=" " alt="" coords="21,96,127,123"/>
+<area shape="poly" title=" " alt="" coords="77,49,77,80,71,80,71,49"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+被依存関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="_transform_8h__dep__incl.png" border="0" usemap="#ainclude_2components_2_transform_8hdep" loading="lazy" alt=""/></div>
+<map name="ainclude_2components_2_transform_8hdep" id="ainclude_2components_2_transform_8hdep">
+<area shape="rect" title="位置・回転・スケールコンポーネントの定義" alt="" coords="383,5,520,48"/>
+<area shape="rect" href="_app_8h.html" title="ミニゲームのメインアプリケーションクラス" alt="" coords="73,187,198,213"/>
+<area shape="poly" title=" " alt="" coords="367,31,270,36,165,46,116,55,73,66,38,81,16,98,10,107,8,116,16,137,29,153,45,166,83,184,80,189,42,170,25,157,12,140,3,117,5,106,12,94,36,76,71,61,115,50,164,41,270,30,367,26"/>
+<area shape="rect" href="_rotator_8h.html" title="自動回転Behaviourコンポーネントの定義" alt="" coords="475,96,612,139"/>
+<area shape="poly" title=" " alt="" coords="485,57,524,94,520,98,481,61"/>
+<area shape="rect" href="_sample_scenes_8h.html" title="学習用サンプルシーン集" alt="" coords="544,187,756,213"/>
+<area shape="poly" title=" " alt="" coords="536,41,584,61,607,76,627,94,641,117,649,142,653,186,648,187,643,143,636,119,622,98,604,80,582,66,534,46"/>
+<area shape="rect" href="_render_system_8h.html" title="テクスチャ対応レンダリングシステム" alt="" coords="27,104,244,131"/>
+<area shape="poly" title=" " alt="" coords="369,54,181,106,180,101,367,49"/>
+<area shape="rect" href="_component_samples_8h.html" title="学習用コンポーネント集" alt="" coords="687,96,874,139"/>
+<area shape="poly" title=" " alt="" coords="535,48,704,93,703,98,534,53"/>
+<area shape="rect" href="_mini_game_8h.html" title="シンプルなシューティングゲーム" alt="" coords="268,104,450,131"/>
+<area shape="poly" title=" " alt="" coords="421,61,374,106,370,102,417,57"/>
+<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="87,261,183,288"/>
+<area shape="poly" title=" " alt="" coords="138,229,138,261,133,261,133,229"/>
+<area shape="poly" title=" " alt="" coords="584,146,635,184,632,188,581,151"/>
+<area shape="poly" title=" " alt="" coords="138,146,138,187,133,187,133,146"/>
+<area shape="poly" title=" " alt="" coords="735,150,672,188,669,184,732,145"/>
+<area shape="poly" title=" " alt="" coords="311,139,171,189,169,184,309,134"/>
+</map>
+</div>
+</div>
+<p><a href="_transform_8h_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+クラス</h2></td></tr>
+<tr class="memitem:Transform" id="r_Transform"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_transform.html">Transform</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D空間におけるエンティティの位置・回転・スケールを管理するデータコンポーネント  <a href="struct_transform.html#details">[詳解]</a><br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">詳解</h2>
+<div class="textblock"><p>位置・回転・スケールコンポーネントの定義 </p>
+<dl class="section author"><dt>著者</dt><dd>山内陽 </dd></dl>
+<dl class="section date"><dt>日付</dt><dd>2024 </dd></dl>
+<dl class="section version"><dt>バージョン</dt><dd>4.0</dd></dl>
+<p>このファイルは3D空間におけるエンティティの基本的な変換情報を管理する Transformコンポーネントを定義します。 </p>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_d66e8d5a7776834ccee339fd5fd3e729.html">components</a></li><li class="navelem"><a href="_transform_8h.html">Transform.h</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

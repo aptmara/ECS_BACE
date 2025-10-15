@@ -1,0 +1,14 @@
+<map id="SampleScenes::CreateRainbowCube" name="SampleScenes::CreateRainbowCube">
+<area shape="rect" id="Node000001" title="練習1: 虹色に回転するキューブを作成" alt="" coords="5,105,244,132"/>
+<area shape="rect" id="Node000002" href="$class_world.html#a18bdd2340fff0f069b264d9cddb3a96a" title="エンティティを作成する（ビルダー版）&#45; おすすめ！" alt="" coords="306,80,408,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,103,290,98,291,103,244,108"/>
+<area shape="rect" id="Node000005" href="$class_entity_builder.html#ab879c9d226c91227abea6c20f9a75a7e" title="コンポーネントを追加する（メソッドチェーン対応）" alt="" coords="292,131,422,157"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="244,129,277,133,276,138,244,134"/>
+<area shape="rect" id="Node000003" href="$class_world.html#a0c70c6587e8b452015ec829aa1b88631" title="エンティティを作成する（基本版）" alt="" coords="491,5,626,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,77,469,42,490,34,492,39,471,46,388,82"/>
+<area shape="rect" id="Node000004" href="$class_world.html#a90d8bb5a96912218713ef1d17271a91a" title="EntityBuilderからprivateメンバにアクセス可能" alt="" coords="490,80,627,107"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="408,91,475,91,475,96,408,96"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="524,81,518,71,522,62,536,55,559,53,583,56,596,62,593,67,581,61,559,59,538,61,526,65,524,71,529,78"/>
+<area shape="rect" id="Node000006" href="$class_entity_builder.html#ae739fd643c8d8defb94b9bdc8f8c120b" title="コンストラクタ" alt="" coords="470,131,647,157"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="422,141,454,141,454,147,422,147"/>
+</map>

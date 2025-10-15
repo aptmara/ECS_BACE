@@ -1,0 +1,8 @@
+<map id="World::Create" name="World::Create">
+<area shape="rect" id="Node000001" title="エンティティを作成する（ビルダー版）&#45; おすすめ！" alt="" coords="5,43,107,69"/>
+<area shape="rect" id="Node000002" href="$class_world.html#a0c70c6587e8b452015ec829aa1b88631" title="エンティティを作成する（基本版）" alt="" coords="155,5,290,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,42,145,33,146,39,108,47"/>
+<area shape="rect" id="Node000003" href="$class_world.html#a90d8bb5a96912218713ef1d17271a91a" title="EntityBuilderからprivateメンバにアクセス可能" alt="" coords="155,80,291,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="108,65,146,73,145,79,106,70"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="194,81,189,71,192,62,204,56,223,53,243,56,254,62,251,67,241,61,223,59,206,61,196,65,194,71,199,78"/>
+</map>

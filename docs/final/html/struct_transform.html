@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: Transform 構造体</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('struct_transform.html','','struct_transform-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Transform 構造体</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>3D空間におけるエンティティの位置・回転・スケールを管理するデータコンポーネント  
+ <a href="#details">[詳解]</a></p>
+
+<p><code>#include &lt;<a class="el" href="_transform_8h_source.html">Transform.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+公開変数類</h2></td></tr>
+<tr class="memitem:a6b937d23deb6b7fb4e3d17cca946eaad" id="r_a6b937d23deb6b7fb4e3d17cca946eaad"><td class="memItemLeft" align="right" valign="top">DirectX::XMFLOAT3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b937d23deb6b7fb4e3d17cca946eaad">position</a> { 0, 0, 5 }</td></tr>
+<tr class="memdesc:a6b937d23deb6b7fb4e3d17cca946eaad"><td class="mdescLeft">&#160;</td><td class="mdescRight">エンティティの3D空間における位置座標  <br /></td></tr>
+<tr class="memitem:a7f25bab45d1b34961b1259276d033e30" id="r_a7f25bab45d1b34961b1259276d033e30"><td class="memItemLeft" align="right" valign="top">DirectX::XMFLOAT3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f25bab45d1b34961b1259276d033e30">rotation</a> { 0, 0, 0 }</td></tr>
+<tr class="memdesc:a7f25bab45d1b34961b1259276d033e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">エンティティの回転角度（度数法）  <br /></td></tr>
+<tr class="memitem:a9bdbb5d94bd6bfe59fb2c23de6c394d0" id="r_a9bdbb5d94bd6bfe59fb2c23de6c394d0"><td class="memItemLeft" align="right" valign="top">DirectX::XMFLOAT3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bdbb5d94bd6bfe59fb2c23de6c394d0">scale</a> { 1, 1, 1 }</td></tr>
+<tr class="memdesc:a9bdbb5d94bd6bfe59fb2c23de6c394d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">エンティティのスケール（拡大縮小率）  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">詳解</h2>
+<div class="textblock"><p>3D空間におけるエンティティの位置・回転・スケールを管理するデータコンポーネント </p>
+<p>このコンポーネントは3D空間における「場所」「向き」「大きさ」を表す基本データです。 すべての3Dオブジェクトに必要となる空間情報を保持します。</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+座標系について:</h3>
+<ul>
+<li>X軸: 右方向が正（カメラから見て）</li>
+<li>Y軸: 上方向が正</li>
+<li>Z軸: 奥方向が正（カメラの視線方向）</li>
+</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+回転の適用順序:</h3>
+<p>Y軸回転 → X軸回転 → Z軸回転の順で適用されます</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+使用例:</h3>
+<div class="fragment"><div class="line"><span class="comment">// エンティティを作成し、Transformを設定</span></div>
+<div class="line"><a class="code hl_struct" href="struct_entity.html">Entity</a> cube = world.Create()</div>
+<div class="line">    .With&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(</div>
+<div class="line">        DirectX::XMFLOAT3{0, 5, 0},    <span class="comment">// 位置: Y軸上に5単位</span></div>
+<div class="line">        DirectX::XMFLOAT3{0, 45, 0},   <span class="comment">// 回転: Y軸中心に45度</span></div>
+<div class="line">        DirectX::XMFLOAT3{2, 2, 2}     <span class="comment">// スケール: 2倍</span></div>
+<div class="line">    )</div>
+<div class="line">    .Build();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 既存のTransformを取得して変更</span></div>
+<div class="line"><span class="keyword">auto</span>* transform = world.TryGet&lt;Transform&gt;(cube);</div>
+<div class="line"><span class="keywordflow">if</span> (transform) {</div>
+<div class="line">    transform-&gt;position.y += 1.0f;  <span class="comment">// 上に1単位移動</span></div>
+<div class="line">    transform-&gt;rotation.y += 90.0f; <span class="comment">// さらに90度回転</span></div>
+<div class="line">}</div>
+<div class="ttc" id="astruct_entity_html"><div class="ttname"><a href="struct_entity.html">Entity</a></div><div class="ttdoc">ゲーム世界に存在するオブジェクトを表す一意な識別子</div><div class="ttdef"><b>Definition</b> Entity.h:87</div></div>
+<div class="ttc" id="astruct_transform_html"><div class="ttname"><a href="struct_transform.html">Transform</a></div><div class="ttdoc">3D空間におけるエンティティの位置・回転・スケールを管理するデータコンポーネント</div><div class="ttdef"><b>Definition</b> Transform.h:59</div></div>
+</div><!-- fragment --><dl class="section note"><dt>覚え書き</dt><dd>すべての3Dオブジェクトに推奨されるコンポーネントです </dd></dl>
+<dl class="section warning"><dt>警告</dt><dd>回転角度は度数法（0-360度）で指定します（ラジアンではありません）</dd></dl>
+<dl class="section see"><dt>参照</dt><dd><a class="el" href="struct_mesh_renderer.html" title="オブジェクトの見た目（色・テクスチャ）を管理するデータコンポーネント">MeshRenderer</a> 描画に使用するコンポーネント </dd>
+<dd>
+<a class="el" href="struct_rotator.html" title="エンティティを自動的にY軸中心で回転させるBehaviourコンポーネント">Rotator</a> 自動回転を行うBehaviourコンポーネント</dd></dl>
+<dl class="section author"><dt>著者</dt><dd>山内陽 </dd></dl>
+</div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">メンバ詳解</h2>
+<a id="a6b937d23deb6b7fb4e3d17cca946eaad" name="a6b937d23deb6b7fb4e3d17cca946eaad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b937d23deb6b7fb4e3d17cca946eaad">&#9670;&#160;</a></span>position</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DirectX::XMFLOAT3 Transform::position { 0, 0, 5 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>エンティティの3D空間における位置座標 </p>
+<p>ワールド座標系における絶対位置を表します。</p><ul>
+<li>position.x: 左右位置（負の値が左、正の値が右）</li>
+<li>position.y: 上下位置（負の値が下、正の値が上）</li>
+<li>position.z: 前後位置（負の値が手前、正の値が奥）</li>
+</ul>
+<p>デフォルトではカメラから5単位奥（Z軸正方向）に配置されます。</p>
+<dl class="section note"><dt>覚え書き</dt><dd>単位系は特に定義されていませんが、通常メートル単位として扱います </dd></dl>
+
+</div>
+</div>
+<a id="a7f25bab45d1b34961b1259276d033e30" name="a7f25bab45d1b34961b1259276d033e30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f25bab45d1b34961b1259276d033e30">&#9670;&#160;</a></span>rotation</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DirectX::XMFLOAT3 Transform::rotation { 0, 0, 0 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>エンティティの回転角度（度数法） </p>
+<p>オイラー角による回転を表します。各軸周りの回転角度を度数法で指定します。</p><ul>
+<li>rotation.x: ピッチ（上下回転、X軸周り）</li>
+<li>rotation.y: ヨー（左右回転、Y軸周り）</li>
+<li>rotation.z: ロール（横転回転、Z軸周り）</li>
+</ul>
+<p>回転の適用順序: Y軸 → X軸 → Z軸</p>
+<dl class="section note"><dt>覚え書き</dt><dd>角度は度数法（0-360度）で指定します </dd></dl>
+<dl class="section warning"><dt>警告</dt><dd>大きな回転を行う場合、ジンバルロックに注意してください</dd></dl>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line">transform.rotation = DirectX::XMFLOAT3{0, 90, 0};  <span class="comment">// Y軸中心に90度回転</span></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a9bdbb5d94bd6bfe59fb2c23de6c394d0" name="a9bdbb5d94bd6bfe59fb2c23de6c394d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bdbb5d94bd6bfe59fb2c23de6c394d0">&#9670;&#160;</a></span>scale</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DirectX::XMFLOAT3 Transform::scale { 1, 1, 1 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>エンティティのスケール（拡大縮小率） </p>
+<p>各軸方向の拡大縮小率を指定します。</p><ul>
+<li>scale.x: X軸方向のスケール（幅）</li>
+<li>scale.y: Y軸方向のスケール（高さ）</li>
+<li>scale.z: Z軸方向のスケール（奥行き）</li>
+</ul>
+<p>1.0が等倍、2.0が2倍、0.5が半分のサイズになります。 負の値を指定すると反転します。</p>
+<dl class="section note"><dt>覚え書き</dt><dd>各軸独立してスケーリング可能です </dd></dl>
+<dl class="section warning"><dt>警告</dt><dd>0を指定すると描画されなくなります</dd></dl>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line">transform.scale = DirectX::XMFLOAT3{2, 1, 1};  <span class="comment">// 横幅だけ2倍</span></div>
+<div class="line">transform.scale = DirectX::XMFLOAT3{0.5, 0.5, 0.5};  <span class="comment">// 全体を半分のサイズに</span></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<hr/>この構造体詳解は次のファイルから抽出されました:<ul>
+<li>include/components/<a class="el" href="_transform_8h_source.html">Transform.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="struct_transform.html">Transform</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: World クラス</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('class_world.html','','class_world-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">World クラス</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>ECSワールド管理クラス - エンティティとコンポーネントのすべてを管理  
+ <a href="#details">[詳解]</a></p>
+
+<p><code>#include &lt;<a class="el" href="_world_8h_source.html">World.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+公開メンバ関数</h2></td></tr>
+<tr class="memitem:a0c70c6587e8b452015ec829aa1b88631" id="r_a0c70c6587e8b452015ec829aa1b88631"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_entity.html">Entity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c70c6587e8b452015ec829aa1b88631">CreateEntity</a> ()</td></tr>
+<tr class="memdesc:a0c70c6587e8b452015ec829aa1b88631"><td class="mdescLeft">&#160;</td><td class="mdescRight">エンティティを作成する（基本版）  <br /></td></tr>
+<tr class="memitem:a18bdd2340fff0f069b264d9cddb3a96a" id="r_a18bdd2340fff0f069b264d9cddb3a96a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_entity_builder.html">EntityBuilder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18bdd2340fff0f069b264d9cddb3a96a">Create</a> ()</td></tr>
+<tr class="memdesc:a18bdd2340fff0f069b264d9cddb3a96a"><td class="mdescLeft">&#160;</td><td class="mdescRight">エンティティを作成する（ビルダー版）- おすすめ！  <br /></td></tr>
+<tr class="memitem:a6d6603a60144d5c1c57421aad68a1380" id="r_a6d6603a60144d5c1c57421aad68a1380"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d6603a60144d5c1c57421aad68a1380">IsAlive</a> (<a class="el" href="struct_entity.html">Entity</a> e) const</td></tr>
+<tr class="memdesc:a6d6603a60144d5c1c57421aad68a1380"><td class="mdescLeft">&#160;</td><td class="mdescRight">エンティティが生存しているか確認  <br /></td></tr>
+<tr class="memitem:ae05a18cf43bde9b5d1b097c3fc1cc476" id="r_ae05a18cf43bde9b5d1b097c3fc1cc476"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae05a18cf43bde9b5d1b097c3fc1cc476">DestroyEntity</a> (<a class="el" href="struct_entity.html">Entity</a> e)</td></tr>
+<tr class="memdesc:ae05a18cf43bde9b5d1b097c3fc1cc476"><td class="mdescLeft">&#160;</td><td class="mdescRight">エンティティを削除する  <br /></td></tr>
+<tr class="memitem:a9a8d867fee24816da04a322d741c51f2" id="r_a9a8d867fee24816da04a322d741c51f2"><td class="memTemplParams" colspan="2">template&lt;class T, class... Args&gt; </td></tr>
+<tr class="memitem:a9a8d867fee24816da04a322d741c51f2 template"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a8d867fee24816da04a322d741c51f2">Add</a> (<a class="el" href="struct_entity.html">Entity</a> e, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a9a8d867fee24816da04a322d741c51f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">コンポーネントを追加する  <br /></td></tr>
+<tr class="memitem:a375d6614a608e15ab9cd77a8c3093ac4" id="r_a375d6614a608e15ab9cd77a8c3093ac4"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a375d6614a608e15ab9cd77a8c3093ac4 template"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a375d6614a608e15ab9cd77a8c3093ac4">TryGet</a> (<a class="el" href="struct_entity.html">Entity</a> e)</td></tr>
+<tr class="memdesc:a375d6614a608e15ab9cd77a8c3093ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">コンポーネントを取得する（nullptrの可能性あり）  <br /></td></tr>
+<tr class="memitem:a979ca099b73d5e31766ecc05cc8c5f0a" id="r_a979ca099b73d5e31766ecc05cc8c5f0a"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a979ca099b73d5e31766ecc05cc8c5f0a template"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a979ca099b73d5e31766ecc05cc8c5f0a">Remove</a> (<a class="el" href="struct_entity.html">Entity</a> e)</td></tr>
+<tr class="memdesc:a979ca099b73d5e31766ecc05cc8c5f0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">コンポーネントを削除する  <br /></td></tr>
+<tr class="memitem:ae124179a03963d43b30a38507d36b4dd" id="r_ae124179a03963d43b30a38507d36b4dd"><td class="memTemplParams" colspan="2">template&lt;class T, class F&gt; </td></tr>
+<tr class="memitem:ae124179a03963d43b30a38507d36b4dd template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae124179a03963d43b30a38507d36b4dd">ForEach</a> (F &amp;&amp;fn)</td></tr>
+<tr class="memdesc:ae124179a03963d43b30a38507d36b4dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">全コンポーネントに対して処理を実行  <br /></td></tr>
+<tr class="memitem:a01c94a4d213908648177a6bb3064da2f" id="r_a01c94a4d213908648177a6bb3064da2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01c94a4d213908648177a6bb3064da2f">Tick</a> (float dt)</td></tr>
+<tr class="memdesc:a01c94a4d213908648177a6bb3064da2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">全Behaviourの更新（毎フレーム呼ぶ）  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
+フレンド</h2></td></tr>
+<tr class="memitem:a90d8bb5a96912218713ef1d17271a91a" id="r_a90d8bb5a96912218713ef1d17271a91a"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90d8bb5a96912218713ef1d17271a91a">EntityBuilder</a></td></tr>
+<tr class="memdesc:a90d8bb5a96912218713ef1d17271a91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">EntityBuilderからprivateメンバにアクセス可能  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">詳解</h2>
+<div class="textblock"><p>ECSワールド管理クラス - エンティティとコンポーネントのすべてを管理 </p>
+<p>Worldクラスは、ゲーム世界の「管理者」です。 以下の機能を提供します：</p><ul>
+<li>エンティティの作成・削除</li>
+<li>コンポーネントの追加・削除・取得</li>
+<li>全Behaviourコンポーネントの更新</li>
+</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+初学者向けガイド:</h3>
+<p>Worldは「ゲーム世界そのもの」と考えてください。</p><ul>
+<li><a class="el" href="#a0c70c6587e8b452015ec829aa1b88631" title="エンティティを作成する（基本版）">CreateEntity()</a> でゲームオブジェクトを作る</li>
+<li>Add&lt;コンポーネント&gt;() で機能を追加</li>
+<li>TryGet&lt;コンポーネント&gt;() で機能を取得</li>
+<li><a class="el" href="#a01c94a4d213908648177a6bb3064da2f" title="全Behaviourの更新（毎フレーム呼ぶ）">Tick()</a> で全オブジェクトを更新</li>
+</ul>
+<dl class="section user"><dt>基本的な使い方:</dt><dd><div class="fragment"><div class="line"><a class="code hl_class" href="class_world.html">World</a> world;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// エンティティ作成</span></div>
+<div class="line"><a class="code hl_struct" href="struct_entity.html">Entity</a> player = world.<a class="code hl_function" href="#a0c70c6587e8b452015ec829aa1b88631">CreateEntity</a>();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// コンポーネント追加</span></div>
+<div class="line">world.<a class="code hl_function" href="#a9a8d867fee24816da04a322d741c51f2">Add</a>&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(player, <a class="code hl_struct" href="struct_transform.html">Transform</a>{...});</div>
+<div class="line">world.<a class="code hl_function" href="#a9a8d867fee24816da04a322d741c51f2">Add</a>&lt;<a class="code hl_struct" href="struct_mesh_renderer.html">MeshRenderer</a>&gt;(player, <a class="code hl_struct" href="struct_mesh_renderer.html">MeshRenderer</a>{...});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// コンポーネント取得</span></div>
+<div class="line"><span class="keyword">auto</span>* transform = world.<a class="code hl_function" href="#a375d6614a608e15ab9cd77a8c3093ac4">TryGet</a>&lt;Transform&gt;(player);</div>
+<div class="line"><span class="keywordflow">if</span> (transform) {</div>
+<div class="line">    transform-&gt;position.x += 1.0f;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 毎フレーム更新</span></div>
+<div class="line">world.<a class="code hl_function" href="#a01c94a4d213908648177a6bb3064da2f">Tick</a>(deltaTime);</div>
+<div class="ttc" id="aclass_world_html"><div class="ttname"><a href="class_world.html">World</a></div><div class="ttdoc">ECSワールド管理クラス - エンティティとコンポーネントのすべてを管理</div><div class="ttdef"><b>Definition</b> World.h:157</div></div>
+<div class="ttc" id="aclass_world_html_a01c94a4d213908648177a6bb3064da2f"><div class="ttname"><a href="#a01c94a4d213908648177a6bb3064da2f">World::Tick</a></div><div class="ttdeci">void Tick(float dt)</div><div class="ttdoc">全Behaviourの更新（毎フレーム呼ぶ）</div><div class="ttdef"><b>Definition</b> World.h:394</div></div>
+<div class="ttc" id="aclass_world_html_a0c70c6587e8b452015ec829aa1b88631"><div class="ttname"><a href="#a0c70c6587e8b452015ec829aa1b88631">World::CreateEntity</a></div><div class="ttdeci">Entity CreateEntity()</div><div class="ttdoc">エンティティを作成する（基本版）</div><div class="ttdef"><b>Definition</b> World.h:176</div></div>
+<div class="ttc" id="aclass_world_html_a375d6614a608e15ab9cd77a8c3093ac4"><div class="ttname"><a href="#a375d6614a608e15ab9cd77a8c3093ac4">World::TryGet</a></div><div class="ttdeci">T * TryGet(Entity e)</div><div class="ttdoc">コンポーネントを取得する（nullptrの可能性あり）</div><div class="ttdef"><b>Definition</b> World.h:308</div></div>
+<div class="ttc" id="aclass_world_html_a9a8d867fee24816da04a322d741c51f2"><div class="ttname"><a href="#a9a8d867fee24816da04a322d741c51f2">World::Add</a></div><div class="ttdeci">T &amp; Add(Entity e, Args &amp;&amp;...args)</div><div class="ttdoc">コンポーネントを追加する</div><div class="ttdef"><b>Definition</b> World.h:278</div></div>
+<div class="ttc" id="astruct_entity_html"><div class="ttname"><a href="struct_entity.html">Entity</a></div><div class="ttdoc">ゲーム世界に存在するオブジェクトを表す一意な識別子</div><div class="ttdef"><b>Definition</b> Entity.h:87</div></div>
+<div class="ttc" id="astruct_mesh_renderer_html"><div class="ttname"><a href="struct_mesh_renderer.html">MeshRenderer</a></div><div class="ttdoc">オブジェクトの見た目（色・テクスチャ）を管理するデータコンポーネント</div><div class="ttdef"><b>Definition</b> MeshRenderer.h:68</div></div>
+<div class="ttc" id="astruct_transform_html"><div class="ttname"><a href="struct_transform.html">Transform</a></div><div class="ttdoc">3D空間におけるエンティティの位置・回転・スケールを管理するデータコンポーネント</div><div class="ttdef"><b>Definition</b> Transform.h:59</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>ビルダーパターン（推奨）:</dt><dd><div class="fragment"><div class="line"><a class="code hl_struct" href="struct_entity.html">Entity</a> player = world.<a class="code hl_function" href="#a18bdd2340fff0f069b264d9cddb3a96a">Create</a>()</div>
+<div class="line">    .<a class="code hl_function" href="class_entity_builder.html#ab879c9d226c91227abea6c20f9a75a7e">With</a>&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(DirectX::XMFLOAT3{0, 0, 0})</div>
+<div class="line">    .With&lt;MeshRenderer&gt;(DirectX::XMFLOAT3{0, 1, 0})</div>
+<div class="line">    .With&lt;Rotator&gt;(45.0f)</div>
+<div class="line">    .Build();</div>
+<div class="ttc" id="aclass_entity_builder_html_ab879c9d226c91227abea6c20f9a75a7e"><div class="ttname"><a href="class_entity_builder.html#ab879c9d226c91227abea6c20f9a75a7e">EntityBuilder::With</a></div><div class="ttdeci">EntityBuilder &amp; With(Args &amp;&amp;... args)</div><div class="ttdoc">コンポーネントを追加する（メソッドチェーン対応）</div><div class="ttdef"><b>Definition</b> World.h:491</div></div>
+<div class="ttc" id="aclass_world_html_a18bdd2340fff0f069b264d9cddb3a96a"><div class="ttname"><a href="#a18bdd2340fff0f069b264d9cddb3a96a">World::Create</a></div><div class="ttdeci">EntityBuilder Create()</div><div class="ttdoc">エンティティを作成する（ビルダー版）- おすすめ！</div><div class="ttdef"><b>Definition</b> World.h:201</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section see"><dt>参照</dt><dd><a class="el" href="struct_entity.html" title="ゲーム世界に存在するオブジェクトを表す一意な識別子">Entity</a> エンティティ構造体 </dd>
+<dd>
+<a class="el" href="struct_i_component.html" title="前方宣言: Entity構造体">IComponent</a> コンポーネント基底クラス </dd>
+<dd>
+<a class="el" href="struct_behaviour.html" title="毎フレーム更新される動的コンポーネントの基底クラス">Behaviour</a> 動的コンポーネント基底クラス</dd></dl>
+<dl class="section author"><dt>著者</dt><dd>山内陽 </dd></dl>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">関数詳解</h2>
+<a id="a9a8d867fee24816da04a322d741c51f2" name="a9a8d867fee24816da04a322d741c51f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a8d867fee24816da04a322d741c51f2">&#9670;&#160;</a></span>Add()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; World::Add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_entity.html">Entity</a></td>          <td class="paramname"><span class="paramname"><em>e</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>コンポーネントを追加する </p>
+<dl class="tparams"><dt>テンプレート引数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>追加するコンポーネントの型 </td></tr>
+    <tr><td class="paramname">Args</td><td>コンストラクタ引数の型（可変長） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">e</td><td>対象エンティティ </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">args</td><td>コンポーネントのコンストラクタ引数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>T&amp; 追加されたコンポーネントへの参照</dd></dl>
+<p>指定したエンティティにコンポーネントを追加します。 Behaviourコンポーネントの場合、自動的にTick()で更新されます。</p>
+<dl class="section note"><dt>覚え書き</dt><dd>エンティティは生存している必要があります</dd></dl>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><a class="code hl_struct" href="struct_entity.html">Entity</a> e = world.CreateEntity();</div>
+<div class="line">world.Add&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(e, <a class="code hl_struct" href="struct_transform.html">Transform</a>{...});</div>
+<div class="line">world.Add&lt;<a class="code hl_struct" href="struct_mesh_renderer.html">MeshRenderer</a>&gt;(e, <a class="code hl_struct" href="struct_mesh_renderer.html">MeshRenderer</a>{DirectX::XMFLOAT3{1, 0, 0}});</div>
+<div class="line">world.Add&lt;Rotator&gt;(e, Rotator{45.0f});</div>
+</div><!-- fragment --> </dd></dl>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_world_a9a8d867fee24816da04a322d741c51f2_cgraph.png" border="0" usemap="#aclass_world_a9a8d867fee24816da04a322d741c51f2_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_world_a9a8d867fee24816da04a322d741c51f2_cgraph" id="aclass_world_a9a8d867fee24816da04a322d741c51f2_cgraph">
+<area shape="rect" title="コンポーネントを追加する" alt="" coords="5,5,91,32"/>
+<area shape="rect" href="class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="139,5,241,32"/>
+<area shape="poly" title=" " alt="" coords="91,16,123,16,123,21,91,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a18bdd2340fff0f069b264d9cddb3a96a" name="a18bdd2340fff0f069b264d9cddb3a96a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18bdd2340fff0f069b264d9cddb3a96a">&#9670;&#160;</a></span>Create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_entity_builder.html">EntityBuilder</a> World::Create </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>エンティティを作成する（ビルダー版）- おすすめ！ </p>
+<dl class="section return"><dt>戻り値</dt><dd><a class="el" href="class_entity_builder.html" title="前方宣言">EntityBuilder</a> ビルダーオブジェクト</dd></dl>
+<p>メソッドチェーンでコンポーネントを追加できる便利な方法です。 初学者にも読みやすく、おすすめの方法です。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><a class="code hl_struct" href="struct_entity.html">Entity</a> player = world.Create()</div>
+<div class="line">    .With&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(DirectX::XMFLOAT3{0, 0, 0})</div>
+<div class="line">    .With&lt;MeshRenderer&gt;(DirectX::XMFLOAT3{1, 0, 0})</div>
+<div class="line">    .With&lt;Rotator&gt;(45.0f)</div>
+<div class="line">    .Build();</div>
+</div><!-- fragment --></dd></dl>
+<dl class="section see"><dt>参照</dt><dd><a class="el" href="class_entity_builder.html" title="前方宣言">EntityBuilder</a> ビルダークラス </dd></dl>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_world_a18bdd2340fff0f069b264d9cddb3a96a_cgraph.png" border="0" usemap="#aclass_world_a18bdd2340fff0f069b264d9cddb3a96a_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_world_a18bdd2340fff0f069b264d9cddb3a96a_cgraph" id="aclass_world_a18bdd2340fff0f069b264d9cddb3a96a_cgraph">
+<area shape="rect" title="エンティティを作成する（ビルダー版）&#45; おすすめ！" alt="" coords="5,43,107,69"/>
+<area shape="rect" href="class_world.html#a0c70c6587e8b452015ec829aa1b88631" title="エンティティを作成する（基本版）" alt="" coords="155,5,290,32"/>
+<area shape="poly" title=" " alt="" coords="106,42,145,33,146,39,108,47"/>
+<area shape="rect" href="class_world.html#a90d8bb5a96912218713ef1d17271a91a" title="EntityBuilderからprivateメンバにアクセス可能" alt="" coords="155,80,291,107"/>
+<area shape="poly" title=" " alt="" coords="108,65,146,73,145,79,106,70"/>
+<area shape="poly" title=" " alt="" coords="194,81,189,71,192,62,204,56,223,53,243,56,254,62,251,67,241,61,223,59,206,61,196,65,194,71,199,78"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0c70c6587e8b452015ec829aa1b88631" name="a0c70c6587e8b452015ec829aa1b88631"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c70c6587e8b452015ec829aa1b88631">&#9670;&#160;</a></span>CreateEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_entity.html">Entity</a> World::CreateEntity </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>エンティティを作成する（基本版） </p>
+<dl class="section return"><dt>戻り値</dt><dd><a class="el" href="struct_entity.html" title="ゲーム世界に存在するオブジェクトを表す一意な識別子">Entity</a> 新しく作成されたエンティティ</dd></dl>
+<p>一意なIDを持つ新しいエンティティを作成します。 この段階ではコンポーネントは何も付いていません。</p>
+<dl class="section note"><dt>覚え書き</dt><dd>通常はCreate()（ビルダー版）を使う方が便利です</dd></dl>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><a class="code hl_struct" href="struct_entity.html">Entity</a> e = world.CreateEntity();</div>
+<div class="line">world.Add&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(e, <a class="code hl_struct" href="struct_transform.html">Transform</a>{...});</div>
+<div class="line">world.Add&lt;<a class="code hl_struct" href="struct_mesh_renderer.html">MeshRenderer</a>&gt;(e, <a class="code hl_struct" href="struct_mesh_renderer.html">MeshRenderer</a>{...});</div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="ae05a18cf43bde9b5d1b097c3fc1cc476" name="ae05a18cf43bde9b5d1b097c3fc1cc476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae05a18cf43bde9b5d1b097c3fc1cc476">&#9670;&#160;</a></span>DestroyEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void World::DestroyEntity </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_entity.html">Entity</a></td>          <td class="paramname"><span class="paramname"><em>e</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>エンティティを削除する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">e</td><td>削除するエンティティ</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>エンティティとそれに付いているすべてのコンポーネントを削除します。 削除後、そのエンティティを使用してはいけません。</p>
+<dl class="section warning"><dt>警告</dt><dd>削除されたエンティティを使用するとクラッシュする可能性があります</dd></dl>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="comment">// 敵が倒されたら削除</span></div>
+<div class="line"><span class="keyword">auto</span>* health = world.TryGet&lt;<a class="code hl_struct" href="struct_health.html">Health</a>&gt;(enemy);</div>
+<div class="line"><span class="keywordflow">if</span> (health &amp;&amp; health-&gt;hp &lt;= 0) {</div>
+<div class="line">    world.DestroyEntity(enemy);</div>
+<div class="line">}</div>
+<div class="ttc" id="astruct_health_html"><div class="ttname"><a href="struct_health.html">Health</a></div><div class="ttdoc">データ型のコンポーネント</div><div class="ttdef"><b>Definition</b> ComponentSamples.h:41</div></div>
+</div><!-- fragment --> </dd></dl>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_world_ae05a18cf43bde9b5d1b097c3fc1cc476_cgraph.png" border="0" usemap="#aclass_world_ae05a18cf43bde9b5d1b097c3fc1cc476_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_world_ae05a18cf43bde9b5d1b097c3fc1cc476_cgraph" id="aclass_world_ae05a18cf43bde9b5d1b097c3fc1cc476_cgraph">
+<area shape="rect" title="エンティティを削除する" alt="" coords="5,5,148,32"/>
+<area shape="rect" href="class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="196,5,298,32"/>
+<area shape="poly" title=" " alt="" coords="148,16,180,16,180,21,148,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae124179a03963d43b30a38507d36b4dd" name="ae124179a03963d43b30a38507d36b4dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae124179a03963d43b30a38507d36b4dd">&#9670;&#160;</a></span>ForEach()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class F&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void World::ForEach </td>
+          <td>(</td>
+          <td class="paramtype">F &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>fn</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>全コンポーネントに対して処理を実行 </p>
+<dl class="tparams"><dt>テンプレート引数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>対象コンポーネントの型 </td></tr>
+    <tr><td class="paramname">F</td><td>ラムダ関数の型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fn</td><td>実行する関数（Entity, T&amp;を受け取る）</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>指定した型のコンポーネントを持つ全エンティティに対して処理を実行します。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="comment">// 全オブジェクトを少しずつ上に移動</span></div>
+<div class="line">world.ForEach&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;([](<a class="code hl_struct" href="struct_entity.html">Entity</a> e, <a class="code hl_struct" href="struct_transform.html">Transform</a>&amp; t) {</div>
+<div class="line">    t.position.y += 0.01f;</div>
+<div class="line">});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 全敵の体力を減らす</span></div>
+<div class="line">world.ForEach&lt;<a class="code hl_struct" href="struct_health.html">Health</a>&gt;([](<a class="code hl_struct" href="struct_entity.html">Entity</a> e, <a class="code hl_struct" href="struct_health.html">Health</a>&amp; h) {</div>
+<div class="line">    h.hp -= 10.0f;</div>
+<div class="line">});</div>
+</div><!-- fragment --> </dd></dl>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_world_ae124179a03963d43b30a38507d36b4dd_cgraph.png" border="0" usemap="#aclass_world_ae124179a03963d43b30a38507d36b4dd_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_world_ae124179a03963d43b30a38507d36b4dd_cgraph" id="aclass_world_ae124179a03963d43b30a38507d36b4dd_cgraph">
+<area shape="rect" title="全コンポーネントに対して処理を実行" alt="" coords="5,5,117,32"/>
+<area shape="rect" href="class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="165,5,267,32"/>
+<area shape="poly" title=" " alt="" coords="117,16,149,16,149,21,117,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6d6603a60144d5c1c57421aad68a1380" name="a6d6603a60144d5c1c57421aad68a1380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d6603a60144d5c1c57421aad68a1380">&#9670;&#160;</a></span>IsAlive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool World::IsAlive </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_entity.html">Entity</a></td>          <td class="paramname"><span class="paramname"><em>e</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>エンティティが生存しているか確認 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">e</td><td>確認するエンティティ </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>true 生存している, false 削除済み</dd></dl>
+<p>エンティティがDestroyEntity()で削除されていないかチェックします。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> (world.IsAlive(entity)) {</div>
+<div class="line">    <span class="comment">// エンティティが有効な場合の処理</span></div>
+<div class="line">}</div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a979ca099b73d5e31766ecc05cc8c5f0a" name="a979ca099b73d5e31766ecc05cc8c5f0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a979ca099b73d5e31766ecc05cc8c5f0a">&#9670;&#160;</a></span>Remove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool World::Remove </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_entity.html">Entity</a></td>          <td class="paramname"><span class="paramname"><em>e</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>コンポーネントを削除する </p>
+<dl class="tparams"><dt>テンプレート引数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>削除するコンポーネントの型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">e</td><td>対象エンティティ </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>true 削除成功, false コンポーネントが存在しなかった</dd></dl>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line">world.Remove&lt;<a class="code hl_struct" href="struct_rotator.html">Rotator</a>&gt;(entity);  <span class="comment">// 回転を止める</span></div>
+<div class="ttc" id="astruct_rotator_html"><div class="ttname"><a href="struct_rotator.html">Rotator</a></div><div class="ttdoc">エンティティを自動的にY軸中心で回転させるBehaviourコンポーネント</div><div class="ttdef"><b>Definition</b> Rotator.h:73</div></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a01c94a4d213908648177a6bb3064da2f" name="a01c94a4d213908648177a6bb3064da2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01c94a4d213908648177a6bb3064da2f">&#9670;&#160;</a></span>Tick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void World::Tick </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>dt</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>全Behaviourの更新（毎フレーム呼ぶ） </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>デルタタイム（前フレームからの経過秒数）</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>すべてのBehaviourコンポーネントのOnUpdate()を呼び出します。 ゲームループ内で毎フレーム呼び出してください。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="comment">// ゲームループ</span></div>
+<div class="line"><span class="keywordflow">while</span> (running) {</div>
+<div class="line">    <span class="keywordtype">float</span> deltaTime = CalculateDeltaTime();</div>
+<div class="line">    world.Tick(deltaTime);  <span class="comment">// 全Behaviourを更新</span></div>
+<div class="line">    Render();</div>
+<div class="line">}</div>
+</div><!-- fragment --></dd></dl>
+<dl class="section note"><dt>覚え書き</dt><dd>初回はOnStart()も呼ばれます </dd></dl>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_world_a01c94a4d213908648177a6bb3064da2f_cgraph.png" border="0" usemap="#aclass_world_a01c94a4d213908648177a6bb3064da2f_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_world_a01c94a4d213908648177a6bb3064da2f_cgraph" id="aclass_world_a01c94a4d213908648177a6bb3064da2f_cgraph">
+<area shape="rect" title="全Behaviourの更新（毎フレーム呼ぶ）" alt="" coords="5,5,93,32"/>
+<area shape="rect" href="class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="141,5,243,32"/>
+<area shape="poly" title=" " alt="" coords="93,16,125,16,125,21,93,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a375d6614a608e15ab9cd77a8c3093ac4" name="a375d6614a608e15ab9cd77a8c3093ac4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a375d6614a608e15ab9cd77a8c3093ac4">&#9670;&#160;</a></span>TryGet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * World::TryGet </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_entity.html">Entity</a></td>          <td class="paramname"><span class="paramname"><em>e</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>コンポーネントを取得する（nullptrの可能性あり） </p>
+<dl class="tparams"><dt>テンプレート引数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>取得するコンポーネントの型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">e</td><td>対象エンティティ </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>T* コンポーネントへのポインタ（存在しない場合はnullptr）</dd></dl>
+<p>指定したエンティティからコンポーネントを取得します。 コンポーネントが存在しない場合はnullptrを返すため、必ずチェックが必要です。</p>
+<dl class="section warning"><dt>警告</dt><dd>必ずnullptrチェックを行ってください</dd></dl>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="keyword">auto</span>* transform = world.TryGet&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(entity);</div>
+<div class="line"><span class="keywordflow">if</span> (transform) {</div>
+<div class="line">    transform-&gt;position.x += 1.0f;  <span class="comment">// 安全に使用</span></div>
+<div class="line">}</div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a name="doc-related-members" id="doc-related-members"></a><h2 id="header-doc-related-members" class="groupheader">フレンドと関連関数の詳解</h2>
+<a id="a90d8bb5a96912218713ef1d17271a91a" name="a90d8bb5a96912218713ef1d17271a91a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90d8bb5a96912218713ef1d17271a91a">&#9670;&#160;</a></span>EntityBuilder</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="class_entity_builder.html">EntityBuilder</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>EntityBuilderからprivateメンバにアクセス可能 </p>
+
+</div>
+</div>
+<hr/>このクラス詳解は次のファイルから抽出されました:<ul>
+<li>include/ecs/<a class="el" href="_world_8h_source.html">World.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_world.html">World</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

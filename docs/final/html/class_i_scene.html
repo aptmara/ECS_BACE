@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: IScene クラス</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('class_i_scene.html','','class_i_scene-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">IScene クラス<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>すべてのシーンの基底クラス  
+ <a href="#details">[詳解]</a></p>
+
+<p><code>#include &lt;<a class="el" href="_scene_manager_8h_source.html">SceneManager.h</a>&gt;</code></p>
+<div class="dynheader">
+IScene の継承関係図</div>
+<div class="dyncontent">
+<div class="center"><img src="class_i_scene__inherit__graph.png" border="0" usemap="#a_i_scene_inherit__map" loading="lazy" alt="Inheritance graph"/></div>
+<map name="a_i_scene_inherit__map" id="a_i_scene_inherit__map">
+<area shape="rect" title="すべてのシーンの基底クラス" alt="" coords="21,5,83,32"/>
+<area shape="rect" href="class_game_scene.html" title="シューティングゲームのメインシーン" alt="" coords="5,80,99,107"/>
+<area shape="poly" title=" " alt="" coords="55,48,55,80,49,80,49,48"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">凡例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+公開メンバ関数</h2></td></tr>
+<tr class="memitem:a146b1101069efb7a46b3bb6e419bc2bc" id="r_a146b1101069efb7a46b3bb6e419bc2bc"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a146b1101069efb7a46b3bb6e419bc2bc">~IScene</a> ()=default</td></tr>
+<tr class="memdesc:a146b1101069efb7a46b3bb6e419bc2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">仮想デストラクタ  <br /></td></tr>
+<tr class="memitem:a0720093f93745d484f1cc2c1f43afe7e" id="r_a0720093f93745d484f1cc2c1f43afe7e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0720093f93745d484f1cc2c1f43afe7e">OnEnter</a> (<a class="el" href="class_world.html">World</a> &amp;world)=0</td></tr>
+<tr class="memdesc:a0720093f93745d484f1cc2c1f43afe7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">シーン開始時の初期化処理  <br /></td></tr>
+<tr class="memitem:a78b26d9de5f69cfd300a4a270c725912" id="r_a78b26d9de5f69cfd300a4a270c725912"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78b26d9de5f69cfd300a4a270c725912">OnUpdate</a> (<a class="el" href="class_world.html">World</a> &amp;world, <a class="el" href="class_input_system.html">InputSystem</a> &amp;input, float deltaTime)=0</td></tr>
+<tr class="memdesc:a78b26d9de5f69cfd300a4a270c725912"><td class="mdescLeft">&#160;</td><td class="mdescRight">毎フレームの更新処理  <br /></td></tr>
+<tr class="memitem:ab58f97bd9ee0cd98b27b106e2c491770" id="r_ab58f97bd9ee0cd98b27b106e2c491770"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab58f97bd9ee0cd98b27b106e2c491770">OnExit</a> (<a class="el" href="class_world.html">World</a> &amp;world)=0</td></tr>
+<tr class="memdesc:ab58f97bd9ee0cd98b27b106e2c491770"><td class="mdescLeft">&#160;</td><td class="mdescRight">シーン終了時のクリーンアップ処理  <br /></td></tr>
+<tr class="memitem:a3b9bb6795aa30c24c41557f40a4ff091" id="r_a3b9bb6795aa30c24c41557f40a4ff091"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b9bb6795aa30c24c41557f40a4ff091">ShouldChangeScene</a> () const</td></tr>
+<tr class="memdesc:a3b9bb6795aa30c24c41557f40a4ff091"><td class="mdescLeft">&#160;</td><td class="mdescRight">次のシーンへ遷移するか判定  <br /></td></tr>
+<tr class="memitem:a41adf582fa2e8310a5ea2840c79bc687" id="r_a41adf582fa2e8310a5ea2840c79bc687"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41adf582fa2e8310a5ea2840c79bc687">GetNextScene</a> () const</td></tr>
+<tr class="memdesc:a41adf582fa2e8310a5ea2840c79bc687"><td class="mdescLeft">&#160;</td><td class="mdescRight">次のシーン名を取得  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">詳解</h2>
+<div class="textblock"><p>すべてのシーンの基底クラス </p>
+<p>ゲームの各画面(シーン)はこのクラスを継承して作成します。</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+実装が必要なメソッド:</h3>
+<ul>
+<li><a class="el" href="#a0720093f93745d484f1cc2c1f43afe7e" title="シーン開始時の初期化処理">OnEnter()</a>: シーンが始まるときに1回だけ呼ばれる</li>
+<li><a class="el" href="#a78b26d9de5f69cfd300a4a270c725912" title="毎フレームの更新処理">OnUpdate()</a>: 毎フレーム呼ばれる(ゲームロジック)</li>
+<li><a class="el" href="#ab58f97bd9ee0cd98b27b106e2c491770" title="シーン終了時のクリーンアップ処理">OnExit()</a>: シーンが終わるときに1回だけ呼ばれる</li>
+</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
+オプションのメソッド:</h3>
+<ul>
+<li><a class="el" href="#a3b9bb6795aa30c24c41557f40a4ff091" title="次のシーンへ遷移するか判定">ShouldChangeScene()</a>: 次のシーンへ遷移するか判定</li>
+<li><a class="el" href="#a41adf582fa2e8310a5ea2840c79bc687" title="次のシーン名を取得">GetNextScene()</a>: 次のシーン名を返す</li>
+</ul>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="keyword">class </span>TitleScene : <span class="keyword">public</span> <a class="code hl_class" href="class_i_scene.html">IScene</a> {</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code hl_function" href="#a0720093f93745d484f1cc2c1f43afe7e">OnEnter</a>(<a class="code hl_class" href="class_world.html">World</a>&amp; world)<span class="keyword"> override </span>{</div>
+<div class="line">        <span class="comment">// タイトル画面の初期化</span></div>
+<div class="line">    }</div>
+<div class="line">    </div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code hl_function" href="#a78b26d9de5f69cfd300a4a270c725912">OnUpdate</a>(<a class="code hl_class" href="class_world.html">World</a>&amp; world, <a class="code hl_class" href="class_input_system.html">InputSystem</a>&amp; input, <span class="keywordtype">float</span> dt)<span class="keyword"> override </span>{</div>
+<div class="line">        <span class="comment">// スペースキーでゲーム開始</span></div>
+<div class="line">        <span class="keywordflow">if</span> (input.<a class="code hl_function" href="class_input_system.html#a99ccf25d32ff05fa9cbd47658df6ce72">GetKeyDown</a>(VK_SPACE)) {</div>
+<div class="line">            changeScene_ = <span class="keyword">true</span>;</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">    </div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code hl_function" href="#ab58f97bd9ee0cd98b27b106e2c491770">OnExit</a>(World&amp; world)<span class="keyword"> override </span>{</div>
+<div class="line">        <span class="comment">// クリーンアップ</span></div>
+<div class="line">    }</div>
+<div class="line">    </div>
+<div class="line">    <span class="keywordtype">bool</span> <a class="code hl_function" href="#a3b9bb6795aa30c24c41557f40a4ff091">ShouldChangeScene</a>()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> changeScene_; }</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="#a41adf582fa2e8310a5ea2840c79bc687">GetNextScene</a>()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;GameScene&quot;</span>; }</div>
+<div class="line">    </div>
+<div class="line"><span class="keyword">private</span>:</div>
+<div class="line">    <span class="keywordtype">bool</span> changeScene_ = <span class="keyword">false</span>;</div>
+<div class="line">};</div>
+<div class="ttc" id="aclass_i_scene_html"><div class="ttname"><a href="class_i_scene.html">IScene</a></div><div class="ttdoc">すべてのシーンの基底クラス</div><div class="ttdef"><b>Definition</b> SceneManager.h:73</div></div>
+<div class="ttc" id="aclass_i_scene_html_a0720093f93745d484f1cc2c1f43afe7e"><div class="ttname"><a href="#a0720093f93745d484f1cc2c1f43afe7e">IScene::OnEnter</a></div><div class="ttdeci">virtual void OnEnter(World &amp;world)=0</div><div class="ttdoc">シーン開始時の初期化処理</div></div>
+<div class="ttc" id="aclass_i_scene_html_a3b9bb6795aa30c24c41557f40a4ff091"><div class="ttname"><a href="#a3b9bb6795aa30c24c41557f40a4ff091">IScene::ShouldChangeScene</a></div><div class="ttdeci">virtual bool ShouldChangeScene() const</div><div class="ttdoc">次のシーンへ遷移するか判定</div><div class="ttdef"><b>Definition</b> SceneManager.h:163</div></div>
+<div class="ttc" id="aclass_i_scene_html_a41adf582fa2e8310a5ea2840c79bc687"><div class="ttname"><a href="#a41adf582fa2e8310a5ea2840c79bc687">IScene::GetNextScene</a></div><div class="ttdeci">virtual const char * GetNextScene() const</div><div class="ttdoc">次のシーン名を取得</div><div class="ttdef"><b>Definition</b> SceneManager.h:181</div></div>
+<div class="ttc" id="aclass_i_scene_html_a78b26d9de5f69cfd300a4a270c725912"><div class="ttname"><a href="#a78b26d9de5f69cfd300a4a270c725912">IScene::OnUpdate</a></div><div class="ttdeci">virtual void OnUpdate(World &amp;world, InputSystem &amp;input, float deltaTime)=0</div><div class="ttdoc">毎フレームの更新処理</div></div>
+<div class="ttc" id="aclass_i_scene_html_ab58f97bd9ee0cd98b27b106e2c491770"><div class="ttname"><a href="#ab58f97bd9ee0cd98b27b106e2c491770">IScene::OnExit</a></div><div class="ttdeci">virtual void OnExit(World &amp;world)=0</div><div class="ttdoc">シーン終了時のクリーンアップ処理</div></div>
+<div class="ttc" id="aclass_input_system_html"><div class="ttname"><a href="class_input_system.html">InputSystem</a></div><div class="ttdoc">キーボード・マウス入力を管理するクラス</div><div class="ttdef"><b>Definition</b> InputSystem.h:43</div></div>
+<div class="ttc" id="aclass_input_system_html_a99ccf25d32ff05fa9cbd47658df6ce72"><div class="ttname"><a href="class_input_system.html#a99ccf25d32ff05fa9cbd47658df6ce72">InputSystem::GetKeyDown</a></div><div class="ttdeci">bool GetKeyDown(int vkCode) const</div><div class="ttdoc">キーがこのフレームで押された瞬間か</div><div class="ttdef"><b>Definition</b> InputSystem.h:130</div></div>
+<div class="ttc" id="aclass_world_html"><div class="ttname"><a href="class_world.html">World</a></div><div class="ttdoc">ECSワールド管理クラス - エンティティとコンポーネントのすべてを管理</div><div class="ttdef"><b>Definition</b> World.h:157</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section author"><dt>著者</dt><dd>山内陽 </dd></dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">構築子と解体子</h2>
+<a id="a146b1101069efb7a46b3bb6e419bc2bc" name="a146b1101069efb7a46b3bb6e419bc2bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a146b1101069efb7a46b3bb6e419bc2bc">&#9670;&#160;</a></span>~IScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual IScene::~IScene </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>仮想デストラクタ </p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">関数詳解</h2>
+<a id="a41adf582fa2e8310a5ea2840c79bc687" name="a41adf582fa2e8310a5ea2840c79bc687"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41adf582fa2e8310a5ea2840c79bc687">&#9670;&#160;</a></span>GetNextScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const char * IScene::GetNextScene </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>次のシーン名を取得 </p>
+<dl class="section return"><dt>戻り値</dt><dd>const char* 次のシーン名</dd></dl>
+<p><a class="el" href="#a3b9bb6795aa30c24c41557f40a4ff091" title="次のシーンへ遷移するか判定">ShouldChangeScene()</a>がtrueのときに呼ばれます。 RegisterScene()で登録した名前を返してください。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="#a41adf582fa2e8310a5ea2840c79bc687">GetNextScene</a>()<span class="keyword"> const override </span>{</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;ResultScene&quot;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a0720093f93745d484f1cc2c1f43afe7e" name="a0720093f93745d484f1cc2c1f43afe7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0720093f93745d484f1cc2c1f43afe7e">&#9670;&#160;</a></span>OnEnter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IScene::OnEnter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_world.html">World</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>world</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>シーン開始時の初期化処理 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">world</td><td>ワールド参照</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>シーンが開始されるときに1回だけ呼ばれます。 エンティティの生成、変数の初期化などを行います。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code hl_function" href="#a0720093f93745d484f1cc2c1f43afe7e">OnEnter</a>(<a class="code hl_class" href="class_world.html">World</a>&amp; world)<span class="keyword"> override </span>{</div>
+<div class="line">    <span class="comment">// プレイヤーを生成</span></div>
+<div class="line">    player_ = world.<a class="code hl_function" href="class_world.html#a18bdd2340fff0f069b264d9cddb3a96a">Create</a>()</div>
+<div class="line">        .<a class="code hl_function" href="class_entity_builder.html#ab879c9d226c91227abea6c20f9a75a7e">With</a>&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(DirectX::XMFLOAT3{0, 0, 0})</div>
+<div class="line">        .With&lt;MeshRenderer&gt;(DirectX::XMFLOAT3{1, 0, 0})</div>
+<div class="line">        .Build();</div>
+<div class="line">}</div>
+<div class="ttc" id="aclass_entity_builder_html_ab879c9d226c91227abea6c20f9a75a7e"><div class="ttname"><a href="class_entity_builder.html#ab879c9d226c91227abea6c20f9a75a7e">EntityBuilder::With</a></div><div class="ttdeci">EntityBuilder &amp; With(Args &amp;&amp;... args)</div><div class="ttdoc">コンポーネントを追加する（メソッドチェーン対応）</div><div class="ttdef"><b>Definition</b> World.h:491</div></div>
+<div class="ttc" id="aclass_world_html_a18bdd2340fff0f069b264d9cddb3a96a"><div class="ttname"><a href="class_world.html#a18bdd2340fff0f069b264d9cddb3a96a">World::Create</a></div><div class="ttdeci">EntityBuilder Create()</div><div class="ttdoc">エンティティを作成する（ビルダー版）- おすすめ！</div><div class="ttdef"><b>Definition</b> World.h:201</div></div>
+<div class="ttc" id="astruct_transform_html"><div class="ttname"><a href="struct_transform.html">Transform</a></div><div class="ttdoc">3D空間におけるエンティティの位置・回転・スケールを管理するデータコンポーネント</div><div class="ttdef"><b>Definition</b> Transform.h:59</div></div>
+</div><!-- fragment --> </dd></dl>
+
+<p><a class="el" href="class_game_scene.html#a9b3218d2787059ccc4307343f3276b18">GameScene</a>で実装されています。</p>
+
+</div>
+</div>
+<a id="ab58f97bd9ee0cd98b27b106e2c491770" name="ab58f97bd9ee0cd98b27b106e2c491770"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab58f97bd9ee0cd98b27b106e2c491770">&#9670;&#160;</a></span>OnExit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IScene::OnExit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_world.html">World</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>world</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>シーン終了時のクリーンアップ処理 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">world</td><td>ワールド参照</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>シーンが終了するときに1回だけ呼ばれます。 エンティティの削除、リソースの解放などを行います。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code hl_function" href="#ab58f97bd9ee0cd98b27b106e2c491770">OnExit</a>(<a class="code hl_class" href="class_world.html">World</a>&amp; world)<span class="keyword"> override </span>{</div>
+<div class="line">    <span class="comment">// すべてのエンティティを削除</span></div>
+<div class="line">    world.<a class="code hl_function" href="class_world.html#ae05a18cf43bde9b5d1b097c3fc1cc476">DestroyEntity</a>(player_);</div>
+<div class="line">    world.<a class="code hl_function" href="class_world.html#ae05a18cf43bde9b5d1b097c3fc1cc476">DestroyEntity</a>(enemy_);</div>
+<div class="line">}</div>
+<div class="ttc" id="aclass_world_html_ae05a18cf43bde9b5d1b097c3fc1cc476"><div class="ttname"><a href="class_world.html#ae05a18cf43bde9b5d1b097c3fc1cc476">World::DestroyEntity</a></div><div class="ttdeci">void DestroyEntity(Entity e)</div><div class="ttdoc">エンティティを削除する</div><div class="ttdef"><b>Definition</b> World.h:246</div></div>
+</div><!-- fragment --> </dd></dl>
+
+<p><a class="el" href="class_game_scene.html#a749daa896007a4d54541394c144c1509">GameScene</a>で実装されています。</p>
+
+</div>
+</div>
+<a id="a78b26d9de5f69cfd300a4a270c725912" name="a78b26d9de5f69cfd300a4a270c725912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78b26d9de5f69cfd300a4a270c725912">&#9670;&#160;</a></span>OnUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IScene::OnUpdate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_world.html">World</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>world</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_input_system.html">InputSystem</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>毎フレームの更新処理 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">world</td><td>ワールド参照 </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">input</td><td>入力システム参照 </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">deltaTime</td><td>デルタタイム（秒）</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>毎フレーム呼ばれます。 入力処理、移動、衝突判定などのゲームロジックを実装します。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code hl_function" href="#a78b26d9de5f69cfd300a4a270c725912">OnUpdate</a>(<a class="code hl_class" href="class_world.html">World</a>&amp; world, <a class="code hl_class" href="class_input_system.html">InputSystem</a>&amp; input, <span class="keywordtype">float</span> dt)<span class="keyword"> override </span>{</div>
+<div class="line">    <span class="comment">// 入力処理</span></div>
+<div class="line">    <span class="keywordflow">if</span> (input.<a class="code hl_function" href="class_input_system.html#a5c3ba36110ed58c136f321f48eb4d565">GetKey</a>(<span class="charliteral">&#39;W&#39;</span>)) {</div>
+<div class="line">        <span class="comment">// プレイヤーを移動</span></div>
+<div class="line">    }</div>
+<div class="line">    </div>
+<div class="line">    <span class="comment">// ゲームロジック更新</span></div>
+<div class="line">    world.<a class="code hl_function" href="class_world.html#a01c94a4d213908648177a6bb3064da2f">Tick</a>(dt);</div>
+<div class="line">}</div>
+<div class="ttc" id="aclass_input_system_html_a5c3ba36110ed58c136f321f48eb4d565"><div class="ttname"><a href="class_input_system.html#a5c3ba36110ed58c136f321f48eb4d565">InputSystem::GetKey</a></div><div class="ttdeci">bool GetKey(int vkCode) const</div><div class="ttdoc">キーが押されているか</div><div class="ttdef"><b>Definition</b> InputSystem.h:119</div></div>
+<div class="ttc" id="aclass_world_html_a01c94a4d213908648177a6bb3064da2f"><div class="ttname"><a href="class_world.html#a01c94a4d213908648177a6bb3064da2f">World::Tick</a></div><div class="ttdeci">void Tick(float dt)</div><div class="ttdoc">全Behaviourの更新（毎フレーム呼ぶ）</div><div class="ttdef"><b>Definition</b> World.h:394</div></div>
+</div><!-- fragment --> </dd></dl>
+
+<p><a class="el" href="class_game_scene.html#aa84e123756a733d50db6334131cc9b25">GameScene</a>で実装されています。</p>
+
+</div>
+</div>
+<a id="a3b9bb6795aa30c24c41557f40a4ff091" name="a3b9bb6795aa30c24c41557f40a4ff091"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b9bb6795aa30c24c41557f40a4ff091">&#9670;&#160;</a></span>ShouldChangeScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool IScene::ShouldChangeScene </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>次のシーンへ遷移するか判定 </p>
+<dl class="section return"><dt>戻り値</dt><dd>true 遷移する, false 遷移しない</dd></dl>
+<p>SceneManagerが毎フレーム呼び出し、trueならシーンを切り替えます。</p>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">bool</span> <a class="code hl_function" href="#a3b9bb6795aa30c24c41557f40a4ff091">ShouldChangeScene</a>()<span class="keyword"> const override </span>{</div>
+<div class="line">    <span class="keywordflow">return</span> gameOver_;  <span class="comment">// ゲームオーバーなら遷移</span></div>
+<div class="line">}</div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<hr/>このクラス詳解は次のファイルから抽出されました:<ul>
+<li>include/scenes/<a class="el" href="_scene_manager_8h_source.html">SceneManager.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_i_scene.html">IScene</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

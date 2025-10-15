@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: include/components/Rotator.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('_rotator_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Rotator.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_rotator_8h.html">[詳解]</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_component_8h.html">components/Component.h</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_entity_8h.html">ecs/Entity.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_world_8h.html">ecs/World.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_transform_8h.html">components/Transform.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;DirectXMath.h&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span></div>
+<div class="foldopen" id="foldopen00073" data-start="{" data-end="};">
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="struct_rotator.html">   73</a></span><span class="keyword">struct </span><a class="code hl_function" href="struct_rotator.html#a1e077405ffc5f6809a34922bd71137d0">Rotator</a> : <a class="code hl_class" href="struct_behaviour.html">Behaviour</a> {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="struct_rotator.html#af1929dcc5c6c7e1397bf0e4426e4a8b3">   92</a></span>    <span class="keywordtype">float</span> <a class="code hl_variable" href="struct_rotator.html#af1929dcc5c6c7e1397bf0e4426e4a8b3">speedDegY</a> = 45.0f;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="struct_rotator.html#a1e077405ffc5f6809a34922bd71137d0">   98</a></span>    <a class="code hl_function" href="struct_rotator.html#a1e077405ffc5f6809a34922bd71137d0">Rotator</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="struct_rotator.html#aee0af918f12bd713c2dda7ffb0f701fa">  111</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="struct_rotator.html#aee0af918f12bd713c2dda7ffb0f701fa">Rotator</a>(<span class="keywordtype">float</span> s) : <a class="code hl_variable" href="struct_rotator.html#af1929dcc5c6c7e1397bf0e4426e4a8b3">speedDegY</a>(s) {}</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
+<div class="foldopen" id="foldopen00137" data-start="{" data-end="}">
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="struct_rotator.html#aaf66ea55c6b182ee8c34f267bb6368e1">  137</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_rotator.html#aaf66ea55c6b182ee8c34f267bb6368e1">OnUpdate</a>(<a class="code hl_class" href="class_world.html">World</a>&amp; w, <a class="code hl_struct" href="struct_entity.html">Entity</a> self, <span class="keywordtype">float</span> dt)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <span class="comment">// このエンティティのTransformを取得</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keyword">auto</span>* t = w.<a class="code hl_function" href="class_world.html#a375d6614a608e15ab9cd77a8c3093ac4">TryGet</a>&lt;<a class="code hl_struct" href="struct_transform.html">Transform</a>&gt;(self);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keywordflow">if</span> (!t) <span class="keywordflow">return</span>; <span class="comment">// Transformがなければ何もしない</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="comment">// 回転値を更新（dt = デルタタイム = 前フレームからの経過秒数）</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        t-&gt;<a class="code hl_variable" href="struct_transform.html#a7f25bab45d1b34961b1259276d033e30">rotation</a>.y += <a class="code hl_variable" href="struct_rotator.html#af1929dcc5c6c7e1397bf0e4426e4a8b3">speedDegY</a> * dt;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="comment">// 360度を超えたら正規化（見やすくするため、なくてもOK）</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">while</span> (t-&gt;rotation.y &gt;= 360.0f) t-&gt;rotation.y -= 360.0f;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordflow">while</span> (t-&gt;rotation.y &lt; 0.0f) t-&gt;rotation.y += 360.0f;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    }</div>
+</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>};</div>
+</div>
+<div class="ttc" id="a_component_8h_html"><div class="ttname"><a href="_component_8h.html">Component.h</a></div><div class="ttdoc">ECSコンポーネントシステムの基底クラスとマクロ定義</div></div>
+<div class="ttc" id="a_entity_8h_html"><div class="ttname"><a href="_entity_8h.html">Entity.h</a></div><div class="ttdoc">ECSアーキテクチャのエンティティ定義</div></div>
+<div class="ttc" id="a_transform_8h_html"><div class="ttname"><a href="_transform_8h.html">Transform.h</a></div><div class="ttdoc">位置・回転・スケールコンポーネントの定義</div></div>
+<div class="ttc" id="a_world_8h_html"><div class="ttname"><a href="_world_8h.html">World.h</a></div><div class="ttdoc">ECSワールド管理システムとエンティティビルダーの定義</div></div>
+<div class="ttc" id="aclass_world_html"><div class="ttname"><a href="class_world.html">World</a></div><div class="ttdoc">ECSワールド管理クラス - エンティティとコンポーネントのすべてを管理</div><div class="ttdef"><b>Definition</b> World.h:157</div></div>
+<div class="ttc" id="aclass_world_html_a375d6614a608e15ab9cd77a8c3093ac4"><div class="ttname"><a href="class_world.html#a375d6614a608e15ab9cd77a8c3093ac4">World::TryGet</a></div><div class="ttdeci">T * TryGet(Entity e)</div><div class="ttdoc">コンポーネントを取得する（nullptrの可能性あり）</div><div class="ttdef"><b>Definition</b> World.h:308</div></div>
+<div class="ttc" id="astruct_behaviour_html"><div class="ttname"><a href="struct_behaviour.html">Behaviour</a></div><div class="ttdoc">毎フレーム更新される動的コンポーネントの基底クラス</div><div class="ttdef"><b>Definition</b> Component.h:94</div></div>
+<div class="ttc" id="astruct_entity_html"><div class="ttname"><a href="struct_entity.html">Entity</a></div><div class="ttdoc">ゲーム世界に存在するオブジェクトを表す一意な識別子</div><div class="ttdef"><b>Definition</b> Entity.h:87</div></div>
+<div class="ttc" id="astruct_rotator_html_a1e077405ffc5f6809a34922bd71137d0"><div class="ttname"><a href="struct_rotator.html#a1e077405ffc5f6809a34922bd71137d0">Rotator::Rotator</a></div><div class="ttdeci">Rotator()=default</div><div class="ttdoc">デフォルトコンストラクタ</div></div>
+<div class="ttc" id="astruct_rotator_html_aaf66ea55c6b182ee8c34f267bb6368e1"><div class="ttname"><a href="struct_rotator.html#aaf66ea55c6b182ee8c34f267bb6368e1">Rotator::OnUpdate</a></div><div class="ttdeci">void OnUpdate(World &amp;w, Entity self, float dt) override</div><div class="ttdoc">毎フレーム呼ばれる更新処理</div><div class="ttdef"><b>Definition</b> Rotator.h:137</div></div>
+<div class="ttc" id="astruct_rotator_html_aee0af918f12bd713c2dda7ffb0f701fa"><div class="ttname"><a href="struct_rotator.html#aee0af918f12bd713c2dda7ffb0f701fa">Rotator::Rotator</a></div><div class="ttdeci">Rotator(float s)</div><div class="ttdoc">回転速度を指定するコンストラクタ</div><div class="ttdef"><b>Definition</b> Rotator.h:111</div></div>
+<div class="ttc" id="astruct_rotator_html_af1929dcc5c6c7e1397bf0e4426e4a8b3"><div class="ttname"><a href="struct_rotator.html#af1929dcc5c6c7e1397bf0e4426e4a8b3">Rotator::speedDegY</a></div><div class="ttdeci">float speedDegY</div><div class="ttdoc">Y軸中心の回転速度（度/秒）</div><div class="ttdef"><b>Definition</b> Rotator.h:92</div></div>
+<div class="ttc" id="astruct_transform_html"><div class="ttname"><a href="struct_transform.html">Transform</a></div><div class="ttdoc">3D空間におけるエンティティの位置・回転・スケールを管理するデータコンポーネント</div><div class="ttdef"><b>Definition</b> Transform.h:59</div></div>
+<div class="ttc" id="astruct_transform_html_a7f25bab45d1b34961b1259276d033e30"><div class="ttname"><a href="struct_transform.html#a7f25bab45d1b34961b1259276d033e30">Transform::rotation</a></div><div class="ttdeci">DirectX::XMFLOAT3 rotation</div><div class="ttdoc">エンティティの回転角度（度数法）</div><div class="ttdef"><b>Definition</b> Transform.h:96</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_d66e8d5a7776834ccee339fd5fd3e729.html">components</a></li><li class="navelem"><a href="_rotator_8h.html">Rotator.h</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

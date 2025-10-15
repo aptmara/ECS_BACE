@@ -1,0 +1,14 @@
+<map id="SampleScenes::CreateGridOfCubes" name="SampleScenes::CreateGridOfCubes">
+<area shape="rect" id="Node000001" title="レベル8: デモシーン作成" alt="" coords="5,97,186,140"/>
+<area shape="rect" id="Node000002" href="$class_world.html#a18bdd2340fff0f069b264d9cddb3a96a" title="エンティティを作成する（ビルダー版）&#45; おすすめ！" alt="" coords="248,80,350,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,105,232,99,233,104,186,110"/>
+<area shape="rect" id="Node000005" href="$class_entity_builder.html#ab879c9d226c91227abea6c20f9a75a7e" title="コンポーネントを追加する（メソッドチェーン対応）" alt="" coords="234,131,364,157"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="186,127,218,131,218,137,186,133"/>
+<area shape="rect" id="Node000003" href="$class_world.html#a0c70c6587e8b452015ec829aa1b88631" title="エンティティを作成する（基本版）" alt="" coords="433,5,568,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="328,77,411,42,432,34,434,39,413,46,330,82"/>
+<area shape="rect" id="Node000004" href="$class_world.html#a90d8bb5a96912218713ef1d17271a91a" title="EntityBuilderからprivateメンバにアクセス可能" alt="" coords="432,80,569,107"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="350,91,417,91,417,96,350,96"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="466,81,460,71,464,62,478,55,501,53,525,56,538,62,535,67,523,61,501,59,480,61,468,65,466,71,471,78"/>
+<area shape="rect" id="Node000006" href="$class_entity_builder.html#ae739fd643c8d8defb94b9bdc8f8c120b" title="コンストラクタ" alt="" coords="412,131,589,157"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="364,141,396,141,396,147,364,147"/>
+</map>

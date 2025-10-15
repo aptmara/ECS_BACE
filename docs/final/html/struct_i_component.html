@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: IComponent インタフェース</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('struct_i_component.html','','struct_i_component-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">IComponent インタフェース</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>前方宣言: Entity構造体  
+ <a href="#details">[詳解]</a></p>
+
+<p><code>#include &lt;<a class="el" href="_component_8h_source.html">Component.h</a>&gt;</code></p>
+<div class="dynheader">
+IComponent の継承関係図</div>
+<div class="dyncontent">
+<div class="center"><img src="struct_i_component__inherit__graph.png" border="0" usemap="#a_i_component_inherit__map" loading="lazy" alt="Inheritance graph"/></div>
+<map name="a_i_component_inherit__map" id="a_i_component_inherit__map">
+<area shape="rect" title="前方宣言: Entity構造体" alt="" coords="5,537,98,564"/>
+<area shape="rect" href="struct_behaviour.html" title="毎フレーム更新される動的コンポーネントの基底クラス" alt="" coords="148,335,227,361"/>
+<area shape="poly" title=" " alt="" coords="60,522,91,450,115,409,144,371,158,360,161,364,148,375,119,412,96,452,65,524"/>
+<area shape="rect" href="struct_bullet.html" title="弾タグ" alt="" coords="160,385,214,412"/>
+<area shape="poly" title=" " alt="" coords="66,522,99,473,144,422,159,410,162,415,147,426,103,476,71,525"/>
+<area shape="rect" href="struct_bullet_tag.html" title="弾タグ" alt="" coords="150,436,225,463"/>
+<area shape="poly" title=" " alt="" coords="78,525,144,473,161,461,164,466,147,477,81,529"/>
+<area shape="rect" href="struct_enemy.html" title="敵タグ" alt="" coords="156,487,218,513"/>
+<area shape="poly" title=" " alt="" coords="103,529,155,509,157,514,105,534"/>
+<area shape="rect" href="struct_enemy_tag.html" title="敵タグ" alt="" coords="146,537,229,564"/>
+<area shape="poly" title=" " alt="" coords="113,548,145,548,145,553,113,553"/>
+<area shape="rect" href="struct_health.html" title="データ型のコンポーネント" alt="" coords="158,588,217,615"/>
+<area shape="poly" title=" " alt="" coords="105,568,158,588,156,593,103,573"/>
+<area shape="rect" href="struct_player.html" title="プレイヤータグ" alt="" coords="158,639,216,665"/>
+<area shape="poly" title=" " alt="" coords="81,572,147,625,164,636,161,640,144,629,78,576"/>
+<area shape="rect" href="struct_player_tag.html" title="タグコンポーネント（データなし）プレイヤータグ" alt="" coords="148,689,227,716"/>
+<area shape="poly" title=" " alt="" coords="71,576,103,625,147,675,162,687,159,691,144,679,99,628,66,579"/>
+<area shape="rect" href="struct_velocity.html" title="速度コンポーネント" alt="" coords="154,740,221,767"/>
+<area shape="poly" title=" " alt="" coords="65,578,96,649,119,690,148,726,161,737,158,741,144,730,115,693,91,652,60,580"/>
+<area shape="rect" href="struct_bouncer.html" title="シンプルなBehaviour" alt="" coords="304,5,373,32"/>
+<area shape="poly" title=" " alt="" coords="186,319,191,263,204,189,216,150,231,112,250,75,275,42,288,32,302,25,305,29,291,36,279,46,255,78,236,114,221,152,210,191,196,263,192,320"/>
+<area shape="rect" href="struct_bullet_movement.html" title="弾の移動Behaviour" alt="" coords="281,56,396,83"/>
+<area shape="poly" title=" " alt="" coords="188,319,196,271,211,211,236,149,254,119,275,93,291,81,294,85,279,97,258,122,241,151,216,213,201,272,194,320"/>
+<area shape="rect" href="struct_color_cycle.html" title="色を変化（サイクル）Behaviour" alt="" coords="296,107,382,133"/>
+<area shape="poly" title=" " alt="" coords="192,319,202,280,218,233,242,186,275,143,294,131,297,135,279,147,247,189,223,235,207,281,197,320"/>
+<area shape="rect" href="struct_destroy_on_death.html" title="複雑なBehaviour" alt="" coords="279,157,398,184"/>
+<area shape="poly" title=" " alt="" coords="196,319,226,257,248,224,275,194,293,182,296,187,279,198,252,227,230,260,201,321"/>
+<area shape="rect" href="struct_enemy_movement.html" title="敵の移動Behaviour" alt="" coords="277,208,400,235"/>
+<area shape="poly" title=" " alt="" coords="204,320,235,282,275,245,296,233,298,238,279,249,239,285,209,323"/>
+<area shape="rect" href="struct_life_time.html" title="時間経過で削除するBehaviour" alt="" coords="303,259,374,285"/>
+<area shape="poly" title=" " alt="" coords="223,324,276,295,301,283,304,288,278,300,225,329"/>
+<area shape="rect" href="struct_move_forward.html" title="前に進むBehaviour" alt="" coords="288,309,389,336"/>
+<area shape="poly" title=" " alt="" coords="242,336,288,328,289,334,243,341"/>
+<area shape="rect" href="struct_player_movement.html" title="プレイヤーの移動制御Behaviour" alt="" coords="279,360,398,387"/>
+<area shape="poly" title=" " alt="" coords="243,355,279,361,278,366,242,360"/>
+<area shape="rect" href="struct_pulse_scale.html" title="拡大縮小（パルス）Behaviour" alt="" coords="295,411,382,437"/>
+<area shape="poly" title=" " alt="" coords="225,367,278,396,304,408,301,413,276,401,223,372"/>
+<area shape="rect" href="struct_random_walk.html" title="ランダムに動き回るBehaviour" alt="" coords="289,461,388,488"/>
+<area shape="poly" title=" " alt="" coords="228,369,231,372,246,392,255,411,263,429,279,447,297,459,294,463,275,451,258,432,250,413,242,395,227,375,225,373"/>
+<area shape="rect" href="struct_rotator.html" title="エンティティを自動的にY軸中心で回転させるBehaviourコンポーネント" alt="" coords="306,512,371,539"/>
+<area shape="poly" title=" " alt="" coords="230,370,231,372,243,389,249,406,254,437,260,468,267,483,279,498,292,508,307,515,305,520,289,513,275,502,262,485,255,469,249,438,244,407,238,392,227,375,226,373"/>
+<area shape="rect" href="struct_sprite_animation.html" title="スプライトアニメーション（複数テクスチャの切り替え）コンポーネント" alt="" coords="282,563,395,589"/>
+<area shape="poly" title=" " alt="" coords="230,370,231,372,245,396,252,420,254,463,256,506,264,527,279,549,293,560,290,564,275,552,259,529,251,507,248,464,247,421,240,398,227,375,226,374"/>
+<area shape="rect" href="struct_u_v_animation.html" title="UVスクロールアニメーション（テクスチャ移動）コンポーネント" alt="" coords="290,613,387,640"/>
+<area shape="poly" title=" " alt="" coords="230,371,231,372,248,403,255,433,255,462,253,489,251,517,253,544,261,571,279,600,292,611,289,615,275,603,256,573,247,544,246,516,248,489,250,462,250,434,243,405,227,375,226,374"/>
+<area shape="rect" href="struct_video_playback.html" title=" " alt="" coords="284,664,393,691"/>
+<area shape="poly" title=" " alt="" coords="231,371,231,372,250,410,258,447,257,482,253,515,249,548,249,581,258,615,279,650,292,661,289,666,275,654,253,617,244,582,243,548,247,515,252,481,252,447,245,412,227,375,226,374"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">凡例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+公開メンバ関数</h2></td></tr>
+<tr class="memitem:ab1a616cdfb3812f3aabdb97666c71116" id="r_ab1a616cdfb3812f3aabdb97666c71116"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1a616cdfb3812f3aabdb97666c71116">~IComponent</a> ()=default</td></tr>
+<tr class="memdesc:ab1a616cdfb3812f3aabdb97666c71116"><td class="mdescLeft">&#160;</td><td class="mdescRight">仮想デストラクタ  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">詳解</h2>
+<div class="textblock"><p>前方宣言: Entity構造体 </p>
+<p>すべてのコンポーネントの基底インターフェース</p>
+<p>このクラスは、型情報を保持するための共通の親クラスです。 実際のコンポーネントはこのクラスを継承して作成します。</p>
+<dl class="section note"><dt>覚え書き</dt><dd>初学者は特に意識する必要はありません。 継承することで、Worldがコンポーネントを管理できるようになります。</dd></dl>
+<dl class="section user"><dt>使用例:</dt><dd><div class="fragment"><div class="line"><span class="comment">// データコンポーネントの例</span></div>
+<div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="struct_health.html">Health</a> : <a class="code hl_interface" href="struct_i_component.html">IComponent</a> {</div>
+<div class="line">    <span class="keywordtype">float</span> hp = 100.0f;</div>
+<div class="line">    <span class="keywordtype">float</span> maxHp = 100.0f;</div>
+<div class="line">};</div>
+<div class="ttc" id="astruct_health_html"><div class="ttname"><a href="struct_health.html">Health</a></div><div class="ttdoc">データ型のコンポーネント</div><div class="ttdef"><b>Definition</b> ComponentSamples.h:41</div></div>
+<div class="ttc" id="astruct_i_component_html"><div class="ttname"><a href="struct_i_component.html">IComponent</a></div><div class="ttdoc">前方宣言: Entity構造体</div><div class="ttdef"><b>Definition</b> Component.h:48</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section author"><dt>著者</dt><dd>山内陽 </dd></dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">構築子と解体子</h2>
+<a id="ab1a616cdfb3812f3aabdb97666c71116" name="ab1a616cdfb3812f3aabdb97666c71116"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1a616cdfb3812f3aabdb97666c71116">&#9670;&#160;</a></span>~IComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual IComponent::~IComponent </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>仮想デストラクタ </p>
+<p>ポリモーフィズムを可能にするため、仮想デストラクタを定義 </p>
+
+</div>
+</div>
+<hr/>このインタフェース詳解は次のファイルから抽出されました:<ul>
+<li>include/components/<a class="el" href="_component_8h_source.html">Component.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="struct_i_component.html">IComponent</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: include/animation/Animation.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('_animation_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Animation.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_animation_8h.html">[詳解]</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_component_8h.html">components/Component.h</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_entity_8h.html">ecs/Entity.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_world_8h.html">ecs/World.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_texture_manager_8h.html">graphics/TextureManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span></div>
+<div class="foldopen" id="foldopen00050" data-start="{" data-end="};">
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html">   50</a></span><span class="keyword">struct </span><a class="code hl_struct" href="struct_sprite_animation.html">SpriteAnimation</a> : <a class="code hl_class" href="struct_behaviour.html">Behaviour</a> {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#acf5c0fe48e5c77e7175a7d0223347745">   51</a></span>    std::vector&lt;TextureManager::TextureHandle&gt; <a class="code hl_variable" href="struct_sprite_animation.html#acf5c0fe48e5c77e7175a7d0223347745">frames</a>;  </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a65d3e06be87f5ff3b487f6953b8af5a4">   52</a></span>    <span class="keywordtype">float</span> <a class="code hl_variable" href="struct_sprite_animation.html#a65d3e06be87f5ff3b487f6953b8af5a4">frameTime</a> = 0.1f;   </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a820121d7acd50a1aaff34da7aa56fc4b">   53</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="struct_sprite_animation.html#a820121d7acd50a1aaff34da7aa56fc4b">loop</a> = <span class="keyword">true</span>;         </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a2670e72d8a2f8a82bc4e7b68554f505d">   54</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="struct_sprite_animation.html#a2670e72d8a2f8a82bc4e7b68554f505d">playing</a> = <span class="keyword">true</span>;      </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#aa3f69377200e1750fbc1200347a520db">   56</a></span>    <span class="keywordtype">float</span> <a class="code hl_variable" href="struct_sprite_animation.html#aa3f69377200e1750fbc1200347a520db">currentTime</a> = 0.0f;   </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">   57</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">currentFrame</a> = 0;    </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a709249030b44c028b9057a311eca20dc">   58</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="struct_sprite_animation.html#a709249030b44c028b9057a311eca20dc">finished</a> = <span class="keyword">false</span>;      </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span></div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="}">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#ad97c5d142fd9ec7e7a74232e70f081b2">   66</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_sprite_animation.html#ad97c5d142fd9ec7e7a74232e70f081b2">OnUpdate</a>(<a class="code hl_class" href="class_world.html">World</a>&amp; w, <a class="code hl_struct" href="struct_entity.html">Entity</a> self, <span class="keywordtype">float</span> dt)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="struct_sprite_animation.html#a2670e72d8a2f8a82bc4e7b68554f505d">playing</a> || <a class="code hl_variable" href="struct_sprite_animation.html#acf5c0fe48e5c77e7175a7d0223347745">frames</a>.empty()) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <a class="code hl_variable" href="struct_sprite_animation.html#aa3f69377200e1750fbc1200347a520db">currentTime</a> += dt;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="comment">// フレーム切り替え</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="struct_sprite_animation.html#aa3f69377200e1750fbc1200347a520db">currentTime</a> &gt;= <a class="code hl_variable" href="struct_sprite_animation.html#a65d3e06be87f5ff3b487f6953b8af5a4">frameTime</a>) {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <a class="code hl_variable" href="struct_sprite_animation.html#aa3f69377200e1750fbc1200347a520db">currentTime</a> -= <a class="code hl_variable" href="struct_sprite_animation.html#a65d3e06be87f5ff3b487f6953b8af5a4">frameTime</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            <a class="code hl_variable" href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">currentFrame</a>++;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">currentFrame</a> &gt;= <a class="code hl_variable" href="struct_sprite_animation.html#acf5c0fe48e5c77e7175a7d0223347745">frames</a>.size()) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="struct_sprite_animation.html#a820121d7acd50a1aaff34da7aa56fc4b">loop</a>) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                    <a class="code hl_variable" href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">currentFrame</a> = 0;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                    <a class="code hl_variable" href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">currentFrame</a> = <a class="code hl_variable" href="struct_sprite_animation.html#acf5c0fe48e5c77e7175a7d0223347745">frames</a>.size() - 1;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                    <a class="code hl_variable" href="struct_sprite_animation.html#a2670e72d8a2f8a82bc4e7b68554f505d">playing</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                    <a class="code hl_variable" href="struct_sprite_animation.html#a709249030b44c028b9057a311eca20dc">finished</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
+</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span></div>
+<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a2e2584e3bd56accdd19833b2fce06296">   92</a></span>    <a class="code hl_typedef" href="class_texture_manager.html#a8518a064f086182fef690278b4b3eb0f">TextureManager::TextureHandle</a> <a class="code hl_function" href="struct_sprite_animation.html#a2e2584e3bd56accdd19833b2fce06296">GetCurrentTexture</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="struct_sprite_animation.html#acf5c0fe48e5c77e7175a7d0223347745">frames</a>.empty()) <span class="keywordflow">return</span> <a class="code hl_variable" href="class_texture_manager.html#a4e4e843eea06dfe97f06a7f18defebee">TextureManager::INVALID_TEXTURE</a>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="struct_sprite_animation.html#acf5c0fe48e5c77e7175a7d0223347745">frames</a>[<a class="code hl_variable" href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">currentFrame</a>];</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
+</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span></div>
+<div class="foldopen" id="foldopen00100" data-start="{" data-end="}">
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a1bd4d4f64cc6450e1aa9812af6ce85c6">  100</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_sprite_animation.html#a1bd4d4f64cc6450e1aa9812af6ce85c6">Play</a>() {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <a class="code hl_variable" href="struct_sprite_animation.html#a2670e72d8a2f8a82bc4e7b68554f505d">playing</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <a class="code hl_variable" href="struct_sprite_animation.html#a709249030b44c028b9057a311eca20dc">finished</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    }</div>
+</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a0c46d512dec9339145bb0c9b9d9a8114">  108</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_sprite_animation.html#a0c46d512dec9339145bb0c9b9d9a8114">Stop</a>() {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <a class="code hl_variable" href="struct_sprite_animation.html#a2670e72d8a2f8a82bc4e7b68554f505d">playing</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
+</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span></div>
+<div class="foldopen" id="foldopen00115" data-start="{" data-end="}">
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="struct_sprite_animation.html#a424ea9f7dbc07cedd97733dab690b37b">  115</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_sprite_animation.html#a424ea9f7dbc07cedd97733dab690b37b">Reset</a>() {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <a class="code hl_variable" href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">currentFrame</a> = 0;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <a class="code hl_variable" href="struct_sprite_animation.html#aa3f69377200e1750fbc1200347a520db">currentTime</a> = 0.0f;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <a class="code hl_variable" href="struct_sprite_animation.html#a709249030b44c028b9057a311eca20dc">finished</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    }</div>
+</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>};</div>
+</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span></div>
+<div class="foldopen" id="foldopen00154" data-start="{" data-end="};">
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="struct_u_v_animation.html">  154</a></span><span class="keyword">struct </span><a class="code hl_function" href="struct_u_v_animation.html#a2631d95915bc9f5c5cd5da8286b79218">UVAnimation</a> : <a class="code hl_class" href="struct_behaviour.html">Behaviour</a> {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="struct_u_v_animation.html#a089e720df70ea36fd474a06b0a58071a">  155</a></span>    DirectX::XMFLOAT2 <a class="code hl_variable" href="struct_u_v_animation.html#a089e720df70ea36fd474a06b0a58071a">scrollSpeed</a>{ 0.0f, 0.0f };   </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">  156</a></span>    DirectX::XMFLOAT2 <a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>{ 0.0f, 0.0f }; </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="struct_u_v_animation.html#a2631d95915bc9f5c5cd5da8286b79218">  161</a></span>    <a class="code hl_function" href="struct_u_v_animation.html#a2631d95915bc9f5c5cd5da8286b79218">UVAnimation</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="struct_u_v_animation.html#a8f02aa8ee4779426001d63cd7fb5b2d5">  167</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="struct_u_v_animation.html#a8f02aa8ee4779426001d63cd7fb5b2d5">UVAnimation</a>(<span class="keyword">const</span> DirectX::XMFLOAT2&amp; speed) : <a class="code hl_variable" href="struct_u_v_animation.html#a089e720df70ea36fd474a06b0a58071a">scrollSpeed</a>(speed) {}</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="struct_u_v_animation.html#a895a4fad569c406af1350c88786adce2">  174</a></span>    <a class="code hl_function" href="struct_u_v_animation.html#a895a4fad569c406af1350c88786adce2">UVAnimation</a>(<span class="keywordtype">float</span> u, <span class="keywordtype">float</span> v) : <a class="code hl_variable" href="struct_u_v_animation.html#a089e720df70ea36fd474a06b0a58071a">scrollSpeed</a>{u, v} {}</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span></div>
+<div class="foldopen" id="foldopen00182" data-start="{" data-end="}">
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="struct_u_v_animation.html#af7544f2764b2b320a92fbf82c687fca0">  182</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_u_v_animation.html#af7544f2764b2b320a92fbf82c687fca0">OnUpdate</a>(<a class="code hl_class" href="class_world.html">World</a>&amp; w, <a class="code hl_struct" href="struct_entity.html">Entity</a> self, <span class="keywordtype">float</span> dt)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        <span class="comment">// スクロール量を加算</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.x += <a class="code hl_variable" href="struct_u_v_animation.html#a089e720df70ea36fd474a06b0a58071a">scrollSpeed</a>.x * dt;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.y += <a class="code hl_variable" href="struct_u_v_animation.html#a089e720df70ea36fd474a06b0a58071a">scrollSpeed</a>.y * dt;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        <span class="comment">// 0-1範囲に正規化（繰り返し）</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        <a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.x = fmodf(<a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.x, 1.0f);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.y = fmodf(<a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.y, 1.0f);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.x &lt; 0.0f) <a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.x += 1.0f;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.y &lt; 0.0f) <a class="code hl_variable" href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">currentOffset</a>.y += 1.0f;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    }</div>
+</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>};</div>
+</div>
+<div class="ttc" id="a_component_8h_html"><div class="ttname"><a href="_component_8h.html">Component.h</a></div><div class="ttdoc">ECSコンポーネントシステムの基底クラスとマクロ定義</div></div>
+<div class="ttc" id="a_entity_8h_html"><div class="ttname"><a href="_entity_8h.html">Entity.h</a></div><div class="ttdoc">ECSアーキテクチャのエンティティ定義</div></div>
+<div class="ttc" id="a_texture_manager_8h_html"><div class="ttname"><a href="_texture_manager_8h.html">TextureManager.h</a></div><div class="ttdoc">テクスチャ管理システム</div></div>
+<div class="ttc" id="a_world_8h_html"><div class="ttname"><a href="_world_8h.html">World.h</a></div><div class="ttdoc">ECSワールド管理システムとエンティティビルダーの定義</div></div>
+<div class="ttc" id="aclass_texture_manager_html_a4e4e843eea06dfe97f06a7f18defebee"><div class="ttname"><a href="class_texture_manager.html#a4e4e843eea06dfe97f06a7f18defebee">TextureManager::INVALID_TEXTURE</a></div><div class="ttdeci">static constexpr TextureHandle INVALID_TEXTURE</div><div class="ttdoc">無効なテクスチャを表す特殊値</div><div class="ttdef"><b>Definition</b> TextureManager.h:74</div></div>
+<div class="ttc" id="aclass_texture_manager_html_a8518a064f086182fef690278b4b3eb0f"><div class="ttname"><a href="class_texture_manager.html#a8518a064f086182fef690278b4b3eb0f">TextureManager::TextureHandle</a></div><div class="ttdeci">uint32_t TextureHandle</div><div class="ttdoc">テクスチャを識別するハンドル</div><div class="ttdef"><b>Definition</b> TextureManager.h:68</div></div>
+<div class="ttc" id="aclass_world_html"><div class="ttname"><a href="class_world.html">World</a></div><div class="ttdoc">ECSワールド管理クラス - エンティティとコンポーネントのすべてを管理</div><div class="ttdef"><b>Definition</b> World.h:157</div></div>
+<div class="ttc" id="astruct_behaviour_html"><div class="ttname"><a href="struct_behaviour.html">Behaviour</a></div><div class="ttdoc">毎フレーム更新される動的コンポーネントの基底クラス</div><div class="ttdef"><b>Definition</b> Component.h:94</div></div>
+<div class="ttc" id="astruct_entity_html"><div class="ttname"><a href="struct_entity.html">Entity</a></div><div class="ttdoc">ゲーム世界に存在するオブジェクトを表す一意な識別子</div><div class="ttdef"><b>Definition</b> Entity.h:87</div></div>
+<div class="ttc" id="astruct_sprite_animation_html"><div class="ttname"><a href="struct_sprite_animation.html">SpriteAnimation</a></div><div class="ttdoc">スプライトアニメーション（複数テクスチャの切り替え）コンポーネント</div><div class="ttdef"><b>Definition</b> Animation.h:50</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a0c46d512dec9339145bb0c9b9d9a8114"><div class="ttname"><a href="struct_sprite_animation.html#a0c46d512dec9339145bb0c9b9d9a8114">SpriteAnimation::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdoc">アニメーションを停止</div><div class="ttdef"><b>Definition</b> Animation.h:108</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a1bd4d4f64cc6450e1aa9812af6ce85c6"><div class="ttname"><a href="struct_sprite_animation.html#a1bd4d4f64cc6450e1aa9812af6ce85c6">SpriteAnimation::Play</a></div><div class="ttdeci">void Play()</div><div class="ttdoc">アニメーションを再生</div><div class="ttdef"><b>Definition</b> Animation.h:100</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a2670e72d8a2f8a82bc4e7b68554f505d"><div class="ttname"><a href="struct_sprite_animation.html#a2670e72d8a2f8a82bc4e7b68554f505d">SpriteAnimation::playing</a></div><div class="ttdeci">bool playing</div><div class="ttdoc">再生中か</div><div class="ttdef"><b>Definition</b> Animation.h:54</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a2e2584e3bd56accdd19833b2fce06296"><div class="ttname"><a href="struct_sprite_animation.html#a2e2584e3bd56accdd19833b2fce06296">SpriteAnimation::GetCurrentTexture</a></div><div class="ttdeci">TextureManager::TextureHandle GetCurrentTexture() const</div><div class="ttdoc">現在のテクスチャを取得</div><div class="ttdef"><b>Definition</b> Animation.h:92</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a424ea9f7dbc07cedd97733dab690b37b"><div class="ttname"><a href="struct_sprite_animation.html#a424ea9f7dbc07cedd97733dab690b37b">SpriteAnimation::Reset</a></div><div class="ttdeci">void Reset()</div><div class="ttdoc">アニメーションをリセット</div><div class="ttdef"><b>Definition</b> Animation.h:115</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a5effd96a23da4e7ca8609cd0e7ac8ebd"><div class="ttname"><a href="struct_sprite_animation.html#a5effd96a23da4e7ca8609cd0e7ac8ebd">SpriteAnimation::currentFrame</a></div><div class="ttdeci">size_t currentFrame</div><div class="ttdoc">現在のフレーム番号</div><div class="ttdef"><b>Definition</b> Animation.h:57</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a65d3e06be87f5ff3b487f6953b8af5a4"><div class="ttname"><a href="struct_sprite_animation.html#a65d3e06be87f5ff3b487f6953b8af5a4">SpriteAnimation::frameTime</a></div><div class="ttdeci">float frameTime</div><div class="ttdoc">1フレームの表示時間（秒）</div><div class="ttdef"><b>Definition</b> Animation.h:52</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a709249030b44c028b9057a311eca20dc"><div class="ttname"><a href="struct_sprite_animation.html#a709249030b44c028b9057a311eca20dc">SpriteAnimation::finished</a></div><div class="ttdeci">bool finished</div><div class="ttdoc">アニメーション終了フラグ</div><div class="ttdef"><b>Definition</b> Animation.h:58</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_a820121d7acd50a1aaff34da7aa56fc4b"><div class="ttname"><a href="struct_sprite_animation.html#a820121d7acd50a1aaff34da7aa56fc4b">SpriteAnimation::loop</a></div><div class="ttdeci">bool loop</div><div class="ttdoc">ループ再生するか</div><div class="ttdef"><b>Definition</b> Animation.h:53</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_aa3f69377200e1750fbc1200347a520db"><div class="ttname"><a href="struct_sprite_animation.html#aa3f69377200e1750fbc1200347a520db">SpriteAnimation::currentTime</a></div><div class="ttdeci">float currentTime</div><div class="ttdoc">内部時間（触らなくてOK）</div><div class="ttdef"><b>Definition</b> Animation.h:56</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_acf5c0fe48e5c77e7175a7d0223347745"><div class="ttname"><a href="struct_sprite_animation.html#acf5c0fe48e5c77e7175a7d0223347745">SpriteAnimation::frames</a></div><div class="ttdeci">std::vector&lt; TextureManager::TextureHandle &gt; frames</div><div class="ttdoc">アニメーションフレーム（テクスチャ配列）</div><div class="ttdef"><b>Definition</b> Animation.h:51</div></div>
+<div class="ttc" id="astruct_sprite_animation_html_ad97c5d142fd9ec7e7a74232e70f081b2"><div class="ttname"><a href="struct_sprite_animation.html#ad97c5d142fd9ec7e7a74232e70f081b2">SpriteAnimation::OnUpdate</a></div><div class="ttdeci">void OnUpdate(World &amp;w, Entity self, float dt) override</div><div class="ttdoc">毎フレーム更新処理</div><div class="ttdef"><b>Definition</b> Animation.h:66</div></div>
+<div class="ttc" id="astruct_u_v_animation_html_a089e720df70ea36fd474a06b0a58071a"><div class="ttname"><a href="struct_u_v_animation.html#a089e720df70ea36fd474a06b0a58071a">UVAnimation::scrollSpeed</a></div><div class="ttdeci">DirectX::XMFLOAT2 scrollSpeed</div><div class="ttdoc">UV座標のスクロール速度（単位/秒）</div><div class="ttdef"><b>Definition</b> Animation.h:155</div></div>
+<div class="ttc" id="astruct_u_v_animation_html_a2631d95915bc9f5c5cd5da8286b79218"><div class="ttname"><a href="struct_u_v_animation.html#a2631d95915bc9f5c5cd5da8286b79218">UVAnimation::UVAnimation</a></div><div class="ttdeci">UVAnimation()=default</div><div class="ttdoc">デフォルトコンストラクタ</div></div>
+<div class="ttc" id="astruct_u_v_animation_html_a895a4fad569c406af1350c88786adce2"><div class="ttname"><a href="struct_u_v_animation.html#a895a4fad569c406af1350c88786adce2">UVAnimation::UVAnimation</a></div><div class="ttdeci">UVAnimation(float u, float v)</div><div class="ttdoc">個別にU,Vを指定するコンストラクタ</div><div class="ttdef"><b>Definition</b> Animation.h:174</div></div>
+<div class="ttc" id="astruct_u_v_animation_html_a8c01d013019abbfe0ebd1be7a7b12c1c"><div class="ttname"><a href="struct_u_v_animation.html#a8c01d013019abbfe0ebd1be7a7b12c1c">UVAnimation::currentOffset</a></div><div class="ttdeci">DirectX::XMFLOAT2 currentOffset</div><div class="ttdoc">現在のオフセット（自動更新）</div><div class="ttdef"><b>Definition</b> Animation.h:156</div></div>
+<div class="ttc" id="astruct_u_v_animation_html_a8f02aa8ee4779426001d63cd7fb5b2d5"><div class="ttname"><a href="struct_u_v_animation.html#a8f02aa8ee4779426001d63cd7fb5b2d5">UVAnimation::UVAnimation</a></div><div class="ttdeci">UVAnimation(const DirectX::XMFLOAT2 &amp;speed)</div><div class="ttdoc">スクロール速度を指定するコンストラクタ</div><div class="ttdef"><b>Definition</b> Animation.h:167</div></div>
+<div class="ttc" id="astruct_u_v_animation_html_af7544f2764b2b320a92fbf82c687fca0"><div class="ttname"><a href="struct_u_v_animation.html#af7544f2764b2b320a92fbf82c687fca0">UVAnimation::OnUpdate</a></div><div class="ttdeci">void OnUpdate(World &amp;w, Entity self, float dt) override</div><div class="ttdoc">毎フレーム更新処理</div><div class="ttdef"><b>Definition</b> Animation.h:182</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_fa14765899559c72289886039a0d2991.html">animation</a></li><li class="navelem"><a href="_animation_8h.html">Animation.h</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

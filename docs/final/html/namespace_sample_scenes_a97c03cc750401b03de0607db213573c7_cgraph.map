@@ -1,0 +1,18 @@
+<map id="SampleScenes::CreateTemporaryCube" name="SampleScenes::CreateTemporaryCube">
+<area shape="rect" id="Node000001" title="練習3: 時間経過で消えるキューブ" alt="" coords="5,75,254,101"/>
+<area shape="rect" id="Node000002" href="$class_world.html#a9a8d867fee24816da04a322d741c51f2" title="コンポーネントを追加する" alt="" coords="324,15,410,41"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,72,308,40,310,45,186,77"/>
+<area shape="rect" id="Node000004" href="$class_world.html#a18bdd2340fff0f069b264d9cddb3a96a" title="エンティティを作成する（ビルダー版）&#45; おすすめ！" alt="" coords="316,75,418,101"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="254,85,301,85,301,91,254,91"/>
+<area shape="rect" id="Node000007" href="$class_entity_builder.html#ab879c9d226c91227abea6c20f9a75a7e" title="コンポーネントを追加する（メソッドチェーン対応）" alt="" coords="302,144,432,171"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="179,99,304,137,303,142,177,104"/>
+<area shape="rect" id="Node000003" href="$class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="518,5,620,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="410,23,502,19,502,24,410,29"/>
+<area shape="rect" id="Node000005" href="$class_world.html#a0c70c6587e8b452015ec829aa1b88631" title="エンティティを作成する（基本版）" alt="" coords="501,56,636,83"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="418,81,485,74,486,80,418,86"/>
+<area shape="rect" id="Node000006" href="$class_world.html#a90d8bb5a96912218713ef1d17271a91a" title="EntityBuilderからprivateメンバにアクセス可能" alt="" coords="500,131,637,157"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="419,99,504,123,503,129,417,105"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="534,132,528,122,532,112,546,106,569,104,593,107,606,113,603,118,591,112,569,109,548,111,536,116,534,121,539,129"/>
+<area shape="rect" id="Node000008" href="$class_entity_builder.html#ae739fd643c8d8defb94b9bdc8f8c120b" title="コンストラクタ" alt="" coords="480,181,657,208"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="433,167,479,175,478,181,432,172"/>
+</map>

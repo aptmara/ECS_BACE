@@ -1,0 +1,9 @@
+<map id="SampleScenes::CreateCubeOldStyle" name="SampleScenes::CreateCubeOldStyle">
+<area shape="rect" id="Node000001" title="レベル5: 従来の方法でエンティティを作成" alt="" coords="5,23,193,65"/>
+<area shape="rect" id="Node000002" href="$class_world.html#a9a8d867fee24816da04a322d741c51f2" title="コンポーネントを追加する" alt="" coords="266,5,351,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,30,250,23,251,28,193,35"/>
+<area shape="rect" id="Node000004" href="$class_world.html#a0c70c6587e8b452015ec829aa1b88631" title="エンティティを作成する（基本版）" alt="" coords="241,56,376,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="193,53,225,57,225,62,192,58"/>
+<area shape="rect" id="Node000003" href="$class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="424,5,526,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="352,16,409,16,409,21,352,21"/>
+</map>

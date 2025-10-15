@@ -1,0 +1,5 @@
+<map id="World::Tick" name="World::Tick">
+<area shape="rect" id="Node000001" title="全Behaviourの更新（毎フレーム呼ぶ）" alt="" coords="5,5,93,32"/>
+<area shape="rect" id="Node000002" href="$class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="141,5,243,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,16,125,16,125,21,93,21"/>
+</map>

@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECS_BASE: include/components/MeshRenderer.h ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">ECS_BASE
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('_mesh_renderer_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">MeshRenderer.h ファイル</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>メッシュ描画コンポーネントの定義  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &lt;DirectXMath.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="_texture_manager_8h_source.html">graphics/TextureManager.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+MeshRenderer.h の依存先関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="_mesh_renderer_8h__incl.png" border="0" usemap="#ainclude_2components_2_mesh_renderer_8h" loading="lazy" alt=""/></div>
+<map name="ainclude_2components_2_mesh_renderer_8h" id="ainclude_2components_2_mesh_renderer_8h">
+<area shape="rect" title="メッシュ描画コンポーネントの定義" alt="" coords="208,5,345,48"/>
+<area shape="rect" title=" " alt="" coords="5,171,111,197"/>
+<area shape="poly" title=" " alt="" coords="249,51,90,164,87,159,246,46"/>
+<area shape="rect" href="_texture_manager_8h.html" title="テクスチャ管理システム" alt="" coords="406,96,584,123"/>
+<area shape="poly" title=" " alt="" coords="334,46,448,88,446,93,332,51"/>
+<area shape="poly" title=" " alt="" coords="418,126,130,173,126,174,126,169,130,168,418,121"/>
+<area shape="rect" href="_gfx_device_8h.html" title="DirectX11デバイス管理クラス" alt="" coords="186,171,333,197"/>
+<area shape="poly" title=" " alt="" coords="455,126,316,168,314,163,453,121"/>
+<area shape="rect" title=" " alt="" coords="594,245,660,272"/>
+<area shape="poly" title=" " alt="" coords="585,111,659,117,735,127,800,144,824,155,841,169,852,190,847,208,830,223,805,234,741,249,676,257,675,252,740,244,803,229,827,218,842,205,847,191,837,172,822,160,798,149,734,132,658,122,585,116"/>
+<area shape="rect" title=" " alt="" coords="778,245,863,272"/>
+<area shape="poly" title=" " alt="" coords="585,110,665,115,748,125,820,142,847,154,865,169,872,186,869,204,860,221,847,236,843,233,855,218,864,202,867,186,861,172,844,159,818,147,747,130,664,120,585,115"/>
+<area shape="rect" title=" " alt="" coords="127,245,184,272"/>
+<area shape="poly" title=" " alt="" coords="406,119,339,126,271,137,213,152,191,162,176,173,167,185,161,199,156,230,151,229,156,198,162,182,172,169,189,157,211,147,270,132,339,121,406,114"/>
+<area shape="rect" title=" " alt="" coords="357,171,444,197"/>
+<area shape="poly" title=" " alt="" coords="480,125,431,163,427,159,477,121"/>
+<area shape="rect" title=" " alt="" coords="469,171,522,197"/>
+<area shape="poly" title=" " alt="" coords="498,123,498,155,493,155,493,123"/>
+<area shape="rect" title=" " alt="" coords="546,171,656,197"/>
+<area shape="poly" title=" " alt="" coords="515,121,571,159,568,164,512,125"/>
+<area shape="rect" title=" " alt="" coords="680,171,737,197"/>
+<area shape="poly" title=" " alt="" coords="533,121,666,165,664,170,532,126"/>
+<area shape="rect" title=" " alt="" coords="761,171,827,197"/>
+<area shape="poly" title=" " alt="" coords="552,121,747,167,745,172,551,126"/>
+<area shape="rect" title=" " alt="" coords="212,245,298,272"/>
+<area shape="poly" title=" " alt="" coords="261,198,260,230,254,230,256,198"/>
+<area shape="poly" title=" " alt="" coords="324,195,580,245,579,251,323,201"/>
+<area shape="poly" title=" " alt="" coords="334,193,345,195,763,248,762,253,344,200,333,198"/>
+<area shape="rect" title=" " alt="" coords="322,245,383,272"/>
+<area shape="poly" title=" " alt="" coords="277,196,326,234,323,238,274,200"/>
+<area shape="poly" title=" " alt="" coords="243,200,187,238,184,234,240,196"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+被依存関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="_mesh_renderer_8h__dep__incl.png" border="0" usemap="#ainclude_2components_2_mesh_renderer_8hdep" loading="lazy" alt=""/></div>
+<map name="ainclude_2components_2_mesh_renderer_8hdep" id="ainclude_2components_2_mesh_renderer_8hdep">
+<area shape="rect" title="メッシュ描画コンポーネントの定義" alt="" coords="290,5,428,48"/>
+<area shape="rect" href="_app_8h.html" title="ミニゲームのメインアプリケーションクラス" alt="" coords="72,187,198,213"/>
+<area shape="poly" title=" " alt="" coords="275,35,200,43,123,55,56,73,32,84,16,98,10,108,8,117,16,137,29,153,45,166,82,184,80,189,42,170,25,157,11,140,3,117,5,106,12,94,29,80,54,68,122,50,200,37,275,30"/>
+<area shape="rect" href="_render_system_8h.html" title="テクスチャ対応レンダリングシステム" alt="" coords="26,104,244,131"/>
+<area shape="poly" title=" " alt="" coords="293,57,168,106,166,101,291,52"/>
+<area shape="rect" href="_component_samples_8h.html" title="学習用コンポーネント集" alt="" coords="474,96,660,139"/>
+<area shape="poly" title=" " alt="" coords="423,52,519,93,517,98,421,57"/>
+<area shape="rect" href="_sample_scenes_8h.html" title="学習用サンプルシーン集" alt="" coords="527,187,738,213"/>
+<area shape="poly" title=" " alt="" coords="443,32,510,40,579,53,637,70,659,81,674,94,681,106,683,119,676,145,662,169,647,188,643,184,658,166,672,143,677,119,676,108,670,98,656,86,635,75,578,58,509,45,443,37"/>
+<area shape="rect" href="_mini_game_8h.html" title="シンプルなシューティングゲーム" alt="" coords="268,104,450,131"/>
+<area shape="poly" title=" " alt="" coords="362,64,362,104,356,104,356,64"/>
+<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="87,261,183,288"/>
+<area shape="poly" title=" " alt="" coords="138,229,138,261,132,261,132,229"/>
+<area shape="poly" title=" " alt="" coords="138,146,138,187,132,187,132,146"/>
+<area shape="poly" title=" " alt="" coords="596,149,624,184,620,188,591,153"/>
+<area shape="poly" title=" " alt="" coords="311,139,171,189,169,184,309,134"/>
+</map>
+</div>
+</div>
+<p><a href="_mesh_renderer_8h_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+クラス</h2></td></tr>
+<tr class="memitem:MeshRenderer" id="r_MeshRenderer"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_mesh_renderer.html">MeshRenderer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">オブジェクトの見た目（色・テクスチャ）を管理するデータコンポーネント  <a href="struct_mesh_renderer.html#details">[詳解]</a><br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">詳解</h2>
+<div class="textblock"><p>メッシュ描画コンポーネントの定義 </p>
+<dl class="section author"><dt>著者</dt><dd>山内陽 </dd></dl>
+<dl class="section date"><dt>日付</dt><dd>2024 </dd></dl>
+<dl class="section version"><dt>バージョン</dt><dd>5.0</dd></dl>
+<p>このファイルは3Dオブジェクトの「見た目」を制御するコンポーネントを定義します。 </p>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_d66e8d5a7776834ccee339fd5fd3e729.html">components</a></li><li class="navelem"><a href="_mesh_renderer_8h.html">MeshRenderer.h</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

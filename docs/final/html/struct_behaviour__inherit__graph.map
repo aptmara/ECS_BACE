@@ -1,0 +1,33 @@
+<map id="Behaviour" name="Behaviour">
+<area shape="rect" id="Node000001" title="毎フレーム更新される動的コンポーネントの基底クラス" alt="" coords="146,335,225,361"/>
+<area shape="rect" id="Node000003" href="$struct_bouncer.html" title="シンプルなBehaviour" alt="" coords="300,5,369,32"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,319,188,263,201,189,212,150,227,112,247,75,271,42,284,32,299,24,301,29,287,36,275,46,251,78,232,114,217,152,206,191,194,263,190,320"/>
+<area shape="rect" id="Node000004" href="$struct_bullet_movement.html" title="弾の移動Behaviour" alt="" coords="277,56,392,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="186,319,193,271,208,211,233,149,250,119,271,93,287,81,290,85,275,97,254,122,238,151,213,213,198,272,192,320"/>
+<area shape="rect" id="Node000005" href="$struct_color_cycle.html" title="色を変化（サイクル）Behaviour" alt="" coords="292,107,378,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="189,319,199,280,215,233,239,186,271,143,290,131,293,135,275,147,243,189,220,235,204,281,194,320"/>
+<area shape="rect" id="Node000006" href="$struct_destroy_on_death.html" title="複雑なBehaviour" alt="" coords="275,157,394,184"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="194,319,222,257,244,224,271,194,289,182,292,187,275,198,249,227,227,260,198,321"/>
+<area shape="rect" id="Node000007" href="$struct_enemy_movement.html" title="敵の移動Behaviour" alt="" coords="273,208,396,235"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="202,320,232,282,271,245,292,233,294,237,275,249,236,285,206,323"/>
+<area shape="rect" id="Node000008" href="$struct_life_time.html" title="時間経過で削除するBehaviour" alt="" coords="299,259,370,285"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="220,324,272,295,297,283,300,288,274,300,223,329"/>
+<area shape="rect" id="Node000009" href="$struct_move_forward.html" title="前に進むBehaviour" alt="" coords="284,309,385,336"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="240,336,284,329,285,334,241,341"/>
+<area shape="rect" id="Node000010" href="$struct_player_movement.html" title="プレイヤーの移動制御Behaviour" alt="" coords="275,360,394,387"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="241,355,275,361,274,366,240,360"/>
+<area shape="rect" id="Node000011" href="$struct_pulse_scale.html" title="拡大縮小（パルス）Behaviour" alt="" coords="291,411,378,437"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="223,367,274,396,299,408,297,412,272,401,220,372"/>
+<area shape="rect" id="Node000012" href="$struct_random_walk.html" title="ランダムに動き回るBehaviour" alt="" coords="285,461,384,488"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="206,373,236,411,275,447,294,459,292,463,271,451,232,414,202,376"/>
+<area shape="rect" id="Node000013" href="$struct_rotator.html" title="エンティティを自動的にY軸中心で回転させるBehaviourコンポーネント" alt="" coords="302,512,367,539"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="198,375,227,436,249,469,275,498,304,514,301,519,271,502,244,472,222,439,194,377"/>
+<area shape="rect" id="Node000014" href="$struct_sprite_animation.html" title="スプライトアニメーション（複数テクスチャの切り替え）コンポーネント" alt="" coords="278,563,391,589"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="194,376,204,415,220,461,243,507,275,549,291,560,288,564,271,553,239,510,215,463,199,416,189,377"/>
+<area shape="rect" id="Node000015" href="$struct_u_v_animation.html" title="UVスクロールアニメーション（テクスチャ移動）コンポーネント" alt="" coords="286,613,383,640"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="192,376,198,424,213,483,238,545,254,574,275,599,290,611,287,615,271,603,250,577,233,547,208,485,193,425,186,377"/>
+<area shape="rect" id="Node000016" href="$struct_video_playback.html" title=" " alt="" coords="280,664,389,691"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="190,376,194,433,206,505,217,544,232,582,251,618,275,650,289,661,286,666,271,654,247,621,227,584,212,546,201,507,188,433,184,377"/>
+<area shape="rect" id="Node000002" href="$struct_i_component.html" title="前方宣言: Entity構造体" alt="" coords="5,335,98,361"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,345,145,345,145,351,113,351"/>
+</map>

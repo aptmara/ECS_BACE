@@ -1,0 +1,5 @@
+<map id="Camera::Orbit" name="Camera::Orbit">
+<area shape="rect" id="Node000001" title="オービットカメラ（ターゲットの周りを回転）" alt="" coords="5,5,109,32"/>
+<area shape="rect" id="Node000002" href="$struct_camera.html#a4a596a3ea1fdc7d244ba4268031a360b" title="カメラの更新（位置や注視点を変更した後に呼ぶ）" alt="" coords="157,5,274,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,16,141,16,141,21,109,21"/>
+</map>
