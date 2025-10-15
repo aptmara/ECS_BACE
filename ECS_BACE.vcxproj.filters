@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ソース ファイル">
@@ -13,77 +13,107 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ヘッダー ファイル\animation">
+      <UniqueIdentifier>{fd3d755c-92e2-47a7-a53c-cbbf7eb5a8a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app">
+      <UniqueIdentifier>{6bb2bc6b-4c75-4a23-8578-ce7b632254c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\components">
+      <UniqueIdentifier>{36b57504-e493-4741-b886-6d97ea5e299b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ecs">
+      <UniqueIdentifier>{f8dab5de-8566-45b2-9610-3987af3dc2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\graphics">
+      <UniqueIdentifier>{351f27d6-d966-484f-893e-593c6c162258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\input">
+      <UniqueIdentifier>{2b11554b-bbb8-4533-bc48-9e6561add7fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\scenes">
+      <UniqueIdentifier>{d54b84d8-f024-43fe-8033-51c597c0a49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\samples">
+      <UniqueIdentifier>{41513f09-2417-4bdc-8474-8f2df4f6f4d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entity.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\ecs\Entity.h">
+      <Filter>ヘッダー ファイル\ecs</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\components\Component.h">
+      <Filter>ヘッダー ファイル\components</Filter>
     </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\ecs\World.h">
+      <Filter>ヘッダー ファイル\ecs</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\components\Transform.h">
+      <Filter>ヘッダー ファイル\components</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\components\MeshRenderer.h">
+      <Filter>ヘッダー ファイル\components</Filter>
     </ClInclude>
-    <ClInclude Include="Rotator.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\components\Rotator.h">
+      <Filter>ヘッダー ファイル\components</Filter>
     </ClInclude>
-    <ClInclude Include="GfxDevice.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\graphics\GfxDevice.h">
+      <Filter>ヘッダー ファイル\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\graphics\Camera.h">
+      <Filter>ヘッダー ファイル\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="RenderSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\graphics\RenderSystem.h">
+      <Filter>ヘッダー ファイル\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\app\App.h">
+      <Filter>ヘッダー ファイル\app</Filter>
     </ClInclude>
-    <ClInclude Include="InputSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\input\InputSystem.h">
+      <Filter>ヘッダー ファイル\input</Filter>
     </ClInclude>
-    <ClInclude Include="DebugDraw.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\graphics\DebugDraw.h">
+      <Filter>ヘッダー ファイル\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\graphics\TextureManager.h">
+      <Filter>ヘッダー ファイル\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\animation\Animation.h">
+      <Filter>ヘッダー ファイル\animation</Filter>
     </ClInclude>
-    <ClInclude Include="VideoPlayer.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\graphics\VideoPlayer.h">
+      <Filter>ヘッダー ファイル\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentSamples.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\samples\ComponentSamples.h">
+      <Filter>ヘッダー ファイル\samples</Filter>
     </ClInclude>
-    <ClInclude Include="SampleScenes.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\scenes\SampleScenes.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\scenes\SceneManager.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="MiniGame.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\scenes\MiniGame.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Textures\test.png">
+      <Filter>���\�[�X �t�@�C��</Filter>
+    </None>
+    <None Include="Assets\Videos\video.mp4">
+      <Filter>���\�[�X �t�@�C��</Filter>
+    </None>
     <None Include="README.md" />
-    <None Include="CHANGELOG_v3.md" />
-    <None Include="LEARNING_GUIDE.md" />
-    <None Include="CHANGELOG_v4.md" />
-    <None Include="QUICK_REFERENCE.md" />
-    <None Include="BUG_FIX_ITERATOR_INVALIDATION.md" />
+    <None Include="docs\CHANGELOG_v3.md" />
+    <None Include="docs\LEARNING_GUIDE.md" />
+    <None Include="docs\CHANGELOG_v4.md" />
+    <None Include="docs\QUICK_REFERENCE.md" />
+    <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
   </ItemGroup>
 </Project>

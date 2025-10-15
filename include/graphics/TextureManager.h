@@ -1,5 +1,5 @@
 #pragma once
-#include "GfxDevice.h"
+#include "graphics/GfxDevice.h"
 #include <d3d11.h>
 #include <wrl/client.h>
 #include <wincodec.h>
@@ -13,19 +13,19 @@
 #pragma comment(lib, "windowscodecs.lib")
 
 // ========================================================
-// TextureManager - ƒeƒNƒXƒ`ƒƒŠÇ—ƒVƒXƒeƒ€
+// TextureManager - ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ç—ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½
 // ========================================================
 class TextureManager {
 public:
-    // ƒeƒNƒXƒ`ƒƒƒnƒ“ƒhƒ‹
+    // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
     using TextureHandle = uint32_t;
     static constexpr TextureHandle INVALID_TEXTURE = 0;
 
-    // ‰Šú‰»
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     bool Init(GfxDevice& gfx) {
         gfx_ = &gfx;
         
-        // ƒfƒtƒHƒ‹ƒg‚Ì”’ƒeƒNƒXƒ`ƒƒ‚ğì¬
+        // ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì”ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ì¬
         uint32_t whitePixel = 0xFFFFFFFF;
         defaultWhiteTexture_ = CreateTextureFromMemory(
             reinterpret_cast<const uint8_t*>(&whitePixel),
@@ -35,9 +35,9 @@ public:
         return defaultWhiteTexture_ != INVALID_TEXTURE;
     }
 
-    // ƒtƒ@ƒCƒ‹‚©‚çƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚İiBMPAPNGAJPG‚È‚Çj
+    // ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½İiBMPï¿½APNGï¿½AJPGï¿½È‚Çj
     TextureHandle LoadFromFile(const char* filepath) {
-        // WIC‚ğg—p‚µ‚Ä‰æ‘œ‚ğ“Ç‚İ‚Ş
+        // WICï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‰æ‘œï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
         Microsoft::WRL::ComPtr<IWICImagingFactory> wicFactory;
         HRESULT hr = CoCreateInstance(
             CLSID_WICImagingFactory,
@@ -53,11 +53,11 @@ public:
             return INVALID_TEXTURE;
         }
 
-        // ƒƒCƒh•¶š—ñ‚É•ÏŠ·
+        // ï¿½ï¿½ï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ÏŠï¿½
         wchar_t wpath[MAX_PATH];
         MultiByteToWideChar(CP_ACP, 0, filepath, -1, wpath, MAX_PATH);
 
-        // ƒfƒR[ƒ_[‚ğì¬
+        // ï¿½fï¿½Rï¿½[ï¿½_ï¿½[ï¿½ï¿½ï¿½ì¬
         Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
         hr = wicFactory->CreateDecoderFromFilename(
             wpath,
@@ -74,12 +74,12 @@ public:
             return INVALID_TEXTURE;
         }
 
-        // ƒtƒŒ[ƒ€‚ğæ“¾
+        // ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
         Microsoft::WRL::ComPtr<IWICBitmapFrameDecode> frame;
         hr = decoder->GetFrame(0, &frame);
         if (FAILED(hr)) return INVALID_TEXTURE;
 
-        // RGBA32‚É•ÏŠ·
+        // RGBA32ï¿½É•ÏŠï¿½
         Microsoft::WRL::ComPtr<IWICFormatConverter> converter;
         hr = wicFactory->CreateFormatConverter(&converter);
         if (FAILED(hr)) return INVALID_TEXTURE;
@@ -94,12 +94,12 @@ public:
         );
         if (FAILED(hr)) return INVALID_TEXTURE;
 
-        // ƒTƒCƒY‚ğæ“¾
+        // ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½æ“¾
         UINT width, height;
         hr = converter->GetSize(&width, &height);
         if (FAILED(hr)) return INVALID_TEXTURE;
 
-        // ƒsƒNƒZƒ‹ƒf[ƒ^‚ğæ“¾
+        // ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾
         std::vector<uint8_t> pixels(width * height * 4);
         hr = converter->CopyPixels(
             nullptr,
@@ -112,7 +112,7 @@ public:
         return CreateTextureFromMemory(pixels.data(), width, height, 4);
     }
 
-    // ƒƒ‚ƒŠ‚©‚çƒeƒNƒXƒ`ƒƒ‚ğì¬
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ì¬
     TextureHandle CreateTextureFromMemory(const uint8_t* data, uint32_t width, uint32_t height, uint32_t channels) {
         D3D11_TEXTURE2D_DESC texDesc{};
         texDesc.Width = width;
@@ -135,7 +135,7 @@ public:
             return INVALID_TEXTURE;
         }
 
-        // ƒVƒF[ƒ_[ƒŠƒ\[ƒXƒrƒ…[‚ğì¬
+        // ï¿½Vï¿½Fï¿½[ï¿½_ï¿½[ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ì¬
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
         srvDesc.Format = texDesc.Format;
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -148,7 +148,7 @@ public:
             return INVALID_TEXTURE;
         }
 
-        // ƒeƒNƒXƒ`ƒƒ‚ğ“o˜^
+        // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½oï¿½^
         TextureHandle handle = nextHandle_++;
         TextureData texData;
         texData.texture = texture;
@@ -160,7 +160,7 @@ public:
         return handle;
     }
 
-    // ƒeƒNƒXƒ`ƒƒ‚Ìæ“¾
+    // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ìæ“¾
     ID3D11ShaderResourceView* GetSRV(TextureHandle handle) const {
         if (handle == INVALID_TEXTURE) return nullptr;
         auto it = textures_.find(handle);
@@ -168,10 +168,10 @@ public:
         return it->second.srv.Get();
     }
 
-    // ƒfƒtƒHƒ‹ƒgƒeƒNƒXƒ`ƒƒ
+    // ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½
     TextureHandle GetDefaultWhite() const { return defaultWhiteTexture_; }
 
-    // ƒeƒNƒXƒ`ƒƒ‚Ì‰ğ•ú
+    // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½
     void Release(TextureHandle handle) {
         textures_.erase(handle);
     }

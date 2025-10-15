@@ -1,25 +1,25 @@
 # Iterator Invalidation Bug Fix
 
-## –â‘è‚ÌŠT—v (Problem Summary)
+## å•é¡Œã®æ¦‚è¦ (Problem Summary)
 
-Debug Assertion Failed ƒGƒ‰[‚ª”­¶‚µ‚Ä‚¢‚Ü‚µ‚½F
+Debug Assertion Failed ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã„ã¾ã—ãŸï¼š
 ```
 File: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\list
 Line: 160
 Expression: cannot increment value-initialized list iterator
 ```
 
-## ª–{Œ´ˆö (Root Cause)
+## æ ¹æœ¬åŸå›  (Root Cause)
 
-`MiniGame.h` ‚Ì `CheckCollisions()` ƒƒ\ƒbƒh‚ÅA**ƒCƒeƒŒ[ƒ^–³Œø‰»iIterator Invalidationj**‚ª”­¶‚µ‚Ä‚¢‚Ü‚µ‚½B
+`MiniGame.h` ã® `CheckCollisions()` ãƒ¡ã‚½ãƒƒãƒ‰ã§ã€**ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ç„¡åŠ¹åŒ–ï¼ˆIterator Invalidationï¼‰**ãŒç™ºç”Ÿã—ã¦ã„ã¾ã—ãŸã€‚
 
-### –â‘è‚Ì‚ ‚Á‚½ƒR[ƒhF
+### å•é¡Œã®ã‚ã£ãŸã‚³ãƒ¼ãƒ‰ï¼š
 ```cpp
 void CheckCollisions(World& world) {
     world.ForEach<Bullet>([&](Entity bulletEntity, Bullet& bullet) {
         world.ForEach<Enemy>([&](Entity enemyEntity, Enemy& enemy) {
             if (distance < 1.0f) {
-                world.DestroyEntity(bulletEntity);  // © ‚±‚±‚ÅƒCƒeƒŒ[ƒ^‚ª–³Œø‰»I
+                world.DestroyEntity(bulletEntity);  // â† ã“ã“ã§ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ãŒç„¡åŠ¹åŒ–ï¼
                 world.DestroyEntity(enemyEntity);
                 score_ += 10;
             }
@@ -28,19 +28,19 @@ void CheckCollisions(World& world) {
 }
 ```
 
-### ‚È‚ºƒGƒ‰[‚ª‹N‚«‚½‚©F
+### ãªãœã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‹ï¼š
 
-1. `ForEach<Bullet>` ‚ª `std::unordered_map` ‚ğƒCƒeƒŒ[ƒg’†
-2. `DestroyEntity(bulletEntity)` ‚ªŒÄ‚Î‚ê‚é
-3. ‚±‚ê‚É‚æ‚è `Store<Bullet>::map` ‚©‚ç—v‘f‚ªíœ‚³‚ê‚é
-4. **ƒCƒeƒŒ[ƒ^‚ª–³Œø‰»‚³‚ê‚é**
-5. ŠO‘¤‚Ìƒ‹[ƒv‚ªŸ‚Ì—v‘f‚Éi‚à‚¤‚Æ‚µ‚Ä **ƒNƒ‰ƒbƒVƒ…**
+1. `ForEach<Bullet>` ãŒ `std::unordered_map` ã‚’ã‚¤ãƒ†ãƒ¬ãƒ¼ãƒˆä¸­
+2. `DestroyEntity(bulletEntity)` ãŒå‘¼ã°ã‚Œã‚‹
+3. ã“ã‚Œã«ã‚ˆã‚Š `Store<Bullet>::map` ã‹ã‚‰è¦ç´ ãŒå‰Šé™¤ã•ã‚Œã‚‹
+4. **ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ãŒç„¡åŠ¹åŒ–ã•ã‚Œã‚‹**
+5. å¤–å´ã®ãƒ«ãƒ¼ãƒ—ãŒæ¬¡ã®è¦ç´ ã«é€²ã‚‚ã†ã¨ã—ã¦ **ã‚¯ãƒ©ãƒƒã‚·ãƒ¥**
 
-## C³“à—e (Fix Applied)
+## ä¿®æ­£å†…å®¹ (Fix Applied)
 
-### 1. MiniGame.h ‚Ì CheckCollisions() ‚ğC³
+### 1. MiniGame.h ã® CheckCollisions() ã‚’ä¿®æ­£
 
-**C³‘OF**
+**ä¿®æ­£å‰ï¼š**
 ```cpp
 void CheckCollisions(World& world) {
     world.ForEach<Bullet>([&](Entity bulletEntity, Bullet& bullet) {
@@ -55,20 +55,20 @@ void CheckCollisions(World& world) {
 }
 ```
 
-**C³ŒãF**
+**ä¿®æ­£å¾Œï¼š**
 ```cpp
 void CheckCollisions(World& world) {
-    // íœ‚·‚éƒGƒ“ƒeƒBƒeƒB‚ğûWiƒCƒeƒŒ[ƒ^–³Œø‰»‚ğ–h‚®j
+    // å‰Šé™¤ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’åé›†ï¼ˆã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ç„¡åŠ¹åŒ–ã‚’é˜²ãï¼‰
     std::vector<Entity> entitiesToDestroy;
     
     world.ForEach<Bullet>([&](Entity bulletEntity, Bullet& bullet) {
-        // ‚±‚Ì’e‚ª‚·‚Å‚Éíœ—\’è‚È‚çˆ—‚ğƒXƒLƒbƒv
+        // ã“ã®å¼¾ãŒã™ã§ã«å‰Šé™¤äºˆå®šãªã‚‰å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—
         for (const auto& e : entitiesToDestroy) {
             if (e.id == bulletEntity.id) return;
         }
         
         world.ForEach<Enemy>([&](Entity enemyEntity, Enemy& enemy) {
-            // ‚±‚Ì“G‚ª‚·‚Å‚Éíœ—\’è‚È‚çˆ—‚ğƒXƒLƒbƒv
+            // ã“ã®æ•µãŒã™ã§ã«å‰Šé™¤äºˆå®šãªã‚‰å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—
             for (const auto& e : entitiesToDestroy) {
                 if (e.id == enemyEntity.id) return;
             }
@@ -81,20 +81,20 @@ void CheckCollisions(World& world) {
         });
     });
     
-    // ƒCƒeƒŒ[ƒVƒ‡ƒ“Š®—¹Œã‚ÉˆêŠ‡íœ
+    // ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³å®Œäº†å¾Œã«ä¸€æ‹¬å‰Šé™¤
     for (const auto& entity : entitiesToDestroy) {
         world.DestroyEntity(entity);
     }
 }
 ```
 
-### 2. MiniGame.h ‚Ì OnExit() ‚àC³
+### 2. MiniGame.h ã® OnExit() ã‚‚ä¿®æ­£
 
-“¯—l‚Ì–â‘è‚ª‚ ‚Á‚½‚½‚ßC³F
+åŒæ§˜ã®å•é¡ŒãŒã‚ã£ãŸãŸã‚ä¿®æ­£ï¼š
 
 ```cpp
 void OnExit(World& world) override {
-    // ‘SƒGƒ“ƒeƒBƒeƒB‚ğíœiƒCƒeƒŒ[ƒ^–³Œø‰»‚ğ–h‚®j
+    // å…¨ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’å‰Šé™¤ï¼ˆã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ç„¡åŠ¹åŒ–ã‚’é˜²ãï¼‰
     std::vector<Entity> entitiesToDestroy;
     
     world.ForEach<Transform>([&](Entity e, Transform& t) {
@@ -107,11 +107,11 @@ void OnExit(World& world) override {
 }
 ```
 
-### 3. World.h ‚Ì Tick() ‚ğ‰ü‘P
+### 3. World.h ã® Tick() ã‚’æ”¹å–„
 
-‚æ‚èˆÀ‘S‚ÈƒCƒ“ƒfƒbƒNƒXƒx[ƒX‚Ìƒ‹[ƒv‚É•ÏXF
+ã‚ˆã‚Šå®‰å…¨ãªã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ™ãƒ¼ã‚¹ã®ãƒ«ãƒ¼ãƒ—ã«å¤‰æ›´ï¼š
 
-**C³‘OF**
+**ä¿®æ­£å‰ï¼š**
 ```cpp
 void Tick(float dt) {
     for (auto& it : behaviours_) {
@@ -121,10 +121,10 @@ void Tick(float dt) {
 }
 ```
 
-**C³ŒãF**
+**ä¿®æ­£å¾Œï¼š**
 ```cpp
 void Tick(float dt) {
-    // ƒCƒeƒŒ[ƒVƒ‡ƒ“’†‚Ìíœ‚É‘Î‰‚·‚é‚½‚ßAƒCƒ“ƒfƒbƒNƒXƒx[ƒX‚Ìƒ‹[ƒv‚ğg—p
+    // ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã®å‰Šé™¤ã«å¯¾å¿œã™ã‚‹ãŸã‚ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ™ãƒ¼ã‚¹ã®ãƒ«ãƒ¼ãƒ—ã‚’ä½¿ç”¨
     for (size_t i = 0; i < behaviours_.size(); ++i) {
         auto& it = behaviours_[i];
         if (!IsAlive(it.e)) continue;
@@ -134,36 +134,36 @@ void Tick(float dt) {
 }
 ```
 
-## Šw‚ñ‚¾‹³ŒP (Lessons Learned)
+## å­¦ã‚“ã æ•™è¨“ (Lessons Learned)
 
-### ƒCƒeƒŒ[ƒ^–³Œø‰»‚ğ–h‚®ƒxƒXƒgƒvƒ‰ƒNƒeƒBƒXF
+### ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ç„¡åŠ¹åŒ–ã‚’é˜²ããƒ™ã‚¹ãƒˆãƒ—ãƒ©ã‚¯ãƒ†ã‚£ã‚¹ï¼š
 
-1. **ƒCƒeƒŒ[ƒg’†‚ÉƒRƒ“ƒeƒi‚ğ•ÏX‚µ‚È‚¢**
-   - `std::vector::erase()`, `std::unordered_map::erase()` ‚È‚Ç
+1. **ã‚¤ãƒ†ãƒ¬ãƒ¼ãƒˆä¸­ã«ã‚³ãƒ³ãƒ†ãƒŠã‚’å¤‰æ›´ã—ãªã„**
+   - `std::vector::erase()`, `std::unordered_map::erase()` ãªã©
    
-2. **íœ‚·‚é—v‘f‚ğæ‚ÉûW‚·‚é**
-   - `std::vector<Entity> toDelete;` ‚ğg‚¤
-   - ƒCƒeƒŒ[ƒVƒ‡ƒ“Š®—¹Œã‚Éíœ
+2. **å‰Šé™¤ã™ã‚‹è¦ç´ ã‚’å…ˆã«åé›†ã™ã‚‹**
+   - `std::vector<Entity> toDelete;` ã‚’ä½¿ã†
+   - ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³å®Œäº†å¾Œã«å‰Šé™¤
    
-3. **ƒCƒ“ƒfƒbƒNƒXƒx[ƒX‚Ìƒ‹[ƒv‚ğg‚¤**
-   - Range-based for ‚æ‚è‚àˆÀ‘S‚Èê‡‚ª‚ ‚é
-   - ƒTƒCƒY‚ª•Ï‚í‚Á‚Ä‚à‘Î‰‚µ‚â‚·‚¢
+3. **ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ™ãƒ¼ã‚¹ã®ãƒ«ãƒ¼ãƒ—ã‚’ä½¿ã†**
+   - Range-based for ã‚ˆã‚Šã‚‚å®‰å…¨ãªå ´åˆãŒã‚ã‚‹
+   - ã‚µã‚¤ã‚ºãŒå¤‰ã‚ã£ã¦ã‚‚å¯¾å¿œã—ã‚„ã™ã„
 
-4. **ƒfƒoƒbƒOƒrƒ‹ƒh‚ÅƒeƒXƒg‚·‚é**
-   - ƒCƒeƒŒ[ƒ^ƒ`ƒFƒbƒN‚ª—LŒø
-   - –â‘è‚ğ‘Šú”­Œ©‚Å‚«‚é
+4. **ãƒ‡ãƒãƒƒã‚°ãƒ“ãƒ«ãƒ‰ã§ãƒ†ã‚¹ãƒˆã™ã‚‹**
+   - ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ãƒã‚§ãƒƒã‚¯ãŒæœ‰åŠ¹
+   - å•é¡Œã‚’æ—©æœŸç™ºè¦‹ã§ãã‚‹
 
-## QlF‚æ‚­‚ ‚éƒCƒeƒŒ[ƒ^–³Œø‰»‚Ìƒpƒ^[ƒ“
+## å‚è€ƒï¼šã‚ˆãã‚ã‚‹ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ç„¡åŠ¹åŒ–ã®ãƒ‘ã‚¿ãƒ¼ãƒ³
 
 ```cpp
-// ? ƒ_ƒ‚È—á
+// ? ãƒ€ãƒ¡ãªä¾‹
 for (auto& item : container) {
     if (shouldDelete) {
-        container.erase(item);  // ƒCƒeƒŒ[ƒ^‚ª–³Œø‰»‚³‚ê‚éI
+        container.erase(item);  // ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ãŒç„¡åŠ¹åŒ–ã•ã‚Œã‚‹ï¼
     }
 }
 
-// ? —Ç‚¢—á 1: íœƒŠƒXƒgg—p
+// ? è‰¯ã„ä¾‹ 1: å‰Šé™¤ãƒªã‚¹ãƒˆä½¿ç”¨
 std::vector<Key> toDelete;
 for (auto& item : container) {
     if (shouldDelete) {
@@ -174,7 +174,7 @@ for (auto& key : toDelete) {
     container.erase(key);
 }
 
-// ? —Ç‚¢—á 2: erase-remove ƒCƒfƒBƒIƒ€ivector ‚Ìê‡j
+// ? è‰¯ã„ä¾‹ 2: erase-remove ã‚¤ãƒ‡ã‚£ã‚ªãƒ ï¼ˆvector ã®å ´åˆï¼‰
 container.erase(
     std::remove_if(container.begin(), container.end(),
         [](auto& item) { return shouldDelete(item); }),
@@ -182,8 +182,8 @@ container.erase(
 );
 ```
 
-## “®ìŠm”F
+## å‹•ä½œç¢ºèª
 
-- ? ƒrƒ‹ƒh¬Œ÷
-- ? ƒGƒ‰[ƒƒbƒZ[ƒW‚È‚µ
-- ? ƒQ[ƒ€‚ª³í‚É“®ì‚·‚é‚Í‚¸
+- ? ãƒ“ãƒ«ãƒ‰æˆåŠŸ
+- ? ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãªã—
+- ? ã‚²ãƒ¼ãƒ ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã¯ãš

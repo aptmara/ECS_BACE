@@ -1,6 +1,6 @@
 #pragma once
-#include "GfxDevice.h"
-#include "Camera.h"
+#include "graphics/GfxDevice.h"
+#include "graphics/Camera.h"
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
@@ -11,7 +11,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 
 // ========================================================
-// DebugDraw - ƒfƒoƒbƒO—p‚Ìü•`‰æƒVƒXƒeƒ€
+// DebugDraw - ï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½Ìï¿½ï¿½`ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½
 // ========================================================
 class DebugDraw {
 public:
@@ -21,9 +21,9 @@ public:
         DirectX::XMFLOAT3 color;
     };
 
-    // ‰Šú‰»
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     bool Init(GfxDevice& gfx) {
-        // ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹
+        // ï¿½Vï¿½Fï¿½[ï¿½_ï¿½[ï¿½ÌƒRï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½
         const char* VS = R"(
             cbuffer CB : register(b0) { float4x4 gVP; };
             struct VSIn { float3 pos : POSITION; float3 col : COLOR; };
@@ -72,7 +72,7 @@ public:
             return false;
         }
 
-        // “ü—ÍƒŒƒCƒAƒEƒg
+        // ï¿½ï¿½ï¿½Íƒï¿½ï¿½Cï¿½Aï¿½Eï¿½g
         D3D11_INPUT_ELEMENT_DESC il[] = {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,                            D3D11_INPUT_PER_VERTEX_DATA, 0 },
             { "COLOR",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
@@ -82,7 +82,7 @@ public:
             return false;
         }
 
-        // ’è”ƒoƒbƒtƒ@
+        // ï¿½è”ï¿½oï¿½bï¿½tï¿½@
         D3D11_BUFFER_DESC cbd{};
         cbd.ByteWidth = sizeof(DirectX::XMMATRIX);
         cbd.Usage = D3D11_USAGE_DEFAULT;
@@ -92,10 +92,10 @@ public:
             return false;
         }
 
-        // “®“I’¸“_ƒoƒbƒtƒ@iÅ‘å10000ü•ªj
+        // ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½_ï¿½oï¿½bï¿½tï¿½@ï¿½iï¿½Å‘ï¿½10000ï¿½ï¿½ï¿½ï¿½ï¿½j
         maxLines_ = 10000;
         D3D11_BUFFER_DESC vbd{};
-        vbd.ByteWidth = (UINT)(maxLines_ * 2 * sizeof(Vertex)); // 1ü•ª = 2’¸“_
+        vbd.ByteWidth = (UINT)(maxLines_ * 2 * sizeof(Vertex)); // 1ï¿½ï¿½ï¿½ï¿½ = 2ï¿½ï¿½ï¿½_
         vbd.Usage = D3D11_USAGE_DYNAMIC;
         vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -107,28 +107,28 @@ public:
         return true;
     }
 
-    // ü‚ğ’Ç‰Á
+    // ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
     void AddLine(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, const DirectX::XMFLOAT3& color) {
         lines_.push_back({ start, end, color });
     }
 
-    // ƒOƒŠƒbƒh‚ğ•`‰æ
+    // ï¿½Oï¿½ï¿½ï¿½bï¿½hï¿½ï¿½`ï¿½ï¿½
     void DrawGrid(float size = 10.0f, int divisions = 10, const DirectX::XMFLOAT3& color = {0.5f, 0.5f, 0.5f}) {
         float step = size / divisions;
         float halfSize = size * 0.5f;
 
-        // X-Z•½–Ê‚ÌƒOƒŠƒbƒh
+        // X-Zï¿½ï¿½ï¿½Ê‚ÌƒOï¿½ï¿½ï¿½bï¿½h
         for (int i = 0; i <= divisions; ++i) {
             float pos = -halfSize + i * step;
             
-            // Z²‚É•½s‚ÈüiX•ûŒü‚É•À‚Ôj
+            // Zï¿½ï¿½ï¿½É•ï¿½ï¿½sï¿½Èï¿½ï¿½iXï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½Ôj
             AddLine(
                 DirectX::XMFLOAT3{-halfSize, 0, pos},
                 DirectX::XMFLOAT3{ halfSize, 0, pos},
                 color
             );
             
-            // X²‚É•½s‚ÈüiZ•ûŒü‚É•À‚Ôj
+            // Xï¿½ï¿½ï¿½É•ï¿½ï¿½sï¿½Èï¿½ï¿½iZï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½Ôj
             AddLine(
                 DirectX::XMFLOAT3{pos, 0, -halfSize},
                 DirectX::XMFLOAT3{pos, 0,  halfSize},
@@ -137,23 +137,23 @@ public:
         }
     }
 
-    // À•W²‚ğ•`‰æ
+    // ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
     void DrawAxes(float length = 5.0f) {
-        // X²iÔj
+        // Xï¿½ï¿½ï¿½iï¿½Ôj
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{length, 0, 0},
             DirectX::XMFLOAT3{1, 0, 0}
         );
         
-        // Y²i—Îj
+        // Yï¿½ï¿½ï¿½iï¿½Îj
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, length, 0},
             DirectX::XMFLOAT3{0, 1, 0}
         );
         
-        // Z²iÂj
+        // Zï¿½ï¿½ï¿½iï¿½Âj
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, 0, length},
@@ -161,11 +161,11 @@ public:
         );
     }
 
-    // ‚·‚×‚Ä‚Ìü‚ğ•`‰æ
+    // ï¿½ï¿½ï¿½×‚Ä‚Ìï¿½ï¿½ï¿½`ï¿½ï¿½
     void Render(GfxDevice& gfx, const Camera& cam) {
         if (lines_.empty()) return;
 
-        // ’¸“_ƒf[ƒ^‚ğ€”õ
+        // ï¿½ï¿½ï¿½_ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         std::vector<Vertex> vertices;
         vertices.reserve(lines_.size() * 2);
         
@@ -174,14 +174,14 @@ public:
             vertices.push_back({ line.end, line.color });
         }
 
-        // ’¸“_ƒoƒbƒtƒ@‚ğXV
+        // ï¿½ï¿½ï¿½_ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½Xï¿½V
         D3D11_MAPPED_SUBRESOURCE mapped;
         if (SUCCEEDED(gfx.Ctx()->Map(vb_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped))) {
             memcpy(mapped.pData, vertices.data(), vertices.size() * sizeof(Vertex));
             gfx.Ctx()->Unmap(vb_.Get(), 0);
         }
 
-        // ƒpƒCƒvƒ‰ƒCƒ“İ’è
+        // ï¿½pï¿½Cï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½İ’ï¿½
         gfx.Ctx()->IASetInputLayout(layout_.Get());
         gfx.Ctx()->VSSetShader(vs_.Get(), nullptr, 0);
         gfx.Ctx()->PSSetShader(ps_.Get(), nullptr, 0);
@@ -192,15 +192,15 @@ public:
         gfx.Ctx()->IASetVertexBuffers(0, 1, vb_.GetAddressOf(), &stride, &offset);
         gfx.Ctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
-        // ’è”ƒoƒbƒtƒ@XViƒ[ƒ‹ƒhs—ñ‚Í’PˆÊs—ñj
+        // ï¿½è”ï¿½oï¿½bï¿½tï¿½@ï¿½Xï¿½Vï¿½iï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½sï¿½ï¿½Í’Pï¿½Êsï¿½ï¿½j
         DirectX::XMMATRIX VP = DirectX::XMMatrixTranspose(cam.View * cam.Proj);
         gfx.Ctx()->UpdateSubresource(cb_.Get(), 0, nullptr, &VP, 0, 0);
 
-        // •`‰æ
+        // ï¿½`ï¿½ï¿½
         gfx.Ctx()->Draw((UINT)vertices.size(), 0);
     }
 
-    // ƒtƒŒ[ƒ€I—¹‚ÉƒNƒŠƒA
+    // ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ÉƒNï¿½ï¿½ï¿½A
     void Clear() {
         lines_.clear();
     }

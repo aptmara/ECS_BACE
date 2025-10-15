@@ -1,17 +1,17 @@
 // ========================================================
 // Simple ECS + DirectX11 Minimal Example (VS2022, C++14)
-// ƒtƒ@ƒCƒ‹–¼: main.cpp - ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg
+// ãƒ•ã‚¡ã‚¤ãƒ«å: main.cpp - ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 // ========================================================
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
-#include "App.h"
+#include "app/App.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 
 // ========================================================
-// ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg
+// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 // ========================================================
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int) {
     App app;

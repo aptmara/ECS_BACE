@@ -8,11 +8,11 @@
 #include <cstdio>
 
 // ========================================================
-// GfxDevice - DirectX11ƒfƒoƒCƒXŠÇ—ƒNƒ‰ƒX
+// GfxDevice - DirectX11ï¿½fï¿½oï¿½Cï¿½Xï¿½Ç—ï¿½ï¿½Nï¿½ï¿½ï¿½X
 // ========================================================
 class GfxDevice {
 public:
-    // ‰Šú‰»
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     bool Init(HWND hwnd, uint32_t w, uint32_t h) {
         width_ = w;
         height_ = h;
@@ -43,7 +43,7 @@ public:
             context_.ReleaseAndGetAddressOf());
         
         if (FAILED(hr)) {
-            // ƒGƒ‰[‚ÌÚ×‚ğƒƒOo—Í
+            // ï¿½Gï¿½ï¿½ï¿½[ï¿½ÌÚ×‚ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
             char errorMsg[256];
             sprintf_s(errorMsg, 
                 "Failed to create D3D11 device.\nHRESULT: 0x%08X\n"
@@ -58,7 +58,7 @@ public:
         return createBackbufferResources();
     }
 
-    // ƒtƒŒ[ƒ€ŠJni‰æ–ÊƒNƒŠƒAj
+    // ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½iï¿½ï¿½ÊƒNï¿½ï¿½ï¿½Aï¿½j
     void BeginFrame(float r = 0.1f, float g = 0.1f, float b = 0.12f, float a = 1.0f) {
         float c[4] = { r, g, b, a };
         context_->OMSetRenderTargets(1, rtv_.GetAddressOf(), dsv_.Get());
@@ -75,22 +75,22 @@ public:
         context_->RSSetViewports(1, &vp);
     }
 
-    // ƒtƒŒ[ƒ€I—¹i‰æ–Ê•\¦j
+    // ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½iï¿½ï¿½Ê•\ï¿½ï¿½ï¿½j
     void EndFrame() {
         swap_->Present(1, 0);
     }
 
-    // ƒfƒoƒCƒXƒAƒNƒZƒX
+    // ï¿½fï¿½oï¿½Cï¿½Xï¿½Aï¿½Nï¿½Zï¿½X
     ID3D11Device* Dev() const { return device_.Get(); }
     ID3D11DeviceContext* Ctx() const { return context_.Get(); }
 
-    // ƒTƒCƒYæ“¾
+    // ï¿½Tï¿½Cï¿½Yï¿½æ“¾
     uint32_t Width() const { return width_; }
     uint32_t Height() const { return height_; }
     
-    // ƒfƒXƒgƒ‰ƒNƒ^‚ÅƒŠƒ\[ƒX‚ğ–¾¦“I‚É‰ğ•ú
+    // ï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Åƒï¿½ï¿½\ï¿½[ï¿½Xï¿½ğ–¾ï¿½ï¿½Iï¿½É‰ï¿½ï¿½
     ~GfxDevice() {
-        // ComPtr‚Í©“®‚Å‰ğ•ú‚³‚ê‚é‚ªA”O‚Ì‚½‚ß–¾¦“I‚ÉƒŠƒZƒbƒg
+        // ComPtrï¿½Íï¿½ï¿½ï¿½ï¿½Å‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚ªï¿½Aï¿½Oï¿½Ì‚ï¿½ï¿½ß–ï¿½ï¿½ï¿½ï¿½Iï¿½Éƒï¿½ï¿½Zï¿½bï¿½g
         dsv_.Reset();
         rtv_.Reset();
         swap_.Reset();
@@ -99,7 +99,7 @@ public:
     }
 
 private:
-    // ƒoƒbƒNƒoƒbƒtƒ@ƒŠƒ\[ƒX‚Ìì¬
+    // ï¿½oï¿½bï¿½Nï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½Ìì¬
     bool createBackbufferResources() {
         Microsoft::WRL::ComPtr<ID3D11Texture2D> back;
         HRESULT hr = swap_->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)back.GetAddressOf());
@@ -114,7 +114,7 @@ private:
             return false;
         }
 
-        // [“xƒXƒeƒ“ƒVƒ‹ƒoƒbƒtƒ@
+        // ï¿½[ï¿½xï¿½Xï¿½eï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@
         D3D11_TEXTURE2D_DESC td{};
         td.Width = width_;
         td.Height = height_;
@@ -141,7 +141,7 @@ private:
         return true;
     }
 
-    // ƒƒ“ƒo•Ï”
+    // ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Ïï¿½
     uint32_t width_ = 0, height_ = 0;
     Microsoft::WRL::ComPtr<ID3D11Device> device_;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> context_;

@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 // ========================================================
-// App.h - ƒ~ƒjƒQ[ƒ€”ÅƒAƒvƒŠƒP[ƒVƒ‡ƒ“
+// App.h - ï¿½~ï¿½jï¿½Qï¿½[ï¿½ï¿½ï¿½ÅƒAï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
 // ========================================================
-// yƒQ[ƒ€“à—ezƒVƒ“ƒvƒ‹‚ÈƒVƒ…[ƒeƒBƒ“ƒOƒQ[ƒ€
-// y‘€ì•û–@zA/D: ˆÚ“®AƒXƒy[ƒX: ’e”­ËAESC: I—¹
+// ï¿½yï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½zï¿½Vï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ÈƒVï¿½ï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½Qï¿½[ï¿½ï¿½
+// ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½zA/D: ï¿½Ú“ï¿½ï¿½Aï¿½Xï¿½yï¿½[ï¿½X: ï¿½eï¿½ï¿½ï¿½ËAESC: ï¿½Iï¿½ï¿½
 // ========================================================
 
 #define WIN32_LEAN_AND_MEAN
@@ -14,41 +14,41 @@
 #include <chrono>
 #include <sstream>
 
-// DirectX11 & ECS ƒVƒXƒeƒ€
-#include "GfxDevice.h"
-#include "RenderSystem.h"
-#include "World.h"
-#include "Camera.h"
-#include "InputSystem.h"
-#include "TextureManager.h"
-#include "DebugDraw.h"
+// DirectX11 & ECS ï¿½Vï¿½Xï¿½eï¿½ï¿½
+#include "graphics/GfxDevice.h"
+#include "graphics/RenderSystem.h"
+#include "ecs/World.h"
+#include "graphics/Camera.h"
+#include "input/InputSystem.h"
+#include "graphics/TextureManager.h"
+#include "graphics/DebugDraw.h"
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒg
-#include "Transform.h"
-#include "MeshRenderer.h"
+// ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½g
+#include "components/Transform.h"
+#include "components/MeshRenderer.h"
 
-// ƒQ[ƒ€ƒVƒXƒeƒ€
-#include "SceneManager.h"
-#include "MiniGame.h"
+// ï¿½Qï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½
+#include "scenes/SceneManager.h"
+#include "scenes/MiniGame.h"
 
 // ========================================================
-// App - ƒ~ƒjƒQ[ƒ€ƒAƒvƒŠƒP[ƒVƒ‡ƒ“
+// App - ï¿½~ï¿½jï¿½Qï¿½[ï¿½ï¿½ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
 // ========================================================
 struct App {
-    // WindowsŠÖ˜A
+    // Windowsï¿½Ö˜A
     HWND hwnd_ = nullptr;
     
-    // DirectX11ƒVƒXƒeƒ€
+    // DirectX11ï¿½Vï¿½Xï¿½eï¿½ï¿½
     GfxDevice gfx_;
     RenderSystem renderer_;
     TextureManager texManager_;
     
-    // ECSƒVƒXƒeƒ€
+    // ECSï¿½Vï¿½Xï¿½eï¿½ï¿½
     World world_;
     Camera camera_;
     InputSystem input_;
     
-    // ƒV[ƒ“ŠÇ—
+    // ï¿½Vï¿½[ï¿½ï¿½ï¿½Ç—ï¿½
     SceneManager sceneManager_;
     GameScene* gameScene_ = nullptr;
     
@@ -57,7 +57,7 @@ struct App {
 #endif
 
     // ========================================================
-    // ‰Šú‰»
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     // ========================================================
     bool Init(HINSTANCE hInst, int width = 1280, int height = 720) {
         CoInitializeEx(nullptr, COINIT_MULTITHREADED);
@@ -72,43 +72,43 @@ struct App {
 
         SetupCamera(width, height);
         
-        // ƒQ[ƒ€ƒV[ƒ“‚Ì‰Šú‰»
+        // ï¿½Qï¿½[ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
         InitializeGame();
 
         return true;
     }
 
     // ========================================================
-    // ƒƒCƒ“ƒ‹[ƒv
+    // ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
     // ========================================================
     void Run() {
         MSG msg{};
         auto previousTime = std::chrono::high_resolution_clock::now();
         
         while (msg.message != WM_QUIT) {
-            // WindowsƒƒbƒZ[ƒWˆ—
+            // Windowsï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
             if (ProcessWindowsMessages(msg)) {
                 continue;
             }
             
-            // ŠÔ‚ÌŒvZ
+            // ï¿½ï¿½ï¿½Ô‚ÌŒvï¿½Z
             float deltaTime = CalculateDeltaTime(previousTime);
             
-            // “ü—Í‚ÌXV
+            // ï¿½ï¿½ï¿½Í‚ÌXï¿½V
             input_.Update();
             
-            // ESCƒL[‚ÅI—¹
+            // ESCï¿½Lï¿½[ï¿½ÅIï¿½ï¿½
             if (input_.GetKeyDown(VK_ESCAPE)) {
                 PostQuitMessage(0);
             }
             
-            // ƒV[ƒ“‚ÌXV
+            // ï¿½Vï¿½[ï¿½ï¿½ï¿½ÌXï¿½V
             sceneManager_.Update(world_, input_, deltaTime);
             
-            // ‰æ–Ê‚Ì•`‰æ
+            // ï¿½ï¿½Ê‚Ì•`ï¿½ï¿½
             RenderFrame();
             
-            // ƒEƒBƒ“ƒhƒEƒ^ƒCƒgƒ‹‚ÉƒXƒRƒA•\¦
+            // ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ÉƒXï¿½Rï¿½Aï¿½\ï¿½ï¿½
             UpdateWindowTitle();
         }
     }
@@ -119,7 +119,7 @@ struct App {
 
 private:
     // ========================================================
-    // ‰Šú‰»ƒwƒ‹ƒp[
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½pï¿½[
     // ========================================================
     
     bool CreateAppWindow(HINSTANCE hInst, int width, int height) {
@@ -139,7 +139,7 @@ private:
         
         hwnd_ = CreateWindowW(
             wc.lpszClassName,
-            L"ƒVƒ…[ƒeƒBƒ“ƒOƒQ[ƒ€ - A/D:ˆÚ“® ƒXƒy[ƒX:”­Ë ESC:I—¹",
+            L"ï¿½Vï¿½ï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½Qï¿½[ï¿½ï¿½ - A/D:ï¿½Ú“ï¿½ ï¿½Xï¿½yï¿½[ï¿½X:ï¿½ï¿½ï¿½ï¿½ ESC:ï¿½Iï¿½ï¿½",
             WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, CW_USEDEFAULT,
             rc.right - rc.left, rc.bottom - rc.top,
@@ -156,17 +156,17 @@ private:
 
     bool InitializeGraphics(int width, int height) {
         if (!gfx_.Init(hwnd_, width, height)) {
-            MessageBoxA(nullptr, "DirectX11‚Ì‰Šú‰»‚É¸”s", "ƒGƒ‰[", MB_OK | MB_ICONERROR);
+            MessageBoxA(nullptr, "DirectX11ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½s", "ï¿½Gï¿½ï¿½ï¿½[", MB_OK | MB_ICONERROR);
             return false;
         }
         
         if (!texManager_.Init(gfx_)) {
-            MessageBoxA(nullptr, "TextureManager‚Ì‰Šú‰»‚É¸”s", "ƒGƒ‰[", MB_OK | MB_ICONERROR);
+            MessageBoxA(nullptr, "TextureManagerï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½s", "ï¿½Gï¿½ï¿½ï¿½[", MB_OK | MB_ICONERROR);
             return false;
         }
         
         if (!renderer_.Init(gfx_, texManager_)) {
-            MessageBoxA(nullptr, "RenderSystem‚Ì‰Šú‰»‚É¸”s", "ƒGƒ‰[", MB_OK | MB_ICONERROR);
+            MessageBoxA(nullptr, "RenderSystemï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½s", "ï¿½Gï¿½ï¿½ï¿½[", MB_OK | MB_ICONERROR);
             return false;
         }
 
@@ -174,7 +174,7 @@ private:
 
 #ifdef _DEBUG
         if (!debugDraw_.Init(gfx_)) {
-            MessageBoxA(nullptr, "DebugDraw‚Ì‰Šú‰»‚É¸”s", "Œx", MB_OK | MB_ICONWARNING);
+            MessageBoxA(nullptr, "DebugDrawï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½s", "ï¿½xï¿½ï¿½", MB_OK | MB_ICONWARNING);
         }
 #endif
 
@@ -189,23 +189,23 @@ private:
             aspectRatio,
             0.1f,
             100.0f,
-            DirectX::XMFLOAT3{ 0, 0, -20 },  // ƒJƒƒ‰‚ğˆø‚¢‚Ä‘S‘Ì‚ªŒ©‚¦‚é‚æ‚¤‚É
+            DirectX::XMFLOAT3{ 0, 0, -20 },  // ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‘Sï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½ï¿½
             DirectX::XMFLOAT3{ 0, 0, 0 },
             DirectX::XMFLOAT3{ 0, 1, 0 }
         );
     }
     
     void InitializeGame() {
-        // ƒQ[ƒ€ƒV[ƒ“‚ğì¬
+        // ï¿½Qï¿½[ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ì¬
         gameScene_ = new GameScene();
         
-        // ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‚É“o˜^
+        // ï¿½Vï¿½[ï¿½ï¿½ï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½É“oï¿½^
         sceneManager_.RegisterScene("Game", gameScene_);
         sceneManager_.Init(gameScene_, world_);
     }
 
     // ========================================================
-    // ƒƒCƒ“ƒ‹[ƒv‚Ìƒwƒ‹ƒp[
+    // ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½Ìƒwï¿½ï¿½ï¿½pï¿½[
     // ========================================================
     
     bool ProcessWindowsMessages(MSG& msg) {
@@ -243,8 +243,8 @@ private:
     void UpdateWindowTitle() {
         if (gameScene_) {
             std::wstringstream ss;
-            ss << L"ƒVƒ…[ƒeƒBƒ“ƒOƒQ[ƒ€ - ƒXƒRƒA: " << gameScene_->GetScore()
-               << L" | A/D:ˆÚ“® ƒXƒy[ƒX:”­Ë ESC:I—¹";
+            ss << L"ï¿½Vï¿½ï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½Qï¿½[ï¿½ï¿½ - ï¿½Xï¿½Rï¿½A: " << gameScene_->GetScore()
+               << L" | A/D:ï¿½Ú“ï¿½ ï¿½Xï¿½yï¿½[ï¿½X:ï¿½ï¿½ï¿½ï¿½ ESC:ï¿½Iï¿½ï¿½";
             SetWindowTextW(hwnd_, ss.str().c_str());
         }
     }
@@ -258,7 +258,7 @@ private:
 #endif
 
     // ========================================================
-    // WindowsƒƒbƒZ[ƒWˆ—
+    // Windowsï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
     // ========================================================
     
     static LRESULT CALLBACK WndProcStatic(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
@@ -295,6 +295,6 @@ private:
 };
 
 // ========================================================
-// ì¬Ò: R“à—z
-// ƒo[ƒWƒ‡ƒ“: v5.0 - ƒ~ƒjƒQ[ƒ€À‘•”Åi‰Â“Ç«Åd‹j
+// ï¿½ì¬ï¿½ï¿½: ï¿½Rï¿½ï¿½ï¿½z
+// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½: v5.0 - ï¿½~ï¿½jï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åiï¿½Â“Çï¿½ï¿½Ådï¿½ï¿½ï¿½j
 // ========================================================

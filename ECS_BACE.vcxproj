@@ -76,6 +76,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -90,6 +92,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -102,6 +106,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -116,6 +122,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,35 +131,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="App.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ComponentSamples.h" />
-    <ClInclude Include="DebugDraw.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="GfxDevice.h" />
-    <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="MiniGame.h" />
-    <ClInclude Include="RenderSystem.h" />
-    <ClInclude Include="Rotator.h" />
-    <ClInclude Include="SampleScenes.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="VideoPlayer.h" />
-    <ClInclude Include="World.h" />
+    <ClInclude Include="include\animation\Animation.h" />
+    <ClInclude Include="include\app\App.h" />
+    <ClInclude Include="include\graphics\Camera.h" />
+    <ClInclude Include="include\components\Component.h" />
+    <ClInclude Include="include\samples\ComponentSamples.h" />
+    <ClInclude Include="include\graphics\DebugDraw.h" />
+    <ClInclude Include="include\ecs\Entity.h" />
+    <ClInclude Include="include\graphics\GfxDevice.h" />
+    <ClInclude Include="include\input\InputSystem.h" />
+    <ClInclude Include="include\components\MeshRenderer.h" />
+    <ClInclude Include="include\scenes\MiniGame.h" />
+    <ClInclude Include="include\graphics\RenderSystem.h" />
+    <ClInclude Include="include\components\Rotator.h" />
+    <ClInclude Include="include\scenes\SampleScenes.h" />
+    <ClInclude Include="include\scenes\SceneManager.h" />
+    <ClInclude Include="include\graphics\TextureManager.h" />
+    <ClInclude Include="include\components\Transform.h" />
+    <ClInclude Include="include\graphics\VideoPlayer.h" />
+    <ClInclude Include="include\ecs\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BUG_FIX_ITERATOR_INVALIDATION.md" />
-    <None Include="CHANGELOG_v3.md" />
-    <None Include="CHANGELOG_v4.md" />
-    <None Include="LEARNING_GUIDE.md" />
-    <None Include="QUICK_REFERENCE.md" />
+    <None Include="Assets\Textures\test.png" />
+    <None Include="Assets\Videos\video.mp4" />
+    <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
+    <None Include="docs\CHANGELOG_v3.md" />
+    <None Include="docs\CHANGELOG_v4.md" />
+    <None Include="docs\LEARNING_GUIDE.md" />
+    <None Include="docs\QUICK_REFERENCE.md" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

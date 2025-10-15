@@ -1,10 +1,10 @@
 #pragma once
-#include "GfxDevice.h"
-#include "Camera.h"
-#include "World.h"
-#include "Transform.h"
-#include "MeshRenderer.h"
-#include "TextureManager.h"
+#include "graphics/GfxDevice.h"
+#include "graphics/Camera.h"
+#include "ecs/World.h"
+#include "components/Transform.h"
+#include "components/MeshRenderer.h"
+#include "graphics/TextureManager.h"
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
@@ -14,36 +14,36 @@
 #pragma comment(lib, "d3dcompiler.lib")
 
 // ========================================================
-// RenderSystem - ƒeƒNƒXƒ`ƒƒ‘Î‰ƒŒƒ“ƒ_ƒŠƒ“ƒOƒVƒXƒeƒ€
+// RenderSystem - ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Vï¿½Xï¿½eï¿½ï¿½
 // ========================================================
 struct RenderSystem {
-    // ƒpƒCƒvƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg
+    // ï¿½pï¿½Cï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
     Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;
     Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;
     Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;
-    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_; // ’è”ƒoƒbƒtƒ@
-    Microsoft::WRL::ComPtr<ID3D11Buffer> vb_; // ’¸“_ƒoƒbƒtƒ@
-    Microsoft::WRL::ComPtr<ID3D11Buffer> ib_; // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_; // ï¿½è”ï¿½oï¿½bï¿½tï¿½@
+    Microsoft::WRL::ComPtr<ID3D11Buffer> vb_; // ï¿½ï¿½ï¿½_ï¿½oï¿½bï¿½tï¿½@
+    Microsoft::WRL::ComPtr<ID3D11Buffer> ib_; // ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½oï¿½bï¿½tï¿½@
     Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterState_;
     Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState_;
     UINT indexCount_ = 0;
 
     TextureManager* texManager_ = nullptr;
 
-    // ’¸“_ƒVƒF[ƒ_[’è”ƒoƒbƒtƒ@
+    // ï¿½ï¿½ï¿½_ï¿½Vï¿½Fï¿½[ï¿½_ï¿½[ï¿½è”ï¿½oï¿½bï¿½tï¿½@
     struct VSConstants {
         DirectX::XMMATRIX WVP;
         DirectX::XMFLOAT4 uvTransform; // xy=offset, zw=scale
     };
 
-    // ƒsƒNƒZƒ‹ƒVƒF[ƒ_[’è”ƒoƒbƒtƒ@
+    // ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½Vï¿½Fï¿½[ï¿½_ï¿½[ï¿½è”ï¿½oï¿½bï¿½tï¿½@
     struct PSConstants {
         DirectX::XMFLOAT4 color;
-        float useTexture; // 0=ƒJƒ‰[, 1=ƒeƒNƒXƒ`ƒƒ
+        float useTexture; // 0=ï¿½Jï¿½ï¿½ï¿½[, 1=ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½
         float padding[3];
     };
 
-    Microsoft::WRL::ComPtr<ID3D11Buffer> psCb_; // PS‚Ì’è”ƒoƒbƒtƒ@
+    Microsoft::WRL::ComPtr<ID3D11Buffer> psCb_; // PSï¿½Ì’è”ï¿½oï¿½bï¿½tï¿½@
 
     ~RenderSystem() {
         vs_.Reset();
@@ -60,7 +60,7 @@ struct RenderSystem {
     bool Init(GfxDevice& gfx, TextureManager& texMgr) {
         texManager_ = &texMgr;
 
-        // ƒeƒNƒXƒ`ƒƒ‘Î‰ƒVƒF[ƒ_[
+        // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Î‰ï¿½ï¿½Vï¿½Fï¿½[ï¿½_ï¿½[
         const char* VS = R"(
             cbuffer CB : register(b0) { 
                 float4x4 gWVP; 
@@ -131,7 +131,7 @@ struct RenderSystem {
             return false;
         }
 
-        // “ü—ÍƒŒƒCƒAƒEƒgiPosition + TexCoordj
+        // ï¿½ï¿½ï¿½Íƒï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½iPosition + TexCoordï¿½j
         D3D11_INPUT_ELEMENT_DESC il[] = {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,                            D3D11_INPUT_PER_VERTEX_DATA, 0 },
             { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
@@ -140,7 +140,7 @@ struct RenderSystem {
             return false;
         }
 
-        // VS’è”ƒoƒbƒtƒ@
+        // VSï¿½è”ï¿½oï¿½bï¿½tï¿½@
         D3D11_BUFFER_DESC cbd{};
         cbd.ByteWidth = sizeof(VSConstants);
         cbd.Usage = D3D11_USAGE_DEFAULT;
@@ -149,13 +149,13 @@ struct RenderSystem {
             return false;
         }
 
-        // PS’è”ƒoƒbƒtƒ@
+        // PSï¿½è”ï¿½oï¿½bï¿½tï¿½@
         cbd.ByteWidth = sizeof(PSConstants);
         if (FAILED(gfx.Dev()->CreateBuffer(&cbd, nullptr, psCb_.GetAddressOf()))) {
             return false;
         }
 
-        // ƒTƒ“ƒvƒ‰[ƒXƒe[ƒg
+        // ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½Xï¿½eï¿½[ï¿½g
         D3D11_SAMPLER_DESC sampDesc{};
         sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
         sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -169,7 +169,7 @@ struct RenderSystem {
             return false;
         }
 
-        // ƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒg
+        // ï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Cï¿½Uï¿½Xï¿½eï¿½[ï¿½g
         D3D11_RASTERIZER_DESC rsd{};
         rsd.FillMode = D3D11_FILL_SOLID;
         rsd.CullMode = D3D11_CULL_BACK;
@@ -179,22 +179,22 @@ struct RenderSystem {
             return false;
         }
 
-        // ƒWƒIƒƒgƒŠiUVÀ•W•t‚«ƒLƒ…[ƒuj
+        // ï¿½Wï¿½Iï¿½ï¿½ï¿½gï¿½ï¿½ï¿½iUVï¿½ï¿½ï¿½Wï¿½tï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½[ï¿½uï¿½j
         struct V { DirectX::XMFLOAT3 pos; DirectX::XMFLOAT2 tex; };
         const float c = 0.5f;
         V verts[] = {
-            // ”w–Ê
+            // ï¿½wï¿½ï¿½
             {{-c,-c,-c}, {0,1}}, {{-c,+c,-c}, {0,0}}, {{+c,+c,-c}, {1,0}}, {{+c,-c,-c}, {1,1}},
-            // ‘O–Ê
+            // ï¿½Oï¿½ï¿½
             {{-c,-c,+c}, {1,1}}, {{-c,+c,+c}, {1,0}}, {{+c,+c,+c}, {0,0}}, {{+c,-c,+c}, {0,1}},
         };
         uint16_t idx[] = {
-            0,1,2, 0,2,3,  // ”w–Ê
-            4,6,5, 4,7,6,  // ‘O–Ê
-            4,5,1, 4,1,0,  // ¶
-            3,2,6, 3,6,7,  // ‰E
-            1,5,6, 1,6,2,  // ã
-            4,0,3, 4,3,7   // ‰º
+            0,1,2, 0,2,3,  // ï¿½wï¿½ï¿½
+            4,6,5, 4,7,6,  // ï¿½Oï¿½ï¿½
+            4,5,1, 4,1,0,  // ï¿½ï¿½
+            3,2,6, 3,6,7,  // ï¿½E
+            1,5,6, 1,6,2,  // ï¿½ï¿½
+            4,0,3, 4,3,7   // ï¿½ï¿½
         };
         indexCount_ = (UINT)(sizeof(idx) / sizeof(idx[0]));
 
@@ -238,7 +238,7 @@ struct RenderSystem {
             auto* t = w.TryGet<Transform>(e);
             if (!t) return;
 
-            // ƒ[ƒ‹ƒhs—ñ
+            // ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½sï¿½ï¿½
             DirectX::XMMATRIX S = DirectX::XMMatrixScaling(t->scale.x, t->scale.y, t->scale.z);
             DirectX::XMMATRIX R = DirectX::XMMatrixRotationRollPitchYaw(
                 DirectX::XMConvertToRadians(t->rotation.x),
@@ -247,19 +247,19 @@ struct RenderSystem {
             DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(t->position.x, t->position.y, t->position.z);
             DirectX::XMMATRIX W = S * R * T;
 
-            // VS’è”ƒoƒbƒtƒ@
+            // VSï¿½è”ï¿½oï¿½bï¿½tï¿½@
             VSConstants vsCbuf;
             vsCbuf.WVP = DirectX::XMMatrixTranspose(W * cam.View * cam.Proj);
             vsCbuf.uvTransform = DirectX::XMFLOAT4{ mr.uvOffset.x, mr.uvOffset.y, mr.uvScale.x, mr.uvScale.y };
             gfx.Ctx()->UpdateSubresource(cb_.Get(), 0, nullptr, &vsCbuf, 0, 0);
 
-            // PS’è”ƒoƒbƒtƒ@
+            // PSï¿½è”ï¿½oï¿½bï¿½tï¿½@
             PSConstants psCbuf;
             psCbuf.color = DirectX::XMFLOAT4{ mr.color.x, mr.color.y, mr.color.z, 1.0f };
             psCbuf.useTexture = (mr.texture != TextureManager::INVALID_TEXTURE) ? 1.0f : 0.0f;
             gfx.Ctx()->UpdateSubresource(psCb_.Get(), 0, nullptr, &psCbuf, 0, 0);
 
-            // ƒeƒNƒXƒ`ƒƒİ’è
+            // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½İ’ï¿½
             if (mr.texture != TextureManager::INVALID_TEXTURE && texManager_) {
                 ID3D11ShaderResourceView* srv = texManager_->GetSRV(mr.texture);
                 if (srv) {

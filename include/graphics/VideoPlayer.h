@@ -1,8 +1,8 @@
 #pragma once
-#include "GfxDevice.h"
-#include "Component.h"
-#include "Entity.h"
-#include "World.h"
+#include "graphics/GfxDevice.h"
+#include "components/Component.h"
+#include "ecs/Entity.h"
+#include "ecs/World.h"
 #include <d3d11.h>
 #include <mfapi.h>
 #include <mfidl.h>
@@ -18,12 +18,12 @@
 #pragma comment(lib, "mfuuid.lib")
 
 // ========================================================
-// VideoPlayer - “®‰æÄ¶ƒVƒXƒeƒ€
+// VideoPlayer - ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½
 // ========================================================
 class VideoPlayer {
 public:
     bool Init() {
-        // Media Foundation‰Šú‰»
+        // Media Foundationï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         HRESULT hr = MFStartup(MF_VERSION);
         if (FAILED(hr)) {
             MessageBoxA(nullptr, "Failed to initialize Media Foundation", "Video Error", MB_OK | MB_ICONERROR);
@@ -37,15 +37,15 @@ public:
         MFShutdown();
     }
 
-    // “®‰æƒtƒ@ƒCƒ‹‚ğŠJ‚­
+    // ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½
     bool Open(GfxDevice& gfx, const char* filepath) {
         gfx_ = &gfx;
         
-        // ƒƒCƒh•¶š—ñ‚É•ÏŠ·
+        // ï¿½ï¿½ï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ÏŠï¿½
         wchar_t wpath[MAX_PATH];
         MultiByteToWideChar(CP_ACP, 0, filepath, -1, wpath, MAX_PATH);
 
-        // ƒ\[ƒXƒŠ[ƒ_[‚ğì¬
+        // ï¿½\ï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½_ï¿½[ï¿½ï¿½ï¿½ì¬
         Microsoft::WRL::ComPtr<IMFAttributes> attributes;
         HRESULT hr = MFCreateAttributes(&attributes, 1);
         if (FAILED(hr)) return false;
@@ -61,11 +61,11 @@ public:
             return false;
         }
 
-        // ƒrƒfƒIƒXƒgƒŠ[ƒ€‚ğ‘I‘ğ
+        // ï¿½rï¿½fï¿½Iï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
         hr = reader_->SetStreamSelection((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM, TRUE);
         if (FAILED(hr)) return false;
 
-        // o—ÍƒƒfƒBƒAƒ^ƒCƒv‚ğİ’èiRGB32j
+        // ï¿½oï¿½Íƒï¿½ï¿½fï¿½Bï¿½Aï¿½^ï¿½Cï¿½vï¿½ï¿½İ’ï¿½iRGB32ï¿½j
         Microsoft::WRL::ComPtr<IMFMediaType> mediaType;
         hr = MFCreateMediaType(&mediaType);
         if (FAILED(hr)) return false;
@@ -79,7 +79,7 @@ public:
         hr = reader_->SetCurrentMediaType((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM, nullptr, mediaType.Get());
         if (FAILED(hr)) return false;
 
-        // “®‰æƒTƒCƒY‚Æ’·‚³‚ğæ“¾
+        // ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½Æ’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
         Microsoft::WRL::ComPtr<IMFMediaType> currentType;
         hr = reader_->GetCurrentMediaType((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM, &currentType);
         if (FAILED(hr)) return false;
@@ -91,20 +91,20 @@ public:
         width_ = w;
         height_ = h;
 
-        // “®“IƒeƒNƒXƒ`ƒƒ‚ğì¬
+        // ï¿½ï¿½ï¿½Iï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ì¬
         if (!createVideoTexture()) return false;
 
         isOpen_ = true;
         return true;
     }
 
-    // ƒtƒŒ[ƒ€‚ğXV
+    // ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
     bool Update(float dt) {
         if (!isOpen_ || !isPlaying_) return false;
 
         currentTime_ += dt;
 
-        // ƒtƒŒ[ƒ€‚ğ“Ç‚İ‚İ
+        // ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
         DWORD streamFlags = 0;
         LONGLONG timestamp = 0;
         Microsoft::WRL::ComPtr<IMFSample> sample;
@@ -120,10 +120,10 @@ public:
 
         if (FAILED(hr)) return false;
 
-        // ƒXƒgƒŠ[ƒ€‚ÌI’[
+        // ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌIï¿½[
         if (streamFlags & MF_SOURCE_READERF_ENDOFSTREAM) {
             if (loop_) {
-                // ƒ‹[ƒvÄ¶
+                // ï¿½ï¿½ï¿½[ï¿½vï¿½Äï¿½
                 PROPVARIANT var{};
                 var.vt = VT_I8;
                 var.hVal.QuadPart = 0;
@@ -138,7 +138,7 @@ public:
 
         if (!sample) return true;
 
-        // ƒTƒ“ƒvƒ‹‚©‚çƒoƒbƒtƒ@‚ğæ“¾
+        // ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½æ“¾
         Microsoft::WRL::ComPtr<IMFMediaBuffer> buffer;
         hr = sample->ConvertToContiguousBuffer(&buffer);
         if (FAILED(hr)) return false;
@@ -148,11 +148,11 @@ public:
         hr = buffer->Lock(&data, nullptr, &length);
         if (FAILED(hr)) return false;
 
-        // ƒeƒNƒXƒ`ƒƒ‚ğXV
+        // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
         D3D11_MAPPED_SUBRESOURCE mapped;
         hr = gfx_->Ctx()->Map(videoTexture_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
         if (SUCCEEDED(hr)) {
-            // ƒf[ƒ^‚ğƒRƒs[
+            // ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Rï¿½sï¿½[
             uint8_t* dest = static_cast<uint8_t*>(mapped.pData);
             uint8_t* src = data;
             
@@ -169,12 +169,12 @@ public:
         return true;
     }
 
-    // Ä¶E’â~
+    // ï¿½Äï¿½ï¿½Eï¿½ï¿½~
     void Play() { isPlaying_ = true; }
     void Stop() { isPlaying_ = false; }
     void SetLoop(bool loop) { loop_ = loop; }
 
-    // ƒeƒNƒXƒ`ƒƒ‚ğæ“¾
+    // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
     ID3D11ShaderResourceView* GetSRV() const { return videoSRV_.Get(); }
 
     bool IsPlaying() const { return isPlaying_; }
@@ -228,10 +228,10 @@ private:
 };
 
 // ========================================================
-// VideoPlayback - “®‰æÄ¶ƒRƒ“ƒ|[ƒlƒ“ƒg
+// VideoPlayback - ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½g
 // ========================================================
 struct VideoPlayback : Behaviour {
-    VideoPlayer* player = nullptr; // VideoPlayer‚Ö‚Ìƒ|ƒCƒ“ƒ^
+    VideoPlayer* player = nullptr; // VideoPlayerï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^
     bool autoPlay = true;
 
     void OnStart(World& w, Entity self) override {
