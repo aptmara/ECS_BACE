@@ -1,3 +1,8 @@
+/**
+ * @file GfxDevice.h
+ * @brief DirectX11デバイス管理クラス
+ * @details DirectX11の初期化、デバイス・コンテキストの管理、描画フレームの制御を行います
+ */
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -7,12 +12,22 @@
 #include <cstdint>
 #include <cstdio>
 
-// ========================================================
-// GfxDevice - DirectX11�f�o�C�X�Ǘ��N���X
-// ========================================================
+/**
+ * @class GfxDevice
+ * @brief DirectX11デバイス管理クラス
+ * @details 
+ * DirectX11のデバイス、スワップチェイン、レンダーターゲット、深度バッファなどを管理し、
+ * 描画フレームの開始・終了を制御します。
+ */
 class GfxDevice {
 public:
-    // ������
+    /**
+     * @brief 初期化
+     * @param[in] hwnd ウィンドウハンドル
+     * @param[in] w 幅
+     * @param[in] h 高さ
+     * @return bool 初期化が成功した場合は true
+     */
     bool Init(HWND hwnd, uint32_t w, uint32_t h) {
         width_ = w;
         height_ = h;
@@ -43,7 +58,7 @@ public:
             context_.ReleaseAndGetAddressOf());
         
         if (FAILED(hr)) {
-            // �G���[�̏ڍׂ����O�o��
+            // エラーの詳細をログ出力
             char errorMsg[256];
             sprintf_s(errorMsg, 
                 "Failed to create D3D11 device.\nHRESULT: 0x%08X\n"
@@ -58,7 +73,13 @@ public:
         return createBackbufferResources();
     }
 
-    // �t���[���J�n�i��ʃN���A�j
+    /**
+     * @brief フレーム開始（画面クリア）
+     * @param[in] r 赤成分（デフォルト: 0.1f）
+     * @param[in] g 緑成分（デフォルト: 0.1f）
+     * @param[in] b 青成分（デフォルト: 0.12f）
+     * @param[in] a アルファ成分（デフォルト: 1.0f）
+     */
     void BeginFrame(float r = 0.1f, float g = 0.1f, float b = 0.12f, float a = 1.0f) {
         float c[4] = { r, g, b, a };
         context_->OMSetRenderTargets(1, rtv_.GetAddressOf(), dsv_.Get());
@@ -75,22 +96,42 @@ public:
         context_->RSSetViewports(1, &vp);
     }
 
-    // �t���[���I���i��ʕ\���j
+    /**
+     * @brief フレーム終了（画面表示）
+     */
     void EndFrame() {
         swap_->Present(1, 0);
     }
 
-    // �f�o�C�X�A�N�Z�X
+    /**
+     * @brief デバイスアクセス
+     * @return ID3D11Device* デバイスポインタ
+     */
     ID3D11Device* Dev() const { return device_.Get(); }
+    
+    /**
+     * @brief デバイスコンテキストアクセス
+     * @return ID3D11DeviceContext* デバイスコンテキストポインタ
+     */
     ID3D11DeviceContext* Ctx() const { return context_.Get(); }
 
-    // �T�C�Y�擾
+    /**
+     * @brief 幅を取得
+     * @return uint32_t 幅
+     */
     uint32_t Width() const { return width_; }
+    
+    /**
+     * @brief 高さを取得
+     * @return uint32_t 高さ
+     */
     uint32_t Height() const { return height_; }
     
-    // �f�X�g���N�^�Ń��\�[�X�𖾎��I�ɉ��
+    /**
+     * @brief デストラクタでリソースを明示的に解放
+     */
     ~GfxDevice() {
-        // ComPtr�͎����ŉ������邪�A�O�̂��ߖ����I�Ƀ��Z�b�g
+        // ComPtrは自動で解放されるが、念のため明示的にリセット
         dsv_.Reset();
         rtv_.Reset();
         swap_.Reset();
@@ -99,7 +140,10 @@ public:
     }
 
 private:
-    // �o�b�N�o�b�t�@���\�[�X�̍쐬
+    /**
+     * @brief バックバッファリソースの作成
+     * @return bool 作成が成功した場合は true
+     */
     bool createBackbufferResources() {
         Microsoft::WRL::ComPtr<ID3D11Texture2D> back;
         HRESULT hr = swap_->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)back.GetAddressOf());
@@ -114,7 +158,7 @@ private:
             return false;
         }
 
-        // �[�x�X�e���V���o�b�t�@
+        // 深度ステンシルバッファ
         D3D11_TEXTURE2D_DESC td{};
         td.Width = width_;
         td.Height = height_;
@@ -141,11 +185,12 @@ private:
         return true;
     }
 
-    // �����o�ϐ�
-    uint32_t width_ = 0, height_ = 0;
-    Microsoft::WRL::ComPtr<ID3D11Device> device_;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext> context_;
-    Microsoft::WRL::ComPtr<IDXGISwapChain> swap_;
-    Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv_;
-    Microsoft::WRL::ComPtr<ID3D11DepthStencilView> dsv_;
+    // メンバ変数
+    uint32_t width_ = 0;  ///< 画面幅
+    uint32_t height_ = 0; ///< 画面高さ
+    Microsoft::WRL::ComPtr<ID3D11Device> device_;           ///< D3D11デバイス
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext> context_;   ///< D3D11デバイスコンテキスト
+    Microsoft::WRL::ComPtr<IDXGISwapChain> swap_;           ///< スワップチェイン
+    Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv_;    ///< レンダーターゲットビュー
+    Microsoft::WRL::ComPtr<ID3D11DepthStencilView> dsv_;    ///< 深度ステンシルビュー
 };

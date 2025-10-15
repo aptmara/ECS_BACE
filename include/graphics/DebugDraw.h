@@ -1,3 +1,14 @@
+/**
+ * @file DebugDraw.h
+ * @brief デバッグ用の線描画システム
+ * @author 山内陽
+ * @date 2024
+ * @version 5.0
+ * 
+ * @details
+ * デバッグ時にグリッドや軸、任意の線を描画するためのシステムです。
+ * Release ビルドでは使用されません。
+ */
 #pragma once
 #include "graphics/GfxDevice.h"
 #include "graphics/Camera.h"
@@ -10,20 +21,66 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
-// ========================================================
-// DebugDraw - �f�o�b�O�p�̐��`��V�X�e��
-// ========================================================
+/**
+ * @class DebugDraw
+ * @brief デバッグ用の線描画システム
+ * 
+ * @details
+ * 開発中にグリッド、座標軸、任意の線を描画するためのクラスです。
+ * ワールド空間でのデバッグ情報の可視化に使用します。
+ * 
+ * ### 主な用途:
+ * - グリッド表示（基準となる平面）
+ * - 座標軸表示（X, Y, Z軸）
+ * - 当たり判定の可視化
+ * - 移動経路の表示
+ * 
+ * @par 使用例:
+ * @code
+ * DebugDraw debugDraw;
+ * debugDraw.Init(gfx);
+ * 
+ * // グリッドと軸を描画
+ * debugDraw.DrawGrid(20.0f, 20);
+ * debugDraw.DrawAxes(5.0f);
+ * 
+ * // カスタム線を描画
+ * debugDraw.AddLine(
+ *     DirectX::XMFLOAT3{0, 0, 0},
+ *     DirectX::XMFLOAT3{5, 5, 5},
+ *     DirectX::XMFLOAT3{1, 1, 0}  // 黄色
+ * );
+ * 
+ * // 描画実行
+ * debugDraw.Render(gfx, camera);
+ * 
+ * // フレーム終了時にクリア
+ * debugDraw.Clear();
+ * @endcode
+ * 
+ * @note デバッグビルド(_DEBUG定義時)のみ使用を推奨
+ * 
+ * @author 山内陽
+ */
 class DebugDraw {
 public:
+    /**
+     * @struct Line
+     * @brief 線分の定義（開始点、終了点、色）
+     */
     struct Line {
-        DirectX::XMFLOAT3 start;
-        DirectX::XMFLOAT3 end;
-        DirectX::XMFLOAT3 color;
+        DirectX::XMFLOAT3 start; ///< 線の開始点
+        DirectX::XMFLOAT3 end;   ///< 線の終了点
+        DirectX::XMFLOAT3 color; ///< 線の色（RGB: 0.0～1.0）
     };
 
-    // ������
+    /**
+     * @brief 初期化
+     * @param[in] gfx グラフィックスデバイス
+     * @return bool 初期化が成功した場合は true
+     */
     bool Init(GfxDevice& gfx) {
-        // �V�F�[�_�[�̃R���p�C��
+        // シェーダーのコンパイル
         const char* VS = R"(
             cbuffer CB : register(b0) { float4x4 gVP; };
             struct VSIn { float3 pos : POSITION; float3 col : COLOR; };
@@ -72,7 +129,7 @@ public:
             return false;
         }
 
-        // ���̓��C�A�E�g
+        // 入力レイアウト
         D3D11_INPUT_ELEMENT_DESC il[] = {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,                            D3D11_INPUT_PER_VERTEX_DATA, 0 },
             { "COLOR",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
@@ -82,7 +139,7 @@ public:
             return false;
         }
 
-        // �萔�o�b�t�@
+        // 定数バッファ
         D3D11_BUFFER_DESC cbd{};
         cbd.ByteWidth = sizeof(DirectX::XMMATRIX);
         cbd.Usage = D3D11_USAGE_DEFAULT;
@@ -92,10 +149,10 @@ public:
             return false;
         }
 
-        // ���I���_�o�b�t�@�i�ő�10000�����j
+        // 動的頂点バッファ（最大10000線分）
         maxLines_ = 10000;
         D3D11_BUFFER_DESC vbd{};
-        vbd.ByteWidth = (UINT)(maxLines_ * 2 * sizeof(Vertex)); // 1���� = 2���_
+        vbd.ByteWidth = (UINT)(maxLines_ * 2 * sizeof(Vertex)); // 1線分 = 2頂点
         vbd.Usage = D3D11_USAGE_DYNAMIC;
         vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -107,28 +164,38 @@ public:
         return true;
     }
 
-    // ����ǉ�
+    /**
+     * @brief 線を追加
+     * @param[in] start 線の開始点
+     * @param[in] end 線の終了点
+     * @param[in] color 線の色（RGB: 0.0～1.0）
+     */
     void AddLine(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, const DirectX::XMFLOAT3& color) {
         lines_.push_back({ start, end, color });
     }
 
-    // �O���b�h��`��
+    /**
+     * @brief グリッドを描画
+     * @param[in] size グリッドのサイズ（全体の幅と奥行き）
+     * @param[in] divisions 分割数（何本の線を引くか）
+     * @param[in] color グリッドの色（デフォルト: 灰色）
+     */
     void DrawGrid(float size = 10.0f, int divisions = 10, const DirectX::XMFLOAT3& color = {0.5f, 0.5f, 0.5f}) {
         float step = size / divisions;
         float halfSize = size * 0.5f;
 
-        // X-Z���ʂ̃O���b�h
+        // X-Z平面のグリッド
         for (int i = 0; i <= divisions; ++i) {
             float pos = -halfSize + i * step;
             
-            // Z���ɕ��s�Ȑ��iX�����ɕ��ԁj
+            // Z軸に平行な線（X方向に並ぶ）
             AddLine(
                 DirectX::XMFLOAT3{-halfSize, 0, pos},
                 DirectX::XMFLOAT3{ halfSize, 0, pos},
                 color
             );
             
-            // X���ɕ��s�Ȑ��iZ�����ɕ��ԁj
+            // X軸に平行な線（Z方向に並ぶ）
             AddLine(
                 DirectX::XMFLOAT3{pos, 0, -halfSize},
                 DirectX::XMFLOAT3{pos, 0,  halfSize},
@@ -137,23 +204,29 @@ public:
         }
     }
 
-    // ���W����`��
+    /**
+     * @brief 座標軸を描画
+     * @param[in] length 軸の長さ
+     * 
+     * @details
+     * X軸（赤）、Y軸（緑）、Z軸（青）を原点から描画します。
+     */
     void DrawAxes(float length = 5.0f) {
-        // X���i�ԁj
+        // X軸（赤）
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{length, 0, 0},
             DirectX::XMFLOAT3{1, 0, 0}
         );
         
-        // Y���i�΁j
+        // Y軸（緑）
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, length, 0},
             DirectX::XMFLOAT3{0, 1, 0}
         );
         
-        // Z���i�j
+        // Z軸（青）
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, 0, length},
@@ -161,11 +234,15 @@ public:
         );
     }
 
-    // ���ׂĂ̐���`��
+    /**
+     * @brief すべての線を描画
+     * @param[in] gfx グラフィックスデバイス
+     * @param[in] cam カメラ
+     */
     void Render(GfxDevice& gfx, const Camera& cam) {
         if (lines_.empty()) return;
 
-        // ���_�f�[�^������
+        // 頂点データを構築
         std::vector<Vertex> vertices;
         vertices.reserve(lines_.size() * 2);
         
@@ -174,14 +251,14 @@ public:
             vertices.push_back({ line.end, line.color });
         }
 
-        // ���_�o�b�t�@���X�V
+        // 頂点バッファを更新
         D3D11_MAPPED_SUBRESOURCE mapped;
         if (SUCCEEDED(gfx.Ctx()->Map(vb_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped))) {
             memcpy(mapped.pData, vertices.data(), vertices.size() * sizeof(Vertex));
             gfx.Ctx()->Unmap(vb_.Get(), 0);
         }
 
-        // �p�C�v���C���ݒ�
+        // パイプライン設定
         gfx.Ctx()->IASetInputLayout(layout_.Get());
         gfx.Ctx()->VSSetShader(vs_.Get(), nullptr, 0);
         gfx.Ctx()->PSSetShader(ps_.Get(), nullptr, 0);
@@ -192,19 +269,28 @@ public:
         gfx.Ctx()->IASetVertexBuffers(0, 1, vb_.GetAddressOf(), &stride, &offset);
         gfx.Ctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
-        // �萔�o�b�t�@�X�V�i���[���h�s��͒P�ʍs��j
+        // 定数バッファ更新（ワールド行列は単位行列）
         DirectX::XMMATRIX VP = DirectX::XMMatrixTranspose(cam.View * cam.Proj);
         gfx.Ctx()->UpdateSubresource(cb_.Get(), 0, nullptr, &VP, 0, 0);
 
-        // �`��
+        // 描画
         gfx.Ctx()->Draw((UINT)vertices.size(), 0);
     }
 
-    // �t���[���I�����ɃN���A
+    /**
+     * @brief フレーム終了時にクリア
+     * 
+     * @details
+     * 蓄積された線データをクリアします。
+     * 毎フレーム呼び出す必要があります。
+     */
     void Clear() {
         lines_.clear();
     }
 
+    /**
+     * @brief デストラクタ
+     */
     ~DebugDraw() {
         vs_.Reset();
         ps_.Reset();
@@ -214,17 +300,21 @@ public:
     }
 
 private:
+    /**
+     * @struct Vertex
+     * @brief 頂点データ（位置と色）
+     */
     struct Vertex {
-        DirectX::XMFLOAT3 pos;
-        DirectX::XMFLOAT3 col;
+        DirectX::XMFLOAT3 pos; ///< 位置
+        DirectX::XMFLOAT3 col; ///< 色
     };
 
-    Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;
-    Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;
-    Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;
-    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_;
-    Microsoft::WRL::ComPtr<ID3D11Buffer> vb_;
+    Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;    ///< 頂点シェーダー
+    Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;     ///< ピクセルシェーダー
+    Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_; ///< 入力レイアウト
+    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_;          ///< 定数バッファ
+    Microsoft::WRL::ComPtr<ID3D11Buffer> vb_;          ///< 頂点バッファ
     
-    std::vector<Line> lines_;
-    size_t maxLines_;
+    std::vector<Line> lines_;  ///< 描画する線のリスト
+    size_t maxLines_;          ///< 最大線数
 };

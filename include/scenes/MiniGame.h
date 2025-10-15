@@ -4,7 +4,7 @@
  * @author 山内陽
  * @date 2024
  * @version 4.0
- * 
+ *
  * @details
  * ### ゲーム内容:
  * - プレイヤー(緑キューブ)をA/Dキーで左右に移動
@@ -15,13 +15,7 @@
  */
 #pragma once
 
-#include "scenes/SceneManager.h"
-#include "components/Transform.h"
-#include "components/MeshRenderer.h"
-#include "components/Component.h"
-#include <cstdlib>
-#include <ctime>
-#include <vector>
+#include "pch.h"
 
 // ========================================================
 // ゲーム用コンポーネント
@@ -51,10 +45,10 @@ struct Bullet : IComponent {};
 /**
  * @struct PlayerMovement
  * @brief プレイヤーの移動制御Behaviour
- * 
+ *
  * @details
  * プレイヤーの位置を制限し、画面外に出ないようにします。
- * 
+ *
  * @author 山内陽
  */
 struct PlayerMovement : Behaviour {
@@ -80,10 +74,10 @@ struct PlayerMovement : Behaviour {
 /**
  * @struct BulletMovement
  * @brief 弾の移動Behaviour
- * 
+ *
  * @details
  * 弾を上方向に移動させ、画面外に出たら削除します。
- * 
+ *
  * @author 山内陽
  */
 struct BulletMovement : Behaviour {
@@ -111,10 +105,10 @@ struct BulletMovement : Behaviour {
 /**
  * @struct EnemyMovement
  * @brief 敵の移動Behaviour
- * 
+ *
  * @details
  * 敵を下方向に移動させ、画面外に出たら削除します。
- * 
+ *
  * @author 山内陽
  */
 struct EnemyMovement : Behaviour {
@@ -146,16 +140,16 @@ struct EnemyMovement : Behaviour {
 /**
  * @class GameScene
  * @brief シューティングゲームのメインシーン
- * 
+ *
  * @details
  * プレイヤー操作、敵の生成、弾の発射、衝突判定を管理します。
- * 
+ *
  * ### ゲームルール:
  * - A/Dキーでプレイヤーを左右に移動
  * - スペースキーで弾を発射
  * - 敵が上から降ってくる
  * - 弾が敵に当たると両方消滅し、スコア+10
- * 
+ *
  * @author 山内陽
  */
 class GameScene : public IScene {
@@ -163,7 +157,7 @@ public:
     /**
      * @brief シーン開始時の初期化
      * @param[in,out] world ワールド参照
-     * 
+     *
      * @details
      * プレイヤーを生成し、スコアとタイマーを初期化します。
      */
@@ -214,7 +208,7 @@ public:
     /**
      * @brief シーン終了時のクリーンアップ
      * @param[in,out] world ワールド参照
-     * 
+     *
      * @details
      * すべてのエンティティを削除します。
      */
@@ -284,6 +278,7 @@ private:
                     .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 1.0f, 0.0f}) // 黄色
                     .With<Bullet>()
                     .With<BulletMovement>()
+					.With<Rotator>(1000.0f) // 弾が回転するように
                     .Build();
 
                 shootCooldown_ = 0.2f; // 0.2秒のクールダウン
@@ -315,6 +310,7 @@ private:
                 .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f}) // 赤色
                 .With<Enemy>()
                 .With<EnemyMovement>()
+				.With<Rotator>(360.0f)
                 .Build();
         }
     }
@@ -322,7 +318,7 @@ private:
     /**
      * @brief 衝突判定処理
      * @param[in,out] world ワールド参照
-     * 
+     *
      * @details
      * 弾と敵の衝突を判定し、衝突したら両方を削除してスコアを加算します。
      */

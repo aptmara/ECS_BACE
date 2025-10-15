@@ -1,3 +1,14 @@
+/**
+ * @file RenderSystem.h
+ * @brief テクスチャ対応レンダリングシステム
+ * @author 山内陽
+ * @date 2024
+ * @version 5.0
+ * 
+ * @details
+ * ECSワールド内のMeshRendererコンポーネントを持つエンティティを
+ * 自動的に描画するレンダリングシステムです。
+ */
 #pragma once
 #include "graphics/GfxDevice.h"
 #include "graphics/Camera.h"
@@ -13,38 +24,73 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
-// ========================================================
-// RenderSystem - �e�N�X�`���Ή������_�����O�V�X�e��
-// ========================================================
+/**
+ * @struct RenderSystem
+ * @brief テクスチャ対応レンダリングシステム
+ * 
+ * @details
+ * ECSワールド内のすべての描画可能なエンティティ（Transform + MeshRenderer）を
+ * 自動的に描画します。単色描画とテクスチャ描画の両方に対応しています。
+ * 
+ * ### レンダリングパイプライン:
+ * 1. Transform から World 行列を計算
+ * 2. Camera から View・Projection 行列を取得
+ * 3. MeshRenderer の色・テクスチャ設定を適用
+ * 4. キューブメッシュを描画
+ * 
+ * @par 使用例:
+ * @code
+ * RenderSystem renderer;
+ * renderer.Init(gfx, texManager);
+ * 
+ * // 毎フレーム
+ * gfx.BeginFrame();
+ * renderer.Render(gfx, world, camera);
+ * gfx.EndFrame();
+ * @endcode
+ * 
+ * @note Transform と MeshRenderer の両方を持つエンティティのみ描画されます
+ * 
+ * @author 山内陽
+ */
 struct RenderSystem {
-    // �p�C�v���C���I�u�W�F�N�g
-    Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;
-    Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;
-    Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;
-    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_; // �萔�o�b�t�@
-    Microsoft::WRL::ComPtr<ID3D11Buffer> vb_; // ���_�o�b�t�@
-    Microsoft::WRL::ComPtr<ID3D11Buffer> ib_; // �C���f�b�N�X�o�b�t�@
-    Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterState_;
-    Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState_;
-    UINT indexCount_ = 0;
+    // パイプラインオブジェクト
+    Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;      ///< 頂点シェーダー
+    Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;       ///< ピクセルシェーダー
+    Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;   ///< 入力レイアウト
+    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_;            ///< 定数バッファ（VS用）
+    Microsoft::WRL::ComPtr<ID3D11Buffer> vb_;            ///< 頂点バッファ
+    Microsoft::WRL::ComPtr<ID3D11Buffer> ib_;            ///< インデックスバッファ
+    Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterState_;  ///< ラスタライザステート
+    Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState_;    ///< サンプラーステート
+    UINT indexCount_ = 0;  ///< インデックス数
 
-    TextureManager* texManager_ = nullptr;
+    TextureManager* texManager_ = nullptr;  ///< テクスチャマネージャーへのポインタ
 
-    // ���_�V�F�[�_�[�萔�o�b�t�@
+    /**
+     * @struct VSConstants
+     * @brief 頂点シェーダー定数バッファ
+     */
     struct VSConstants {
-        DirectX::XMMATRIX WVP;
-        DirectX::XMFLOAT4 uvTransform; // xy=offset, zw=scale
+        DirectX::XMMATRIX WVP;  ///< World * View * Projection 行列
+        DirectX::XMFLOAT4 uvTransform;  ///< xy=offset, zw=scale
     };
 
-    // �s�N�Z���V�F�[�_�[�萔�o�b�t�@
+    /**
+     * @struct PSConstants
+     * @brief ピクセルシェーダー定数バッファ
+     */
     struct PSConstants {
-        DirectX::XMFLOAT4 color;
-        float useTexture; // 0=�J���[, 1=�e�N�X�`��
-        float padding[3];
+        DirectX::XMFLOAT4 color;  ///< 基本色
+        float useTexture;  ///< 0=カラー, 1=テクスチャ
+        float padding[3];  ///< パディング（16バイトアライメント）
     };
 
-    Microsoft::WRL::ComPtr<ID3D11Buffer> psCb_; // PS�̒萔�o�b�t�@
+    Microsoft::WRL::ComPtr<ID3D11Buffer> psCb_;  ///< PSの定数バッファ
 
+    /**
+     * @brief デストラクタ
+     */
     ~RenderSystem() {
         vs_.Reset();
         ps_.Reset();
@@ -57,10 +103,16 @@ struct RenderSystem {
         samplerState_.Reset();
     }
 
+    /**
+     * @brief 初期化
+     * @param[in] gfx グラフィックスデバイス
+     * @param[in] texMgr テクスチャマネージャー
+     * @return bool 初期化が成功した場合は true
+     */
     bool Init(GfxDevice& gfx, TextureManager& texMgr) {
         texManager_ = &texMgr;
 
-        // �e�N�X�`���Ή��V�F�[�_�[
+        // テクスチャ対応シェーダー
         const char* VS = R"(
             cbuffer CB : register(b0) { 
                 float4x4 gWVP; 
@@ -131,7 +183,7 @@ struct RenderSystem {
             return false;
         }
 
-        // ���̓��C�A�E�g�iPosition + TexCoord�j
+        // 入力レイアウト（Position + TexCoord）
         D3D11_INPUT_ELEMENT_DESC il[] = {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,                            D3D11_INPUT_PER_VERTEX_DATA, 0 },
             { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
@@ -140,7 +192,7 @@ struct RenderSystem {
             return false;
         }
 
-        // VS�萔�o�b�t�@
+        // VS定数バッファ
         D3D11_BUFFER_DESC cbd{};
         cbd.ByteWidth = sizeof(VSConstants);
         cbd.Usage = D3D11_USAGE_DEFAULT;
@@ -149,13 +201,13 @@ struct RenderSystem {
             return false;
         }
 
-        // PS�萔�o�b�t�@
+        // PS定数バッファ
         cbd.ByteWidth = sizeof(PSConstants);
         if (FAILED(gfx.Dev()->CreateBuffer(&cbd, nullptr, psCb_.GetAddressOf()))) {
             return false;
         }
 
-        // �T���v���[�X�e�[�g
+        // サンプラーステート
         D3D11_SAMPLER_DESC sampDesc{};
         sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
         sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -169,7 +221,7 @@ struct RenderSystem {
             return false;
         }
 
-        // ���X�^���C�U�X�e�[�g
+        // ラスタライザステート
         D3D11_RASTERIZER_DESC rsd{};
         rsd.FillMode = D3D11_FILL_SOLID;
         rsd.CullMode = D3D11_CULL_BACK;
@@ -179,22 +231,22 @@ struct RenderSystem {
             return false;
         }
 
-        // �W�I���g���iUV���W�t���L���[�u�j
+        // ジオメトリ（UV座標付きキューブ）
         struct V { DirectX::XMFLOAT3 pos; DirectX::XMFLOAT2 tex; };
         const float c = 0.5f;
         V verts[] = {
-            // �w��
+            // 背面
             {{-c,-c,-c}, {0,1}}, {{-c,+c,-c}, {0,0}}, {{+c,+c,-c}, {1,0}}, {{+c,-c,-c}, {1,1}},
-            // �O��
+            // 前面
             {{-c,-c,+c}, {1,1}}, {{-c,+c,+c}, {1,0}}, {{+c,+c,+c}, {0,0}}, {{+c,-c,+c}, {0,1}},
         };
         uint16_t idx[] = {
-            0,1,2, 0,2,3,  // �w��
-            4,6,5, 4,7,6,  // �O��
-            4,5,1, 4,1,0,  // ��
-            3,2,6, 3,6,7,  // �E
-            1,5,6, 1,6,2,  // ��
-            4,0,3, 4,3,7   // ��
+            0,1,2, 0,2,3,  // 背面
+            4,6,5, 4,7,6,  // 前面
+            4,5,1, 4,1,0,  // 左
+            3,2,6, 3,6,7,  // 右
+            1,5,6, 1,6,2,  // 上
+            4,0,3, 4,3,7   // 下
         };
         indexCount_ = (UINT)(sizeof(idx) / sizeof(idx[0]));
 
@@ -219,6 +271,15 @@ struct RenderSystem {
         return true;
     }
 
+    /**
+     * @brief レンダリング実行
+     * @param[in] gfx グラフィックスデバイス
+     * @param[in] w ECSワールド
+     * @param[in] cam カメラ
+     * 
+     * @details
+     * ワールド内のすべてのMeshRendererを持つエンティティを描画します。
+     */
     void Render(GfxDevice& gfx, World& w, const Camera& cam) {
         gfx.Ctx()->IASetInputLayout(layout_.Get());
         gfx.Ctx()->VSSetShader(vs_.Get(), nullptr, 0);
@@ -238,7 +299,7 @@ struct RenderSystem {
             auto* t = w.TryGet<Transform>(e);
             if (!t) return;
 
-            // ���[���h�s��
+            // ワールド行列
             DirectX::XMMATRIX S = DirectX::XMMatrixScaling(t->scale.x, t->scale.y, t->scale.z);
             DirectX::XMMATRIX R = DirectX::XMMatrixRotationRollPitchYaw(
                 DirectX::XMConvertToRadians(t->rotation.x),
@@ -247,19 +308,19 @@ struct RenderSystem {
             DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(t->position.x, t->position.y, t->position.z);
             DirectX::XMMATRIX W = S * R * T;
 
-            // VS�萔�o�b�t�@
+            // VS定数バッファ
             VSConstants vsCbuf;
             vsCbuf.WVP = DirectX::XMMatrixTranspose(W * cam.View * cam.Proj);
             vsCbuf.uvTransform = DirectX::XMFLOAT4{ mr.uvOffset.x, mr.uvOffset.y, mr.uvScale.x, mr.uvScale.y };
             gfx.Ctx()->UpdateSubresource(cb_.Get(), 0, nullptr, &vsCbuf, 0, 0);
 
-            // PS�萔�o�b�t�@
+            // PS定数バッファ
             PSConstants psCbuf;
             psCbuf.color = DirectX::XMFLOAT4{ mr.color.x, mr.color.y, mr.color.z, 1.0f };
             psCbuf.useTexture = (mr.texture != TextureManager::INVALID_TEXTURE) ? 1.0f : 0.0f;
             gfx.Ctx()->UpdateSubresource(psCb_.Get(), 0, nullptr, &psCbuf, 0, 0);
 
-            // �e�N�X�`���ݒ�
+            // テクスチャ設定
             if (mr.texture != TextureManager::INVALID_TEXTURE && texManager_) {
                 ID3D11ShaderResourceView* srv = texManager_->GetSRV(mr.texture);
                 if (srv) {

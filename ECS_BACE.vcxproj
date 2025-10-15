@@ -113,6 +113,10 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -129,15 +133,22 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AllComponents.h" />
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\App.h" />
     <ClInclude Include="include\graphics\Camera.h" />
     <ClInclude Include="include\components\Component.h" />
+    <ClInclude Include="include\pch.h" />
     <ClInclude Include="include\samples\ComponentSamples.h" />
     <ClInclude Include="include\graphics\DebugDraw.h" />
     <ClInclude Include="include\ecs\Entity.h" />
@@ -160,9 +171,13 @@
     <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
     <None Include="docs\CHANGELOG_v3.md" />
     <None Include="docs\CHANGELOG_v4.md" />
+    <None Include="docs\HEADER_INCLUDES.md" />
     <None Include="docs\LEARNING_GUIDE.md" />
+    <None Include="docs\PCH_SETUP.md" />
     <None Include="docs\QUICK_REFERENCE.md" />
+    <None Include="Doxyfile" />
     <None Include="README.md" />
+    <None Include="tools\build-docs.ps1" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -42,6 +42,9 @@
     <ClCompile Include="src\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\pch.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ecs\Entity.h">
@@ -101,19 +104,27 @@
     <ClInclude Include="include\scenes\MiniGame.h">
       <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
+    <ClInclude Include="include\pch.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AllComponents.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Textures\test.png">
-      <Filter>���\�[�X �t�@�C��</Filter>
-    </None>
-    <None Include="Assets\Videos\video.mp4">
-      <Filter>���\�[�X �t�@�C��</Filter>
-    </None>
     <None Include="README.md" />
     <None Include="docs\CHANGELOG_v3.md" />
     <None Include="docs\LEARNING_GUIDE.md" />
     <None Include="docs\CHANGELOG_v4.md" />
     <None Include="docs\QUICK_REFERENCE.md" />
     <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
+    <None Include="Assets\Textures\test.png">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Assets\Videos\video.mp4" />
+    <None Include="tools\build-docs.ps1" />
+    <None Include="Doxyfile" />
+    <None Include="docs\PCH_SETUP.md" />
+    <None Include="docs\HEADER_INCLUDES.md" />
   </ItemGroup>
 </Project>

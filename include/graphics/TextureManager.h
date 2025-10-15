@@ -1,3 +1,14 @@
+/**
+ * @file TextureManager.h
+ * @brief テクスチャ管理システム
+ * @author 山内陽
+ * @date 2024
+ * @version 5.0
+ * 
+ * @details
+ * 画像ファイルの読み込み、テクスチャの作成・管理を行うシステムです。
+ * WIC (Windows Imaging Component) を使用して様々な画像フォーマットに対応しています。
+ */
 #pragma once
 #include "graphics/GfxDevice.h"
 #include <d3d11.h>
@@ -12,20 +23,65 @@
 
 #pragma comment(lib, "windowscodecs.lib")
 
-// ========================================================
-// TextureManager - �e�N�X�`���Ǘ��V�X�e��
-// ========================================================
+/**
+ * @class TextureManager
+ * @brief テクスチャ管理システム
+ * 
+ * @details
+ * テクスチャの読み込み、作成、管理を一元的に行うクラスです。
+ * ハンドルベースの管理により、安全かつ効率的にテクスチャを扱えます。
+ * 
+ * ### 対応フォーマット:
+ * - BMP (ビットマップ)
+ * - PNG (Portable Network Graphics)
+ * - JPG/JPEG (Joint Photographic Experts Group)
+ * - その他 WIC がサポートする形式
+ * 
+ * ### 使用例:
+ * @code
+ * TextureManager texManager;
+ * texManager.Init(gfx);
+ * 
+ * // ファイルから読み込み
+ * auto handle = texManager.LoadFromFile("assets/brick.png");
+ * 
+ * // メッシュレンダラーに設定
+ * auto* renderer = world.TryGet<MeshRenderer>(entity);
+ * if (renderer) {
+ *     renderer->texture = handle;
+ * }
+ * 
+ * // テクスチャの解放
+ * texManager.Release(handle);
+ * @endcode
+ * 
+ * @note すべてのテクスチャは RGBA32 フォーマットに変換されます
+ * 
+ * @author 山内陽
+ */
 class TextureManager {
 public:
-    // �e�N�X�`���n���h��
+    /**
+     * @typedef TextureHandle
+     * @brief テクスチャを識別するハンドル
+     */
     using TextureHandle = uint32_t;
+    
+    /**
+     * @var INVALID_TEXTURE
+     * @brief 無効なテクスチャを表す特殊値
+     */
     static constexpr TextureHandle INVALID_TEXTURE = 0;
 
-    // ������
+    /**
+     * @brief 初期化
+     * @param[in] gfx グラフィックスデバイス
+     * @return bool 初期化が成功した場合は true
+     */
     bool Init(GfxDevice& gfx) {
         gfx_ = &gfx;
         
-        // �f�t�H���g�̔��e�N�X�`�����쐬
+        // デフォルトの白テクスチャを作成
         uint32_t whitePixel = 0xFFFFFFFF;
         defaultWhiteTexture_ = CreateTextureFromMemory(
             reinterpret_cast<const uint8_t*>(&whitePixel),
@@ -35,9 +91,25 @@ public:
         return defaultWhiteTexture_ != INVALID_TEXTURE;
     }
 
-    // �t�@�C������e�N�X�`����ǂݍ��݁iBMP�APNG�AJPG�Ȃǁj
+    /**
+     * @brief ファイルからテクスチャを読み込み（BMP, PNG, JPGなど）
+     * @param[in] filepath 画像ファイルのパス
+     * @return TextureHandle テクスチャハンドル（失敗時は INVALID_TEXTURE）
+     * 
+     * @details
+     * Windows Imaging Component (WIC) を使用して画像を読み込み、
+     * DirectX11 テクスチャに変換します。
+     * 
+     * @par 使用例:
+     * @code
+     * auto texture = texManager.LoadFromFile("assets/player.png");
+     * if (texture != TextureManager::INVALID_TEXTURE) {
+     *     // テクスチャの使用
+     * }
+     * @endcode
+     */
     TextureHandle LoadFromFile(const char* filepath) {
-        // WIC���g�p���ĉ摜��ǂݍ���
+        // WICを使用して画像を読み込む
         Microsoft::WRL::ComPtr<IWICImagingFactory> wicFactory;
         HRESULT hr = CoCreateInstance(
             CLSID_WICImagingFactory,
@@ -53,11 +125,11 @@ public:
             return INVALID_TEXTURE;
         }
 
-        // ���C�h������ɕϊ�
+        // ワイド文字列に変換
         wchar_t wpath[MAX_PATH];
         MultiByteToWideChar(CP_ACP, 0, filepath, -1, wpath, MAX_PATH);
 
-        // �f�R�[�_�[���쐬
+        // デコーダーを作成
         Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
         hr = wicFactory->CreateDecoderFromFilename(
             wpath,
@@ -74,12 +146,12 @@ public:
             return INVALID_TEXTURE;
         }
 
-        // �t���[�����擾
+        // フレームを取得
         Microsoft::WRL::ComPtr<IWICBitmapFrameDecode> frame;
         hr = decoder->GetFrame(0, &frame);
         if (FAILED(hr)) return INVALID_TEXTURE;
 
-        // RGBA32�ɕϊ�
+        // RGBA32に変換
         Microsoft::WRL::ComPtr<IWICFormatConverter> converter;
         hr = wicFactory->CreateFormatConverter(&converter);
         if (FAILED(hr)) return INVALID_TEXTURE;
@@ -94,12 +166,12 @@ public:
         );
         if (FAILED(hr)) return INVALID_TEXTURE;
 
-        // �T�C�Y���擾
+        // サイズを取得
         UINT width, height;
         hr = converter->GetSize(&width, &height);
         if (FAILED(hr)) return INVALID_TEXTURE;
 
-        // �s�N�Z���f�[�^���擾
+        // ピクセルデータを取得
         std::vector<uint8_t> pixels(width * height * 4);
         hr = converter->CopyPixels(
             nullptr,
@@ -112,7 +184,18 @@ public:
         return CreateTextureFromMemory(pixels.data(), width, height, 4);
     }
 
-    // ����������e�N�X�`�����쐬
+    /**
+     * @brief メモリからテクスチャを作成
+     * @param[in] data ピクセルデータ
+     * @param[in] width 幅（ピクセル）
+     * @param[in] height 高さ（ピクセル）
+     * @param[in] channels チャンネル数（通常4: RGBA）
+     * @return TextureHandle テクスチャハンドル（失敗時は INVALID_TEXTURE）
+     * 
+     * @details
+     * メモリ上のピクセルデータから DirectX11 テクスチャを作成します。
+     * プロシージャルテクスチャの生成などに使用できます。
+     */
     TextureHandle CreateTextureFromMemory(const uint8_t* data, uint32_t width, uint32_t height, uint32_t channels) {
         D3D11_TEXTURE2D_DESC texDesc{};
         texDesc.Width = width;
@@ -135,7 +218,7 @@ public:
             return INVALID_TEXTURE;
         }
 
-        // �V�F�[�_�[���\�[�X�r���[���쐬
+        // シェーダーリソースビューを作成
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
         srvDesc.Format = texDesc.Format;
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -148,7 +231,7 @@ public:
             return INVALID_TEXTURE;
         }
 
-        // �e�N�X�`����o�^
+        // テクスチャを登録
         TextureHandle handle = nextHandle_++;
         TextureData texData;
         texData.texture = texture;
@@ -160,7 +243,15 @@ public:
         return handle;
     }
 
-    // �e�N�X�`���̎擾
+    /**
+     * @brief テクスチャの取得
+     * @param[in] handle テクスチャハンドル
+     * @return ID3D11ShaderResourceView* シェーダーリソースビュー（失敗時は nullptr）
+     * 
+     * @details
+     * ハンドルから ShaderResourceView を取得します。
+     * これをシェーダーにバインドすることでテクスチャを使用できます。
+     */
     ID3D11ShaderResourceView* GetSRV(TextureHandle handle) const {
         if (handle == INVALID_TEXTURE) return nullptr;
         auto it = textures_.find(handle);
@@ -168,28 +259,49 @@ public:
         return it->second.srv.Get();
     }
 
-    // �f�t�H���g�e�N�X�`��
+    /**
+     * @brief デフォルトテクスチャ（白）を取得
+     * @return TextureHandle 白色テクスチャのハンドル
+     * 
+     * @details
+     * システムが自動的に作成する1x1の白色テクスチャです。
+     * テクスチャが指定されていない場合のフォールバックに使用できます。
+     */
     TextureHandle GetDefaultWhite() const { return defaultWhiteTexture_; }
 
-    // �e�N�X�`���̉��
+    /**
+     * @brief テクスチャの解放
+     * @param[in] handle テクスチャハンドル
+     * 
+     * @details
+     * 指定されたテクスチャをメモリから解放します。
+     * 解放後、そのハンドルは無効になります。
+     */
     void Release(TextureHandle handle) {
         textures_.erase(handle);
     }
 
+    /**
+     * @brief デストラクタ
+     */
     ~TextureManager() {
         textures_.clear();
     }
 
 private:
+    /**
+     * @struct TextureData
+     * @brief テクスチャの内部データ
+     */
     struct TextureData {
-        Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
-        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
-        uint32_t width;
-        uint32_t height;
+        Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;  ///< テクスチャ本体
+        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;  ///< シェーダーリソースビュー
+        uint32_t width;   ///< 幅
+        uint32_t height;  ///< 高さ
     };
 
-    GfxDevice* gfx_ = nullptr;
-    std::unordered_map<TextureHandle, TextureData> textures_;
-    TextureHandle nextHandle_ = 1;
-    TextureHandle defaultWhiteTexture_ = INVALID_TEXTURE;
+    GfxDevice* gfx_ = nullptr;  ///< グラフィックスデバイスへのポインタ
+    std::unordered_map<TextureHandle, TextureData> textures_;  ///< テクスチャマップ
+    TextureHandle nextHandle_ = 1;  ///< 次のハンドル番号
+    TextureHandle defaultWhiteTexture_ = INVALID_TEXTURE;  ///< デフォルト白テクスチャ
 };
