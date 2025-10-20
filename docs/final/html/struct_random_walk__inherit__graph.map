@@ -1,7 +1,0 @@
-<map id="RandomWalk" name="RandomWalk">
-<area shape="rect" id="Node000001" title="ランダムに動き回るBehaviour" alt="" coords="5,155,105,181"/>
-<area shape="rect" id="Node000002" href="$struct_behaviour.html" title="毎フレーム更新される動的コンポーネントの基底クラス" alt="" coords="15,80,95,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="58,122,58,154,52,154,52,122"/>
-<area shape="rect" id="Node000003" href="$struct_i_component.html" title="前方宣言: Entity構造体" alt="" coords="9,5,101,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="58,48,58,80,52,80,52,48"/>
-</map>

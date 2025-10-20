@@ -1,7 +1,0 @@
-<map id="SpriteAnimation" name="SpriteAnimation">
-<area shape="rect" id="Node000001" title="スプライトアニメーション（複数テクスチャの切り替え）コンポーネント" alt="" coords="5,155,119,181"/>
-<area shape="rect" id="Node000002" href="$struct_behaviour.html" title="毎フレーム更新される動的コンポーネントの基底クラス" alt="" coords="22,80,102,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,122,65,154,59,154,59,122"/>
-<area shape="rect" id="Node000003" href="$struct_i_component.html" title="前方宣言: Entity構造体" alt="" coords="16,5,108,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="65,48,65,80,59,80,59,48"/>
-</map>

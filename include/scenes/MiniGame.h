@@ -16,6 +16,7 @@
 #pragma once
 
 #include "pch.h"
+#include "components/Rotator.h"
 
 // ========================================================
 // ゲーム用コンポーネント
@@ -175,6 +176,7 @@ public:
             .With<MeshRenderer>(DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f}) // 緑色
             .With<Player>()
             .With<PlayerMovement>()
+			.With<ColorCycle>(1.0f) // 色が変化するように
             .Build();
 
         score_ = 0;
@@ -307,10 +309,10 @@ private:
                     DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
                     DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f}
                 )
-                .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f}) // 赤色
+				.With<MeshRenderer>(DirectX::XMFLOAT3{ 1.0f, 0.0f, 0.0f }) // 赤色
                 .With<Enemy>()
                 .With<EnemyMovement>()
-				.With<Rotator>(360.0f)
+				.With<Rotator>(10000.0f)
                 .Build();
         }
     }

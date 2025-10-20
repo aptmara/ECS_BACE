@@ -1,5 +1,0 @@
-<map id="TextureManager::Init" name="TextureManager::Init">
-<area shape="rect" id="Node000001" title="初期化" alt="" coords="5,13,146,40"/>
-<area shape="rect" id="Node000002" href="$class_texture_manager.html#abd93e6dae0d025044f68595a8c47144a" title="メモリからテクスチャを作成" alt="" coords="194,5,398,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,24,178,24,178,29,146,29"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="World::DestroyEntity" name="World::DestroyEntity">
-<area shape="rect" id="Node000001" title="エンティティを削除する" alt="" coords="5,5,148,32"/>
-<area shape="rect" id="Node000002" href="$class_world.html#a6d6603a60144d5c1c57421aad68a1380" title="エンティティが生存しているか確認" alt="" coords="196,5,298,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,16,180,16,180,21,148,21"/>
-</map>

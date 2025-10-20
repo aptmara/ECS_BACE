@@ -4,7 +4,7 @@
  * @author 山内陽
  * @date 2024
  * @version 1.0
- * 
+ *
  * @details
  * よく使うヘッダーをまとめたプリコンパイル済みヘッダーです。
  * このファイルをインクルードするだけで、基本的なコンポーネントや
@@ -41,7 +41,6 @@
 #include "components/Component.h"
 #include "components/Transform.h"
 #include "components/MeshRenderer.h"
-#include "components/Rotator.h"
 
 // ========================================================
 // システム

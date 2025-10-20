@@ -1,5 +1,0 @@
-<map id="TextureManager::LoadFromFile" name="TextureManager::LoadFromFile">
-<area shape="rect" id="Node000001" title="ファイルからテクスチャを読み込み（BMP, PNG, JPGなど）" alt="" coords="5,13,207,40"/>
-<area shape="rect" id="Node000002" href="$class_texture_manager.html#abd93e6dae0d025044f68595a8c47144a" title="メモリからテクスチャを作成" alt="" coords="255,5,459,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,24,239,24,239,29,207,29"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="InputSystem::GetMouseButtonDown" name="InputSystem::GetMouseButtonDown">
-<area shape="rect" id="Node000001" title="マウスボタンがこのフレームで押された瞬間か" alt="" coords="5,5,241,32"/>
-<area shape="rect" id="Node000002" href="$class_input_system.html#a99ccf25d32ff05fa9cbd47658df6ce72" title="キーがこのフレームで押された瞬間か" alt="" coords="289,5,470,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="241,16,273,16,273,21,241,21"/>
-</map>

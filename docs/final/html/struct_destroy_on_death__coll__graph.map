@@ -1,7 +1,0 @@
-<map id="DestroyOnDeath" name="DestroyOnDeath">
-<area shape="rect" id="Node000001" title="複雑なBehaviour" alt="" coords="5,155,125,181"/>
-<area shape="rect" id="Node000002" href="$struct_behaviour.html" title="毎フレーム更新される動的コンポーネントの基底クラス" alt="" coords="25,80,105,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="68,122,68,154,62,154,62,122"/>
-<area shape="rect" id="Node000003" href="$struct_i_component.html" title="前方宣言: Entity構造体" alt="" coords="19,5,111,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="68,48,68,80,62,80,62,48"/>
-</map>

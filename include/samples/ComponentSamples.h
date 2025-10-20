@@ -267,6 +267,17 @@ struct ColorCycle : Behaviour {
     float time = 0.0f;   ///< 経過時間（内部管理）
     
     /**
+     * @brief デフォルトコンストラクタ
+     */
+    ColorCycle() = default;
+    
+    /**
+     * @brief コンストラクタ
+     * @param[in] s 色変化の速度
+     */
+    ColorCycle(float s) : speed(s) {}
+    
+    /**
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
      * @param[in] self 自身のエンティティ

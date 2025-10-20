@@ -1,5 +1,0 @@
-<map id="Player" name="Player">
-<area shape="rect" id="Node000001" title="プレイヤータグ" alt="" coords="22,80,81,107"/>
-<area shape="rect" id="Node000002" href="$struct_i_component.html" title="前方宣言: Entity構造体" alt="" coords="5,5,98,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="54,48,54,80,49,80,49,48"/>
-</map>

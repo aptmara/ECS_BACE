@@ -113,17 +113,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
-    <None Include="docs\CHANGELOG_v3.md" />
-    <None Include="docs\LEARNING_GUIDE.md" />
-    <None Include="docs\CHANGELOG_v4.md" />
-    <None Include="docs\QUICK_REFERENCE.md" />
     <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
     <None Include="Assets\Textures\test.png">
       <Filter>リソース ファイル</Filter>
     </None>
     <None Include="Assets\Videos\video.mp4" />
-    <None Include="tools\build-docs.ps1" />
-    <None Include="Doxyfile" />
     <None Include="docs\PCH_SETUP.md" />
     <None Include="docs\HEADER_INCLUDES.md" />
   </ItemGroup>

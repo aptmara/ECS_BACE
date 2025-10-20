@@ -1,5 +1,0 @@
-<map id="InputSystem::GetMouseButtonUp" name="InputSystem::GetMouseButtonUp">
-<area shape="rect" id="Node000001" title="マウスボタンがこのフレームで離された瞬間か" alt="" coords="5,5,224,32"/>
-<area shape="rect" id="Node000002" href="$class_input_system.html#a9b1a5829e793854b5a490323a2d01bb5" title="キーがこのフレームで離された瞬間か" alt="" coords="272,5,436,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,16,256,16,256,21,224,21"/>
-</map>

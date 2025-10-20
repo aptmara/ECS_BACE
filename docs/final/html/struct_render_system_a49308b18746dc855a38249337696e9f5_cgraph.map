@@ -1,5 +1,0 @@
-<map id="RenderSystem::Init" name="RenderSystem::Init">
-<area shape="rect" id="Node000001" title="初期化" alt="" coords="5,5,140,32"/>
-<area shape="rect" id="Node000002" href="$class_gfx_device.html#a99d6cead18e76f4c4134c3a4a1000668" title="デバイスアクセス" alt="" coords="188,5,303,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,16,172,16,172,21,140,21"/>
-</map>

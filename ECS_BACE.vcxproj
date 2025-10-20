@@ -169,15 +169,9 @@
     <None Include="Assets\Textures\test.png" />
     <None Include="Assets\Videos\video.mp4" />
     <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
-    <None Include="docs\CHANGELOG_v3.md" />
-    <None Include="docs\CHANGELOG_v4.md" />
     <None Include="docs\HEADER_INCLUDES.md" />
-    <None Include="docs\LEARNING_GUIDE.md" />
     <None Include="docs\PCH_SETUP.md" />
-    <None Include="docs\QUICK_REFERENCE.md" />
-    <None Include="Doxyfile" />
     <None Include="README.md" />
-    <None Include="tools\build-docs.ps1" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

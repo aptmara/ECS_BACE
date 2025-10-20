@@ -1,7 +1,0 @@
-<map id="WinMain" name="WinMain">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,78,57"/>
-<area shape="rect" id="Node000002" href="$struct_app.html#a01fd8a3e21bd74ea65cfa7f805c00b20" title="アプリケーションの初期化" alt="" coords="129,5,199,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,34,113,26,114,32,79,39"/>
-<area shape="rect" id="Node000003" href="$struct_app.html#a78d24016da98422fabb55b10dbfe3d72" title="メインループの実行" alt="" coords="126,56,202,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="79,49,111,56,110,61,78,54"/>
-</map>

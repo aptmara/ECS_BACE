@@ -1,5 +1,0 @@
-<map id="RenderSystem" name="RenderSystem">
-<area shape="rect" id="Node000001" title="テクスチャ対応レンダリングシステム" alt="" coords="8,104,117,131"/>
-<area shape="rect" id="Node000002" href="$class_texture_manager.html" title="テクスチャ管理システム" alt="" coords="5,5,120,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,48,65,104,60,104,60,48"/>
-</map>
