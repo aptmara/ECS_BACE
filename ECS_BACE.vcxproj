@@ -167,7 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Textures\test.png" />
-    <None Include="Assets\Videos\video.mp4" />
     <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
     <None Include="docs\HEADER_INCLUDES.md" />
     <None Include="docs\PCH_SETUP.md" />
