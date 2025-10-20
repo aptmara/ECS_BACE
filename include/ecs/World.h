@@ -192,7 +192,7 @@ public:
      * @details
      * コンポーネントがBehaviourを継承している場合、Tick()で自動的に更新されます。
      * 
-     * @note エンティティは生存している必要があります
+     * @note エンティティは生存している必要があります。
      */
     template<class T, class...Args>
     T& Add(Entity e, Args&&...args) {
