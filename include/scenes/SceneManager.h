@@ -2,7 +2,7 @@
  * @file SceneManager.h
  * @brief シーン管理システム
  * @author 山内陽
- * @date 2024
+ * @date 2025
  * @version 4.0
  * 
  * @details

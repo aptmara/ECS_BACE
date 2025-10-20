@@ -2,7 +2,7 @@
  * @file App.h
  * @brief ミニゲームのメインアプリケーションクラス
  * @author 山内 陽
- * @date 2024
+ * @date 2025
  * @version 5.1
  */
 #pragma once

@@ -2,7 +2,7 @@
  * @file TextureManager.h
  * @brief テクスチャ管理システム
  * @author 山内陽
- * @date 2024
+ * @date 2025
  * @version 5.0
  * 
  * @details

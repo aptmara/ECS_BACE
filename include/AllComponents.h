@@ -2,7 +2,7 @@
  * @file AllComponents.h
  * @brief すべてのコンポーネントを一括インクルード（PCH代替）
  * @author 山内陽
- * @date 2024
+ * @date 2025
  * @version 1.0
  * 
  * @details

@@ -2,7 +2,7 @@
  * @file RenderSystem.h
  * @brief テクスチャ対応レンダリングシステム
  * @author 山内陽
- * @date 2024
+ * @date 2025
  * @version 5.0
  * 
  * @details

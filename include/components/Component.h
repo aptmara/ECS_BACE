@@ -4,7 +4,7 @@
  * @file Component.h
  * @brief ECSコンポーネントシステムの基底クラスとマクロ定義
  * @author 山内陽
- * @date 2024
+ * @date 2025
  * @version 5.0
  * 
  * @details
