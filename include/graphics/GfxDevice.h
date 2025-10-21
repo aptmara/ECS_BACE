@@ -1,7 +1,12 @@
-/**
+﻿/**
  * @file GfxDevice.h
  * @brief DirectX11デバイス管理クラス
- * @details DirectX11の初期化、デバイス・コンテキストの管理、描画フレームの制御を行います
+ * @author 山内陽
+ * @date 2025
+ * @version 5.0
+ * 
+ * @details 
+ * DirectX11の初期化、デバイス・コンテキストの管理、描画フレームの制御を行います。
  */
 #pragma once
 #define WIN32_LEAN_AND_MEAN
@@ -15,18 +20,50 @@
 /**
  * @class GfxDevice
  * @brief DirectX11デバイス管理クラス
+ * 
  * @details 
  * DirectX11のデバイス、スワップチェイン、レンダーターゲット、深度バッファなどを管理し、
  * 描画フレームの開始・終了を制御します。
+ * 
+ * ### 主な機能:
+ * - DirectX11デバイスの初期化
+ * - スワップチェインの作成
+ * - レンダーターゲットビューと深度ステンシルビューの管理
+ * - フレームの開始・終了処理
+ * 
+ * @par 使用例
+ * @code
+ * GfxDevice gfx;
+ * if (!gfx.Init(hwnd, 1280, 720)) {
+ *     // 初期化失敗
+ *     return false;
+ * }
+ * 
+ * // メインループ
+ * while (running) {
+ *     gfx.BeginFrame(0.1f, 0.1f, 0.12f); // ダークブルーでクリア
+ *     
+ *     // 描画処理
+ *     
+ *     gfx.EndFrame();
+ * }
+ * @endcode
+ * 
+ * @author 山内陽
  */
 class GfxDevice {
 public:
     /**
      * @brief 初期化
      * @param[in] hwnd ウィンドウハンドル
-     * @param[in] w 幅
-     * @param[in] h 高さ
+     * @param[in] w 幅(ピクセル単位)
+     * @param[in] h 高さ(ピクセル単位)
      * @return bool 初期化が成功した場合は true
+     * 
+     * @details
+     * DirectX11デバイス、スワップチェイン、レンダーターゲット、
+     * 深度バッファを作成します。
+     * デバッグビルドではデバッグレイヤーが有効になります。
      */
     bool Init(HWND hwnd, uint32_t w, uint32_t h) {
         width_ = w;
@@ -74,11 +111,15 @@ public:
     }
 
     /**
-     * @brief フレーム開始（画面クリア）
-     * @param[in] r 赤成分（デフォルト: 0.1f）
-     * @param[in] g 緑成分（デフォルト: 0.1f）
-     * @param[in] b 青成分（デフォルト: 0.12f）
-     * @param[in] a アルファ成分（デフォルト: 1.0f）
+     * @brief フレーム開始(画面クリア)
+     * @param[in] r 赤成分(デフォルト: 0.1f)
+     * @param[in] g 緑成分(デフォルト: 0.1f)
+     * @param[in] b 青成分(デフォルト: 0.12f)
+     * @param[in] a アルファ成分(デフォルト: 1.0f)
+     * 
+     * @details
+     * レンダーターゲットと深度バッファをクリアし、ビューポートを設定します。
+     * すべての描画処理の前に呼び出してください。
      */
     void BeginFrame(float r = 0.1f, float g = 0.1f, float b = 0.12f, float a = 1.0f) {
         float c[4] = { r, g, b, a };
@@ -97,7 +138,12 @@ public:
     }
 
     /**
-     * @brief フレーム終了（画面表示）
+     * @brief フレーム終了(画面表示)
+     * 
+     * @details
+     * バックバッファをフロントバッファに切り替え、画面に表示します。
+     * すべての描画処理の後に呼び出してください。
+     * 垂直同期(VSync)が有効です。
      */
     void EndFrame() {
         swap_->Present(1, 0);
@@ -106,29 +152,38 @@ public:
     /**
      * @brief デバイスアクセス
      * @return ID3D11Device* デバイスポインタ
+     * 
+     * @details
+     * リソース(テクスチャ、バッファなど)を作成する際に使用します。
      */
     ID3D11Device* Dev() const { return device_.Get(); }
     
     /**
      * @brief デバイスコンテキストアクセス
-     * @return ID3D11DeviceContext* デバイスコンテキストポインタ
+     * @return ID3D11DeviceContext* デバイスコンテキストのポインタ
+     * 
+     * @details
+     * 描画コマンドの発行やリソースの設定に使用します。
      */
     ID3D11DeviceContext* Ctx() const { return context_.Get(); }
 
     /**
      * @brief 幅を取得
-     * @return uint32_t 幅
+     * @return uint32_t 幅(ピクセル単位)
      */
     uint32_t Width() const { return width_; }
     
     /**
      * @brief 高さを取得
-     * @return uint32_t 高さ
+     * @return uint32_t 高さ(ピクセル単位)
      */
     uint32_t Height() const { return height_; }
     
     /**
      * @brief デストラクタでリソースを明示的に解放
+     * 
+     * @details
+     * ComPtrは自動で解放されますが、念のため明示的にリセットします。
      */
     ~GfxDevice() {
         // ComPtrは自動で解放されるが、念のため明示的にリセット
@@ -143,6 +198,10 @@ private:
     /**
      * @brief バックバッファリソースの作成
      * @return bool 作成が成功した場合は true
+     * 
+     * @details
+     * スワップチェインからバックバッファを取得し、
+     * レンダーターゲットビューと深度ステンシルビューを作成します。
      */
     bool createBackbufferResources() {
         Microsoft::WRL::ComPtr<ID3D11Texture2D> back;

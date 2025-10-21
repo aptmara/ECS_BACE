@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "components/Component.h"
 #include "ecs/Entity.h"
 #include "ecs/World.h"
@@ -23,7 +23,7 @@
  *
  * @details
  * このコンポーネントをエンティティに追加すると、毎フレーム自動的に
- * Y軸（上下軸）を中心に回転します。Behaviourコンポーネントの基本的な
+ * Y軸(上下軸)を中心に回転します。Behaviourコンポーネントの基本的な
  * 実装例として、学習に最適です。
  *
  * ### Behaviourの仕組み:
@@ -31,11 +31,11 @@
  * 2. OnUpdate()内で、自身のTransformコンポーネントを取得
  * 3. Transformのrotation.yに角度を加算して回転
  *
- * ### dt（デルタタイム）の重要性:
- * dtは前フレームからの経過秒数です。これを掛けることで、
- * フレームレートに依存しない安定した動きを実現できます。
+ * ### dt(デルタタイム)の重要性:
+ * dtは前フレームからの経過時間です。これを掛けることで、
+ * フレームレートに依存しない一定した動きを実現できます。
  *
- * @par 使用例（基本）:
+ * @par 使用例(基本)
  * @code
  * // 毎秒45度で回転するキューブを作成
  * Entity cube = world.Create()
@@ -45,7 +45,7 @@
  *     .Build();
  * @endcode
  *
- * @par 使用例（高速回転）:
+ * @par 使用例(高速回転)
  * @code
  * // 毎秒180度で高速回転
  * Entity fastCube = world.Create()
@@ -55,7 +55,7 @@
  *     .Build();
  * @endcode
  *
- * @par 使用例（実行時の速度変更）:
+ * @par 使用例(実行時の速度変更)
  * @code
  * // 実行中に回転速度を変更
  * auto* rotator = world.TryGet<Rotator>(entity);
@@ -73,39 +73,59 @@
 struct Rotator : Behaviour {
     /**
      * @var speedDegY
-     * @brief Y軸中心の回転速度（度/秒）
+     * @brief Y軸中心の回転速度(度/秒)
      *
      * @details
      * 毎秒何度回転するかを指定します。
-     * - 正の値: 時計回り（右回り）
-     * - 負の値: 反時計回り（左回り）
+     * - 正の値: 時計回り(右回り)
+     * - 負の値: 反時計回り(左回り)
      * - 0: 回転しない
      *
-     * @par 参考値:
-     * - 45.0f: ゆっくり回転（8秒で1周）
-     * - 90.0f: 普通の速度（4秒で1周）
-     * - 180.0f: 速い回転（2秒で1周）
-     * - 360.0f: 高速回転（1秒で1周）
+     * ### 参考値:
+     * - 45.0f: ゆっくり回転(8秒で1周)
+     * - 90.0f: 標準的な速度(4秒で1周)
+     * - 180.0f: 速い回転(2秒で1周)
+     * - 360.0f: 高速回転(1秒で1周)
      *
-     * @note デフォルトは45.0（毎秒45度）
+     * @par 使用例
+     * @code
+     * Rotator rotator;
+     * rotator.speedDegY = 90.0f;   // 毎秒90度回転(4秒で1周)
+     * rotator.speedDegY = -45.0f;  // 逆回転(毎秒45度左回り)
+     * @endcode
+     *
+     * @note デフォルトは45.0(毎秒45度)
      */
     float speedDegY = 45.0f;
 
     /**
      * @brief デフォルトコンストラクタ
-     * @details 回転速度を45.0度/秒に設定します
+     * @details 回転速度を45.0度/秒に設定します。
      */
     Rotator() = default;
 
     /**
      * @brief 回転速度を指定するコンストラクタ
      *
-     * @param[in] s 回転速度（度/秒）
+     * @param[in] s 回転速度(度/秒)
      *
-     * @par 使用例:
+     * @details
+     * 指定した回転速度でRotatorを作成します。
+     * ビルダーパターンで使用する場合に便利です。
+     *
+     * @par 使用例
      * @code
-     * Rotator slowRotator(30.0f);   // 遅い回転
-     * Rotator fastRotator(120.0f);  // 速い回転
+     * // 遅い回転のRotatorを作成
+     * Rotator slowRotator(30.0f);   // 毎秒30度
+     * 
+     * // 速い回転のRotatorを作成
+     * Rotator fastRotator(120.0f);  // 毎秒120度
+     * 
+     * // ビルダーパターンで使用
+     * Entity cube = world.Create()
+     *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+     *     .With<Rotator>(60.0f)  // 毎秒60度
+     *     .Build();
      * @endcode
      */
     explicit Rotator(float s) : speedDegY(s) {}
@@ -113,36 +133,45 @@ struct Rotator : Behaviour {
     /**
      * @brief 毎フレーム呼ばれる更新処理
      *
-     * @param[in,out] w ワールドへの参照（コンポーネント取得に使用）
+     * @param[in,out] w ワールドへの参照(コンポーネント取得に使用)
      * @param[in] self このコンポーネントが付いているエンティティ
-     * @param[in] dt デルタタイム（前フレームからの経過秒数）
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      *
      * @details
-     * この関数が毎フレーム自動的に呼ばれ、以下の処理を行います：
+     * この関数が毎フレーム自動的に呼ばれ、以下の処理を行います:
      * 1. 自身のTransformコンポーネントを取得
      * 2. rotation.yに speedDegY * dt を加算して回転
-     * 3. 360度を超えたら正規化（0～360度の範囲に収める）
+     * 3. 360度を超えたら正規化(0-360度の範囲に収める)
+     *
+     * ### dtの重要性:
+     * dtを掛けることで、フレームレートに依存しない動きを実現します。
+     * - 60FPSの場合: dt ≈ 0.0167秒
+     * - 30FPSの場合: dt ≈ 0.0333秒
      *
      * @note dtを掛けることで、フレームレートに依存しない動きを実現
      *
      * @par 処理の詳細:
      * @code
-     * // 例: speedDegY = 45.0f, dt = 0.016秒（60FPS）の場合
+     * // 例: speedDegY = 45.0f, dt = 0.016秒(60FPS)の場合
      * rotation.y += 45.0f * 0.016f = 0.72度加算
      *
      * // 60FPSで動作すると、1秒間に
-     * // 60フレーム * 0.72度 = 約43.2度回転（誤差は浮動小数点演算による）
+     * // 60フレーム * 0.72度 ≈ 43.2度回転(誤差は浮動小数点演算による)
      * @endcode
+     *
+     * @par 正規化の必要性:
+     * 360度を超えた場合、正規化を行わないと数値が無限に大きくなります。
+     * 浮動小数点の精度低下を防ぐため、0-360度の範囲に収めています。
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         // このエンティティのTransformを取得
         auto* t = w.TryGet<Transform>(self);
         if (!t) return; // Transformがなければ何もしない
 
-        // 回転値を更新（dt = デルタタイム = 前フレームからの経過秒数）
+        // 回転値を更新(dt = デルタタイム = 前フレームからの経過時間)
         t->rotation.y += speedDegY * dt;
 
-        // 360度を超えたら正規化（見やすくするため、なくてもOK）
+        // 360度を超えたら正規化(見やすくするため、なくてもOK)
         while (t->rotation.y >= 360.0f) t->rotation.y -= 360.0f;
         while (t->rotation.y < 0.0f) t->rotation.y += 360.0f;
     }

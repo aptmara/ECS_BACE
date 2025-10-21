@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file SampleScenes.h
  * @brief 学習用サンプルシーン集
  * @author 山内陽
@@ -7,7 +7,7 @@
  * 
  * @details
  * 初学者がコンポーネント指向を段階的に学べるサンプル集です。
- * 使い方：各関数をコピーして改造してみよう！
+ * 使い方: 各関数をコピーして改造してみよう。
  */
 #pragma once
 
@@ -43,7 +43,7 @@ namespace SampleScenes {
  * @author 山内陽
  */
 inline Entity CreateSimpleCube(World& world) {
-    // エンティティを作成（ビルダーパターン）
+    // エンティティを作成(ビルダーパターン)
     Entity cube = world.Create()
         .With<Transform>(
             DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},  // 位置
@@ -63,7 +63,7 @@ inline Entity CreateSimpleCube(World& world) {
  * @brief レベル2: 動きのあるエンティティ
  * @details
  * 学べること:
- * - Behaviourコンポーネント（Rotator）の使い方
+ * - Behaviourコンポーネント(Rotator)の使い方
  * - コンポーネントの組み合わせ
  */
 
@@ -117,7 +117,7 @@ inline Entity CreateBouncingCube(World& world) {
             DirectX::XMFLOAT3{0.8f, 0.8f, 0.8f}
         )
         .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 1.0f, 0.0f}) // 黄色
-        .With<Bouncer>() // 上下に跳ねる（ComponentSamples.h参照）
+        .With<Bouncer>() // 上下に跳ねる(ComponentSamples.h参照)
         .Build();
     
     return cube;
@@ -151,7 +151,7 @@ inline Entity CreateComplexCube(World& world) {
         )
         .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 0.0f, 1.0f}) // マゼンタ
         .With<Rotator>(30.0f)    // 回転動作
-        .With<PulseScale>()      // 大きさが変わる（ComponentSamples.h参照）
+        .With<PulseScale>()      // 大きさが変わる(ComponentSamples.h参照)
         .Build();
     
     return cube;
@@ -201,10 +201,10 @@ inline Entity CreateCubeOldStyle(World& world) {
 }
 
 // ========================================================
-// レベル6: コンポーネントの後からの変更
+// レベル6: コンポーネントを後から変更
 // ========================================================
 /**
- * @brief レベル6: コンポーネントの後からの変更
+ * @brief レベル6: コンポーネントを後から変更
  * @details
  * 学べること:
  * - TryGetで取得して値を変更
@@ -306,11 +306,11 @@ inline void CreateGridOfCubes(World& world, int rows = 3, int cols = 3) {
     
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < cols; ++col) {
-            // 位置を計算（中心を原点に）
+            // 位置を計算(中央を原点に)
             float x = (col - cols / 2.0f) * spacing;
             float z = (row - rows / 2.0f) * spacing;
             
-            // 色を計算（位置によって変わる）
+            // 色を計算(位置によって変わる)
             float r = static_cast<float>(col) / static_cast<float>(cols - 1);
             float b = static_cast<float>(row) / static_cast<float>(rows - 1);
             
@@ -333,7 +333,7 @@ inline void CreateGridOfCubes(World& world, int rows = 3, int cols = 3) {
 // ========================================================
 
 /**
- * @brief 練習1: 虹色に回転するキューブを作成
+ * @brief 練習: 虹色に回転するキューブを作成
  * 
  * @param[in,out] world ワールド参照
  * @return Entity 作成されたエンティティ
@@ -349,14 +349,14 @@ inline Entity CreateRainbowCube(World& world) {
         )
         .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f})
         .With<Rotator>(120.0f) // 速く回転
-        .With<ColorCycle>()    // 色が変わる（ComponentSamples.h）
+        .With<ColorCycle>()    // 色が変わる(ComponentSamples.h)
         .Build();
     
     return cube;
 }
 
 /**
- * @brief 練習2: ランダムに動き回るキューブ
+ * @brief 練習: ランダムに動き回るキューブ
  * 
  * @param[in,out] world ワールド参照
  * @return Entity 作成されたエンティティ
@@ -371,17 +371,17 @@ inline Entity CreateWanderingCube(World& world) {
             DirectX::XMFLOAT3{0.6f, 0.6f, 0.6f}
         )
         .With<MeshRenderer>(DirectX::XMFLOAT3{0.8f, 0.3f, 0.9f})
-        .With<RandomWalk>() // ランダム移動（ComponentSamples.h）
+        .With<RandomWalk>() // ランダム移動(ComponentSamples.h)
         .Build();
     
     return cube;
 }
 
 /**
- * @brief 練習3: 時間経過で消えるキューブ
+ * @brief 練習: 時間経過で消えるキューブ
  * 
  * @param[in,out] world ワールド参照
- * @param[in] lifeTime 生存時間（秒）
+ * @param[in] lifeTime 生存時間(秒単位)
  * @return Entity 作成されたエンティティ
  * 
  * @author 山内陽
@@ -412,13 +412,13 @@ inline Entity CreateTemporaryCube(World& world, float lifeTime = 5.0f) {
 // ========================================================
 /*
 
-// App.hのCreateDemoScene()で使う場合:
+// App.hのCreateDemoScene()で使う例
 
 void CreateDemoScene() {
     // シンプルなキューブ
     SampleScenes::CreateSimpleCube(world_);
     
-    // 回転するキューブ（位置を指定）
+    // 回転するキューブ(位置を指定)
     SampleScenes::CreateRotatingCube(world_, DirectX::XMFLOAT3{-3, 0, 0});
     
     // 上下に跳ねるキューブ

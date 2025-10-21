@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ecs/Entity.h"
 #include "components/Component.h"
 #include <unordered_map>
@@ -28,9 +28,9 @@ class World; ///< 前方宣言
  * 
  * @details
  * メソッドチェーンを使用して、複数のコンポーネントを持つエンティティを
- * 流暢に作成できます。Worldクラスと連携して動作します。
+ * 直感的に作成できます。Worldクラスと連携して動作します。
  * 
- * @par 使用例:
+ * @par 使用例
  * @code
  * Entity player = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
@@ -39,7 +39,7 @@ class World; ///< 前方宣言
  *     .Build();
  * @endcode
  * 
- * @note Build()は省略可能です（暗黙的にEntityへ変換されます）
+ * @note Build()は省略可能です(暗黙的にEntityへ変換されます)
  * @see World
  * 
  * @author 山内陽
@@ -57,9 +57,21 @@ public:
      * @brief メソッドチェーンでコンポーネントを追加
      * 
      * @tparam T 追加するコンポーネントの型
-     * @tparam Args コンストラクタ引数の型（可変長）
+     * @tparam Args コンストラクタ引数の型(可変長)
      * @param[in] args コンポーネントのコンストラクタに転送する引数
      * @return EntityBuilder& メソッドチェーン用の自身への参照
+     * 
+     * @details
+     * 指定したコンポーネントを作成し、エンティティに追加します。
+     * メソッドチェーンで複数のコンポーネントを連続して追加できます。
+     * 
+     * @par 使用例
+     * @code
+     * world.Create()
+     *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+     *     .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
+     *     .Build();
+     * @endcode
      */
     template<typename T, typename... Args>
     EntityBuilder& With(Args&&... args);
@@ -67,12 +79,19 @@ public:
     /**
      * @brief エンティティを確定して返す
      * @return Entity 作成されたエンティティ
+     * 
+     * @details
+     * ビルダーパターンを完了し、作成されたエンティティを返します。
+     * 省略可能で、暗黙的にEntityに変換されます。
      */
     Entity Build() { return entity_; }
     
     /**
      * @brief Entityへの暗黙的型変換演算子
      * @return Entity 作成されたエンティティ
+     * 
+     * @details
+     * Build()を呼ばなくても、自動的にEntityに変換されます。
      */
     operator Entity() const { return entity_; }
 
@@ -88,28 +107,31 @@ private:
  * @details
  * ECSアーキテクチャにおけるすべてのエンティティとコンポーネントを管理します。
  * 
- * 機能:
+ * ### 主な機能:
  * - エンティティの作成/破棄
  * - コンポーネントの追加/削除/取得
  * - Behaviourコンポーネントの更新
  * 
- * @par 基本的な使用方法:
+ * @par 基本的な使用方法
  * @code
  * World world;
  * 
+ * // エンティティを作成してコンポーネントを追加
  * Entity player = world.CreateEntity();
  * world.Add<Transform>(player, Transform{...});
  * world.Add<MeshRenderer>(player, MeshRenderer{...});
  * 
+ * // コンポーネントを取得して操作
  * auto* transform = world.TryGet<Transform>(player);
  * if (transform) {
  *     transform->position.x += 1.0f;
  * }
  * 
+ * // 毎フレーム更新
  * world.Tick(deltaTime);
  * @endcode
  * 
- * @par ビルダーパターン（推奨）:
+ * @par ビルダーパターン(推奨)
  * @code
  * Entity player = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
@@ -133,7 +155,7 @@ public:
      * @details
      * 一意なIDを持つ新しいエンティティを作成します。初期状態ではコンポーネントは付いていません。
      * 
-     * @note より便利なエンティティ作成にはCreate()（ビルダー版）の使用を検討してください
+     * @note より便利なエンティティ作成にはCreate()(ビルダー)の使用を推奨してください
      */
     Entity CreateEntity() {
         Entity e{ ++nextId_ };
@@ -146,7 +168,17 @@ public:
      * @return EntityBuilder メソッドチェーン用のビルダーオブジェクト
      * 
      * @details
-     * 流暢なコンポーネント追加を可能にするEntityBuilderを返します。
+     * 直感的なコンポーネント追加を可能にするEntityBuilderを返します。
+     * メソッドチェーンで複数のコンポーネントを連続して追加できます。
+     * 
+     * @par 使用例
+     * @code
+     * Entity enemy = world.Create()
+     *     .With<Transform>(DirectX::XMFLOAT3{5, 0, 0})
+     *     .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
+     *     .With<Enemy>()
+     *     .Build();
+     * @endcode
      * 
      * @see EntityBuilder
      */
@@ -159,6 +191,10 @@ public:
      * 
      * @param[in] e 確認するエンティティ
      * @return true 生存している, false 破棄済み
+     * 
+     * @details
+     * エンティティがまだ有効かどうかを確認します。
+     * 破棄されたエンティティへのアクセスを防ぐために使用します。
      */
     bool IsAlive(Entity e) const {
         auto it = alive_.find(e.id);
@@ -169,6 +205,10 @@ public:
      * @brief エンティティとそのすべてのコンポーネントを破棄
      * 
      * @param[in] e 破棄するエンティティ
+     * 
+     * @details
+     * 指定されたエンティティとそれに関連するすべてのコンポーネントを削除します。
+     * Behaviourコンポーネントも自動的に登録解除されます。
      * 
      * @warning 破棄されたエンティティを使用するとクラッシュする可能性があります
      */
@@ -184,15 +224,26 @@ public:
      * @brief エンティティにコンポーネントを追加
      * 
      * @tparam T 追加するコンポーネントの型
-     * @tparam Args コンストラクタ引数の型（可変長）
+     * @tparam Args コンストラクタ引数の型(可変長)
      * @param[in] e 対象エンティティ
      * @param[in] args コンポーネントのコンストラクタ引数
      * @return T& 追加されたコンポーネントへの参照
      * 
      * @details
+     * 指定したコンポーネントをエンティティに追加します。
      * コンポーネントがBehaviourを継承している場合、Tick()で自動的に更新されます。
      * 
-     * @note エンティティは生存している必要があります。
+     * @par 使用例
+     * @code
+     * Entity player = world.CreateEntity();
+     * world.Add<Transform>(player, Transform{
+     *     DirectX::XMFLOAT3{0, 0, 0},  // 位置
+     *     DirectX::XMFLOAT3{0, 0, 0},  // 回転
+     *     DirectX::XMFLOAT3{1, 1, 1}   // スケール
+     * });
+     * @endcode
+     * 
+     * @note エンティティは生存している必要があります
      */
     template<class T, class...Args>
     T& Add(Entity e, Args&&...args) {
@@ -209,6 +260,18 @@ public:
      * @tparam T 取得するコンポーネントの型
      * @param[in] e 対象エンティティ
      * @return T* コンポーネントへのポインタ、見つからない場合はnullptr
+     * 
+     * @details
+     * 指定したエンティティから指定したコンポーネントを取得します。
+     * コンポーネントが存在しない場合はnullptrを返します。
+     * 
+     * @par 使用例
+     * @code
+     * auto* transform = world.TryGet<Transform>(player);
+     * if (transform) {
+     *     transform->position.x += 1.0f;
+     * }
+     * @endcode
      * 
      * @warning 使用前に必ずnullptrチェックを行ってください
      */
@@ -228,6 +291,10 @@ public:
      * @tparam T 削除するコンポーネントの型
      * @param[in] e 対象エンティティ
      * @return true 削除成功, false コンポーネントが存在しなかった
+     * 
+     * @details
+     * 指定したエンティティから指定したコンポーネントを削除します。
+     * Behaviourの場合、自動更新も停止されます。
      */
     template<class T>
     bool Remove(Entity e) {
@@ -243,7 +310,26 @@ public:
      * 
      * @tparam T クエリ対象のコンポーネント型
      * @tparam F 関数の型
-     * @param[in] fn 実行する関数（EntityとT&を受け取る）
+     * @param[in] fn 実行する関数(EntityとT&を受け取る)
+     * 
+     * @details
+     * 指定したコンポーネントを持つすべてのエンティティに対して、
+     * 提供された関数を実行します。
+     * 
+     * @par 使用例
+     * @code
+     * // すべてのTransformを持つエンティティを上に移動
+     * world.ForEach<Transform>([](Entity e, Transform& t) {
+     *     t.position.y += 0.1f;
+     * });
+     * 
+     * // すべての敵のHPを確認
+     * world.ForEach<Enemy>([&](Entity e, Enemy& enemy) {
+     *     if (enemy.health <= 0) {
+     *         world.DestroyEntity(e);
+     *     }
+     * });
+     * @endcode
      */
     template<class T, class F>
     void ForEach(F&& fn) {
@@ -260,11 +346,24 @@ public:
     /**
      * @brief すべてのBehaviourコンポーネントを更新
      * 
-     * @param[in] dt デルタタイム（前フレームからの経過秒数）
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      * 
      * @details
      * すべてのBehaviourコンポーネントのOnUpdate()を呼び出します。毎フレーム呼び出す必要があります。
      * 初回呼び出し時にはOnStart()も実行されます。
+     * 
+     * @par 使用例
+     * @code
+     * // ゲームループ
+     * while (running) {
+     *     float deltaTime = CalculateDeltaTime();
+     *     
+     *     // すべてのBehaviourを更新
+     *     world.Tick(deltaTime);
+     *     
+     *     // 描画処理...
+     * }
+     * @endcode
      */
     void Tick(float dt) {
         // イテレーション中の削除に対応するためインデックスベースのループを使用
@@ -293,7 +392,7 @@ private:
      */
     template<class T>
     struct Store : IStore {
-        std::unordered_map<uint32_t, T> map;
+        std::unordered_map<uint32_t, T> map;  ///< EntityID -> コンポーネントのマップ
         void Erase(Entity e) override { map.erase(e.id); }
     };
 
@@ -311,7 +410,7 @@ private:
         return *static_cast<Store<T>*>(it->second);
     }
 
-    /// 自動更新のためにBehaviourコンポーネントを登録（C++14互換）
+    /// 自動更新のためにBehaviourコンポーネントを登録(C++14互換)
     template<class TDerived>
     typename std::enable_if<std::is_base_of<Behaviour, TDerived>::value>::type
         registerBehaviour(Entity e, TDerived* obj) {
@@ -321,7 +420,7 @@ private:
     typename std::enable_if<!std::is_base_of<Behaviour, TDerived>::value>::type
         registerBehaviour(Entity, TDerived*) {}
 
-    /// Behaviourコンポーネントの登録を解除（C++14互換）
+    /// Behaviourコンポーネントの登録を解除(C++14互換)
     template<class TDerived>
     typename std::enable_if<std::is_base_of<Behaviour, TDerived>::value>::type
         unregisterBehaviour(Entity e) {

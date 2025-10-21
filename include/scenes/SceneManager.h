@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file SceneManager.h
  * @brief シーン管理システム
  * @author 山内陽
@@ -33,15 +33,15 @@
  * ゲームの各画面(シーン)はこのクラスを継承して作成します。
  * 
  * ### 実装が必要なメソッド:
- * - OnEnter(): シーンが始まるときに1回だけ呼ばれる
+ * - OnEnter(): シーンが始まるときに1度だけ呼ばれる
  * - OnUpdate(): 毎フレーム呼ばれる(ゲームロジック)
- * - OnExit(): シーンが終わるときに1回だけ呼ばれる
+ * - OnExit(): シーンが終わるときに1度だけ呼ばれる
  * 
  * ### オプションのメソッド:
- * - ShouldChangeScene(): 次のシーンへ遷移するか判定
+ * - ShouldChangeScene(): 次のシーンへ移行するか判定
  * - GetNextScene(): 次のシーン名を返す
  * 
- * @par 使用例:
+ * @par 使用例
  * @code
  * class TitleScene : public IScene {
  * public:
@@ -74,6 +74,7 @@ class IScene {
 public:
     /**
      * @brief 仮想デストラクタ
+     * @details 派生クラスで正しくデストラクタが呼ばれることを保証します
      */
     virtual ~IScene() = default;
 
@@ -83,10 +84,10 @@ public:
      * @param[in,out] world ワールド参照
      * 
      * @details
-     * シーンが開始されるときに1回だけ呼ばれます。
+     * シーンが開始されるときに1度だけ呼ばれます。
      * エンティティの生成、変数の初期化などを行います。
      * 
-     * @par 使用例:
+     * @par 使用例
      * @code
      * void OnEnter(World& world) override {
      *     // プレイヤーを生成
@@ -102,15 +103,15 @@ public:
     /**
      * @brief 毎フレームの更新処理
      * 
-     * @param[in,out] world ワールド参照
+     * @param[in,out] world ワールド参照(コンポーネント取得などに使用)
      * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム（秒）
+     * @param[in] deltaTime デルタタイム(秒単位)
      * 
      * @details
      * 毎フレーム呼ばれます。
      * 入力処理、移動、衝突判定などのゲームロジックを実装します。
      * 
-     * @par 使用例:
+     * @par 使用例
      * @code
      * void OnUpdate(World& world, InputSystem& input, float dt) override {
      *     // 入力処理
@@ -131,10 +132,10 @@ public:
      * @param[in,out] world ワールド参照
      * 
      * @details
-     * シーンが終了するときに1回だけ呼ばれます。
+     * シーンが終了するときに1度だけ呼ばれます。
      * エンティティの削除、リソースの解放などを行います。
      * 
-     * @par 使用例:
+     * @par 使用例
      * @code
      * void OnExit(World& world) override {
      *     // すべてのエンティティを削除
@@ -146,17 +147,17 @@ public:
     virtual void OnExit(World& world) = 0;
 
     /**
-     * @brief 次のシーンへ遷移するか判定
+     * @brief 次のシーンへ移行するか判定
      * 
-     * @return true 遷移する, false 遷移しない
+     * @return true 移行する, false 移行しない
      * 
      * @details
-     * SceneManagerが毎フレーム呼び出し、trueならシーンを切り替えます。
+     * SceneManagerが毎フレーム呼び出しtrueならシーンを切り替えます。
      * 
-     * @par 使用例:
+     * @par 使用例
      * @code
      * bool ShouldChangeScene() const override {
-     *     return gameOver_;  // ゲームオーバーなら遷移
+     *     return gameOver_;  // ゲームオーバーなら移行
      * }
      * @endcode
      */
@@ -171,7 +172,7 @@ public:
      * ShouldChangeScene()がtrueのときに呼ばれます。
      * RegisterScene()で登録した名前を返してください。
      * 
-     * @par 使用例:
+     * @par 使用例
      * @code
      * const char* GetNextScene() const override {
      *     return "ResultScene";
@@ -190,7 +191,7 @@ public:
  * @brief ゲームシーンの切り替えを管理するクラス
  * 
  * @details
- * 複数のシーンを登録し、名前で切り替えを行います。
+ * 複数のシーンを登録し、動的で切り替えを行います。
  * 
  * ### 基本的な使い方:
  * 1. シーンを作成
@@ -199,7 +200,7 @@ public:
  * 4. 毎フレームUpdate()を呼ぶ
  * 5. 必要に応じてChangeScene()で切り替え
  * 
- * @par 使用例:
+ * @par 使用例
  * @code
  * SceneManager sceneManager;
  * World world;
@@ -223,13 +224,13 @@ public:
 class SceneManager {
 public:
     /**
-     * @brief 初期化（最初のシーンを設定）
+     * @brief 初期化(最初のシーンを設定)
      * 
      * @param[in] startScene 開始シーン
      * @param[in,out] world ワールド参照
      * 
      * @details
-     * SceneManagerを初期化し、最初のシーンを開始します。
+     * SceneManagerを初期化し最初のシーンを開始します。
      * startSceneのOnEnter()が自動的に呼ばれます。
      */
     void Init(IScene* startScene, World& world) {
@@ -240,16 +241,16 @@ public:
     }
 
     /**
-     * @brief シーンを登録（名前でシーンを切り替えられるようにする）
+     * @brief シーンを登録(動的でシーンを切り替えられるようにする)
      * 
      * @param[in] name シーンの名前
      * @param[in] scene シーンのポインタ
      * 
      * @details
-     * シーンを名前で登録します。
+     * シーンを動的で登録します。
      * ChangeScene()で名前を指定してシーンを切り替えられます。
      * 
-     * @par 使用例:
+     * @par 使用例
      * @code
      * sceneManager.RegisterScene("Title", new TitleScene());
      * sceneManager.RegisterScene("Game", new GameScene());
@@ -264,10 +265,10 @@ public:
      * 
      * @param[in,out] world ワールド参照
      * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム（秒）
+     * @param[in] deltaTime デルタタイム(秒単位)
      * 
      * @details
-     * 現在のシーンを更新し、シーン遷移をチェックします。
+     * 現在のシーンを更新し、シーン移行をチェックします。
      * ShouldChangeScene()がtrueなら自動的にシーンを切り替えます。
      */
     void Update(World& world, InputSystem& input, float deltaTime) {
@@ -276,7 +277,7 @@ public:
         // 現在のシーンを更新
         currentScene_->OnUpdate(world, input, deltaTime);
 
-        // シーン遷移チェック
+        // シーン移行チェック
         if (currentScene_->ShouldChangeScene()) {
             const char* nextSceneName = currentScene_->GetNextScene();
             ChangeScene(nextSceneName, world);
@@ -296,7 +297,7 @@ public:
      * 1. 現在のシーンのOnExit()を呼ぶ
      * 2. 新しいシーンのOnEnter()を呼ぶ
      * 
-     * @par 使用例:
+     * @par 使用例
      * @code
      * // ゲームシーンに切り替え
      * sceneManager.ChangeScene("Game", world);

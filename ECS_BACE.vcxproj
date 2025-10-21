@@ -143,7 +143,6 @@
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AllComponents.h" />
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\App.h" />
     <ClInclude Include="include\graphics\Camera.h" />

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file MiniGame.h
  * @brief シンプルなシューティングゲーム
  * @author 山内陽
@@ -11,7 +11,7 @@
  * - スペースキーで弾を発射
  * - 敵(赤キューブ)が自動で降ってくる
  * - 弾が敵に当たると敵が消滅
- * - スコアが貯まっていく！
+ * - スコアが貯まっていく
  */
 #pragma once
 
@@ -59,7 +59,7 @@ struct PlayerMovement : Behaviour {
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
      * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] dt デルタタイム(秒単位)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         auto* t = w.TryGet<Transform>(self);
@@ -88,7 +88,7 @@ struct BulletMovement : Behaviour {
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
      * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] dt デルタタイム(秒単位)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         auto* t = w.TryGet<Transform>(self);
@@ -119,7 +119,7 @@ struct EnemyMovement : Behaviour {
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
      * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] dt デルタタイム(秒単位)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         auto* t = w.TryGet<Transform>(self);
@@ -176,7 +176,7 @@ public:
             .With<MeshRenderer>(DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f}) // 緑色
             .With<Player>()
             .With<PlayerMovement>()
-			.With<ColorCycle>(1.0f) // 色が変化するように
+            .With<ColorCycle>(1.0f) // 色が変化するように
             .Build();
 
         score_ = 0;
@@ -188,7 +188,7 @@ public:
      * @brief 毎フレーム更新処理
      * @param[in,out] world ワールド参照
      * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム（秒）
+     * @param[in] deltaTime デルタタイム(秒単位)
      */
     void OnUpdate(World& world, InputSystem& input, float deltaTime) override {
         // プレイヤー移動
@@ -238,7 +238,7 @@ private:
      * @brief プレイヤーの移動処理
      * @param[in,out] world ワールド参照
      * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム（秒）
+     * @param[in] deltaTime デルタタイム(秒単位)
      */
     void UpdatePlayerMovement(World& world, InputSystem& input, float deltaTime) {
         auto* playerTransform = world.TryGet<Transform>(playerEntity_);
@@ -261,12 +261,12 @@ private:
      * @brief 弾の発射処理
      * @param[in,out] world ワールド参照
      * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム（秒）
+     * @param[in] deltaTime デルタタイム(秒単位)
      */
     void UpdateShooting(World& world, InputSystem& input, float deltaTime) {
         shootCooldown_ -= deltaTime;
 
-        // スペースキーで弾を発射(クールダウン中は発射できない)
+        // スペースキーで弾を発射、クールダウン中は発射できない
         if (input.GetKey(VK_SPACE) && shootCooldown_ <= 0.0f) {
             auto* playerTransform = world.TryGet<Transform>(playerEntity_);
             if (playerTransform) {
@@ -275,12 +275,12 @@ private:
                     .With<Transform>(
                         DirectX::XMFLOAT3{playerTransform->position.x, playerTransform->position.y + 1.0f, 0.0f},
                         DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-                        DirectX::XMFLOAT3{0.3f, 0.5f, 0.3f}  // 小さめ
+                        DirectX::XMFLOAT3{0.3f, 0.5f, 0.3f}  // 小さく
                     )
                     .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 1.0f, 0.0f}) // 黄色
                     .With<Bullet>()
                     .With<BulletMovement>()
-					.With<Rotator>(1000.0f) // 弾が回転するように
+                    .With<Rotator>(1000.0f) // 弾が回転するように
                     .Build();
 
                 shootCooldown_ = 0.2f; // 0.2秒のクールダウン
@@ -291,7 +291,7 @@ private:
     /**
      * @brief 敵の生成処理
      * @param[in,out] world ワールド参照
-     * @param[in] deltaTime デルタタイム（秒）
+     * @param[in] deltaTime デルタタイム(秒単位)
      */
     void UpdateEnemySpawning(World& world, float deltaTime) {
         enemySpawnTimer_ += deltaTime;
@@ -309,10 +309,10 @@ private:
                     DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
                     DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f}
                 )
-				.With<MeshRenderer>(DirectX::XMFLOAT3{ 1.0f, 0.0f, 0.0f }) // 赤色
+                .With<MeshRenderer>(DirectX::XMFLOAT3{ 1.0f, 0.0f, 0.0f }) // 赤色
                 .With<Enemy>()
                 .With<EnemyMovement>()
-				.With<Rotator>(10000.0f)
+                .With<Rotator>(10000.0f)
                 .Build();
         }
     }
@@ -347,7 +347,7 @@ private:
                     if (e.id == enemyEntity.id) return;
                 }
 
-                // 簡易的な距離判定(円の衝突)
+                // 簡易的な距離判定(円衝突)
                 float dx = bulletTransform->position.x - enemyTransform->position.x;
                 float dy = bulletTransform->position.y - enemyTransform->position.y;
                 float distance = sqrtf(dx * dx + dy * dy);

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file DebugDraw.h
  * @brief デバッグ用の線描画システム
  * @author 山内陽
@@ -30,12 +30,12 @@
  * ワールド空間でのデバッグ情報の可視化に使用します。
  * 
  * ### 主な用途:
- * - グリッド表示（基準となる平面）
- * - 座標軸表示（X, Y, Z軸）
+ * - グリッド表示(基準となる平面)
+ * - 座標軸表示(X, Y, Z軸)
  * - 当たり判定の可視化
  * - 移動経路の表示
  * 
- * @par 使用例:
+ * @par 使用例
  * @code
  * DebugDraw debugDraw;
  * debugDraw.Init(gfx);
@@ -66,18 +66,22 @@ class DebugDraw {
 public:
     /**
      * @struct Line
-     * @brief 線分の定義（開始点、終了点、色）
+     * @brief 線分の定義(開始点、終了点、色)
      */
     struct Line {
         DirectX::XMFLOAT3 start; ///< 線の開始点
         DirectX::XMFLOAT3 end;   ///< 線の終了点
-        DirectX::XMFLOAT3 color; ///< 線の色（RGB: 0.0～1.0）
+        DirectX::XMFLOAT3 color; ///< 線の色(RGB: 0.0～1.0)
     };
 
     /**
      * @brief 初期化
      * @param[in] gfx グラフィックスデバイス
      * @return bool 初期化が成功した場合は true
+     * 
+     * @details
+     * シェーダーのコンパイル、パイプラインステートの作成、
+     * 動的頂点バッファの作成を行います。
      */
     bool Init(GfxDevice& gfx) {
         // シェーダーのコンパイル
@@ -149,7 +153,7 @@ public:
             return false;
         }
 
-        // 動的頂点バッファ（最大10000線分）
+        // 動的頂点バッファ(最大10000線分)
         maxLines_ = 10000;
         D3D11_BUFFER_DESC vbd{};
         vbd.ByteWidth = (UINT)(maxLines_ * 2 * sizeof(Vertex)); // 1線分 = 2頂点
@@ -168,7 +172,21 @@ public:
      * @brief 線を追加
      * @param[in] start 線の開始点
      * @param[in] end 線の終了点
-     * @param[in] color 線の色（RGB: 0.0～1.0）
+     * @param[in] color 線の色(RGB: 0.0～1.0)
+     * 
+     * @details
+     * 描画する線をリストに追加します。
+     * 実際の描画はRender()呼び出し時に行われます。
+     * 
+     * @par 使用例
+     * @code
+     * // 赤い線を描画
+     * debugDraw.AddLine(
+     *     DirectX::XMFLOAT3{0, 0, 0},
+     *     DirectX::XMFLOAT3{10, 0, 0},
+     *     DirectX::XMFLOAT3{1, 0, 0}
+     * );
+     * @endcode
      */
     void AddLine(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, const DirectX::XMFLOAT3& color) {
         lines_.push_back({ start, end, color });
@@ -176,9 +194,19 @@ public:
 
     /**
      * @brief グリッドを描画
-     * @param[in] size グリッドのサイズ（全体の幅と奥行き）
-     * @param[in] divisions 分割数（何本の線を引くか）
-     * @param[in] color グリッドの色（デフォルト: 灰色）
+     * @param[in] size グリッドのサイズ(全体の幅と奥行き)
+     * @param[in] divisions 分割数(何本の線を引くか)
+     * @param[in] color グリッドの色(デフォルト: 灰色)
+     * 
+     * @details
+     * X-Z平面にグリッドを描画します。
+     * Y=0の平面に水平なグリッドが表示されます。
+     * 
+     * @par 使用例
+     * @code
+     * // 20x20のグリッドを20本の線で描画
+     * debugDraw.DrawGrid(20.0f, 20);
+     * @endcode
      */
     void DrawGrid(float size = 10.0f, int divisions = 10, const DirectX::XMFLOAT3& color = {0.5f, 0.5f, 0.5f}) {
         float step = size / divisions;
@@ -188,14 +216,14 @@ public:
         for (int i = 0; i <= divisions; ++i) {
             float pos = -halfSize + i * step;
             
-            // Z軸に平行な線（X方向に並ぶ）
+            // Z軸に平行な線(X方向に並ぶ)
             AddLine(
                 DirectX::XMFLOAT3{-halfSize, 0, pos},
                 DirectX::XMFLOAT3{ halfSize, 0, pos},
                 color
             );
             
-            // X軸に平行な線（Z方向に並ぶ）
+            // X軸に平行な線(Z方向に並ぶ)
             AddLine(
                 DirectX::XMFLOAT3{pos, 0, -halfSize},
                 DirectX::XMFLOAT3{pos, 0,  halfSize},
@@ -209,24 +237,31 @@ public:
      * @param[in] length 軸の長さ
      * 
      * @details
-     * X軸（赤）、Y軸（緑）、Z軸（青）を原点から描画します。
+     * X軸(赤)、Y軸(緑)、Z軸(青)を原点から描画します。
+     * 3D空間の方向を確認するのに便利です。
+     * 
+     * @par 使用例
+     * @code
+     * // 5単位の長さの座標軸を描画
+     * debugDraw.DrawAxes(5.0f);
+     * @endcode
      */
     void DrawAxes(float length = 5.0f) {
-        // X軸（赤）
+        // X軸(赤)
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{length, 0, 0},
             DirectX::XMFLOAT3{1, 0, 0}
         );
         
-        // Y軸（緑）
+        // Y軸(緑)
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, length, 0},
             DirectX::XMFLOAT3{0, 1, 0}
         );
         
-        // Z軸（青）
+        // Z軸(青)
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, 0, length},
@@ -238,6 +273,10 @@ public:
      * @brief すべての線を描画
      * @param[in] gfx グラフィックスデバイス
      * @param[in] cam カメラ
+     * 
+     * @details
+     * AddLine()やDrawGrid()などで追加されたすべての線を描画します。
+     * カメラのView・Projection行列を使用してワールド空間から画面空間に変換します。
      */
     void Render(GfxDevice& gfx, const Camera& cam) {
         if (lines_.empty()) return;
@@ -269,7 +308,7 @@ public:
         gfx.Ctx()->IASetVertexBuffers(0, 1, vb_.GetAddressOf(), &stride, &offset);
         gfx.Ctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
-        // 定数バッファ更新（ワールド行列は単位行列）
+        // 定数バッファ更新(ワールド行列は単位行列)
         DirectX::XMMATRIX VP = DirectX::XMMatrixTranspose(cam.View * cam.Proj);
         gfx.Ctx()->UpdateSubresource(cb_.Get(), 0, nullptr, &VP, 0, 0);
 
@@ -283,6 +322,20 @@ public:
      * @details
      * 蓄積された線データをクリアします。
      * 毎フレーム呼び出す必要があります。
+     * 
+     * @par 使用例
+     * @code
+     * while (running) {
+     *     // 線を追加
+     *     debugDraw.DrawGrid(20.0f, 20);
+     *     
+     *     // 描画
+     *     debugDraw.Render(gfx, camera);
+     *     
+     *     // フレーム終了時にクリア
+     *     debugDraw.Clear();
+     * }
+     * @endcode
      */
     void Clear() {
         lines_.clear();
@@ -290,6 +343,9 @@ public:
 
     /**
      * @brief デストラクタ
+     * 
+     * @details
+     * すべてのDirectX11リソースを自動的に解放します。
      */
     ~DebugDraw() {
         vs_.Reset();
@@ -302,7 +358,7 @@ public:
 private:
     /**
      * @struct Vertex
-     * @brief 頂点データ（位置と色）
+     * @brief 頂点データ(位置と色)
      */
     struct Vertex {
         DirectX::XMFLOAT3 pos; ///< 位置

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
@@ -21,10 +21,10 @@
  * @brief キーボード・マウス入力を管理するクラス
  * 
  * @details
- * Windows APIを使用してキーボードとマウスの入力状態を管理します。
- * ゲームループ内で毎フレームUpdate()を呼び出すことで、入力状態が更新されます。
+ * Windows APIを使用してキーボードとマウスの入力状況を管理します。
+ * ゲームループ内で毎フレームUpdate()を呼び出すことで、入力状況が更新されます。
  * 
- * @par 使用例:
+ * @par 使用例
  * @code
  * InputSystem input;
  * input.Init();
@@ -44,7 +44,7 @@ class InputSystem {
 public:
     /**
      * @enum KeyState
-     * @brief キーの状態を表す列挙型
+     * @brief キーの状況を表す列挙型
      */
     enum class KeyState : uint8_t {
         None = 0,      ///< 何も押されていない
@@ -65,6 +65,9 @@ public:
 
     /**
      * @brief 初期化
+     * 
+     * @details
+     * すべての入力状態をリセットし、初期状態にします。
      */
     void Init() {
         memset(keyStates_, 0, sizeof(keyStates_));
@@ -77,7 +80,11 @@ public:
     }
 
     /**
-     * @brief 入力状態の更新（毎フレーム呼ぶ）
+     * @brief 入力状況の更新(毎フレーム呼ぶ)
+     * 
+     * @details
+     * 前フレームの状態を保存し、現在の入力状態を取得します。
+     * キーの押下・離された瞬間の判定はこの更新処理によって行われます。
      */
     void Update() {
         memcpy(prevKeyStates_, keyStates_, sizeof(keyStates_));
@@ -115,6 +122,16 @@ public:
      * @brief キーが押されているか
      * @param[in] vkCode 仮想キーコード
      * @return true 押されている, false 押されていない
+     * 
+     * @details
+     * キーが押され続けている間、またはこのフレームで押された瞬間にtrueを返します。
+     * 
+     * @par 使用例
+     * @code
+     * if (input.GetKey('W')) {
+     *     // Wキーが押されている間、前進
+     * }
+     * @endcode
      */
     bool GetKey(int vkCode) const {
         if (vkCode < 0 || vkCode >= 256) return false;
@@ -126,6 +143,18 @@ public:
      * @brief キーがこのフレームで押された瞬間か
      * @param[in] vkCode 仮想キーコード
      * @return true 押された瞬間, false それ以外
+     * 
+     * @details
+     * キーが押された最初のフレームのみtrueを返します。
+     * 押し続けても次のフレームからはfalseになります。
+     * 
+     * @par 使用例
+     * @code
+     * if (input.GetKeyDown(VK_SPACE)) {
+     *     // スペースキーが押された瞬間にジャンプ
+     *     Jump();
+     * }
+     * @endcode
      */
     bool GetKeyDown(int vkCode) const {
         if (vkCode < 0 || vkCode >= 256) return false;
@@ -136,6 +165,16 @@ public:
      * @brief キーがこのフレームで離された瞬間か
      * @param[in] vkCode 仮想キーコード
      * @return true 離された瞬間, false それ以外
+     * 
+     * @details
+     * キーが離された最初のフレームのみtrueを返します。
+     * 
+     * @par 使用例
+     * @code
+     * if (input.GetKeyUp(VK_SPACE)) {
+     *     // スペースキーを離した瞬間の処理
+     * }
+     * @endcode
      */
     bool GetKeyUp(int vkCode) const {
         if (vkCode < 0 || vkCode >= 256) return false;
@@ -146,6 +185,16 @@ public:
      * @brief マウスボタンが押されているか
      * @param[in] button マウスボタン
      * @return true 押されている, false 押されていない
+     * 
+     * @details
+     * 指定したマウスボタンが押されている間trueを返します。
+     * 
+     * @par 使用例
+     * @code
+     * if (input.GetMouseButton(InputSystem::Left)) {
+     *     // 左クリック中の処理
+     * }
+     * @endcode
      */
     bool GetMouseButton(MouseButton button) const {
         int vk = VK_LBUTTON;
@@ -158,6 +207,9 @@ public:
      * @brief マウスボタンがこのフレームで押された瞬間か
      * @param[in] button マウスボタン
      * @return true 押された瞬間, false それ以外
+     * 
+     * @details
+     * マウスボタンが押された最初のフレームのみtrueを返します。
      */
     bool GetMouseButtonDown(MouseButton button) const {
         int vk = VK_LBUTTON;
@@ -170,6 +222,9 @@ public:
      * @brief マウスボタンがこのフレームで離された瞬間か
      * @param[in] button マウスボタン
      * @return true 離された瞬間, false それ以外
+     * 
+     * @details
+     * マウスボタンが離された最初のフレームのみtrueを返します。
      */
     bool GetMouseButtonUp(MouseButton button) const {
         int vk = VK_LBUTTON;
@@ -180,47 +235,56 @@ public:
 
     /**
      * @brief マウスX座標を取得
-     * @return int X座標
+     * @return int X座標(スクリーン座標系)
      */
     int GetMouseX() const { return mouseX_; }
     
     /**
      * @brief マウスY座標を取得
-     * @return int Y座標
+     * @return int Y座標(スクリーン座標系)
      */
     int GetMouseY() const { return mouseY_; }
     
     /**
-     * @brief マウスの移動量（X）を取得
+     * @brief マウスの移動量(X方向)を取得
      * @return int X方向移動量
+     * 
+     * @details
+     * 前フレームからのマウスカーソルの移動量を返します。
      */
     int GetMouseDeltaX() const { return mouseDeltaX_; }
     
     /**
-     * @brief マウスの移動量（Y）を取得
+     * @brief マウスの移動量(Y方向)を取得
      * @return int Y方向移動量
+     * 
+     * @details
+     * 前フレームからのマウスカーソルの移動量を返します。
      */
     int GetMouseDeltaY() const { return mouseDeltaY_; }
     
     /**
      * @brief マウスホイールの回転量を取得
-     * @return int ホイール回転量
+     * @return int ホイール回転量(正:上回転, 負:下回転)
      */
     int GetMouseWheel() const { return mouseWheel_; }
     
     /**
      * @brief マウスホイールイベント
      * @param[in] delta ホイール回転量
+     * 
+     * @details
+     * ウィンドウプロシージャからホイールイベントを受け取るために使用します。
      */
     void OnMouseWheel(int delta) {
         mouseWheel_ = delta / 120;
     }
 
 private:
-    uint8_t keyStates_[256];        ///< 現在のキー状態
-    uint8_t prevKeyStates_[256];    ///< 前フレームのキー状態
-    uint8_t mouseStates_[3];        ///< マウスボタン状態
-    uint8_t prevMouseStates_[3];    ///< 前フレームのマウスボタン状態
+    uint8_t keyStates_[256];        ///< 現在のキー状況
+    uint8_t prevKeyStates_[256];    ///< 前フレームのキー状況
+    uint8_t mouseStates_[3];        ///< マウスボタン状況
+    uint8_t prevMouseStates_[3];    ///< 前フレームのマウスボタン状況
     
     int mouseX_;        ///< マウスX座標
     int mouseY_;        ///< マウスY座標
@@ -232,6 +296,16 @@ private:
 /**
  * @brief グローバルな入力システムインスタンスを取得
  * @return InputSystem& シングルトンインスタンス
+ * 
+ * @details
+ * どこからでもアクセス可能な入力システムのインスタンスを返します。
+ * 
+ * @par 使用例
+ * @code
+ * if (GetInput().GetKeyDown(VK_ESCAPE)) {
+ *     // ESCキーでゲーム終了
+ * }
+ * @endcode
  * 
  * @author 山内陽
  */
