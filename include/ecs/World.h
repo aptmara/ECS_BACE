@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "ecs/Entity.h"
 #include "components/Component.h"
 #include <unordered_map>
@@ -15,27 +15,27 @@
 
 /**
  * @file World.h
- * @brief ECSƒ[ƒ‹ƒhŠÇ—ƒVƒXƒeƒ€‚ÆƒGƒ“ƒeƒBƒeƒBƒrƒ‹ƒ_[‚Ì’è‹`
- * @author R“à—z
+ * @brief ECSãƒ¯ãƒ¼ãƒ«ãƒ‰ç®¡ç†ã‚·ã‚¹ãƒ†ãƒ ã¨ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒ“ãƒ«ãƒ€ãƒ¼ã®å®šç¾©
+ * @author å±±å†…é™½
  * @date 2025
  * @version 5.0
- * 
+ *
  * @details
- * ECSƒA[ƒLƒeƒNƒ`ƒƒ‚Ì’†Šj‚Æ‚È‚éWorldƒNƒ‰ƒX‚ÆA
- * ƒGƒ“ƒeƒBƒeƒB‚ğ•Ö—˜‚Éì¬‚·‚é‚½‚ß‚ÌEntityBuilderƒNƒ‰ƒX‚ğ’è‹`‚µ‚Ü‚·B
+ * ECSã‚¢ãƒ¼ã‚­ãƒ†ã‚¯ãƒãƒ£ã®ä¸­æ ¸ã¨ãªã‚‹Worldã‚¯ãƒ©ã‚¹ã¨ã€
+ * ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä¾¿åˆ©ã«ä½œæˆã™ã‚‹ãŸã‚ã®EntityBuilderã‚¯ãƒ©ã‚¹ã‚’å®šç¾©ã—ã¾ã™ã€‚
  */
 
-class World; ///< ‘O•ûéŒ¾
+class World; ///< å‰æ–¹å®£è¨€
 
 /**
  * @class EntityBuilder
- * @brief ƒGƒ“ƒeƒBƒeƒBì¬—p‚Ìƒrƒ‹ƒ_[ƒpƒ^[ƒ“ƒNƒ‰ƒX
- * 
+ * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ä½œæˆç”¨ã®ãƒ“ãƒ«ãƒ€ãƒ¼ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚¯ãƒ©ã‚¹
+ *
  * @details
- * ƒƒ\ƒbƒhƒ`ƒF[ƒ“‚ğg—p‚µ‚ÄA•¡”‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚ğ
- * ’¼Š´“I‚Éì¬‚Å‚«‚Ü‚·BWorldƒNƒ‰ƒX‚Æ˜AŒg‚µ‚Ä“®ì‚µ‚Ü‚·B
- * 
- * @par g—p—á
+ * ãƒ¡ã‚½ãƒƒãƒ‰ãƒã‚§ãƒ¼ãƒ³ã‚’ä½¿ç”¨ã—ã¦ã€è¤‡æ•°ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’
+ * ç›´æ„Ÿçš„ã«ä½œæˆã§ãã¾ã™ã€‚Worldã‚¯ãƒ©ã‚¹ã¨é€£æºã—ã¦å‹•ä½œã—ã¾ã™ã€‚
+ *
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * Entity player = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
@@ -43,34 +43,34 @@ class World; ///< ‘O•ûéŒ¾
  *     .With<Rotator>(45.0f)
  *     .Build();
  * @endcode
- * 
- * @note Build()‚ÍÈ—ª‰Â”\‚Å‚·(ˆÃ–Ù“I‚ÉEntity‚Ö•ÏŠ·‚³‚ê‚Ü‚·)
+ *
+ * @note Build()ã¯çœç•¥å¯èƒ½ã§ã™(æš—é»™çš„ã«Entityã¸å¤‰æ›ã•ã‚Œã¾ã™)
  * @see World
- * 
- * @author R“à—z
+ *
+ * @author å±±å†…é™½
  */
 class EntityBuilder {
 public:
     /**
-     * @brief ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param[in] world WorldƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^
-     * @param[in] entity ì¬‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB
+     * @brief ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param[in] world Worldã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+     * @param[in] entity ä½œæˆã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
      */
     EntityBuilder(World* world, Entity entity) : world_(world), entity_(entity) {}
-    
+
     /**
-     * @brief ƒƒ\ƒbƒhƒ`ƒF[ƒ“‚ÅƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ’Ç‰Á
-     * 
-     * @tparam T ’Ç‰Á‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
-     * @tparam Args ƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”‚ÌŒ^(‰Â•Ï’·)
-     * @param[in] args ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚É“]‘—‚·‚éˆø”
-     * @return EntityBuilder& ƒƒ\ƒbƒhƒ`ƒF[ƒ“—p‚Ì©g‚Ö‚ÌQÆ
-     * 
+     * @brief ãƒ¡ã‚½ãƒƒãƒ‰ãƒã‚§ãƒ¼ãƒ³ã§ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿½åŠ 
+     *
+     * @tparam T è¿½åŠ ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+     * @tparam Args ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ã®å‹(å¯å¤‰é•·)
+     * @param[in] args ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã«è»¢é€ã™ã‚‹å¼•æ•°
+     * @return EntityBuilder& ãƒ¡ã‚½ãƒƒãƒ‰ãƒã‚§ãƒ¼ãƒ³ç”¨ã®è‡ªèº«ã¸ã®å‚ç…§
+     *
      * @details
-     * w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğì¬‚µAƒGƒ“ƒeƒBƒeƒB‚É’Ç‰Á‚µ‚Ü‚·B
-     * ƒƒ\ƒbƒhƒ`ƒF[ƒ“‚Å•¡”‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ˜A‘±‚µ‚Ä’Ç‰Á‚Å‚«‚Ü‚·B
-     * 
-     * @par g—p—á
+     * æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä½œæˆã—ã€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«è¿½åŠ ã—ã¾ã™ã€‚
+     * ãƒ¡ã‚½ãƒƒãƒ‰ãƒã‚§ãƒ¼ãƒ³ã§è¤‡æ•°ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’é€£ç¶šã—ã¦è¿½åŠ ã§ãã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
      * world.Create()
      *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
@@ -80,63 +80,63 @@ public:
      */
     template<typename T, typename... Args>
     EntityBuilder& With(Args&&... args);
-    
+
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚ğŠm’è‚µ‚Ä•Ô‚·
-     * @return Entity ì¬‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB
-     * 
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ç¢ºå®šã—ã¦è¿”ã™
+     * @return Entity ä½œæˆã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     *
      * @details
-     * ƒrƒ‹ƒ_[ƒpƒ^[ƒ“‚ğŠ®—¹‚µAì¬‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB‚ğ•Ô‚µ‚Ü‚·B
-     * È—ª‰Â”\‚ÅAˆÃ–Ù“I‚ÉEntity‚É•ÏŠ·‚³‚ê‚Ü‚·B
+     * ãƒ“ãƒ«ãƒ€ãƒ¼ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å®Œäº†ã—ã€ä½œæˆã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’è¿”ã—ã¾ã™ã€‚
+     * çœç•¥å¯èƒ½ã§ã€æš—é»™çš„ã«Entityã«å¤‰æ›ã•ã‚Œã¾ã™ã€‚
      */
     Entity Build() { return entity_; }
-    
+
     /**
-     * @brief Entity‚Ö‚ÌˆÃ–Ù“IŒ^•ÏŠ·‰‰Zq
-     * @return Entity ì¬‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB
-     * 
+     * @brief Entityã¸ã®æš—é»™çš„å‹å¤‰æ›æ¼”ç®—å­
+     * @return Entity ä½œæˆã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     *
      * @details
-     * Build()‚ğŒÄ‚Î‚È‚­‚Ä‚àA©“®“I‚ÉEntity‚É•ÏŠ·‚³‚ê‚Ü‚·B
+     * Build()ã‚’å‘¼ã°ãªãã¦ã‚‚ã€è‡ªå‹•çš„ã«Entityã«å¤‰æ›ã•ã‚Œã¾ã™ã€‚
      */
     operator Entity() const { return entity_; }
 
 private:
-    World* world_;    ///< WorldƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^
-    Entity entity_;   ///< ì¬‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB
+    World* world_;    ///< Worldã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+    Entity entity_;   ///< ä½œæˆã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
 };
 
 /**
  * @class World
- * @brief ECSƒ[ƒ‹ƒhŠÇ—ƒNƒ‰ƒX
- * 
+ * @brief ECSãƒ¯ãƒ¼ãƒ«ãƒ‰ç®¡ç†ã‚¯ãƒ©ã‚¹
+ *
  * @details
- * ECSƒA[ƒLƒeƒNƒ`ƒƒ‚É‚¨‚¯‚é‚·‚×‚Ä‚ÌƒGƒ“ƒeƒBƒeƒB‚ÆƒRƒ“ƒ|[ƒlƒ“ƒg‚ğŠÇ—‚µ‚Ü‚·B
- * 
- * ### å‚È‹@”\:
- * - ƒGƒ“ƒeƒBƒeƒB‚Ìì¬/”jŠü
- * - ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’Ç‰Á/íœ/æ“¾
- * - BehaviourƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌXV
- * 
- * @par Šî–{“I‚Èg—p•û–@
+ * ECSã‚¢ãƒ¼ã‚­ãƒ†ã‚¯ãƒãƒ£ã«ãŠã‘ã‚‹ã™ã¹ã¦ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç®¡ç†ã—ã¾ã™ã€‚
+ *
+ * ### ä¸»ãªæ©Ÿèƒ½:
+ * - ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ä½œæˆ/ç ´æ£„
+ * - ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®è¿½åŠ /å‰Šé™¤/å–å¾—
+ * - Behaviourã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ›´æ–°
+ *
+ * @par åŸºæœ¬çš„ãªä½¿ç”¨æ–¹æ³•
  * @code
  * World world;
- * 
- * // ƒGƒ“ƒeƒBƒeƒB‚ğì¬‚µ‚ÄƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ’Ç‰Á
+ *
+ * // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½œæˆã—ã¦ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿½åŠ 
  * Entity player = world.CreateEntity();
  * world.Add<Transform>(player, Transform{...});
  * world.Add<MeshRenderer>(player, MeshRenderer{...});
- * 
- * // ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚µ‚Ä‘€ì
+ *
+ * // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã—ã¦æ“ä½œ
  * auto* transform = world.TryGet<Transform>(player);
  * if (transform) {
  *     transform->position.x += 1.0f;
  * }
- * 
- * // –ˆƒtƒŒ[ƒ€XV
+ *
+ * // æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
  * world.Tick(deltaTime);
  * @endcode
- * 
- * @par ƒrƒ‹ƒ_[ƒpƒ^[ƒ“(„§)
+ *
+ * @par ãƒ“ãƒ«ãƒ€ãƒ¼ãƒ‘ã‚¿ãƒ¼ãƒ³(æ¨å¥¨)
  * @code
  * Entity player = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
@@ -144,58 +144,59 @@ private:
  *     .With<Rotator>(45.0f)
  *     .Build();
  * @endcode
- * 
+ *
  * @see Entity
  * @see IComponent
  * @see Behaviour
- * 
- * @author R“à—z
+ *
+ * @author å±±å†…é™½
  */
 class World {
 public:
     /**
-     * @brief ƒfƒXƒgƒ‰ƒNƒ^
-     * @details Šm•Û‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgƒXƒgƒA‚Ìƒƒ‚ƒŠ‚ğ‰ğ•ú‚µ‚Ü‚·
+     * @brief ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @details ç¢ºä¿ã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¹ãƒˆã‚¢ã®ãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾ã—ã¾ã™
      */
     ~World() {
         for (auto& pair : stores_) {
             delete pair.second;
         }
     }
-    
+
     /**
-     * @brief V‚µ‚¢ƒGƒ“ƒeƒBƒeƒB‚ğì¬
-     * @return Entity ˆêˆÓ‚ÈID‚ğ‚ÂV‹Kì¬‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB
-     * 
+     * @brief æ–°ã—ã„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½œæˆ
+     * @return Entity ä¸€æ„ãªIDã‚’æŒã¤æ–°è¦ä½œæˆã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     *
      * @details
-     * ˆêˆÓ‚ÈID‚ğ‚ÂV‚µ‚¢ƒGƒ“ƒeƒBƒeƒB‚ğì¬‚µ‚Ü‚·B‰Šúó‘Ô‚Å‚ÍƒRƒ“ƒ|[ƒlƒ“ƒg‚Í•t‚¢‚Ä‚¢‚Ü‚¹‚ñB
-     * íœ‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB‚ÌID‚ğÄ—˜—p‚µ‚Äƒƒ‚ƒŠŒø—¦‚ğŒüã‚³‚¹‚Ü‚·B
-     * 
-     * @note ‚æ‚è•Ö—˜‚ÈƒGƒ“ƒeƒBƒeƒBì¬‚É‚ÍCreate()(ƒrƒ‹ƒ_[)‚Ìg—p‚ğ„§‚µ‚Ä‚­‚¾‚³‚¢
+     * ä¸€æ„ãªIDã‚’æŒã¤æ–°ã—ã„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½œæˆã—ã¾ã™ã€‚åˆæœŸçŠ¶æ…‹ã§ã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¯ä»˜ã„ã¦ã„ã¾ã›ã‚“ã€‚
+     * å‰Šé™¤ã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®IDã‚’å†åˆ©ç”¨ã—ã¦ãƒ¡ãƒ¢ãƒªåŠ¹ç‡ã‚’å‘ä¸Šã•ã›ã¾ã™ã€‚
+     *
+     * @note ã‚ˆã‚Šä¾¿åˆ©ãªã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ä½œæˆã«ã¯Create()(ãƒ“ãƒ«ãƒ€ãƒ¼)ã®ä½¿ç”¨ã‚’æ¨å¥¨ã—ã¦ãã ã•ã„
      */
     Entity CreateEntity() {
         uint32_t id;
         if (!freeIds_.empty()) {
-            // Ä—˜—p‰Â”\‚ÈID‚ª‚ ‚ê‚Î‚»‚ê‚ğg‚¤
+            // å†åˆ©ç”¨å¯èƒ½ãªIDãŒã‚ã‚Œã°ãã‚Œã‚’ä½¿ã†
             id = freeIds_.back();
             freeIds_.pop_back();
-        } else {
-            // ‚È‚¯‚ê‚ÎV‹KID
+        }
+        else {
+            // ãªã‘ã‚Œã°æ–°è¦ID
             id = ++nextId_;
         }
         alive_[id] = true;
-        return Entity{id};
+        return Entity{ id };
     }
-    
+
     /**
-     * @brief ƒrƒ‹ƒ_[ƒpƒ^[ƒ“‚ÅV‚µ‚¢ƒGƒ“ƒeƒBƒeƒB‚ğì¬
-     * @return EntityBuilder ƒƒ\ƒbƒhƒ`ƒF[ƒ“—p‚Ìƒrƒ‹ƒ_[ƒIƒuƒWƒFƒNƒg
-     * 
+     * @brief ãƒ“ãƒ«ãƒ€ãƒ¼ãƒ‘ã‚¿ãƒ¼ãƒ³ã§æ–°ã—ã„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½œæˆ
+     * @return EntityBuilder ãƒ¡ã‚½ãƒƒãƒ‰ãƒã‚§ãƒ¼ãƒ³ç”¨ã®ãƒ“ãƒ«ãƒ€ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *
      * @details
-     * ’¼Š´“I‚ÈƒRƒ“ƒ|[ƒlƒ“ƒg’Ç‰Á‚ğ‰Â”\‚É‚·‚éEntityBuilder‚ğ•Ô‚µ‚Ü‚·B
-     * ƒƒ\ƒbƒhƒ`ƒF[ƒ“‚Å•¡”‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ˜A‘±‚µ‚Ä’Ç‰Á‚Å‚«‚Ü‚·B
-     * 
-     * @par g—p—á
+     * ç›´æ„Ÿçš„ãªã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆè¿½åŠ ã‚’å¯èƒ½ã«ã™ã‚‹EntityBuilderã‚’è¿”ã—ã¾ã™ã€‚
+     * ãƒ¡ã‚½ãƒƒãƒ‰ãƒã‚§ãƒ¼ãƒ³ã§è¤‡æ•°ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’é€£ç¶šã—ã¦è¿½åŠ ã§ãã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
      * Entity enemy = world.Create()
      *     .With<Transform>(DirectX::XMFLOAT3{5, 0, 0})
@@ -203,7 +204,7 @@ public:
      *     .With<Enemy>()
      *     .Build();
      * @endcode
-     * 
+     *
      * @see EntityBuilder
      */
     EntityBuilder Create() {
@@ -211,14 +212,14 @@ public:
     }
 
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚ª¶‘¶‚µ‚Ä‚¢‚é‚©Šm”F
-     * 
-     * @param[in] e Šm”F‚·‚éƒGƒ“ƒeƒBƒeƒB
-     * @return true ¶‘¶‚µ‚Ä‚¢‚é, false ”jŠüÏ‚İ
-     * 
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒç”Ÿå­˜ã—ã¦ã„ã‚‹ã‹ç¢ºèª
+     *
+     * @param[in] e ç¢ºèªã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @return true ç”Ÿå­˜ã—ã¦ã„ã‚‹, false ç ´æ£„æ¸ˆã¿
+     *
      * @details
-     * ƒGƒ“ƒeƒBƒeƒB‚ª‚Ü‚¾—LŒø‚©‚Ç‚¤‚©‚ğŠm”F‚µ‚Ü‚·B
-     * ”jŠü‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB‚Ö‚ÌƒAƒNƒZƒX‚ğ–h‚®‚½‚ß‚Ég—p‚µ‚Ü‚·B
+     * ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒã¾ã æœ‰åŠ¹ã‹ã©ã†ã‹ã‚’ç¢ºèªã—ã¾ã™ã€‚
+     * ç ´æ£„ã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’é˜²ããŸã‚ã«ä½¿ç”¨ã—ã¾ã™ã€‚
      */
     bool IsAlive(Entity e) const {
         auto it = alive_.find(e.id);
@@ -226,107 +227,160 @@ public:
     }
 
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚Æ‚»‚Ì‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ”jŠü
-     * 
-     * @param[in] e ”jŠü‚·‚éƒGƒ“ƒeƒBƒeƒB
-     * 
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã¨ãã®ã™ã¹ã¦ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç ´æ£„
+     *
+     * @param[in] e ç ´æ£„ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     *
      * @details
-     * w’è‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB‚Æ‚»‚ê‚ÉŠÖ˜A‚·‚é‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğíœ‚µ‚Ü‚·B
-     * BehaviourƒRƒ“ƒ|[ƒlƒ“ƒg‚à©“®“I‚É“o˜^‰ğœ‚³‚ê‚Ü‚·B
-     * ID‚ÍÄ—˜—p—p‚Éƒv[ƒ‹‚³‚ê‚Ü‚·B
-     * 
-     * @warning ”jŠü‚³‚ê‚½ƒGƒ“ƒeƒBƒeƒB‚ğg—p‚·‚é‚ÆƒNƒ‰ƒbƒVƒ…‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·
+     * æŒ‡å®šã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã¨ãã‚Œã«é–¢é€£ã™ã‚‹ã™ã¹ã¦ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+     * Behaviourã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚‚è‡ªå‹•çš„ã«ç™»éŒ²è§£é™¤ã•ã‚Œã¾ã™ã€‚
+     * IDã¯å†åˆ©ç”¨ç”¨ã«ãƒ—ãƒ¼ãƒ«ã•ã‚Œã¾ã™ã€‚
+     *
+     * @warning ç ´æ£„ã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½¿ç”¨ã™ã‚‹ã¨ã‚¯ãƒ©ãƒƒã‚·ãƒ¥ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™
      */
     void DestroyEntity(Entity e) {
         if (!IsAlive(e)) return;
-        alive_[e.id] = false;
-        
-        // ‘SƒRƒ“ƒ|[ƒlƒ“ƒg‚ğíœ
+
+        // å…¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤
         for (auto& er : erasers_) er(e);
-        
-        // BehaviourƒŠƒXƒg‚©‚çíœi‚·‚×‚Ä‚ÌŠY“–ƒGƒ“ƒgƒŠ‚ğíœj
+
+        // Behaviourãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤ï¼ˆã™ã¹ã¦ã®è©²å½“ã‚¨ãƒ³ãƒˆãƒªã‚’å‰Šé™¤ï¼‰
         for (size_t i = 0; i < behaviours_.size(); ) {
             if (behaviours_[i].e.id == e.id) {
                 behaviours_.erase(behaviours_.begin() + i);
-                // ƒCƒ“ƒfƒbƒNƒX‚ği‚ß‚È‚¢iíœ‚É‚æ‚èŸ‚Ì—v‘f‚ªi”Ô–Ú‚É—ˆ‚éj
-            } else {
+                // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’é€²ã‚ãªã„ï¼ˆå‰Šé™¤ã«ã‚ˆã‚Šæ¬¡ã®è¦ç´ ãŒiç•ªç›®ã«æ¥ã‚‹ï¼‰
+            }
+            else {
                 ++i;
             }
         }
-        
-        // IDÄ—˜—p—p‚É•Û‘¶
+
+        // ç”Ÿå­˜ãƒ•ãƒ©ã‚°ã‚’å‰Šé™¤ï¼ˆãƒ¡ãƒ¢ãƒªåŠ¹ç‡åŒ–ï¼‰
+        alive_.erase(e.id);
+
+        // IDå†åˆ©ç”¨ç”¨ã«ä¿å­˜
         freeIds_.push_back(e.id);
     }
 
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚ÉƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ’Ç‰Á
-     * 
-     * @tparam T ’Ç‰Á‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
-     * @tparam Args ƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”‚ÌŒ^(‰Â•Ï’·)
-     * @param[in] e ‘ÎÛƒGƒ“ƒeƒBƒeƒB
-     * @param[in] args ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”
-     * @return T& ’Ç‰Á‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ö‚ÌQÆ
-     * @throws std::runtime_error ƒGƒ“ƒeƒBƒeƒB‚ª€‚ñ‚Å‚¢‚éê‡A‚Ü‚½‚ÍƒRƒ“ƒ|[ƒlƒ“ƒg‚ªŠù‚É‘¶İ‚·‚éê‡iƒfƒoƒbƒOƒrƒ‹ƒhj
-     * 
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿½åŠ 
+     *
+     * @tparam T è¿½åŠ ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+     * @tparam Args ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ã®å‹(å¯å¤‰é•·)
+     * @param[in] e å¯¾è±¡ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @param[in] args ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°
+     * @return T& è¿½åŠ ã•ã‚ŒãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¸ã®å‚ç…§
+     * @throws std::runtime_error ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒæ­»ã‚“ã§ã„ã‚‹å ´åˆã€ã¾ãŸã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒæ—¢ã«å­˜åœ¨ã™ã‚‹å ´åˆï¼ˆãƒ‡ãƒãƒƒã‚°ãƒ“ãƒ«ãƒ‰ï¼‰
+     *
      * @details
-     * w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒGƒ“ƒeƒBƒeƒB‚É’Ç‰Á‚µ‚Ü‚·B
-     * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªBehaviour‚ğŒp³‚µ‚Ä‚¢‚éê‡ATick()‚Å©“®“I‚ÉXV‚³‚ê‚Ü‚·B
-     * 
-     * @par g—p—á
+     * æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«è¿½åŠ ã—ã¾ã™ã€‚
+     * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒBehaviourã‚’ç¶™æ‰¿ã—ã¦ã„ã‚‹å ´åˆã€Tick()ã§è‡ªå‹•çš„ã«æ›´æ–°ã•ã‚Œã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
      * Entity player = world.CreateEntity();
      * world.Add<Transform>(player, Transform{
-     *     DirectX::XMFLOAT3{0, 0, 0},  // ˆÊ’u
-     *     DirectX::XMFLOAT3{0, 0, 0},  // ‰ñ“]
-     *     DirectX::XMFLOAT3{1, 1, 1}   // ƒXƒP[ƒ‹
+     *     DirectX::XMFLOAT3{0, 0, 0},  // ä½ç½®
+     *     DirectX::XMFLOAT3{0, 0, 0},  // å›è»¢
+     *     DirectX::XMFLOAT3{1, 1, 1}   // ã‚¹ã‚±ãƒ¼ãƒ«
      * });
      * @endcode
-     * 
-     * @note ƒGƒ“ƒeƒBƒeƒB‚Í¶‘¶‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·
-     * @warning ƒfƒoƒbƒOƒrƒ‹ƒh‚Å‚ÍŠù‘¶ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ö‚Ì’Ç‰Á‚É—áŠO‚ğƒXƒ[‚µ‚Ü‚·
+     *
+     * @note ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã¯ç”Ÿå­˜ã—ã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™
+     * @warning ãƒ‡ãƒãƒƒã‚°ãƒ“ãƒ«ãƒ‰ã§ã¯æ—¢å­˜ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¸ã®è¿½åŠ æ™‚ã«ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã—ã¾ã™
      */
     template<class T, class...Args>
     T& Add(Entity e, Args&&...args) {
         if (!IsAlive(e)) {
             throw std::runtime_error("Attempting to add component to dead entity");
         }
-        
+
         auto& s = getStore<T>();
-        
+
 #ifdef _DEBUG
-        // ƒfƒoƒbƒOƒ‚[ƒh‚Å‚Íd•¡ƒ`ƒFƒbƒN
+        // ãƒ‡ãƒãƒƒã‚°ãƒ¢ãƒ¼ãƒ‰ã§ã¯é‡è¤‡ãƒã‚§ãƒƒã‚¯
         if (s.map.find(e.id) != s.map.end()) {
             throw std::runtime_error("Component already exists on entity");
         }
 #endif
-        
+
         T& obj = s.map[e.id] = T{ std::forward<Args>(args)... };
         registerBehaviour<T>(e, &obj);
         return obj;
     }
 
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚ªw’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‚Á‚Ä‚¢‚é‚©Šm”F
-     * 
-     * @tparam T Šm”F‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
-     * @param[in] e ‘ÎÛƒGƒ“ƒeƒBƒeƒB
-     * @return true ‚Á‚Ä‚¢‚é, false ‚Á‚Ä‚¢‚È‚¢
-     * 
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤
+     *
+     * @tparam T å‰Šé™¤ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+     * @param[in] e å¯¾è±¡ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @return bool å‰Šé™¤ã«æˆåŠŸã—ãŸå ´åˆtrueã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã‹ã£ãŸå ´åˆfalse
+     *
      * @details
-     * ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‘¶İŠm”F‚ğ–¾¦“I‚És‚¦‚Ü‚·B
-     * TryGet()‚Ìnullptrƒ`ƒFƒbƒN‚æ‚èˆÓ}‚ª–¾Šm‚É‚È‚è‚Ü‚·B
-     * 
-     * @par g—p—á
+     * æŒ‡å®šã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+     * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒBehaviourã‚’ç¶™æ‰¿ã—ã¦ã„ã‚‹å ´åˆã€è‡ªå‹•æ›´æ–°ãƒªã‚¹ãƒˆã‹ã‚‰ã‚‚å‰Šé™¤ã•ã‚Œã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
+     * @code
+     * // æ•µã®AIã‚’ç„¡åŠ¹åŒ–
+     * if (world.Remove<EnemyAI>(enemy)) {
+     *     printf("AI removed successfully\n");
+     * }
+     *
+     * // ä½“åŠ›ã‚·ã‚¹ãƒ†ãƒ ã‚’å‰Šé™¤
+     * world.Remove<Health>(entity);
+     *
+     * // æ¡ä»¶ä»˜ãå‰Šé™¤
+     * auto* health = world.TryGet<Health>(entity);
+     * if (health && health->IsDead()) {
+     *     world.Remove<Health>(entity);
+     * }
+     * @endcode
+     *
+     * @note ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒæ­»ã‚“ã§ã„ã‚‹å ´åˆã¯falseã‚’è¿”ã—ã¾ã™
+     * @warning Behaviourã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã¨ã€ä»¥é™OnUpdate()ã¯å‘¼ã°ã‚Œãªããªã‚Šã¾ã™
+     */
+    template<class T>
+    bool Remove(Entity e) {
+        if (!IsAlive(e)) return false;
+
+        auto itS = stores_.find(std::type_index(typeid(T)));
+        if (itS == stores_.end()) return false;
+
+        auto* s = static_cast<Store<T>*>(itS->second);
+        auto it = s->map.find(e.id);
+        if (it == s->map.end()) return false;
+
+        // Behaviourã®å ´åˆã¯ç™»éŒ²è§£é™¤
+        unregisterBehaviour<T>(e, &it->second);
+
+        // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤
+        s->map.erase(it);
+        return true;
+    }
+
+    /**
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒæŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒã£ã¦ã„ã‚‹ã‹ç¢ºèª
+     *
+     * @tparam T ç¢ºèªã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+     * @param[in] e å¯¾è±¡ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @return true æŒã£ã¦ã„ã‚‹, false æŒã£ã¦ã„ãªã„
+     *
+     * @details
+     * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å­˜åœ¨ç¢ºèªã‚’æ˜ç¤ºçš„ã«è¡Œãˆã¾ã™ã€‚
+     * TryGet()ã®nullptrãƒã‚§ãƒƒã‚¯ã‚ˆã‚Šæ„å›³ãŒæ˜ç¢ºã«ãªã‚Šã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
      * if (world.Has<Transform>(entity)) {
-     *     // Transform‚ğ‚Á‚Ä‚¢‚éê‡‚Ìˆ—
+     *     // Transformã‚’æŒã£ã¦ã„ã‚‹å ´åˆã®å‡¦ç†
      *     auto* transform = world.TryGet<Transform>(entity);
      *     transform->position.x += 1.0f;
      * }
-     * 
-     * // ‚æ‚èŠÈŒ‰‚È‘‚«•û
+     *
+     * // ã‚ˆã‚Šç°¡æ½”ãªæ›¸ãæ–¹
      * if (world.Has<Health>(enemy) && world.Has<Transform>(enemy)) {
-     *     // —¼•û‚Á‚Ä‚¢‚éê‡‚Ìˆ—
+     *     // ä¸¡æ–¹æŒã£ã¦ã„ã‚‹å ´åˆã®å‡¦ç†
      * }
      * @endcode
      */
@@ -339,25 +393,25 @@ public:
     }
 
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾
-     * 
-     * @tparam T æ“¾‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
-     * @param[in] e ‘ÎÛƒGƒ“ƒeƒBƒeƒB
-     * @return T* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^AŒ©‚Â‚©‚ç‚È‚¢ê‡‚Ínullptr
-     * 
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—
+     *
+     * @tparam T å–å¾—ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+     * @param[in] e å¯¾è±¡ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @return T* ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¸ã®ãƒã‚¤ãƒ³ã‚¿ã€è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯nullptr
+     *
      * @details
-     * w’è‚µ‚½ƒGƒ“ƒeƒBƒeƒB‚©‚çw’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚µ‚Ü‚·B
-     * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡‚Ínullptr‚ğ•Ô‚µ‚Ü‚·B
-     * 
-     * @par g—p—á
+     * æŒ‡å®šã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆã¯nullptrã‚’è¿”ã—ã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
      * auto* transform = world.TryGet<Transform>(player);
      * if (transform) {
      *     transform->position.x += 1.0f;
      * }
      * @endcode
-     * 
-     * @warning g—p‘O‚É•K‚¸nullptrƒ`ƒFƒbƒN‚ğs‚Á‚Ä‚­‚¾‚³‚¢
+     *
+     * @warning ä½¿ç”¨å‰ã«å¿…ãšnullptrãƒã‚§ãƒƒã‚¯ã‚’è¡Œã£ã¦ãã ã•ã„
      */
     template<class T>
     T* TryGet(Entity e) {
@@ -370,14 +424,14 @@ public:
     }
 
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾iconst”Åj
-     * 
-     * @tparam T æ“¾‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
-     * @param[in] e ‘ÎÛƒGƒ“ƒeƒBƒeƒB
-     * @return const T* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^AŒ©‚Â‚©‚ç‚È‚¢ê‡‚Ínullptr
-     * 
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ï¼ˆconstç‰ˆï¼‰
+     *
+     * @tparam T å–å¾—ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+     * @param[in] e å¯¾è±¡ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @return const T* ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¸ã®ãƒã‚¤ãƒ³ã‚¿ã€è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯nullptr
+     *
      * @details
-     * const”Å‚ÌTryGetB“Ç‚İæ‚èê—pƒAƒNƒZƒX—pB
+     * constç‰ˆã®TryGetã€‚èª­ã¿å–ã‚Šå°‚ç”¨ã‚¢ã‚¯ã‚»ã‚¹ç”¨ã€‚
      */
     template<class T>
     const T* TryGet(Entity e) const {
@@ -390,34 +444,34 @@ public:
     }
 
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾i—áŠO”Åj
-     * 
-     * @tparam T æ“¾‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
-     * @param[in] e ‘ÎÛƒGƒ“ƒeƒBƒeƒB
-     * @return T& ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ö‚ÌQÆ
-     * @throws std::runtime_error ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡
-     * 
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ï¼ˆä¾‹å¤–ç‰ˆï¼‰
+     *
+     * @tparam T å–å¾—ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+     * @param[in] e å¯¾è±¡ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @return T& ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¸ã®å‚ç…§
+     * @throws std::runtime_error ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆ
+     *
      * @details
-     * •K‚¸‘¶İ‚·‚é‚Í‚¸‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚·‚éÛ‚Ég—p‚µ‚Ü‚·B
-     * nullptrƒ`ƒFƒbƒN‚ª•s—v‚É‚È‚èƒR[ƒh‚ªŠÈŒ‰‚É‚È‚è‚Ü‚·B
-     * 
-     * @par g—p—á
+     * å¿…ãšå­˜åœ¨ã™ã‚‹ã¯ãšã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹éš›ã«ä½¿ç”¨ã—ã¾ã™ã€‚
+     * nullptrãƒã‚§ãƒƒã‚¯ãŒä¸è¦ã«ãªã‚Šã‚³ãƒ¼ãƒ‰ãŒç°¡æ½”ã«ãªã‚Šã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
-     * // •K‚¸Transform‚ğ‚Â‚Æ•ª‚©‚Á‚Ä‚¢‚éê‡
+     * // å¿…ãšTransformã‚’æŒã¤ã¨åˆ†ã‹ã£ã¦ã„ã‚‹å ´åˆ
      * Transform& transform = world.Get<Transform>(player);
      * transform.position.x += 1.0f;
-     * 
-     * // try-catch‚Å—áŠO‚ğˆ—
+     *
+     * // try-catchã§ä¾‹å¤–ã‚’å‡¦ç†
      * try {
      *     MeshRenderer& renderer = world.Get<MeshRenderer>(entity);
      *     renderer.color = DirectX::XMFLOAT3{1, 0, 0};
      * } catch (const std::runtime_error& e) {
-     *     // ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡‚Ìˆ—
+     *     // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆã®å‡¦ç†
      *     printf("Error: %s\n", e.what());
      * }
      * @endcode
-     * 
-     * @warning ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡‚Í—áŠO‚ªƒXƒ[‚³‚ê‚Ü‚·
+     *
+     * @warning ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ä¾‹å¤–ãŒã‚¹ãƒ­ãƒ¼ã•ã‚Œã¾ã™
      */
     template<class T>
     T& Get(Entity e) {
@@ -429,12 +483,12 @@ public:
     }
 
     /**
-     * @brief ƒGƒ“ƒeƒBƒeƒB‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾iconst—áŠO”Åj
-     * 
-     * @tparam T æ“¾‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
-     * @param[in] e ‘ÎÛƒGƒ“ƒeƒBƒeƒB
-     * @return const T& ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ö‚ÌconstQÆ
-     * @throws std::runtime_error ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡
+     * @brief ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ï¼ˆconstä¾‹å¤–ç‰ˆï¼‰
+     *
+     * @tparam T å–å¾—ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+     * @param[in] e å¯¾è±¡ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @return const T& ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¸ã®constå‚ç…§
+     * @throws std::runtime_error ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆ
      */
     template<class T>
     const T& Get(Entity e) const {
@@ -446,28 +500,35 @@ public:
     }
 
     /**
-     * @brief w’è‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‚Â‚·‚×‚Ä‚ÌƒGƒ“ƒeƒBƒeƒB‚É‘Î‚µ‚ÄŠÖ”‚ğÀs
-     * 
-     * @tparam T ƒNƒGƒŠ‘ÎÛ‚ÌƒRƒ“ƒ|[ƒlƒ“ƒgŒ^
-     * @tparam F ŠÖ”‚ÌŒ^
-     * @param[in] fn Às‚·‚éŠÖ”(Entity‚ÆT&‚ğó‚¯æ‚é)
-     * 
+     * @brief æŒ‡å®šã•ã‚ŒãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒã¤ã™ã¹ã¦ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«å¯¾ã—ã¦é–¢æ•°ã‚’å®Ÿè¡Œ
+     *
+     * @tparam T ã‚¯ã‚¨ãƒªå¯¾è±¡ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå‹
+     * @tparam F é–¢æ•°ã®å‹
+     * @param[in] fn å®Ÿè¡Œã™ã‚‹é–¢æ•°(Entityã¨T&ã‚’å—ã‘å–ã‚‹)
+     *
      * @details
-     * w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‚Â‚·‚×‚Ä‚ÌƒGƒ“ƒeƒBƒeƒB‚É‘Î‚µ‚ÄA
-     * ’ñ‹Ÿ‚³‚ê‚½ŠÖ”‚ğÀs‚µ‚Ü‚·B
-     * ƒCƒeƒŒ[ƒVƒ‡ƒ“’†‚ÌƒGƒ“ƒeƒBƒeƒBíœ‚É‘Î‰‚µ‚Ä‚¢‚Ü‚·B
-     * 
-     * @par g—p—á
+     * æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒã¤ã™ã¹ã¦ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«å¯¾ã—ã¦ã€
+     * æä¾›ã•ã‚ŒãŸé–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+     * ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£å‰Šé™¤ã‚„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå‰Šé™¤ã«å¯¾å¿œã—ã¦ã„ã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
-     * // ‚·‚×‚Ä‚ÌTransform‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚ğã‚ÉˆÚ“®
+     * // ã™ã¹ã¦ã®Transformã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä¸Šã«ç§»å‹•
      * world.ForEach<Transform>([](Entity e, Transform& t) {
      *     t.position.y += 0.1f;
      * });
-     * 
-     * // ‚·‚×‚Ä‚Ì“G‚ÌHP‚ğŠm”Fiíœ‚àˆÀ‘S)
+     *
+     * // ã™ã¹ã¦ã®æ•µã®HPã‚’ç¢ºèªï¼ˆå‰Šé™¤ã‚‚å®‰å…¨ï¼‰
      * world.ForEach<Enemy>([&](Entity e, Enemy& enemy) {
      *     if (enemy.health <= 0) {
-     *         world.DestroyEntity(e);  // ? ˆÀ‘S‚Éíœ‰Â”\
+     *         world.DestroyEntity(e);  // âœ… å®‰å…¨ã«å‰Šé™¤å¯èƒ½
+     *     }
+     * });
+     *
+     * // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‰Šé™¤ã‚‚å®‰å…¨
+     * world.ForEach<EnemyAI>([&](Entity e, EnemyAI& ai) {
+     *     if (ai.shouldDisable) {
+     *         world.Remove<EnemyAI>(e);  // âœ… å®‰å…¨ã«å‰Šé™¤å¯èƒ½
      *     }
      * });
      * @endcode
@@ -477,17 +538,17 @@ public:
         auto itS = stores_.find(std::type_index(typeid(T)));
         if (itS == stores_.end()) return;
         auto* s = static_cast<Store<T>*>(itS->second);
-        
-        // ID‚ÌƒŠƒXƒg‚ğæ‚Éì¬iƒCƒeƒŒ[ƒVƒ‡ƒ“’†‚Ìíœ‚É‘Î‰)
+
+        // IDã®ãƒªã‚¹ãƒˆã‚’å…ˆã«ä½œæˆï¼ˆã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã®å‰Šé™¤ã«å¯¾å¿œ)
         std::vector<uint32_t> ids;
         ids.reserve(s->map.size());
         for (auto& pair : s->map) {
             ids.push_back(pair.first);
         }
-        
-        // ˆÀ‘S‚ÉƒCƒeƒŒ[ƒg
+
+        // å®‰å…¨ã«ã‚¤ãƒ†ãƒ¬ãƒ¼ãƒˆ
         for (uint32_t id : ids) {
-            Entity e{id};
+            Entity e{ id };
             if (!IsAlive(e)) continue;
             auto it = s->map.find(id);
             if (it == s->map.end()) continue;
@@ -496,29 +557,29 @@ public:
     }
 
     /**
-     * @brief 2‚Â‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚É‘Î‚µ‚Äˆ—
-     * 
-     * @tparam T1 1‚Â–Ú‚ÌƒRƒ“ƒ|[ƒlƒ“ƒgŒ^
-     * @tparam T2 2‚Â–Ú‚ÌƒRƒ“ƒ|[ƒlƒ“ƒgŒ^
-     * @tparam F ŠÖ”‚ÌŒ^
-     * @param[in] fn Às‚·‚éŠÖ”(Entity, T1&, T2&‚ğó‚¯æ‚é)
-     * 
+     * @brief 2ã¤ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«å¯¾ã—ã¦å‡¦ç†
+     *
+     * @tparam T1 1ã¤ç›®ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå‹
+     * @tparam T2 2ã¤ç›®ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå‹
+     * @tparam F é–¢æ•°ã®å‹
+     * @param[in] fn å®Ÿè¡Œã™ã‚‹é–¢æ•°(Entity, T1&, T2&ã‚’å—ã‘å–ã‚‹)
+     *
      * @details
-     * w’è‚µ‚½2‚Â‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ—¼•û‚ÂƒGƒ“ƒeƒBƒeƒB‚É‘Î‚µ‚ÄA
-     * ’ñ‹Ÿ‚³‚ê‚½ŠÖ”‚ğÀs‚µ‚Ü‚·B
-     * ƒCƒeƒŒ[ƒVƒ‡ƒ“’†‚ÌƒGƒ“ƒeƒBƒeƒBíœ‚É‘Î‰‚µ‚Ä‚¢‚Ü‚·B
-     * 
-     * @par g—p—á
+     * æŒ‡å®šã—ãŸ2ã¤ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä¸¡æ–¹æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«å¯¾ã—ã¦ã€
+     * æä¾›ã•ã‚ŒãŸé–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+     * ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£å‰Šé™¤ã‚„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå‰Šé™¤ã«å¯¾å¿œã—ã¦ã„ã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
-     * // Transform‚ÆMeshRenderer‚ğ—¼•û‚ÂƒGƒ“ƒeƒBƒeƒB‚ğˆ—
+     * // Transformã¨MeshRendererã‚’ä¸¡æ–¹æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’å‡¦ç†
      * world.ForEach<Transform, MeshRenderer>(
      *     [](Entity e, Transform& t, MeshRenderer& r) {
-     *         // —¼•û‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ÉƒAƒNƒZƒX‰Â”\
+     *         // ä¸¡æ–¹ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã‚¢ã‚¯ã‚»ã‚¹å¯èƒ½
      *         r.color.x = t.position.x / 10.0f;
      *     }
      * );
-     * 
-     * // •¨—‰‰Z‚Ì—á
+     *
+     * // ç‰©ç†æ¼”ç®—ã®ä¾‹
      * world.ForEach<Transform, Velocity>(
      *     [](Entity e, Transform& t, Velocity& v) {
      *         t.position.x += v.velocity.x * dt;
@@ -526,11 +587,11 @@ public:
      *         t.position.z += v.velocity.z * dt;
      *     }
      * );
-     * 
-     * // “G‚Ì‘Ì—Íƒ`ƒFƒbƒN
+     *
+     * // æ•µã®ä½“åŠ›ãƒã‚§ãƒƒã‚¯
      * world.ForEach<Enemy, Health>([&](Entity e, Enemy& enemy, Health& hp) {
      *     if (hp.IsDead()) {
-     *         world.DestroyEntity(e);  // ? ˆÀ‘S‚Éíœ‰Â”\
+     *         world.DestroyEntity(e);  // âœ… å®‰å…¨ã«å‰Šé™¤å¯èƒ½
      *     }
      * });
      * @endcode
@@ -540,82 +601,82 @@ public:
         auto itS1 = stores_.find(std::type_index(typeid(T1)));
         if (itS1 == stores_.end()) return;
         auto* s1 = static_cast<Store<T1>*>(itS1->second);
-        
-        // ID‚ÌƒŠƒXƒg‚ğæ‚Éì¬iƒCƒeƒŒ[ƒVƒ‡ƒ“’†‚Ìíœ‚É‘Î‰j
+
+        // IDã®ãƒªã‚¹ãƒˆã‚’å…ˆã«ä½œæˆï¼ˆã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã®å‰Šé™¤ã«å¯¾å¿œï¼‰
         std::vector<uint32_t> ids;
         ids.reserve(s1->map.size());
         for (auto& pair : s1->map) {
             ids.push_back(pair.first);
         }
-        
-        // ˆÀ‘S‚ÉƒCƒeƒŒ[ƒg
+
+        // å®‰å…¨ã«ã‚¤ãƒ†ãƒ¬ãƒ¼ãƒˆ
         for (uint32_t id : ids) {
-            Entity e{id};
+            Entity e{ id };
             if (!IsAlive(e)) continue;
-            
+
             auto it1 = s1->map.find(id);
             if (it1 == s1->map.end()) continue;
-            
+
             T2* comp2 = TryGet<T2>(e);
             if (!comp2) continue;
-            
+
             fn(e, it1->second, *comp2);
         }
     }
 
     /**
-     * @brief ‚·‚×‚Ä‚ÌBehaviourƒRƒ“ƒ|[ƒlƒ“ƒg‚ğXV
-     * 
-     * @param[in] dt ƒfƒ‹ƒ^ƒ^ƒCƒ€(‘OƒtƒŒ[ƒ€‚©‚ç‚ÌŒo‰ßŠÔ)
-     * 
+     * @brief ã™ã¹ã¦ã®Behaviourã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æ›´æ–°
+     *
+     * @param[in] dt ãƒ‡ãƒ«ã‚¿ã‚¿ã‚¤ãƒ (å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ã®çµŒéæ™‚é–“)
+     *
      * @details
-     * ‚·‚×‚Ä‚ÌBehaviourƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌOnUpdate()‚ğŒÄ‚Ño‚µ‚Ü‚·B–ˆƒtƒŒ[ƒ€ŒÄ‚Ño‚·•K—v‚ª‚ ‚è‚Ü‚·B
-     * ‰‰ñŒÄ‚Ño‚µ‚É‚ÍOnStart()‚àÀs‚³‚ê‚Ü‚·B
-     * OnUpdate“à‚Å‚ÌƒGƒ“ƒeƒBƒeƒBíœ‚É‘Î‰‚µ‚Ä‚¢‚Ü‚·B
-     * 
-     * @par g—p—á
+     * ã™ã¹ã¦ã®Behaviourã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®OnUpdate()ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã³å‡ºã™å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+     * åˆå›å‘¼ã³å‡ºã—æ™‚ã«ã¯OnStart()ã‚‚å®Ÿè¡Œã•ã‚Œã¾ã™ã€‚
+     * OnUpdateå†…ã§ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£å‰Šé™¤ã«å¯¾å¿œã—ã¦ã„ã¾ã™ã€‚
+     *
+     * @par ä½¿ç”¨ä¾‹
      * @code
-     * // ƒQ[ƒ€ƒ‹[ƒv
+     * // ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
      * while (running) {
      *     float deltaTime = CalculateDeltaTime();
-     *     
-     *     // ‚·‚×‚Ä‚ÌBehaviour‚ğXV
+     *
+     *     // ã™ã¹ã¦ã®Behaviourã‚’æ›´æ–°
      *     world.Tick(deltaTime);
-     *     
-     *     // •`‰æˆ—...
+     *
+     *     // æç”»å‡¦ç†...
      * }
      * @endcode
      */
     void Tick(float dt) {
-        // ƒCƒeƒŒ[ƒVƒ‡ƒ“’†‚Ìíœ‚É‘Î‰‚·‚é‚½‚ßƒCƒ“ƒfƒbƒNƒXƒx[ƒX‚Ìƒ‹[ƒv‚ğg—p
+        // ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã®å‰Šé™¤ã«å¯¾å¿œã™ã‚‹ãŸã‚ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ™ãƒ¼ã‚¹ã®ãƒ«ãƒ¼ãƒ—ã‚’ä½¿ç”¨
         for (size_t i = 0; i < behaviours_.size(); ) {
             auto& entry = behaviours_[i];
-            
-            // €‚ñ‚¾ƒGƒ“ƒeƒBƒeƒB‚ÌBehaviour‚ğíœ
+
+            // æ­»ã‚“ã ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®Behaviourã‚’å‰Šé™¤
             if (!IsAlive(entry.e)) {
                 behaviours_.erase(behaviours_.begin() + i);
-                continue;  // ƒCƒ“ƒfƒbƒNƒX‚ği‚ß‚È‚¢
+                continue;  // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’é€²ã‚ãªã„
             }
-            
-            // OnStart‚ÆOnUpdate‚ğÀs
+
+            // OnStartã¨OnUpdateã‚’å®Ÿè¡Œ
             if (!entry.started) {
                 entry.b->OnStart(*this, entry.e);
                 entry.started = true;
             }
             entry.b->OnUpdate(*this, entry.e, dt);
-            
-            // Ä“x¶‘¶Šm”FiOnUpdate“à‚Åíœ‚³‚ê‚½‚©‚à‚µ‚ê‚È‚¢j
+
+            // å†åº¦ç”Ÿå­˜ç¢ºèªï¼ˆOnUpdateå†…ã§å‰Šé™¤ã•ã‚ŒãŸã‹ã‚‚ã—ã‚Œãªã„ï¼‰
             if (IsAlive(entry.e)) {
-                ++i;  // ¶‘¶‚µ‚Ä‚¢‚ê‚ÎƒCƒ“ƒfƒbƒNƒX‚ği‚ß‚é
+                ++i;  // ç”Ÿå­˜ã—ã¦ã„ã‚Œã°ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’é€²ã‚ã‚‹
             }
-            // íœ‚³‚ê‚Ä‚¢‚½‚ç©“®“I‚ÉŸ‚Ì—v‘f‚ªi”Ô–Ú‚É—ˆ‚é‚Ì‚ÅƒCƒ“ƒfƒbƒNƒX‚ği‚ß‚È‚¢
+            // å‰Šé™¤ã•ã‚Œã¦ã„ãŸã‚‰è‡ªå‹•çš„ã«æ¬¡ã®è¦ç´ ãŒiç•ªç›®ã«æ¥ã‚‹ã®ã§ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’é€²ã‚ãªã„
         }
     }
 
 private:
     /**
      * @interface IStore
-     * @brief ƒRƒ“ƒ|[ƒlƒ“ƒgŠi”[—p‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX
+     * @brief ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆæ ¼ç´ç”¨ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
      */
     struct IStore {
         virtual ~IStore() = default;
@@ -624,16 +685,16 @@ private:
 
     /**
      * @struct Store
-     * @brief Œ^ŒÅ—L‚ÌƒRƒ“ƒ|[ƒlƒ“ƒgŠi”[\‘¢
-     * @tparam T ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
+     * @brief å‹å›ºæœ‰ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆæ ¼ç´æ§‹é€ 
+     * @tparam T ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
      */
     template<class T>
     struct Store : IStore {
-        std::unordered_map<uint32_t, T> map;  ///< EntityID -> ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ}ƒbƒv
+        std::unordered_map<uint32_t, T> map;  ///< EntityID -> ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒãƒƒãƒ—
         void Erase(Entity e) override { map.erase(e.id); }
     };
 
-    /// ƒRƒ“ƒ|[ƒlƒ“ƒgŒ^T‚ÌƒXƒgƒA‚ğæ“¾‚Ü‚½‚Íì¬
+    /// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå‹Tã®ã‚¹ãƒˆã‚¢ã‚’å–å¾—ã¾ãŸã¯ä½œæˆ
     template<class T>
     Store<T>& getStore() {
         auto key = std::type_index(typeid(T));
@@ -647,7 +708,7 @@ private:
         return *static_cast<Store<T>*>(it->second);
     }
 
-    /// ©“®XV‚Ì‚½‚ß‚ÉBehaviourƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ“o˜^(C++14ŒİŠ·)
+    /// è‡ªå‹•æ›´æ–°ã®ãŸã‚ã«Behaviourã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç™»éŒ²(C++14äº’æ›)
     template<class TDerived>
     typename std::enable_if<std::is_base_of<Behaviour, TDerived>::value>::type
         registerBehaviour(Entity e, TDerived* obj) {
@@ -657,50 +718,51 @@ private:
     typename std::enable_if<!std::is_base_of<Behaviour, TDerived>::value>::type
         registerBehaviour(Entity, TDerived*) {}
 
-    /// BehaviourƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“o˜^‚ğ‰ğœ(C++14ŒİŠ·)
+    /// Behaviourã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ç™»éŒ²ã‚’è§£é™¤(C++14äº’æ›)
     template<class TDerived>
     typename std::enable_if<std::is_base_of<Behaviour, TDerived>::value>::type
-        unregisterBehaviour(Entity e) {
-        // “¯‚¶ƒGƒ“ƒeƒBƒeƒB‚Ì•¡”Behaviour‚É‘Î‰
+        unregisterBehaviour(Entity e, TDerived* obj) {
+        // æŒ‡å®šã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã¨ç‰¹å®šã®Behaviourã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å‰Šé™¤
         for (size_t i = 0; i < behaviours_.size(); ) {
-            if (behaviours_[i].e.id == e.id) {
+            if (behaviours_[i].e.id == e.id && behaviours_[i].b == obj) {
                 behaviours_.erase(behaviours_.begin() + i);
-                // ƒCƒ“ƒfƒbƒNƒX‚ği‚ß‚È‚¢iíœ‚É‚æ‚èŸ‚Ì—v‘f‚ªi”Ô–Ú‚É—ˆ‚éj
-            } else {
+                return; // è¦‹ã¤ã‹ã£ãŸã‚‰å³åº§ã«çµ‚äº†
+            }
+            else {
                 ++i;
             }
         }
     }
     template<class TDerived>
     typename std::enable_if<!std::is_base_of<Behaviour, TDerived>::value>::type
-        unregisterBehaviour(Entity) {}
+        unregisterBehaviour(Entity, TDerived*) {}
 
     /**
      * @struct BEntry
-     * @brief BehaviourŠÇ——pƒGƒ“ƒgƒŠ
+     * @brief Behaviourç®¡ç†ç”¨ã‚¨ãƒ³ãƒˆãƒª
      */
     struct BEntry {
-        Entity e;           ///< ƒGƒ“ƒeƒBƒeƒB
-        Behaviour* b;       ///< Behaviour‚Ö‚Ìƒ|ƒCƒ“ƒ^
-        bool started = false; ///< OnStart‚ªŒÄ‚Î‚ê‚½‚©‚Ç‚¤‚©
+        Entity e;           ///< ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+        Behaviour* b;       ///< Behaviourã¸ã®ãƒã‚¤ãƒ³ã‚¿
+        bool started = false; ///< OnStartãŒå‘¼ã°ã‚ŒãŸã‹ã©ã†ã‹
     };
 
-    uint32_t nextId_ = 0;  ///< Ÿ‚ÌƒGƒ“ƒeƒBƒeƒBID
-    std::vector<uint32_t> freeIds_;  ///< Ä—˜—p‰Â”\‚ÈID
-    std::unordered_map<uint32_t, bool> alive_;  ///< ƒGƒ“ƒeƒBƒeƒB‚Ì¶‘¶ó‘Ô
-    std::unordered_map<std::type_index, IStore*> stores_;  ///< ƒRƒ“ƒ|[ƒlƒ“ƒgƒXƒgƒA
-    std::vector<std::function<void(Entity)>> erasers_;  ///< íœ—pŠÖ”
-    std::vector<BEntry> behaviours_;  ///< BehaviourƒŠƒXƒg
-    
-    friend class EntityBuilder;  ///< EntityBuilder‚ªprivateƒƒ“ƒo‚ÉƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚·‚é
+    uint32_t nextId_ = 0;  ///< æ¬¡ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ID
+    std::vector<uint32_t> freeIds_;  ///< å†åˆ©ç”¨å¯èƒ½ãªID
+    std::unordered_map<uint32_t, bool> alive_;  ///< ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ç”Ÿå­˜çŠ¶æ…‹
+    std::unordered_map<std::type_index, IStore*> stores_;  ///< ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¹ãƒˆã‚¢
+    std::vector<std::function<void(Entity)>> erasers_;  ///< å‰Šé™¤ç”¨é–¢æ•°
+    std::vector<BEntry> behaviours_;  ///< Behaviourãƒªã‚¹ãƒˆ
+
+    friend class EntityBuilder;  ///< EntityBuilderãŒprivateãƒ¡ãƒ³ãƒã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 };
 
 /**
- * @brief EntityBuilder::With()‚ÌÀ‘•
- * @tparam T ’Ç‰Á‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
- * @tparam Args ƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”‚ÌŒ^
- * @param[in] args ƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”
- * @return EntityBuilder& ƒƒ\ƒbƒhƒ`ƒF[ƒ“—p‚Ì©g‚Ö‚ÌQÆ
+ * @brief EntityBuilder::With()ã®å®Ÿè£…
+ * @tparam T è¿½åŠ ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+ * @tparam Args ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ã®å‹
+ * @param[in] args ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°
+ * @return EntityBuilder& ãƒ¡ã‚½ãƒƒãƒ‰ãƒã‚§ãƒ¼ãƒ³ç”¨ã®è‡ªèº«ã¸ã®å‚ç…§
  */
 template<typename T, typename... Args>
 EntityBuilder& EntityBuilder::With(Args&&... args) {
