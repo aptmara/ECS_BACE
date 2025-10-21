@@ -4,7 +4,7 @@
  * @author 山内陽
  * @date 2025
  * @version 5.0
- * 
+ *
  * @details
  * デバッグ時にグリッドや軸、任意の線を描画するためのシステムです。
  * Release ビルドでは使用されません。
@@ -24,42 +24,42 @@
 /**
  * @class DebugDraw
  * @brief デバッグ用の線描画システム
- * 
+ *
  * @details
  * 開発中にグリッド、座標軸、任意の線を描画するためのクラスです。
  * ワールド空間でのデバッグ情報の可視化に使用します。
- * 
+ *
  * ### 主な用途:
  * - グリッド表示(基準となる平面)
  * - 座標軸表示(X, Y, Z軸)
  * - 当たり判定の可視化
  * - 移動経路の表示
- * 
+ *
  * @par 使用例
  * @code
  * DebugDraw debugDraw;
  * debugDraw.Init(gfx);
- * 
+ *
  * // グリッドと軸を描画
  * debugDraw.DrawGrid(20.0f, 20);
  * debugDraw.DrawAxes(5.0f);
- * 
+ *
  * // カスタム線を描画
  * debugDraw.AddLine(
  *     DirectX::XMFLOAT3{0, 0, 0},
  *     DirectX::XMFLOAT3{5, 5, 5},
  *     DirectX::XMFLOAT3{1, 1, 0}  // 黄色
  * );
- * 
+ *
  * // 描画実行
  * debugDraw.Render(gfx, camera);
- * 
+ *
  * // フレーム終了時にクリア
  * debugDraw.Clear();
  * @endcode
- * 
+ *
  * @note デバッグビルド(_DEBUG定義時)のみ使用を推奨
- * 
+ *
  * @author 山内陽
  */
 class DebugDraw {
@@ -78,7 +78,7 @@ public:
      * @brief 初期化
      * @param[in] gfx グラフィックスデバイス
      * @return bool 初期化が成功した場合は true
-     * 
+     *
      * @details
      * シェーダーのコンパイル、パイプラインステートの作成、
      * 動的頂点バッファの作成を行います。
@@ -96,7 +96,7 @@ public:
                 return o;
             }
         )";
-        
+
         const char* PS = R"(
             struct VSOut { float4 pos : SV_POSITION; float3 col : COLOR; };
             float4 main(VSOut i) : SV_Target { return float4(i.col, 1); }
@@ -112,7 +112,7 @@ public:
             }
             return false;
         }
-        
+
         hr = D3DCompile(PS, strlen(PS), nullptr, nullptr, nullptr, "main", "ps_5_0", 0, 0, psb.GetAddressOf(), err.ReleaseAndGetAddressOf());
         if (FAILED(hr)) {
             if (err) {
@@ -127,7 +127,7 @@ public:
             MessageBoxA(nullptr, "Failed to create debug vertex shader", "Shader Error", MB_OK | MB_ICONERROR);
             return false;
         }
-        
+
         if (FAILED(gfx.Dev()->CreatePixelShader(psb->GetBufferPointer(), psb->GetBufferSize(), nullptr, ps_.GetAddressOf()))) {
             MessageBoxA(nullptr, "Failed to create debug pixel shader", "Shader Error", MB_OK | MB_ICONERROR);
             return false;
@@ -173,11 +173,11 @@ public:
      * @param[in] start 線の開始点
      * @param[in] end 線の終了点
      * @param[in] color 線の色(RGB: 0.0～1.0)
-     * 
+     *
      * @details
      * 描画する線をリストに追加します。
      * 実際の描画はRender()呼び出し時に行われます。
-     * 
+     *
      * @par 使用例
      * @code
      * // 赤い線を描画
@@ -197,36 +197,37 @@ public:
      * @param[in] size グリッドのサイズ(全体の幅と奥行き)
      * @param[in] divisions 分割数(何本の線を引くか)
      * @param[in] color グリッドの色(デフォルト: 灰色)
-     * 
+     * @param[in] yOffset Y位置のオフセット(デフォルト: -0.01f、座標軸との重なりを防ぐ)
+     *
      * @details
      * X-Z平面にグリッドを描画します。
-     * Y=0の平面に水平なグリッドが表示されます。
-     * 
+     * Y=yOffsetの平面に水平なグリッドが表示されます。
+     *
      * @par 使用例
      * @code
      * // 20x20のグリッドを20本の線で描画
      * debugDraw.DrawGrid(20.0f, 20);
      * @endcode
      */
-    void DrawGrid(float size = 10.0f, int divisions = 10, const DirectX::XMFLOAT3& color = {0.5f, 0.5f, 0.5f}) {
+    void DrawGrid(float size = 10.0f, int divisions = 10, const DirectX::XMFLOAT3& color = {0.5f, 0.5f, 0.5f}, float yOffset = -0.01f) {
         float step = size / divisions;
         float halfSize = size * 0.5f;
 
-        // X-Z平面のグリッド
+        // X-Z平面のグリッド（yOffsetを適用）
         for (int i = 0; i <= divisions; ++i) {
             float pos = -halfSize + i * step;
-            
+
             // Z軸に平行な線(X方向に並ぶ)
             AddLine(
-                DirectX::XMFLOAT3{-halfSize, 0, pos},
-                DirectX::XMFLOAT3{ halfSize, 0, pos},
+                DirectX::XMFLOAT3{-halfSize, yOffset, pos},
+                DirectX::XMFLOAT3{ halfSize, yOffset, pos},
                 color
             );
-            
+
             // X軸に平行な線(Z方向に並ぶ)
             AddLine(
-                DirectX::XMFLOAT3{pos, 0, -halfSize},
-                DirectX::XMFLOAT3{pos, 0,  halfSize},
+                DirectX::XMFLOAT3{pos, yOffset, -halfSize},
+                DirectX::XMFLOAT3{pos, yOffset,  halfSize},
                 color
             );
         }
@@ -235,37 +236,38 @@ public:
     /**
      * @brief 座標軸を描画
      * @param[in] length 軸の長さ
-     * 
+     *
      * @details
      * X軸(赤)、Y軸(緑)、Z軸(青)を原点から描画します。
      * 3D空間の方向を確認するのに便利です。
-     * 
+     * より見やすくするため、明るい色を使用しています。
+     *
      * @par 使用例
      * @code
      * // 5単位の長さの座標軸を描画
      * debugDraw.DrawAxes(5.0f);
      * @endcode
      */
-    void DrawAxes(float length = 5.0f) {
-        // X軸(赤)
+    void DrawAxes(float length = 500.0f) {
+        // X軸(明るい赤)
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{length, 0, 0},
-            DirectX::XMFLOAT3{1, 0, 0}
+            DirectX::XMFLOAT3{1, 0.2f, 0.2f}
         );
-        
-        // Y軸(緑)
+
+        // Y軸(明るい緑)
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, length, 0},
-            DirectX::XMFLOAT3{0, 1, 0}
+            DirectX::XMFLOAT3{0.2f, 1, 0.2f}
         );
-        
-        // Z軸(青)
+
+        // Z軸(明るい青)
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, 0, length},
-            DirectX::XMFLOAT3{0, 0, 1}
+            DirectX::XMFLOAT3{0.3f, 0.3f, 1}
         );
     }
 
@@ -273,7 +275,7 @@ public:
      * @brief すべての線を描画
      * @param[in] gfx グラフィックスデバイス
      * @param[in] cam カメラ
-     * 
+     *
      * @details
      * AddLine()やDrawGrid()などで追加されたすべての線を描画します。
      * カメラのView・Projection行列を使用してワールド空間から画面空間に変換します。
@@ -284,7 +286,7 @@ public:
         // 頂点データを構築
         std::vector<Vertex> vertices;
         vertices.reserve(lines_.size() * 2);
-        
+
         for (const auto& line : lines_) {
             vertices.push_back({ line.start, line.color });
             vertices.push_back({ line.end, line.color });
@@ -318,20 +320,20 @@ public:
 
     /**
      * @brief フレーム終了時にクリア
-     * 
+     *
      * @details
      * 蓄積された線データをクリアします。
      * 毎フレーム呼び出す必要があります。
-     * 
+     *
      * @par 使用例
      * @code
      * while (running) {
      *     // 線を追加
      *     debugDraw.DrawGrid(20.0f, 20);
-     *     
+     *
      *     // 描画
      *     debugDraw.Render(gfx, camera);
-     *     
+     *
      *     // フレーム終了時にクリア
      *     debugDraw.Clear();
      * }
@@ -343,7 +345,7 @@ public:
 
     /**
      * @brief デストラクタ
-     * 
+     *
      * @details
      * すべてのDirectX11リソースを自動的に解放します。
      */
@@ -370,7 +372,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_; ///< 入力レイアウト
     Microsoft::WRL::ComPtr<ID3D11Buffer> cb_;          ///< 定数バッファ
     Microsoft::WRL::ComPtr<ID3D11Buffer> vb_;          ///< 頂点バッファ
-    
+
     std::vector<Line> lines_;  ///< 描画する線のリスト
     size_t maxLines_;          ///< 最大線数
 };

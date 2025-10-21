@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\App.h" />
+    <ClInclude Include="include\ecs\World_v7.h" />
     <ClInclude Include="include\graphics\Camera.h" />
     <ClInclude Include="include\components\Component.h" />
     <ClInclude Include="include\pch.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="include\graphics\GfxDevice.h" />
     <ClInclude Include="include\input\InputSystem.h" />
     <ClInclude Include="include\components\MeshRenderer.h" />
+    <ClInclude Include="include\samples\WorldImprovementDemo.h" />
     <ClInclude Include="include\scenes\MiniGame.h" />
     <ClInclude Include="include\graphics\RenderSystem.h" />
     <ClInclude Include="include\components\Rotator.h" />
@@ -162,7 +164,6 @@
     <ClInclude Include="include\graphics\TextureManager.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\graphics\VideoPlayer.h" />
-    <ClInclude Include="include\ecs\World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Textures\test.png" />
