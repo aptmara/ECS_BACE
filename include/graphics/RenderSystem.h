@@ -95,15 +95,17 @@ struct RenderSystem {
      * すべてのDirectX11リソースを自動的に解放します。
      */
     ~RenderSystem() {
-        vs_.Reset();
-        ps_.Reset();
-        layout_.Reset();
-        cb_.Reset();
-        psCb_.Reset();
-        vb_.Reset();
-        ib_.Reset();
-        rasterState_.Reset();
-        samplerState_.Reset();
+        DEBUGLOG("RenderSystem::~RenderSystem() - Destructor called");
+        if (!isShutdown_) { DEBUGLOG_WARNING("RenderSystem::Shutdown() was not called explicitly. Auto-cleanup in destructor."); }
+        Shutdown();
+    }
+
+    /**
+     * @brief リソースの明示的解放
+     */
+    void Shutdown() {
+        if (isShutdown_) return; DEBUGLOG("RenderSystem::Shutdown() - Releasing resources");
+        vs_.Reset(); ps_.Reset(); layout_.Reset(); cb_.Reset(); psCb_.Reset(); vb_.Reset(); ib_.Reset(); rasterState_.Reset(); samplerState_.Reset(); isShutdown_ = true; DEBUGLOG("RenderSystem::Shutdown() completed");
     }
 
     /**
@@ -118,6 +120,7 @@ struct RenderSystem {
      */
     bool Init(GfxDevice& gfx, TextureManager& texMgr) {
         texManager_ = &texMgr;
+        isShutdown_ = false;
 
         // テクスチャ対応シェーダー
         const char* VS = R"(
@@ -292,7 +295,7 @@ struct RenderSystem {
      * 2. 各エンティティに対して:
      *    - World行列を計算
      *    - WVP行列を定数バッファに設定
-     *    - 色とテクスチャを設定
+     *    - 색とテクスチャを設定
      *    - キューブを描画
      */
     void Render(GfxDevice& gfx, World& w, const Camera& cam) {
@@ -346,4 +349,6 @@ struct RenderSystem {
             gfx.Ctx()->DrawIndexed(indexCount_, 0, 0);
         });
     }
+
+    bool isShutdown_ = false; ///< シャットダウン済みフラグ
 };

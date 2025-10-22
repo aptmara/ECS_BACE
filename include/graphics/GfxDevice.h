@@ -16,6 +16,7 @@
 #include <wrl/client.h>
 #include <cstdint>
 #include <cstdio>
+#include "app/DebugLog.h"
 
 /**
  * @class GfxDevice
@@ -68,6 +69,7 @@ public:
     bool Init(HWND hwnd, uint32_t w, uint32_t h) {
         width_ = w;
         height_ = h;
+        isShutdown_ = false;
 
         DXGI_SWAP_CHAIN_DESC sd{};
         sd.BufferCount = 2;
@@ -78,7 +80,7 @@ public:
         sd.OutputWindow = hwnd;
         sd.SampleDesc.Count = 1;
         sd.Windowed = TRUE;
-        sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+        sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // FLIP_DISCARDに変更（推奨モデル）
 
         UINT flags = 0;
 #if defined(_DEBUG)
@@ -107,7 +109,11 @@ public:
             return false;
         }
 
-        return createBackbufferResources();
+        bool ok = createBackbufferResources();
+
+        // 追加: アダプタ/機能レベル/フォーマット/SwapEffect/VSYNC情報をログ
+        logEnvironment(fl, sd);
+        return ok;
     }
 
     /**
@@ -180,18 +186,54 @@ public:
     uint32_t Height() const { return height_; }
     
     /**
+     * @brief リソースの明示的解放
+     * 
+     * @details
+     * DirectX11リソースを明示的に解放します。
+     * デストラクタからも呼ばれますが、順序制御のため明示的に呼び出すことを推奨します。
+     */
+    void Shutdown() {
+        if (isShutdown_) return; // 冪等性
+        DEBUGLOG("GfxDevice::Shutdown() - Releasing resources");
+        
+        if (dsv_) {
+            DEBUGLOG("Releasing depth stencil view");
+            dsv_.Reset();
+        }
+        
+        if (rtv_) {
+            DEBUGLOG("Releasing render target view");
+            rtv_.Reset();
+        }
+        
+        if (swap_) {
+            DEBUGLOG("Releasing swap chain");
+            swap_.Reset();
+        }
+        
+        if (context_) {
+            DEBUGLOG("Releasing device context");
+            context_.Reset();
+        }
+        
+        if (device_) {
+            DEBUGLOG("Releasing device");
+            device_.Reset();
+        }
+        
+        isShutdown_ = true;
+        DEBUGLOG("GfxDevice::Shutdown() completed");
+    }
+
+    /**
      * @brief デストラクタでリソースを明示的に解放
      * 
      * @details
      * ComPtrは自動で解放されますが、念のため明示的にリセットします。
      */
     ~GfxDevice() {
-        // ComPtrは自動で解放されるが、念のため明示的にリセット
-        dsv_.Reset();
-        rtv_.Reset();
-        swap_.Reset();
-        context_.Reset();
-        device_.Reset();
+        DEBUGLOG("GfxDevice::~GfxDevice() - Destructor called");
+        Shutdown();
     }
 
 private:
@@ -244,6 +286,56 @@ private:
         return true;
     }
 
+    /**
+     * @brief 環境メトリクスのログ出力
+     * @param fl 機能レベル
+     * @param sd スワップチェインの設定
+     * 
+     * @details
+     * 初期化時に取得したアダプタ名、機能レベル、スワップ効果、バックバッファフォーマット、
+     * VSync設定などの情報をログに出力します。
+     */
+    void logEnvironment(D3D_FEATURE_LEVEL fl, const DXGI_SWAP_CHAIN_DESC& sd) {
+        // アダプタ名取得
+        Microsoft::WRL::ComPtr<IDXGIDevice> dxgiDevice;
+        if (SUCCEEDED(device_.As(&dxgiDevice))) {
+            Microsoft::WRL::ComPtr<IDXGIAdapter> adapter;
+            if (SUCCEEDED(dxgiDevice->GetAdapter(adapter.GetAddressOf()))) {
+                DXGI_ADAPTER_DESC desc{};
+                if (SUCCEEDED(adapter->GetDesc(&desc))) {
+                    char name[256];
+                    size_t outSize = 0;
+                    wcstombs_s(&outSize, name, desc.Description, 255);
+                    DEBUGLOG(std::string("Adapter: ") + name);
+                }
+            }
+        }
+
+        // Feature Level
+        const char* flText = "Unknown";
+        switch (fl) {
+            case D3D_FEATURE_LEVEL_11_1: flText = "11.1"; break;
+            case D3D_FEATURE_LEVEL_11_0: flText = "11.0"; break;
+            case D3D_FEATURE_LEVEL_10_1: flText = "10.1"; break;
+            case D3D_FEATURE_LEVEL_10_0: flText = "10.0"; break;
+            default: break;
+        }
+        DEBUGLOG(std::string("Feature Level: ") + flText);
+
+        // スワップチェイン情報
+        const char* swapEffectText = "Unknown";
+        switch (sd.SwapEffect) {
+            case DXGI_SWAP_EFFECT_DISCARD: swapEffectText = "DISCARD (Legacy)"; break;
+            case DXGI_SWAP_EFFECT_SEQUENTIAL: swapEffectText = "SEQUENTIAL (Legacy)"; break;
+            case DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL: swapEffectText = "FLIP_SEQUENTIAL"; break;
+            case DXGI_SWAP_EFFECT_FLIP_DISCARD: swapEffectText = "FLIP_DISCARD (Recommended)"; break;
+            default: break;
+        }
+        DEBUGLOG(std::string("SwapEffect: ") + swapEffectText);
+        DEBUGLOG(std::string("BackBufferFormat: RGBA8_UNORM"));
+        DEBUGLOG(std::string("VSync: ON (Present(1)) - Locks to display refresh rate"));
+    }
+
     // メンバ変数
     uint32_t width_ = 0;  ///< 画面幅
     uint32_t height_ = 0; ///< 画面高さ
@@ -252,4 +344,5 @@ private:
     Microsoft::WRL::ComPtr<IDXGISwapChain> swap_;           ///< スワップチェイン
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv_;    ///< レンダーターゲットビュー
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> dsv_;    ///< 深度ステンシルビュー
+    bool isShutdown_ = false; ///< シャットダウン済みフラグ
 };

@@ -44,13 +44,17 @@ namespace SampleScenes {
  */
 inline Entity CreateSimpleCube(World& world) {
     // エンティティを作成(ビルダーパターン)
+    Transform transform;
+    transform.position = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+    MeshRenderer renderer;
+    renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f}; // 赤色
+
     Entity cube = world.Create()
-        .With<Transform>(
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},  // 位置
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},  // 回転
-            DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f}   // スケール
-        )
-        .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f}) // 赤色
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
         .Build();
     
     return cube;
@@ -77,13 +81,17 @@ inline Entity CreateSimpleCube(World& world) {
  * @author 山内陽
  */
 inline Entity CreateRotatingCube(World& world, const DirectX::XMFLOAT3& position) {
+    Transform transform;
+    transform.position = position;
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+    MeshRenderer renderer;
+    renderer.color = DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f}; // 緑色
+
     Entity cube = world.Create()
-        .With<Transform>(
-            position,
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f}
-        )
-        .With<MeshRenderer>(DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f}) // 緑色
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
         .With<Rotator>(45.0f) // 毎秒45度回転
         .Build();
     
@@ -110,13 +118,17 @@ inline Entity CreateRotatingCube(World& world, const DirectX::XMFLOAT3& position
  * @author 山内陽
  */
 inline Entity CreateBouncingCube(World& world) {
+    Transform transform;
+    transform.position = DirectX::XMFLOAT3{-3.0f, 0.0f, 0.0f};
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{0.8f, 0.8f, 0.8f};
+
+    MeshRenderer renderer;
+    renderer.color = DirectX::XMFLOAT3{1.0f, 1.0f, 0.0f}; // 黄色
+
     Entity cube = world.Create()
-        .With<Transform>(
-            DirectX::XMFLOAT3{-3.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{0.8f, 0.8f, 0.8f}
-        )
-        .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 1.0f, 0.0f}) // 黄色
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
         .With<Bouncer>() // 上下に跳ねる(ComponentSamples.h参照)
         .Build();
     
@@ -143,13 +155,17 @@ inline Entity CreateBouncingCube(World& world) {
  * @author 山内陽
  */
 inline Entity CreateComplexCube(World& world) {
+    Transform transform;
+    transform.position = DirectX::XMFLOAT3{3.0f, 0.0f, 0.0f};
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+    MeshRenderer renderer;
+    renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 1.0f}; // マゼンタ
+
     Entity cube = world.Create()
-        .With<Transform>(
-            DirectX::XMFLOAT3{3.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f}
-        )
-        .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 0.0f, 1.0f}) // マゼンタ
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
         .With<Rotator>(30.0f)    // 回転動作
         .With<PulseScale>()      // 大きさが変わる(ComponentSamples.h参照)
         .Build();
@@ -315,13 +331,17 @@ inline void CreateGridOfCubes(World& world, int rows = 3, int cols = 3) {
             float b = static_cast<float>(row) / static_cast<float>(rows - 1);
             
             // キューブを作成
+            Transform transform;
+            transform.position = DirectX::XMFLOAT3{x, 0.0f, z};
+            transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+            transform.scale = DirectX::XMFLOAT3{0.8f, 0.8f, 0.8f};
+
+            MeshRenderer renderer;
+            renderer.color = DirectX::XMFLOAT3{r, 0.5f, b};
+
             world.Create()
-                .With<Transform>(
-                    DirectX::XMFLOAT3{x, 0.0f, z},
-                    DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-                    DirectX::XMFLOAT3{0.8f, 0.8f, 0.8f}
-                )
-                .With<MeshRenderer>(DirectX::XMFLOAT3{r, 0.5f, b})
+                .With<Transform>(transform)
+                .With<MeshRenderer>(renderer)
                 .With<Rotator>(45.0f + static_cast<float>(row * 10 + col * 5))
                 .Build();
         }
@@ -341,13 +361,17 @@ inline void CreateGridOfCubes(World& world, int rows = 3, int cols = 3) {
  * @author 山内陽
  */
 inline Entity CreateRainbowCube(World& world) {
+    Transform transform;
+    transform.position = DirectX::XMFLOAT3{0.0f, 3.0f, 0.0f};
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+    MeshRenderer renderer;
+    renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f};
+
     Entity cube = world.Create()
-        .With<Transform>(
-            DirectX::XMFLOAT3{0.0f, 3.0f, 0.0f},
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f}
-        )
-        .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f})
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
         .With<Rotator>(120.0f) // 速く回転
         .With<ColorCycle>()    // 色が変わる(ComponentSamples.h)
         .Build();
@@ -364,13 +388,17 @@ inline Entity CreateRainbowCube(World& world) {
  * @author 山内陽
  */
 inline Entity CreateWanderingCube(World& world) {
+    Transform transform;
+    transform.position = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{0.6f, 0.6f, 0.6f};
+
+    MeshRenderer renderer;
+    renderer.color = DirectX::XMFLOAT3{0.8f, 0.3f, 0.9f};
+
     Entity cube = world.Create()
-        .With<Transform>(
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{0.6f, 0.6f, 0.6f}
-        )
-        .With<MeshRenderer>(DirectX::XMFLOAT3{0.8f, 0.3f, 0.9f})
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
         .With<RandomWalk>() // ランダム移動(ComponentSamples.h)
         .Build();
     
@@ -387,13 +415,17 @@ inline Entity CreateWanderingCube(World& world) {
  * @author 山内陽
  */
 inline Entity CreateTemporaryCube(World& world, float lifeTime = 5.0f) {
+    Transform transform;
+    transform.position = DirectX::XMFLOAT3{0.0f, 5.0f, 0.0f};
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{0.5f, 0.5f, 0.5f};
+
+    MeshRenderer renderer;
+    renderer.color = DirectX::XMFLOAT3{1.0f, 0.5f, 0.0f};
+
     Entity cube = world.Create()
-        .With<Transform>(
-            DirectX::XMFLOAT3{0.0f, 5.0f, 0.0f},
-            DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-            DirectX::XMFLOAT3{0.5f, 0.5f, 0.5f}
-        )
-        .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 0.5f, 0.0f})
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
         .With<Rotator>(200.0f)
         .Build();
     
@@ -404,7 +436,6 @@ inline Entity CreateTemporaryCube(World& world, float lifeTime = 5.0f) {
     
     return cube;
 }
-
 } // namespace SampleScenes
 
 // ========================================================

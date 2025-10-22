@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\App.h" />
+    <ClInclude Include="include\app\DebugLog.h" />
     <ClInclude Include="include\ecs\World_v7.h" />
     <ClInclude Include="include\graphics\Camera.h" />
     <ClInclude Include="include\components\Component.h" />
@@ -171,6 +172,9 @@
     <None Include="docs\HEADER_INCLUDES.md" />
     <None Include="docs\PCH_SETUP.md" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="x64\Debug\debug_log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

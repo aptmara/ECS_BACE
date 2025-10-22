@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file MiniGame.h
  * @brief シンプルなシューティングゲーム
  * @author 山内陽
@@ -96,9 +96,9 @@ struct BulletMovement : Behaviour {
 
         t->position.y += speed * dt;
 
-        // 画面外に出たら削除
+        // 画面外に出たら削除（原因: LifetimeExpired）
         if (t->position.y > 10.0f) {
-            w.DestroyEntity(self);
+            w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
     }
 };
@@ -127,9 +127,9 @@ struct EnemyMovement : Behaviour {
 
         t->position.y -= speed * dt;
 
-        // 画面下に出たら削除
+        // 画面下に出たら削除（原因: LifetimeExpired）
         if (t->position.y < -8.0f) {
-            w.DestroyEntity(self);
+            w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
     }
 };
@@ -165,19 +165,25 @@ public:
     void OnEnter(World& world) override {
         // 乱数シードを設定
         srand(static_cast<unsigned int>(time(nullptr)));
+        ownedEntities_.clear();
 
         // プレイヤーを作成
+        Transform playerTransform;
+        playerTransform.position = DirectX::XMFLOAT3{0.0f, -6.0f, 0.0f};
+        playerTransform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+        playerTransform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+        MeshRenderer playerRenderer;
+        playerRenderer.color = DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f}; // 緑色
+
         playerEntity_ = world.Create()
-            .With<Transform>(
-                DirectX::XMFLOAT3{0.0f, -6.0f, 0.0f},   // 画面下部
-                DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-                DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f}
-            )
-            .With<MeshRenderer>(DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f}) // 緑色
+            .With<Transform>(playerTransform)
+            .With<MeshRenderer>(playerRenderer)
             .With<Player>()
-            .With<PlayerMovement>()
-            .With<ColorCycle>(1.0f) // 色が変化するように
+            .WithCause<PlayerMovement>(static_cast<int>(World::Cause::SceneInit)) // 原因を明示
+            .WithCause<ColorCycle>(static_cast<int>(World::Cause::SceneInit), 1.0f) // 原因を明示
             .Build();
+        ownedEntities_.push_back(playerEntity_);
 
         score_ = 0;
         enemySpawnTimer_ = 0.0f;
@@ -215,16 +221,12 @@ public:
      * すべてのエンティティを削除します。
      */
     void OnExit(World& world) override {
-        // 全エンティティを削除(イテレータ破壊を回避)
-        std::vector<Entity> entitiesToDestroy;
-
-        world.ForEach<Transform>([&](Entity e, Transform& t) {
-            entitiesToDestroy.push_back(e);
-        });
-
-        for (const auto& entity : entitiesToDestroy) {
-            world.DestroyEntity(entity);
+        for (const auto& entity : ownedEntities_) {
+            if (world.IsAlive(entity)) {
+                world.DestroyEntity(entity);
+            }
         }
+        ownedEntities_.clear();
     }
 
     /**
@@ -271,17 +273,22 @@ private:
             auto* playerTransform = world.TryGet<Transform>(playerEntity_);
             if (playerTransform) {
                 // プレイヤーの位置から弾を発射
-                world.Create()
-                    .With<Transform>(
-                        DirectX::XMFLOAT3{playerTransform->position.x, playerTransform->position.y + 1.0f, 0.0f},
-                        DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-                        DirectX::XMFLOAT3{0.3f, 0.5f, 0.3f}  // 小さく
-                    )
-                    .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 1.0f, 0.0f}) // 黄色
+                Transform bulletTransform;
+                bulletTransform.position = DirectX::XMFLOAT3{playerTransform->position.x, playerTransform->position.y + 1.0f, 0.0f};
+                bulletTransform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+                bulletTransform.scale = DirectX::XMFLOAT3{0.3f, 0.5f, 0.3f};
+
+                MeshRenderer bulletRenderer;
+                bulletRenderer.color = DirectX::XMFLOAT3{1.0f, 1.0f, 0.0f}; // 黄色
+
+                Entity bullet = world.Create()
+                    .With<Transform>(bulletTransform)
+                    .With<MeshRenderer>(bulletRenderer)
                     .With<Bullet>()
-                    .With<BulletMovement>()
-                    .With<Rotator>(1000.0f) // 弾が回転するように
+                    .WithCause<BulletMovement>(static_cast<int>(World::Cause::Spawner))
+                    .WithCause<Rotator>(static_cast<int>(World::Cause::Spawner), 1000.0f) // 原因を明示
                     .Build();
+                ownedEntities_.push_back(bullet);
 
                 shootCooldown_ = 0.2f; // 0.2秒のクールダウン
             }
@@ -303,17 +310,22 @@ private:
             // ランダムな位置に敵を配置
             float randomX = (rand() % 1600 - 800) / 100.0f; // -8.0 ~ 8.0
 
-            world.Create()
-                .With<Transform>(
-                    DirectX::XMFLOAT3{randomX, 8.0f, 0.0f},  // 画面上部
-                    DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f},
-                    DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f}
-                )
-                .With<MeshRenderer>(DirectX::XMFLOAT3{ 1.0f, 0.0f, 0.0f }) // 赤色
+            Transform enemyTransform;
+            enemyTransform.position = DirectX::XMFLOAT3{randomX, 8.0f, 0.0f};
+            enemyTransform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+            enemyTransform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+            MeshRenderer enemyRenderer;
+            enemyRenderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f}; // 赤色
+
+            Entity enemy = world.Create()
+                .With<Transform>(enemyTransform)
+                .With<MeshRenderer>(enemyRenderer)
                 .With<Enemy>()
-                .With<EnemyMovement>()
-                .With<Rotator>(10000.0f)
+                .WithCause<EnemyMovement>(static_cast<int>(World::Cause::WaveTimer))
+                .WithCause<Rotator>(static_cast<int>(World::Cause::WaveTimer), 10000.0f) // 原因を明示
                 .Build();
+            ownedEntities_.push_back(enemy);
         }
     }
 
@@ -361,14 +373,15 @@ private:
             });
         });
 
-        // イテレーション後にまとめて削除
+        // イテレーション後にまとめて削除（原因付き）
         for (const auto& entity : entitiesToDestroy) {
-            world.DestroyEntity(entity);
+            world.DestroyEntityWithCause(entity, World::Cause::Collision);
         }
     }
 
     Entity playerEntity_;        ///< プレイヤーエンティティ
     int score_;                  ///< 現在のスコア
     float enemySpawnTimer_;      ///< 敵生成タイマー
-    float shootCooldown_;        ///< 弾発射クールダウン
+    float shootCooldown_;        ///< シーン内での射撃クールダウン
+    std::vector<Entity> ownedEntities_; ///< シーンが生成したエンティティ
 };

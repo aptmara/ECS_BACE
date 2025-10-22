@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
@@ -21,8 +21,8 @@
  * @brief キーボード・マウス入力を管理するクラス
  * 
  * @details
- * Windows APIを使用してキーボードとマウスの入力状況を管理します。
- * ゲームループ内で毎フレームUpdate()を呼び出すことで、入力状況が更新されます。
+ * Windows APIを使用してキーボードとマウスの入力状態を管理します。
+ * ゲームループ内で毎フレームUpdate()を呼び出すことで、入力状態が更新されます。
  * 
  * @par 使用例
  * @code
@@ -33,7 +33,7 @@
  *     input.Update();
  *     
  *     if (input.GetKeyDown(VK_SPACE)) {
- *         // スペースキー押下
+ *         // スペースキー押下時
  *     }
  * }
  * @endcode
@@ -44,7 +44,7 @@ class InputSystem {
 public:
     /**
      * @enum KeyState
-     * @brief キーの状況を表す列挙型
+     * @brief キーの状態を表す列挙型
      */
     enum class KeyState : uint8_t {
         None = 0,      ///< 何も押されていない
@@ -67,20 +67,19 @@ public:
      * @brief 初期化
      * 
      * @details
-     * すべての入力状態をリセットし、初期状態にします。
+     * すべての入力状態をリセットし初期状態にします。
      */
     void Init() {
         memset(keyStates_, 0, sizeof(keyStates_));
         memset(prevKeyStates_, 0, sizeof(prevKeyStates_));
-        memset(mouseStates_, 0, sizeof(mouseStates_));
-        memset(prevMouseStates_, 0, sizeof(prevMouseStates_));
         mouseX_ = mouseY_ = 0;
         mouseDeltaX_ = mouseDeltaY_ = 0;
         mouseWheel_ = 0;
+        mouseWheelAccum_ = 0;
     }
 
     /**
-     * @brief 入力状況の更新(毎フレーム呼ぶ)
+     * @brief 入力状態の更新(毎フレーム呼ぶ)
      * 
      * @details
      * 前フレームの状態を保存し、現在の入力状態を取得します。
@@ -88,20 +87,16 @@ public:
      */
     void Update() {
         memcpy(prevKeyStates_, keyStates_, sizeof(keyStates_));
-        memcpy(prevMouseStates_, mouseStates_, sizeof(mouseStates_));
         
         for (int i = 0; i < 256; ++i) {
-            bool current = (GetAsyncKeyState(i) & 0x8000) != 0;
-            bool prev = prevKeyStates_[i];
-            
-            if (current && !prev) {
-                keyStates_[i] = static_cast<uint8_t>(KeyState::Down);
-            } else if (current && prev) {
-                keyStates_[i] = static_cast<uint8_t>(KeyState::Pressed);
-            } else if (!current && prev) {
-                keyStates_[i] = static_cast<uint8_t>(KeyState::Up);
+            bool isDown = (GetAsyncKeyState(i) & 0x8000) != 0;
+            KeyState prevState = static_cast<KeyState>(prevKeyStates_[i]);
+            bool wasDown = (prevState == KeyState::Down || prevState == KeyState::Pressed);
+
+            if (isDown) {
+                keyStates_[i] = static_cast<uint8_t>(wasDown ? KeyState::Pressed : KeyState::Down);
             } else {
-                keyStates_[i] = static_cast<uint8_t>(KeyState::None);
+                keyStates_[i] = static_cast<uint8_t>(wasDown ? KeyState::Up : KeyState::None);
             }
         }
         
@@ -115,7 +110,8 @@ public:
             mouseY_ = newY;
         }
         
-        mouseWheel_ = 0;
+        mouseWheel_ = mouseWheelAccum_;
+        mouseWheelAccum_ = 0;
     }
 
     /**
@@ -197,9 +193,12 @@ public:
      * @endcode
      */
     bool GetMouseButton(MouseButton button) const {
-        int vk = VK_LBUTTON;
-        if (button == Right) vk = VK_RBUTTON;
-        else if (button == Middle) vk = VK_MBUTTON;
+        int vk = 0;
+        switch (button) {
+            case Left:   vk = VK_LBUTTON; break;
+            case Right:  vk = VK_RBUTTON; break;
+            case Middle: vk = VK_MBUTTON; break;
+        }
         return GetKey(vk);
     }
 
@@ -212,9 +211,12 @@ public:
      * マウスボタンが押された最初のフレームのみtrueを返します。
      */
     bool GetMouseButtonDown(MouseButton button) const {
-        int vk = VK_LBUTTON;
-        if (button == Right) vk = VK_RBUTTON;
-        else if (button == Middle) vk = VK_MBUTTON;
+        int vk = 0;
+        switch (button) {
+            case Left:   vk = VK_LBUTTON; break;
+            case Right:  vk = VK_RBUTTON; break;
+            case Middle: vk = VK_MBUTTON; break;
+        }
         return GetKeyDown(vk);
     }
 
@@ -227,9 +229,12 @@ public:
      * マウスボタンが離された最初のフレームのみtrueを返します。
      */
     bool GetMouseButtonUp(MouseButton button) const {
-        int vk = VK_LBUTTON;
-        if (button == Right) vk = VK_RBUTTON;
-        else if (button == Middle) vk = VK_MBUTTON;
+        int vk = 0;
+        switch (button) {
+            case Left:   vk = VK_LBUTTON; break;
+            case Right:  vk = VK_RBUTTON; break;
+            case Middle: vk = VK_MBUTTON; break;
+        }
         return GetKeyUp(vk);
     }
 
@@ -277,20 +282,19 @@ public:
      * ウィンドウプロシージャからホイールイベントを受け取るために使用します。
      */
     void OnMouseWheel(int delta) {
-        mouseWheel_ = delta / 120;
+        mouseWheelAccum_ += delta / WHEEL_DELTA;
     }
 
 private:
-    uint8_t keyStates_[256];        ///< 現在のキー状況
-    uint8_t prevKeyStates_[256];    ///< 前フレームのキー状況
-    uint8_t mouseStates_[3];        ///< マウスボタン状況
-    uint8_t prevMouseStates_[3];    ///< 前フレームのマウスボタン状況
+    uint8_t keyStates_[256];        ///< 現在のキー状態
+    uint8_t prevKeyStates_[256];    ///< 前フレームのキー状態
     
     int mouseX_;        ///< マウスX座標
     int mouseY_;        ///< マウスY座標
     int mouseDeltaX_;   ///< マウスX移動量
     int mouseDeltaY_;   ///< マウスY移動量
     int mouseWheel_;    ///< マウスホイール回転量
+    int mouseWheelAccum_;  ///< マウスホイール累積値
 };
 
 /**
@@ -313,3 +317,4 @@ inline InputSystem& GetInput() {
     static InputSystem instance;
     return instance;
 }
+

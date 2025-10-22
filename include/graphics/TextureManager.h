@@ -11,6 +11,7 @@
  */
 #pragma once
 #include "graphics/GfxDevice.h"
+#include "app/DebugLog.h"
 #include <d3d11.h>
 #include <wrl/client.h>
 #include <wincodec.h>
@@ -83,6 +84,7 @@ public:
      */
     bool Init(GfxDevice& gfx) {
         gfx_ = &gfx;
+        isShutdown_ = false;
         
         // デフォルトの白テクスチャを作成
         uint32_t whitePixel = 0xFFFFFFFF;
@@ -304,6 +306,9 @@ public:
      * @endcode
      */
     void Release(TextureHandle handle) {
+        if (handle == INVALID_TEXTURE || handle == defaultWhiteTexture_) {
+            return;
+        }
         textures_.erase(handle);
     }
 
@@ -314,7 +319,20 @@ public:
      * 管理しているすべてのテクスチャを自動的に解放します。
      */
     ~TextureManager() {
+        DEBUGLOG("TextureManager::~TextureManager() - Destructor called");
+        if (!isShutdown_) { DEBUGLOG_WARNING("TextureManager::Shutdown() was not called explicitly. Auto-cleanup in destructor."); }
+        Shutdown();
+    }
+
+    /**
+     * @brief リソースの明示的解放
+     */
+    void Shutdown() {
+        if (isShutdown_) return; // 冪等性
+        DEBUGLOG("TextureManager::Shutdown() - Releasing " + std::to_string(textures_.size()) + " texture(s)");
         textures_.clear();
+        isShutdown_ = true;
+        DEBUGLOG("TextureManager::Shutdown() completed");
     }
 
 private:
@@ -323,14 +341,15 @@ private:
      * @brief テクスチャの内部データ
      */
     struct TextureData {
-        Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;           ///< テクスチャ本体
-        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;      ///< シェーダーリソースビュー
-        uint32_t width;   ///< 幅
-        uint32_t height;  ///< 高さ
+        Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
+        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
+        uint32_t width;
+        uint32_t height;
     };
 
-    GfxDevice* gfx_ = nullptr;                                      ///< グラフィックスデバイスへのポインタ
-    std::unordered_map<TextureHandle, TextureData> textures_;       ///< テクスチャマップ
-    TextureHandle nextHandle_ = 1;                                  ///< 次のハンドル番号
-    TextureHandle defaultWhiteTexture_ = INVALID_TEXTURE;           ///< デフォルト白テクスチャ
+    GfxDevice* gfx_ = nullptr;                          ///< グラフィックスデバイスへのポインタ
+    TextureHandle nextHandle_ = 1;                      ///< 次に割り当てるハンドル
+    TextureHandle defaultWhiteTexture_ = INVALID_TEXTURE; ///< デフォルト白テクスチャ
+    std::unordered_map<TextureHandle, TextureData> textures_; ///< テクスチャマップ
+    bool isShutdown_ = false;                           ///< シャットダウン済みフラグ
 };

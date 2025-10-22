@@ -37,6 +37,9 @@
     <Filter Include="ヘッダー ファイル\samples">
       <UniqueIdentifier>{41513f09-2417-4bdc-8474-8f2df4f6f4d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="log%28after_build_exe%29">
+      <UniqueIdentifier>{ebba4568-60d7-4969-9639-eba43d3bc05f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -110,6 +113,9 @@
     <ClInclude Include="include\samples\WorldImprovementDemo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="include\app\DebugLog.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -119,5 +125,10 @@
     </None>
     <None Include="docs\PCH_SETUP.md" />
     <None Include="docs\HEADER_INCLUDES.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="x64\Debug\debug_log.txt">
+      <Filter>log%28after_build_exe%29</Filter>
+    </Text>
   </ItemGroup>
 </Project>

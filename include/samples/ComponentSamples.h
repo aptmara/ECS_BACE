@@ -254,9 +254,9 @@ struct MoveForward : Behaviour {
         // Z軸に沿って前方向に移動
         t->position.z += speed * dt;
 
-        // 遠くまで行ったら自動削除(メモリリーク防止)
+        // 遠くまで行ったら自動削除(メモリリーク防止) - 原因付き
         if (t->position.z > 20.0f) {
-            w.DestroyEntity(self);
+            w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
     }
 };
@@ -487,9 +487,9 @@ struct LifeTime : Behaviour {
     void OnUpdate(World& w, Entity self, float dt) override {
         remainingTime -= dt;
 
-        // 寿命が尽きたら削除
+        // 寿命が尽きたら削除（原因付き）
         if (remainingTime <= 0.0f) {
-            w.DestroyEntity(self);
+            w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
     }
 };

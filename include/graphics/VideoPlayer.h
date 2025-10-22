@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿﻿#pragma once
 #include "graphics/GfxDevice.h"
 #include "components/Component.h"
 #include "ecs/Entity.h"
@@ -11,6 +11,7 @@
 #include <DirectXMath.h>
 #include <string>
 #include <cstdio>
+#include <algorithm>
 
 #pragma comment(lib, "mf.lib")
 #pragma comment(lib, "mfplat.lib")
@@ -64,12 +65,20 @@ public:
      * 動画再生を行う前に必ず呼び出してください。
      */
     bool Init() {
+        if (mfInitialized_) {
+            return true;
+        }
+
         // Media Foundationを初期化
         HRESULT hr = MFStartup(MF_VERSION);
+        if (hr == RPC_E_CHANGED_MODE) {
+            hr = MFStartup(MF_VERSION, MFSTARTUP_LITE);
+        }
         if (FAILED(hr)) {
             MessageBoxA(nullptr, "Failed to initialize Media Foundation", "Video Error", MB_OK | MB_ICONERROR);
             return false;
         }
+        mfInitialized_ = true;
         return true;
     }
 
@@ -81,7 +90,10 @@ public:
      */
     ~VideoPlayer() {
         if (reader_) reader_.Reset();
-        MFShutdown();
+        if (mfInitialized_) {
+            MFShutdown();
+            mfInitialized_ = false;
+        }
     }
 
     /**
@@ -93,8 +105,12 @@ public:
      * @details
      * 指定されたパスの動画ファイルを開き、再生準備を行います。
      * ファイルが見つからない場合やフォーマットが不正な場合はfalseを返します。
-     */
+    */
     bool Open(GfxDevice& gfx, const char* filepath) {
+        if (!mfInitialized_ && !Init()) {
+            return false;
+        }
+
         gfx_ = &gfx;
         
         // ワイド文字列に変換
@@ -185,7 +201,7 @@ public:
 
         if (FAILED(hr)) return false;
 
-        // ストリームの終了
+        // ストリームの終端
         if (streamFlags & MF_SOURCE_READERF_ENDOFSTREAM) {
             if (loop_) {
                 // ループ再生
@@ -195,10 +211,9 @@ public:
                 reader_->SetCurrentPosition(GUID_NULL, var);
                 PropVariantClear(&var);
                 return true;
-            } else {
-                isPlaying_ = false;
-                return false;
             }
+            isPlaying_ = false;
+            return false;
         }
 
         if (!sample) return true;
@@ -208,31 +223,62 @@ public:
         hr = sample->ConvertToContiguousBuffer(&buffer);
         if (FAILED(hr)) return false;
 
+        Microsoft::WRL::ComPtr<IMF2DBuffer> buffer2D;
         BYTE* data = nullptr;
-        DWORD length = 0;
-        hr = buffer->Lock(&data, nullptr, &length);
-        if (FAILED(hr)) return false;
+        LONG srcPitch = 0;
+        bool locked2D = false;
 
-        // テクスチャを更新
-        D3D11_MAPPED_SUBRESOURCE mapped;
-        hr = gfx_->Ctx()->Map(videoTexture_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
-        if (SUCCEEDED(hr)) {
-            // データをコピー
-            uint8_t* dest = static_cast<uint8_t*>(mapped.pData);
-            uint8_t* src = data;
-            
-            for (UINT y = 0; y < height_; ++y) {
-                memcpy(dest, src, width_ * 4);
-                dest += mapped.RowPitch;
-                src += width_ * 4;
+        if (SUCCEEDED(buffer.As(&buffer2D))) {
+            hr = buffer2D->Lock2D(&data, &srcPitch);
+            if (FAILED(hr)) {
+                return false;
             }
-            
-            gfx_->Ctx()->Unmap(videoTexture_.Get(), 0);
+            locked2D = true;
+        } else {
+            DWORD length = 0;
+            hr = buffer->Lock(&data, nullptr, &length);
+            if (FAILED(hr)) {
+                return false;
+            }
+            srcPitch = static_cast<LONG>(width_) * 4;
         }
 
-        buffer->Unlock();
+        if (srcPitch < 0) {
+            srcPitch = -srcPitch;
+            data += srcPitch * (height_ - 1);
+        }
+
+        // テクスチャを更新
+        D3D11_MAPPED_SUBRESOURCE mapped{};
+        hr = gfx_->Ctx()->Map(videoTexture_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
+        if (FAILED(hr)) {
+            if (locked2D) {
+                buffer2D->Unlock2D();
+            } else {
+                buffer->Unlock();
+            }
+            return false;
+        }
+
+        const UINT copyBytes = std::min<UINT>(mapped.RowPitch, static_cast<UINT>(srcPitch));
+        uint8_t* dest = static_cast<uint8_t*>(mapped.pData);
+        const uint8_t* src = data;
+        for (UINT y = 0; y < height_; ++y) {
+            memcpy(dest, src, copyBytes);
+            dest += mapped.RowPitch;
+            src += srcPitch;
+        }
+        gfx_->Ctx()->Unmap(videoTexture_.Get(), 0);
+
+        if (locked2D) {
+            buffer2D->Unlock2D();
+        } else {
+            buffer->Unlock();
+        }
         return true;
     }
+
+
 
     /**
      * @brief 再生開始
@@ -338,6 +384,7 @@ private:
     bool isPlaying_ = false;    ///< 再生中か
     bool loop_ = false;         ///< ループ再生するか
     float currentTime_ = 0.0f;  ///< 現在の再生時間
+    bool mfInitialized_ = false; ///< Media Foundationを初期化済みかどうか
 };
 
 // ========================================================
