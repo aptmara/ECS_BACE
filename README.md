@@ -1,49 +1,71 @@
-# 🎓 ECSアーキテクチャ学習プロジェクト
-
 <div align="center">
 
-![C++](https://img.shields.io/badge/C++-14-blue.svg)
-![DirectX](https://img.shields.io/badge/DirectX-11-green.svg)
-![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)
-![License](https://img.shields.io/badge/License-Free-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-5.0-orange.svg)
+# 🎮 HEW_ECS
 
-**Entity Component System (ECS) を実践的に学ぶための教育プロジェクト**
+### Entity Component System ゲーム開発フレームワーク
 
-[🚀 クイックスタート](#-実行方法) | [📖 学習ガイド](#-学習ガイド) | [🎮 サンプルゲーム](#-学習用ミニゲーム) | [📁 構成](#-プロジェクト構成)
+[![C++14](https://img.shields.io/badge/C++-14-blue.svg?style=flat&logo=c%2B%2B)](https://isocpp.org/)
+[![DirectX](https://img.shields.io/badge/DirectX-11-green.svg?style=flat)](https://docs.microsoft.com/en-us/windows/win32/directx)
+[![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg?style=flat)](https://www.microsoft.com/windows)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](LICENSE)
+[![Build](https://img.shields.io/badge/Build-Passing-brightgreen.svg?style=flat)](https://github.com/aptma-sHEWTeam/HEW_ECS)
+
+**ECS（Entity Component System）アーキテクチャ**を活用した柔軟で拡張性の高いゲーム開発プロジェクト
+
+[特徴](#-主な特徴) • [クイックスタート](#-クイックスタート) • [ドキュメント](#-目次) • [サンプル](#-実践例)
 
 </div>
 
 ---
 
-## 📖 概要
+## 📋 目次
+
+<details open>
+<summary><b>クリックして展開/折りたたみ</b></summary>
+
+- [🎯 プロジェクト概要](#-プロジェクト概要)
+- [✨ 主な特徴](#-主な特徴)
+- [🚀 クイックスタート](#-クイックスタート)
+- [🛠 環境構築](#-環境構築)
+- [📚 ECSアーキテクチャ入門](#-ecsアーキテクチャ入門)
+- [🔧 コンポーネントの作り方](#-コンポーネントの作り方)
+- [🎮 エンティティの作成](#-エンティティの作成)
+- [💡 実践例](#-実践例)
+- [📝 コーディング規約](#-コーディング規約)
+- [👥 チーム開発ルール](#-チーム開発ルール)
+- [📖 参考資料](#-参考資料)
+
+</details>
+
+---
+
+## 🎯 プロジェクト概要
 
 <table>
 <tr>
 <td width="50%">
 
-### 🎯 このプロジェクトで学べること
+**プロジェクト情報**
 
-```
-┌─────────────────────────────────┐
-│   🏗️ ECS アーキテクチャ           │
-├─────────────────────────────────┤
-│  ✓ Entity（エンティティ）        │
-│  ✓ Component（コンポーネント）   │
-│  ✓ System（システム）            │
-│  ✓ データ指向設計                │
-└─────────────────────────────────┘
-```
+| 項目 | 内容 |
+|------|------|
+| **名称** | HEW_ECS (ECS_BACE) |
+| **目的** | ECSを活用したチームゲーム開発 |
+| **言語** | C++14 |
+| **プラットフォーム** | Windows (DirectX 11) |
+| **アーキテクチャ** | Entity Component System |
 
 </td>
 <td width="50%">
 
-### 💡 プロジェクトの特徴
+**プロジェクト統計**
 
-- 🔍 **可読性最重視** - 初心者に優しいコード
-- 📚 **段階的学習** - レベル1〜9のサンプル
-- 🎮 **実践例付き** - ミニゲームで体験
-- 🛠️ **すぐ使える** - コピペ可能なコンポーネント集
+```
+📦 コンポーネント数:    15+
+🎯 エンティティ管理:    動的
+🔄 フレーム管理:       自動
+📊 メモリ管理:         スマートポインタ
+```
 
 </td>
 </tr>
@@ -51,465 +73,292 @@
 
 ---
 
-## 🎮 学習用ミニゲーム
+## ✨ 主な特徴
 
 <div align="center">
 
-```
-╔══════════════════════════════════════════╗
-║   🎯 シンプルシューティングゲーム         ║
-╠══════════════════════════════════════════╣
-║                                          ║
-║     🟢 プレイヤー（緑のキューブ）         ║
-║        ↓  ↓  ↓                          ║
-║     🟡 🟡 🟡  弾（黄色）                 ║
-║        ↓  ↓  ↓                          ║
-║     🔴 🔴 🔴  敵（赤）                   ║
-║                                          ║
-║  スコアを稼いでECSを体験しよう！          ║
-║                                          ║
-╚══════════════════════════════════════════╝
-```
+| 🎨 柔軟な設計 | ♻️ 再利用性 | 🔧 保守性 | 📈 拡張性 |
+|:---:|:---:|:---:|:---:|
+| コンポーネントの<br>組み合わせで機能実装 | 汎用コンポーネントを<br>複数のエンティティで共有 | 責任の分離により<br>バグ特定が容易 | 新しいコンポーネント追加で<br>機能拡張が可能 |
 
 </div>
 
-### 🎮 操作方法
+### 🌟 ECSの利点
 
-<table align="center">
-<tr>
-<th>キー</th>
-<th>動作</th>
-<th>説明</th>
-</tr>
-<tr>
-<td align="center"><kbd>A</kbd></td>
-<td>← 左移動</td>
-<td>プレイヤーを左に移動</td>
-</tr>
-<tr>
-<td align="center"><kbd>D</kbd></td>
-<td>→ 右移動</td>
-<td>プレイヤーを右に移動</td>
-</tr>
-<tr>
-<td align="center"><kbd>Space</kbd></td>
-<td>🔫 発射</td>
-<td>弾を発射して敵を撃つ</td>
-</tr>
-<tr>
-<td align="center"><kbd>ESC</kbd></td>
-<td>❌ 終了</td>
-<td>ゲームを終了</td>
-</tr>
-</table>
-
-### 🎯 ゲームルール
-
-<div align="center">
-
-| 🎯 目標 | 📊 スコア | ⚡ 難易度 |
-|:---:|:---:|:---:|
-| 敵を倒す | +10点 | ⭐⭐☆☆☆ |
-
-</div>
+```mermaid
+graph LR
+    A[Entity<br>識別子] --> B[Transform<br>位置・回転]
+    A --> C[MeshRenderer<br>描画]
+    A --> D[Rotator<br>回転動作]
+    A --> E[PlayerTag<br>識別]
+    
+    style A fill:#4CAF50
+    style B fill:#2196F3
+    style C fill:#2196F3
+    style D fill:#FF9800
+    style E fill:#9C27B0
+```
 
 ---
 
-## 🚀 実行方法
+## 🚀 クイックスタート
+
+### ⚡ 30秒で始める
+
+```cpp
+// 1️⃣ ワールドを作成
+World world;
+
+// 2️⃣ エンティティを作成（ビルダーパターン）
+Entity player = world.Create()
+    .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+    .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})
+    .With<Rotator>(45.0f)
+    .Build();
+
+// 3️⃣ 毎フレーム更新
+world.Tick(deltaTime);
+```
+
+> 💡 **たったこれだけ！** 回転する緑のキューブが画面に表示されます。
+
+---
+
+## 🛠 環境構築
 
 ### 📋 必要な環境
 
 <table>
 <tr>
-<td align="center">🖥️</td>
-<td><b>OS</b></td>
-<td>Windows 10/11</td>
-</tr>
-<tr>
-<td align="center">🎨</td>
-<td><b>GPU</b></td>
-<td>DirectX 11 対応</td>
-</tr>
-<tr>
-<td align="center">🔧</td>
-<td><b>開発環境</b></td>
-<td>Visual Studio 2019 以降</td>
-</tr>
-<tr>
-<td align="center">⚙️</td>
-<td><b>C++ 標準</b></td>
-<td>C++14</td>
+<td align="center" width="25%">
+
+**💻 OS**
+
+Windows 10/11
+
+</td>
+<td align="center" width="25%">
+
+**🔨 IDE**
+
+Visual Studio<br>2019/2022
+
+</td>
+<td align="center" width="25%">
+
+**📦 SDK**
+
+Windows SDK<br>(DirectX 11)
+
+</td>
+<td align="center" width="25%">
+
+**📚 C++**
+
+C++14
+
+</td>
 </tr>
 </table>
 
-### 🎬 起動手順
+### 📥 インストール手順
 
+```bash
+# 1️⃣ リポジトリをクローン
+git clone https://github.com/aptma-sHEWTeam/HEW_ECS.git
+
+# 2️⃣ ディレクトリに移動
+cd HEW_ECS
+
+# 3️⃣ Visual Studioでソリューションを開く
+start ECS_BACE.sln
 ```
-1️⃣  Visual Studio でプロジェクトを開く
-      ↓
-2️⃣  F5 キーを押してビルド＆実行
-      ↓
-3️⃣  ゲームで遊びながらECSを体験！
-```
+
+### ▶️ ビルド & 実行
+
+| 操作 | ショートカット |
+|------|---------------|
+| ビルド | `F7` または `Ctrl+Shift+B` |
+| 実行（デバッグ） | `F5` |
+| 実行（非デバッグ） | `Ctrl+F5` |
 
 ---
 
-## 📁 プロジェクト構成
-
-<details open>
-<summary><b>🔵 ECSコアシステム</b>（基礎を学ぶ）</summary>
-
-```
-📂 include/ecs/
-├── 🌍 World.h          ← ECSワールド管理（中核！）
-│                         - エンティティ作成/破棄
-│                         - コンポーネント追加/削除/取得
-│                         - Behaviour更新ループ
-│
-├── 🆔 Entity.h         ← エンティティ定義
-│                         - 一意なID
-│                         - オブジェクトの識別子
-│
-└── 🏗️ EntityBuilder    ← ビルダーパターン実装
-                          - メソッドチェーン
-                          - 流暢なAPI
-```
-
-```
-📂 include/components/
-├── 📦 Component.h      ← コンポーネント基底クラス
-│                         - IComponent（データ型）
-│                         - Behaviour（動作型）
-│
-├── 📍 Transform.h      ← 位置・回転・スケール
-├── 🎨 MeshRenderer.h   ← メッシュ描画
-└── 🔄 Rotator.h        ← 回転コンポーネント（サンプル）
-```
-
-</details>
-
-<details open>
-<summary><b>📚 学習用サンプル</b>（コピペして使える）</summary>
-
-```
-📂 include/samples/
-│
-├── 🧩 ComponentSamples.h
-│   ├── 💚 Health           ← 体力システム
-│   ├── 🏃 Velocity         ← 速度システム
-│   ├── 🎾 Bouncer          ← 上下に跳ねる
-│   ├── ➡️  MoveForward      ← 前進する
-│   ├── 💓 PulseScale       ← 拡大縮小
-│   ├── 🌈 ColorCycle       ← 色を変化
-│   ├── 🚶 RandomWalk       ← ランダム移動
-│   └── ⏱️  LifeTime         ← 時間経過で削除
-│
-└── 🎬 SampleScenes.h
-    ├── 📝 レベル1: 最もシンプルなエンティティ
-    ├── 🔄 レベル2: 動きのあるエンティティ
-    ├── 🎨 レベル3: カスタムBehaviour
-    ├── 🎭 レベル4: 複数Behaviourの組み合わせ
-    ├── 🔧 レベル5: 従来の方法
-    ├── ✏️  レベル6: コンポーネントの変更
-    ├── 🔍 レベル7: 全エンティティ処理
-    ├── 🏗️  レベル8: デモシーン作成
-    └── 🎓 レベル9: 練習問題の解答例
-```
-
-</details>
-
-<details>
-<summary><b>🎮 実践例（ミニゲーム）</b></summary>
-
-```
-📂 include/scenes/
-│
-├── 🎬 SceneManager.h    ← シーン切り替えシステム
-│                          - IScene インターフェース
-│                          - シーン登録・切り替え
-│
-└── 🎯 MiniGame.h        ← シューティングゲーム実装
-    ├── 🟢 PlayerMovement    ← プレイヤー移動
-    ├── 🟡 BulletMovement    ← 弾の移動
-    ├── 🔴 EnemyMovement     ← 敵の移動
-    ├── 🎯 UpdateShooting    ← 弾発射システム
-    ├── 👾 UpdateEnemySpawning ← 敵生成システム
-    └── 💥 CheckCollisions   ← 衝突判定システム
-```
-
-</details>
-
-<details>
-<summary><b>🎨 グラフィックス・入力</b></summary>
-
-```
-📂 include/graphics/
-├── 🖥️  GfxDevice.h       ← DirectX11デバイス管理
-├── 🎨 RenderSystem.h    ← レンダリングシステム
-├── 📷 Camera.h          ← カメラ制御
-└── 🐛 DebugDraw.h       ← デバッグ描画
-
-📂 include/input/
-└── 🎮 InputSystem.h     ← キーボード・マウス入力
-```
-
-</details>
-
-<details>
-<summary><b>🏗️ アプリケーション</b></summary>
-
-```
-📂 include/app/
-└── 🚀 App.h             ← メインアプリケーション
-
-📂 src/
-└── 🎯 main.cpp          ← エントリーポイント
-```
-
-</details>
-
----
-
-## 📖 学習ガイド
-
-### 🗺️ 学習ロードマップ
-
-```
-┌────────────────────────────────────────────────────────┐
-│                  ECS学習の旅 🗺️                         │
-└────────────────────────────────────────────────────────┘
-      ↓
-┌─────────────────────┐
-│  STEP 1: ECS基礎    │  ← ここからスタート！
-│  📖 World.h         │
-│  📖 Entity.h        │
-│  ⏱️  30分           │
-└─────────────────────┘
-      ↓
-┌─────────────────────┐
-│  STEP 2: サンプル   │  ← 実例で理解
-│  📚 SampleScenes.h  │
-│  🎯 レベル1〜9      │
-│  ⏱️  1時間          │
-└─────────────────────┘
-      ↓
-┌─────────────────────┐
-│  STEP 3: 部品集     │  ← 再利用可能な部品
-│  🧩 ComponentSamples│
-│  💡 8種類のコンポ   │
-│  ⏱️  1時間          │
-└─────────────────────┘
-      ↓
-┌─────────────────────┐
-│  STEP 4: 実践例     │  ← ゲームでの使い方
-│  🎮 MiniGame.h      │
-│  🎯 完成したゲーム  │
-│  ⏱️  2時間          │
-└─────────────────────┘
-      ↓
-┌─────────────────────┐
-│  STEP 5: 独自開発   │  ← オリジナルを作る！
-│  🚀 あなたのゲーム  │
-│  💪 実力アップ！    │
-│  ⏱️  ∞              │
-└─────────────────────┘
-```
-
----
-
-### 🎯 STEP 1: ECS基礎を理解する
+## 📚 ECSアーキテクチャ入門
 
 <div align="center">
 
-**⏱️ 所要時間: 30分 | 📖 推奨ファイル: `World.h`, `Entity.h`**
+### 🏗️ ECSの3要素
+
+```
+┌─────────────┐     ┌─────────────────┐     ┌──────────────┐
+│   Entity    │────▶│   Component     │────▶│   System     │
+│  (識別子)    │     │ (データ・動作)   │     │  (処理)      │
+└─────────────┘     └─────────────────┘     └──────────────┘
+      ID                データ保持               ロジック実行
+```
 
 </div>
 
-#### ECSの3つの要素
+### 1️⃣ Entity（エンティティ）
 
-<table>
-<tr>
-<th width="33%">🆔 Entity</th>
-<th width="33%">📦 Component</th>
-<th width="33%">⚙️ System</th>
-</tr>
-<tr>
-<td>
+> **一意なID（識別子）のみを持つオブジェクト**
 
 ```cpp
-// 一意なID
-Entity player{ 1 };
-```
-オブジェクトの識別子
-
-</td>
-<td>
-
-```cpp
-// データの塊
-struct Transform {
-  XMFLOAT3 pos;
-  XMFLOAT3 rot;
-  XMFLOAT3 scale;
+struct Entity {
+    uint32_t id;   // エンティティID
+    uint32_t gen;  // 世代番号（削除時に使用）
 };
 ```
-データと機能
 
-</td>
-<td>
+<details>
+<summary>📖 詳細を見る</summary>
+
+- ✅ データやロジックは一切持たない
+- ✅ コンポーネントの「入れ物」として機能
+- ✅ 例: プレイヤー、敵、弾丸、アイテムなど
+
+**特徴**
+- **軽量**: IDと世代番号のみ
+- **安全**: 世代番号で古いハンドルを無効化
+- **柔軟**: コンポーネントの組み合わせで機能定義
+
+</details>
+
+---
+
+### 2️⃣ Component（コンポーネント）
+
+> **データまたは動作を表す部品**
+
+#### 📦 データコンポーネント（IComponent継承）
+
+データのみを保持し、ロジックは含まない
 
 ```cpp
-// 処理ロジック
-world.ForEach<T>(
-  [](Entity e, T& c) {
-    // 処理
-  }
+struct Transform : IComponent {
+    DirectX::XMFLOAT3 position{0, 0, 5};  // 位置
+    DirectX::XMFLOAT3 rotation{0, 0, 0};  // 回転
+    DirectX::XMFLOAT3 scale{1, 1, 1};     // スケール
+};
+```
+
+<details>
+<summary>📦 その他のデータコンポーネント例</summary>
+
+```cpp
+// 体力管理
+struct Health : IComponent {
+    float current = 100.0f;
+    float max = 100.0f;
+};
+
+// 速度ベクトル
+struct Velocity : IComponent {
+    DirectX::XMFLOAT3 velocity{0, 0, 0};
+};
+
+// スコア
+DEFINE_DATA_COMPONENT(Score,
+    int points = 0;
 );
 ```
-コンポーネントを処理
 
-</td>
-</tr>
-</table>
+</details>
 
-#### 🏗️ アーキテクチャ図
+#### ⚙️ Behaviourコンポーネント（Behaviour継承）
 
-```
-┌─────────────────────────────────────────────────────┐
-│                   🌍 World (世界)                    │
-│         すべてのEntityとComponentを管理              │
-└─────────────────────────────────────────────────────┘
-                        │
-        ┌───────────────┼───────────────┐
-        │               │               │
-   ┌────▼────┐    ┌────▼────┐    ┌────▼────┐
-   │Entity #1│    │Entity #2│    │Entity #3│
-   │ (Player)│    │ (Enemy) │    │ (Bullet)│
-   └─────────┘    └─────────┘    └─────────┘
-        │               │               │
-   ┌────┴────┐     ┌────┴────┐     ┌────┴────┐
-   │📍Transform│     │📍Transform│     │📍Transform│
-   │🎨Renderer │     │🎨Renderer │     │🎨Renderer │
-   │🎮Movement │     │👾AI      │     │🚀Speed   │
-   │💚Health  │     │💚Health  │     │⏱️LifeTime│
-   └─────────┘     └─────────┘     └─────────┘
-```
-
-#### 💻 基本的なコード例
+毎フレーム更新されるロジックを持つ
 
 ```cpp
-// ✨ ビルダーパターン（推奨）
-Entity player = world.Create()
-    .With<Transform>(XMFLOAT3{0, 0, 0})
-    .With<MeshRenderer>(XMFLOAT3{0, 1, 0})  // 緑色
-    .With<Player>()
-    .Build();
+struct Rotator : Behaviour {
+    float speedDegY = 45.0f;  // 回転速度（度/秒）
+    
+    void OnUpdate(World& w, Entity self, float dt) override {
+        auto* t = w.TryGet<Transform>(self);
+        if (t) {
+            t->rotation.y += speedDegY * dt;
+        }
+    }
+};
+```
 
-// 🔍 コンポーネントの取得
-auto* transform = world.TryGet<Transform>(player);
-if (transform) {
-    transform->position.x += 1.0f;
+<details>
+<summary>⚙️ その他のBehaviour例</summary>
+
+```cpp
+// 上下に跳ねる動き
+struct Bouncer : Behaviour {
+    float speed = 2.0f;
+    float amplitude = 2.0f;
+    
+    void OnUpdate(World& w, Entity self, float dt) override {
+        time += dt * speed;
+        auto* t = w.TryGet<Transform>(self);
+        if (t) {
+            t->position.y = startY + sinf(time) * amplitude;
+        }
+    }
+};
+
+// 前進移動
+struct MoveForward : Behaviour {
+    float speed = 5.0f;
+    
+    void OnUpdate(World& w, Entity self, float dt) override {
+        auto* t = w.TryGet<Transform>(self);
+        if (t) {
+            t->position.z += speed * dt;
+        }
+    }
+};
+```
+
+</details>
+
+---
+
+### 3️⃣ System（システム）
+
+> **コンポーネントに対する処理ロジック**
+
+#### 方法1: Behaviourパターン（推奨）
+
+```cpp
+struct MyBehaviour : Behaviour {
+    void OnStart(World& w, Entity self) override {
+        // 初回起動時に1度だけ実行
+    }
+    
+    void OnUpdate(World& w, Entity self, float dt) override {
+        // 毎フレーム実行される処理
+    }
+};
+```
+
+#### 方法2: ForEachパターン
+
+```cpp
+void UpdateMovementSystem(World& world, float dt) {
+    world.ForEach<Transform, Velocity>([dt](Entity e, Transform& t, Velocity& v) {
+        t.position.x += v.velocity.x * dt;
+        t.position.y += v.velocity.y * dt;
+        t.position.z += v.velocity.z * dt;
+    });
 }
-
-// 🔄 全エンティティを処理
-world.ForEach<Transform>([](Entity e, Transform& t) {
-    t.position.y += 0.01f;  // 全部を上に移動
-});
-
-// ⏱️ 毎フレーム更新
-world.Tick(deltaTime);
 ```
 
 ---
 
-### 🎯 STEP 2: サンプルコードを読む
+## 🔧 コンポーネントの作り方
 
-<div align="center">
-
-**⏱️ 所要時間: 1時間 | 📖 推奨ファイル: `SampleScenes.h`**
-
-</div>
-
-#### 📊 レベル別学習マップ
+### 方法1: 構造体で定義（基本）
 
 <table>
 <tr>
-<td align="center">
+<td width="50%">
 
-**🌱 初級**<br/>
-レベル1〜3
-
-</td>
-<td align="center">
-
-**🌿 中級**<br/>
-レベル4〜6
-
-</td>
-<td align="center">
-
-**🌳 上級**<br/>
-レベル7〜9
-
-</td>
-</tr>
-<tr>
-<td>
-
-- シンプルなエンティティ
-- 動きのあるエンティティ
-- カスタムBehaviour
-
-</td>
-<td>
-
-- 複数Behaviour
-- 従来の方法
-- 動的な変更
-
-</td>
-<td>
-
-- 全エンティティ処理
-- デモシーン作成
-- 練習問題
-
-</td>
-</tr>
-</table>
-
-#### 📝 レベル1の例: 最もシンプルなキューブ
-
-```cpp
-Entity cube = world.Create()
-    .With<Transform>(
-        XMFLOAT3{0.0f, 0.0f, 0.0f},  // 📍 位置
-        XMFLOAT3{0.0f, 0.0f, 0.0f},  // 🔄 回転
-        XMFLOAT3{1.0f, 1.0f, 1.0f}   // 📏 スケール
-    )
-    .With<MeshRenderer>(XMFLOAT3{1.0f, 0.0f, 0.0f})  // 🎨 赤色
-    .Build();
-```
-
----
-
-### 🎯 STEP 3: カスタムコンポーネントを作る
-
-<div align="center">
-
-**⏱️ 所要時間: 1時間 | 📖 推奨ファイル: `ComponentSamples.h`**
-
-</div>
-
-#### 📦 2種類のコンポーネント
-
-<table>
-<tr>
-<th width="50%">💾 データ型（状態のみ）</th>
-<th width="50%">⚡ Behaviour型（動作あり）</th>
-</tr>
-<tr>
-<td valign="top">
+**📦 データコンポーネント**
 
 ```cpp
 struct Health : IComponent {
@@ -518,23 +367,25 @@ struct Health : IComponent {
     
     void TakeDamage(float dmg) {
         current -= dmg;
-        if (current < 0) 
-            current = 0;
+        if (current < 0.0f) 
+            current = 0.0f;
+    }
+    
+    bool IsDead() const {
+        return current <= 0.0f;
     }
 };
 ```
 
-**特徴:**
-- ✅ データのみ保持
-- ✅ 他から操作される
-- ✅ メモリ効率的
-
 </td>
-<td valign="top">
+<td width="50%">
+
+**⚙️ Behaviourコンポーネント**
 
 ```cpp
 struct Bouncer : Behaviour {
     float speed = 2.0f;
+    float amplitude = 2.0f;
     float time = 0.0f;
     
     void OnUpdate(World& w, 
@@ -543,606 +394,689 @@ struct Bouncer : Behaviour {
         time += dt * speed;
         auto* t = w.TryGet<Transform>(self);
         if (t) {
-            t->position.y = sin(time);
+            t->position.y = 
+                startY + sinf(time) * amplitude;
         }
     }
 };
 ```
 
-**特徴:**
-- ✅ 毎フレーム自動更新
-- ✅ 自律的な動作
-- ✅ ゲームロジック実装
-
 </td>
 </tr>
 </table>
 
-#### 🧩 利用可能なコンポーネント一覧
+---
+
+### 方法2: マクロで定義（簡潔）
+
+#### 🎯 DEFINE_DATA_COMPONENT
+
+```cpp
+DEFINE_DATA_COMPONENT(Score,
+    int points = 0;
+    
+    void AddPoints(int p) {
+        points += p;
+    }
+    
+    void Reset() {
+        points = 0;
+    }
+);
+```
+
+#### 🎯 DEFINE_BEHAVIOUR
+
+```cpp
+DEFINE_BEHAVIOUR(SpinAndColor,
+    // 🔹 メンバ変数
+    float rotSpeed = 90.0f;
+    float colorSpeed = 1.0f;
+    float time = 0.0f;
+,
+    // 🔹 OnUpdate内の処理
+    time += dt * colorSpeed;
+    
+    auto* t = w.TryGet<Transform>(self);
+    if (t) {
+        t->rotation.y += rotSpeed * dt;
+    }
+    
+    auto* mr = w.TryGet<MeshRenderer>(self);
+    if (mr) {
+        float hue = fmodf(time, 1.0f);
+        mr->color.x = sinf(hue * 6.28f) * 0.5f + 0.5f;
+        mr->color.y = cosf(hue * 6.28f) * 0.5f + 0.5f;
+    }
+);
+```
+
+---
+
+### 方法3: タグコンポーネント（マーカー）
+
+エンティティの種類を識別するための空のコンポーネント
+
+```cpp
+struct PlayerTag : IComponent {};
+struct EnemyTag : IComponent {};
+struct BulletTag : IComponent {};
+```
+
+**使用例：**
+
+```cpp
+// プレイヤーだけを処理
+world.ForEach<PlayerTag, Transform>([](Entity e, PlayerTag& tag, Transform& t) {
+    // プレイヤー限定の処理
+});
+```
+
+---
+
+## 🎮 エンティティの作成
+
+### 方法1: ビルダーパターン（推奨） ⭐
+
+**メソッドチェーンで直感的にコンポーネントを追加**
+
+```cpp
+Entity player = world.Create()
+    .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+    .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})
+    .With<Rotator>(45.0f)
+    .With<PlayerTag>()
+    .Build();  // ← Build()は省略可能
+```
+
+> 💡 **Tip**: `.Build()`は省略可能（暗黙的にEntity型に変換）
+
+```cpp
+// これでもOK！
+Entity player = world.Create()
+    .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+    .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0});
+```
+
+---
+
+### 方法2: 従来の方法
+
+```cpp
+// ステップ1: エンティティを作成
+Entity enemy = world.CreateEntity();
+
+// ステップ2: コンポーネントを個別に追加
+world.Add<Transform>(enemy, Transform{});
+world.Add<MeshRenderer>(enemy, MeshRenderer{DirectX::XMFLOAT3{1, 0, 0}});
+world.Add<EnemyTag>(enemy, EnemyTag{});
+```
+
+---
+
+### 方法3: 遅延スポーン（並列処理対応） 🔒
+
+```cpp
+// スポーン要求をキューに追加（スレッドセーフ）
+world.EnqueueSpawn(World::Cause::Spawner, [](Entity e) {
+    // 生成後の初期化（メインスレッドで実行される）
+    // ここでコンポーネントを追加
+});
+```
+
+---
+
+## 💡 実践例
+
+### 例1: シンプルな回転キューブ 🎲
+
+```cpp
+Entity CreateRotatingCube(World& world) {
+    return world.Create()
+        .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+        .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})  // 赤色
+        .With<Rotator>(90.0f)  // 90度/秒で回転
+        .Build();
+}
+```
 
 <div align="center">
 
-| アイコン | 名前 | 説明 | 使用例 |
-|:---:|:---:|:---:|:---:|
-| 💚 | Health | 体力管理 | RPG、シューティング |
-| 🏃 | Velocity | 速度ベクトル | 物理演算 |
-| 🎾 | Bouncer | 上下に跳ねる | プラットフォーム |
-| ➡️ | MoveForward | 前進する | 弾、敵 |
-| 💓 | PulseScale | 大きさ変化 | アイテム、エフェクト |
-| 🌈 | ColorCycle | 色を変化 | 演出、UI |
-| 🚶 | RandomWalk | ランダム移動 | NPC、敵AI |
-| ⏱️ | LifeTime | 時間で削除 | エフェクト、弾 |
+**実行結果**
+
+🔴 ← 回転する赤いキューブ
 
 </div>
 
 ---
 
-### 🎯 STEP 4: 実践例を読む
-
-<div align="center">
-
-**⏱️ 所要時間: 2時間 | 📖 推奨ファイル: `MiniGame.h`**
-
-</div>
-
-#### 🎮 ゲームの構造
-
-```
-┌────────────────────────────────────────┐
-│         GameScene (ゲームシーン)         │
-├────────────────────────────────────────┤
-│                                        │
-│  🟢 Player System                      │
-│     └─ PlayerMovement (移動)          │
-│                                        │
-│  🟡 Bullet System                      │
-│     ├─ BulletMovement (飛行)          │
-│     └─ UpdateShooting (発射)          │
-│                                        │
-│  🔴 Enemy System                       │
-│     ├─ EnemyMovement (降下)           │
-│     └─ UpdateEnemySpawning (生成)     │
-│                                        │
-│  💥 Collision System                   │
-│     └─ CheckCollisions (衝突判定)     │
-│                                        │
-│  📊 Score System                       │
-│     └─ スコア管理                      │
-│                                        │
-└────────────────────────────────────────┘
-```
-
-#### 💡 実装例: プレイヤー移動
+### 例2: プレイヤーキャラクター 🎮
 
 ```cpp
 struct PlayerMovement : Behaviour {
-    float speed = 8.0f;
-    InputSystem* input_;
+    InputSystem* input_ = nullptr;
+    float speed = 5.0f;
     
     void OnUpdate(World& w, Entity self, float dt) override {
         auto* t = w.TryGet<Transform>(self);
-        if (!t) return;
+        if (!t || !input_) return;
         
-        // ⌨️ キーボード入力で移動
-        if (input_->GetKey('A')) t->position.x -= speed * dt;
-        if (input_->GetKey('D')) t->position.x += speed * dt;
-        
-        // 🚧 画面外に出ないように制限
-        if (t->position.x < -10.0f) t->position.x = -10.0f;
-        if (t->position.x > 10.0f) t->position.x = 10.0f;
+        if (input_->GetKey('W')) t->position.z += speed * dt;  // 前進
+        if (input_->GetKey('S')) t->position.z -= speed * dt;  // 後退
+        if (input_->GetKey('A')) t->position.x -= speed * dt;  // 左移動
+        if (input_->GetKey('D')) t->position.x += speed * dt;  // 右移動
     }
 };
+
+Entity CreatePlayer(World& world, InputSystem* input) {
+    Entity player = world.Create()
+        .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+        .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})  // 緑色
+        .With<PlayerTag>()
+        .Build();
+    
+    // PlayerMovementは後から追加し、inputを設定
+    auto& movement = world.Add<PlayerMovement>(player);
+    movement.input_ = input;
+    
+    return player;
+}
+```
+
+<div align="center">
+
+**操作方法**
+
+`W` / `A` / `S` / `D` キーで移動
+
+</div>
+
+---
+
+### 例3: 時間経過で消える弾丸 💥
+
+```cpp
+struct LifeTime : Behaviour {
+    float remainingTime = 3.0f;
+    
+    void OnUpdate(World& w, Entity self, float dt) override {
+        remainingTime -= dt;
+        if (remainingTime <= 0.0f) {
+            w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
+        }
+    }
+};
+
+Entity CreateBullet(World& world, const DirectX::XMFLOAT3& pos) {
+    return world.Create()
+        .With<Transform>(pos)
+        .With<MeshRenderer>(DirectX::XMFLOAT3{1, 1, 0})  // 黄色
+        .With<MoveForward>(10.0f)  // 前進速度
+        .With<LifeTime>(3.0f)      // 3秒後に削除
+        .With<BulletTag>()
+        .Build();
+}
+```
+
+<div align="center">
+
+**動作**
+
+🟡 → → → 💨 (3秒後に消滅)
+
+</div>
+
+---
+
+### 例4: コンポーネントの取得と変更 🔍
+
+```cpp
+// ✅ 安全な取得（TryGet推奨）
+auto* transform = world.TryGet<Transform>(entity);
+if (transform) {
+    transform->position.x += 1.0f;
+}
+
+// ✅ 存在確認
+if (world.Has<Health>(entity)) {
+    auto* health = world.TryGet<Health>(entity);
+    health->TakeDamage(10.0f);
+}
+
+// ✅ 複数コンポーネントの取得
+auto* t = world.TryGet<Transform>(entity);
+auto* mr = world.TryGet<MeshRenderer>(entity);
+if (t && mr) {
+    // 両方存在する場合の処理
+}
 ```
 
 ---
 
-## 🔧 カスタマイズ例
+### 例5: ForEachでの一括処理 🔄
 
-### 🎨 簡単なカスタマイズ
+```cpp
+// 単一コンポーネント
+world.ForEach<Transform>([](Entity e, Transform& t) {
+    t.position.y += 0.1f;  // 全エンティティを上に移動
+});
+
+// 複数コンポーネント
+world.ForEach<Transform, Velocity>([dt](Entity e, Transform& t, Velocity& v) {
+    t.position.x += v.velocity.x * dt;
+    t.position.y += v.velocity.y * dt;
+    t.position.z += v.velocity.z * dt;
+});
+```
+
+---
+
+### 例6: エンティティの削除 🗑️
+
+```cpp
+// 即座に削除（フレーム終了時に実際に削除される）
+world.DestroyEntity(entity);
+
+// 原因付きで削除（デバッグログに記録される）
+world.DestroyEntityWithCause(entity, World::Cause::Collision);
+
+// コンポーネントのみ削除
+world.Remove<Health>(entity);
+```
+
+---
+
+## 📝 コーディング規約
+
+### 🏷️ 命名規約
+
+<div align="center">
+
+| 要素 | 規約 | 例 |
+|:----:|:----:|:--:|
+| **クラス名** | PascalCase | `Transform`, `MeshRenderer` |
+| **関数名** | PascalCase | `CreateEntity`, `TryGet` |
+| **変数名** | camelCase | `deltaTime`, `entityId` |
+| **メンバ変数** | camelCase + `_` | `world_`, `nextId_` |
+| **定数** | UPPER_SNAKE_CASE | `MAX_ENTITIES` |
+
+</div>
+
+---
+
+### 📚 C++14準拠
+
+```cpp
+// ✅ 正しい: C++14互換
+std::vector<Entity> entities;
+std::unique_ptr<Transform> transform;
+
+// ❌ 間違い: C++17機能は使用不可
+std::optional<Transform> GetTransform(Entity e);  // C++17
+if constexpr (condition) { }                      // C++17
+std::filesystem::path p;                          // C++17
+```
+
+---
+
+### 🎨 DirectXMath の使用
+
+```cpp
+// ✅ 推奨: XMFLOAT3でデータ保持
+struct Transform : IComponent {
+    DirectX::XMFLOAT3 position{0, 0, 0};
+};
+
+// ✅ 計算時はXMVECTORを使用（SIMD最適化）
+DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&transform.position);
+DirectX::XMVECTOR dir = DirectX::XMLoadFloat3(&direction);
+DirectX::XMVECTOR result = DirectX::XMVectorAdd(pos, dir);
+DirectX::XMStoreFloat3(&transform.position, result);
+```
+
+---
+
+### 📄 コメント規約（Doxygen形式）
+
+```cpp
+/**
+ * @brief 関数の簡潔な説明
+ * 
+ * @param[in] input 入力パラメータ
+ * @param[out] output 出力パラメータ
+ * @param[in,out] inout 入出力パラメータ
+ * @return 戻り値の説明
+ * 
+ * @details
+ * より詳しい動作の説明。
+ * 注意点や制限事項を記述します。
+ * 
+ * @note 補足情報
+ * @warning 警告事項
+ * @author 山内陽
+ */
+ReturnType FunctionName(Type input, Type& output, Type& inout);
+```
+
+---
+
+## 👥 チーム開発ルール
+
+### 📂 ファイル編集の優先順位
+
+#### 🔒 コアシステム（触らない）
+
+> ⚠️ **注意**: 以下のファイルは**変更する場合はチーム全体で相談**
+
+```
+include/ecs/World.h           # ECSコアシステム
+include/ecs/Entity.h          # エンティティ定義
+include/components/Component.h # コンポーネント基底クラス
+include/components/Transform.h # Transform定義
+```
+
+#### ✅ 自由に編集可能
+
+```
+include/scenes/              # ゲームシーンの実装
+include/components/Custom*.h # カスタムコンポーネント
+src/                        # 実装ファイル
+```
+
+#### ⚠️ 要相談
+
+```
+include/graphics/  # グラフィックスシステム
+include/input/     # 入力システム
+include/app/       # アプリケーション基盤
+```
+
+---
+
+### 🔀 Git/GitHubのルール
+
+#### コミットメッセージ
 
 <table>
 <tr>
-<th>変更内容</th>
-<th>場所</th>
-<th>変更例</th>
-</tr>
-<tr>
-<td>🏃 プレイヤー速度</td>
-<td><code>MiniGame.h</code></td>
-<td>
+<td width="50%">
 
-```cpp
-float speed = 8.0f;
-// ↓ 速くする
-float speed = 12.0f;
+**✅ 良い例**
+
+```bash
+git commit -m "✨ Add player shooting system"
+git commit -m "🐛 Fix collision detection bug"
+git commit -m "📝 Update README with team guide"
+git commit -m "⚡ Optimize render loop performance"
+git commit -m "🎨 Refactor component structure"
 ```
 
 </td>
-</tr>
-<tr>
-<td>👾 敵の出現間隔</td>
-<td><code>MiniGame.h</code></td>
-<td>
+<td width="50%">
 
-```cpp
-if (timer >= 1.0f)
-// ↓ 速く出現
-if (timer >= 0.5f)
-```
+**❌ 悪い例**
 
-</td>
-</tr>
-<tr>
-<td>🔫 弾の速度</td>
-<td><code>MiniGame.h</code></td>
-<td>
-
-```cpp
-float speed = 15.0f;
-// ↓ 速い弾
-float speed = 25.0f;
+```bash
+git commit -m "update"
+git commit -m "fix bug"
+git commit -m "modified files"
+git commit -m "aaa"
+git commit -m "temp"
 ```
 
 </td>
 </tr>
 </table>
 
-### 🚀 機能追加の例
+#### 絵文字プレフィックス
+
+| 絵文字 | 意味 |
+|:-----:|------|
+| ✨ | 新機能追加 |
+| 🐛 | バグ修正 |
+| 📝 | ドキュメント更新 |
+| ⚡ | パフォーマンス改善 |
+| 🎨 | コードリファクタリング |
+| 🔥 | コード削除 |
+| 🚧 | 作業中 |
+
+---
+
+#### ブランチ命名規約
+
+<table>
+<tr>
+<td width="50%">
+
+**✅ 良い例**
+
+```bash
+feature/player-movement
+feature/enemy-ai
+bugfix/collision-crash
+hotfix/critical-memory-leak
+refactor/component-structure
+```
+
+</td>
+<td width="50%">
+
+**❌ 悪い例**
+
+```bash
+test
+my-branch
+temp
+branch1
+new
+```
+
+</td>
+</tr>
+</table>
+
+---
+
+### ✅ 提出前チェックリスト
+
+```
+□ C++14標準に準拠している
+□ ビルドエラーがない（Debug/Release両方）
+□ コンポーネントは IComponent または Behaviour を継承
+□ ポインタ取得時は TryGet を使用
+□ Doxygenスタイルのコメントを記述
+□ 他のメンバーの作業に影響しない
+□ Gitコミットメッセージが明確
+□ 不要なコメントアウトを削除
+□ デバッグ用のprintfを削除
+□ メモリリークがない
+```
+
+---
+
+## 📖 参考資料
+
+### 📚 サンプルファイル
+
+新しいコンポーネントを作成する際の参考：
+
+| ファイル | 説明 |
+|---------|------|
+| `include/samples/ComponentSamples.h` | 📦 コンポーネントの実装例 |
+| `include/samples/SampleScenes.h` | 🎬 シーンの実装例 |
+| `include/scenes/MiniGame.h` | 🎮 実践的なゲーム実装 |
+
+---
+
+### 🎓 学習ガイド
+
+<div align="center">
+
+```
+🌱 初心者      👉  SampleScenes.h のレベル1～3を参照
+🌿 中級者      👉  ComponentSamples.h のBehaviourを参照
+🌳 上級者      👉  MiniGame.h の実装を参照
+```
+
+</div>
+
+---
+
+### ❓ よくある質問（FAQ）
 
 <details>
-<summary><b>💚 体力システムを追加する</b></summary>
+<summary><b>Q1: コンポーネントとBehaviourの違いは？</b></summary>
+
+**A**: データコンポーネント（IComponent）はデータのみ、Behaviourは毎フレーム更新されるロジックを持ちます。
 
 ```cpp
-// 1️⃣ コンポーネント定義
+// データコンポーネント: データのみ
 struct Health : IComponent {
-    int hp = 3;
-    int maxHp = 3;
+    float current = 100.0f;
 };
 
-// 2️⃣ プレイヤーに追加
-playerEntity_ = world.Create()
-    .With<Transform>(XMFLOAT3{0, -5, 0})
-    .With<MeshRenderer>(XMFLOAT3{0, 1, 0})
-    .With<Player>()
-    .With<Health>()  // ← 追加
+// Behaviour: ロジックを持つ
+struct Rotator : Behaviour {
+    void OnUpdate(World& w, Entity self, float dt) override {
+        // 毎フレーム実行される
+    }
+};
+```
+
+</details>
+
+<details>
+<summary><b>Q2: ビルダーパターンと従来の方法、どちらを使うべき？</b></summary>
+
+**A**: **ビルダーパターンを推奨**します。コードが読みやすく、書きやすいです。
+
+```cpp
+// ✅ 推奨: ビルダーパターン
+Entity e = world.Create()
+    .With<Transform>()
+    .With<MeshRenderer>()
     .Build();
 
-// 3️⃣ 衝突時にダメージ
-void OnEnemyHit(Entity player) {
-    auto* health = world.TryGet<Health>(player);
-    if (health) {
-        health->hp--;
-        if (health->hp <= 0) {
-            // 💀 ゲームオーバー処理
-            SceneManager::LoadScene("GameOver");
-        }
-    }
+// 許容: 従来の方法
+Entity e = world.CreateEntity();
+world.Add<Transform>(e);
+world.Add<MeshRenderer>(e);
+```
+
+</details>
+
+<details>
+<summary><b>Q3: TryGetとGetの違いは？</b></summary>
+
+**A**: **TryGetはnullを返す可能性があり安全**、Getは例外を投げる可能性があります。**TryGet推奨**。
+
+```cpp
+// ✅ 推奨: TryGet（安全）
+auto* t = world.TryGet<Transform>(e);
+if (t) {
+    t->position.x += 1.0f;
+}
+
+// 許容: Get（例外の可能性あり）
+try {
+    auto& t = world.Get<Transform>(e);
+    t.position.x += 1.0f;
+} catch (const std::runtime_error& ex) {
+    // エラー処理
 }
 ```
 
 </details>
 
 <details>
-<summary><b>⚡ パワーアップアイテムを追加する</b></summary>
+<summary><b>Q4: エンティティはいつ削除される？</b></summary>
+
+**A**: `DestroyEntity`を呼ぶとキューに追加され、**フレーム終了時に実際に削除**されます。
 
 ```cpp
-// 1️⃣ パワーアップタグ
-struct PowerUp : IComponent {
-    enum Type { SPEED, RAPID_FIRE, SHIELD };
-    Type type = SPEED;
+// フレーム中に削除要求
+world.DestroyEntity(entity);
+
+// ↓ フレーム終了時（Tick完了後）に実際に削除される
+```
+
+これにより、イテレーション中の削除による不具合を防ぎます。
+
+</details>
+
+<details>
+<summary><b>Q5: C++17の機能を使いたい場合は？</b></summary>
+
+**A**: このプロジェクトは**C++14に制限**されています。プロジェクト設定を変更する場合は、チーム全体で相談してください。
+
+**使用不可な機能**:
+- `std::optional`
+- `if constexpr`
+- `std::filesystem`
+- 構造化束縛 `auto [a, b] = ...`
+
+</details>
+
+---
+
+## 🚫 禁止事項
+
+### ⚠️ アーキテクチャの破壊
+
+```cpp
+// ❌ NG: Entityにロジックを追加
+struct Entity {
+    void Update();  // NG: Entityはデータのみ
+    void Render();  // NG
 };
 
-// 2️⃣ アイテム生成
-Entity CreatePowerUp(World& world, PowerUp::Type type) {
-    return world.Create()
-        .With<Transform>(XMFLOAT3{0, 5, 0})
-        .With<MeshRenderer>(XMFLOAT3{1, 1, 0})  // 黄色
-        .With<PowerUp>(type)
-        .With<MoveForward>(-2.0f)  // 下に落ちる
-        .Build();
+// ❌ NG: グローバル変数でエンティティ管理
+Entity g_player;  // NG: Worldで管理すべき
+
+// ❌ NG: コンポーネントが他のコンポーネントを直接参照
+struct MyComponent : IComponent {
+    Transform* transform_;  // NG: World経由で取得すべき
+};
+```
+
+---
+
+### ⚠️ 非推奨なパターン
+
+```cpp
+// ❌ NG: Update内でのエンティティ作成（同期的）
+void OnUpdate(World& w, Entity self, float dt) override {
+    Entity newEnemy = w.CreateEntity();  // 代わりにEnqueueSpawnを使用
 }
 
-// 3️⃣ 取得処理
-void CheckPowerUpCollision() {
-    world.ForEach<PowerUp>([&](Entity item, PowerUp& pu) {
-        if (CollidesWith(playerEntity_, item)) {
-            ApplyPowerUp(pu.type);
-            world.DestroyEntity(item);
-        }
+// ✅ 正しい: キューイング
+void OnUpdate(World& w, Entity self, float dt) override {
+    w.EnqueueSpawn(World::Cause::Spawner, [](Entity e) {
+        // 生成後の初期化
     });
 }
 ```
 
-</details>
-
 ---
 
-## 🎓 ECSアーキテクチャの理解
-
-### 🆚 従来のOOP vs ECS
-
-<table>
-<tr>
-<th width="50%">🏛️ 従来のOOP（継承ベース）</th>
-<th width="50%">🎯 ECS（コンポーネントベース）</th>
-</tr>
-<tr>
-<td valign="top">
-
-```cpp
-class GameObject {
-    Transform transform;
-    Renderer renderer;
-};
-
-class Player : GameObject {
-    void Move() { ... }
-    void Shoot() { ... }
-};
-
-class Enemy : GameObject {
-    void AI() { ... }
-    void Attack() { ... }
-};
-```
-
-**❌ 問題点:**
-- 継承の深さが増える
-- 機能の再利用が困難
-- メモリレイアウトが非効率
-
-</td>
-<td valign="top">
-
-```cpp
-// 🟢 プレイヤー
-Entity player = world.Create()
-    .With<Transform>()
-    .With<Renderer>()
-    .With<PlayerMovement>()
-    .With<Shooter>()
-    .Build();
-
-// 🔴 敵
-Entity enemy = world.Create()
-    .With<Transform>()
-    .With<Renderer>()
-    .With<EnemyAI>()
-    .With<Attacker>()
-    .Build();
-```
-
-**✅ メリット:**
-- 柔軟な組み合わせ
-- 機能の再利用が容易
-- データ指向で高速
-
-</td>
-</tr>
-</table>
-
-### 💎 ECSのメリット
-
-<div align="center">
+## 📊 プロジェクト構成
 
 ```
-┌─────────────────────────────────────────────┐
-│          🌟 ECSの5大メリット 🌟              │
-├─────────────────────────────────────────────┤
-│                                             │
-│  1️⃣  柔軟性        コンポーネントの自由な組合せ  │
-│  2️⃣  再利用性      同じコンポーネントを再利用   │
-│  3️⃣  保守性        機能が独立していて変更容易   │
-│  4️⃣  パフォーマンス  データ指向で高速処理       │
-│  5️⃣  拡張性        新機能の追加が簡単         │
-│                                             │
-└─────────────────────────────────────────────┘
-```
-
-</div>
-
----
-
-## 🐛 デバッグ方法
-
-### 🔍 デバッグ機能
-
-<table>
-<tr>
-<td width="50%">
-
-#### 📊 デバッグ描画
-
-`_DEBUG` モードで有効:
-
-```
-      Y軸（緑）
-       ↑
-       │
-       │
-       └────→ X軸（赤）
-      ╱
-     ╱
-    ↙ Z軸（青）
-
-   ┌─┬─┬─┬─┐
-   │ │ │ │ │  グリッド
-   ├─┼─┼─┼─┤
-   │ │🟢│ │ │  オブジェクト
-   ├─┼─┼─┼─┤
-```
-
-</td>
-<td width="50%">
-
-#### 🎯 推奨ブレークポイント
-
-| 場所 | タイミング |
-|:---|:---|
-| `GameScene::OnUpdate()` | 毎フレーム |
-| `World::Tick()` | Behaviour更新 |
-| `CheckCollisions()` | 衝突判定 |
-| `UpdateShooting()` | 弾発射 |
-
-</td>
-</tr>
-</table>
-
-### 💡 デバッグのコツ
-
-```cpp
-// ✅ エンティティの存在確認
-if (!world.IsAlive(entity)) {
-    // エンティティが削除されている！
-}
-
-// ✅ コンポーネントの確認
-auto* transform = world.TryGet<Transform>(entity);
-if (!transform) {
-    // Transformコンポーネントがない！
-}
-
-// ✅ 値の確認
-if (transform) {
-    float x = transform->position.x;  // ← ブレークポイント
-    float y = transform->position.y;
-    float z = transform->position.z;
-}
-```
-
----
-
-## ❓ トラブルシューティング
-
-<table>
-<tr>
-<th>😱 問題</th>
-<th>💡 解決方法</th>
-</tr>
-<tr>
-<td>
-
-**ビルドエラー**
-```
-error C2039: 'XMFLOAT3': ...
-```
-
-</td>
-<td>
-
-- Windows SDK 10 をインストール
-- プロジェクト設定で C++14 を確認
-- インクルードパスを確認
-
-</td>
-</tr>
-<tr>
-<td>
-
-**起動しない**
-```
-アプリケーションエラー
-```
-
-</td>
-<td>
-
-- DirectX 11 対応GPUを確認
-- グラフィックスドライバー更新
-- Visual C++ 再頒布可能パッケージ
-
-</td>
-</tr>
-<tr>
-<td>
-
-**動作が重い**
-
-FPS が低い
-
-</td>
-<td>
-
-- `Release` モードでビルド
-- デバッグ描画を無効化
-- V-Sync 設定を確認
-
-</td>
-</tr>
-</table>
-
----
-
-## 🎯 次のステップ
-
-### 🌱 レベル1: ゲームの改造
-
-<table>
-<tr>
-<td align="center">⭐</td>
-<td><b>パワーアップアイテム</b></td>
-<td>スピードアップ、連射など</td>
-</tr>
-<tr>
-<td align="center">⭐⭐</td>
-<td><b>複数の敵タイプ</b></td>
-<td>速い敵、硬い敵、ボス</td>
-</tr>
-<tr>
-<td align="center">⭐⭐⭐</td>
-<td><b>エフェクト追加</b></td>
-<td>爆発、パーティクル</td>
-</tr>
-</table>
-
-### 🌿 レベル2: システムの拡張
-
-<table>
-<tr>
-<td align="center">⭐⭐</td>
-<td><b>タイトル画面</b></td>
-<td>シーン管理を活用</td>
-</tr>
-<tr>
-<td align="center">⭐⭐</td>
-<td><b>ハイスコア保存</b></td>
-<td>ファイルI/O実装</td>
-</tr>
-<tr>
-<td align="center">⭐⭐⭐</td>
-<td><b>サウンドシステム</b></td>
-<td>BGM、効果音</td>
-</tr>
-</table>
-
-### 🌳 レベル3: ECSの深堀り
-
-<table>
-<tr>
-<td align="center">⭐⭐⭐</td>
-<td><b>アーキタイプECS</b></td>
-<td>より効率的な実装</td>
-</tr>
-<tr>
-<td align="center">⭐⭐⭐⭐</td>
-<td><b>マルチスレッド</b></td>
-<td>並列処理で高速化</td>
-</tr>
-<tr>
-<td align="center">⭐⭐⭐⭐⭐</td>
-<td><b>データ指向最適化</b></td>
-<td>キャッシュフレンドリー</td>
-</tr>
-</table>
-
-### 🚀 レベル4: 独自プロジェクト
-
-<div align="center">
-
-```
-🎮 学んだECSで、オリジナルゲームを作ろう！
-
-  ┌─────────┐   ┌─────────┐   ┌─────────┐
-  │  RPG    │   │ パズル  │   │  STG    │
-  └─────────┘   └─────────┘   └─────────┘
-  ┌─────────┐   ┌─────────┐   ┌─────────┐
-  │ アクション│   │ タワーD │   │  ?????  │
-  └─────────┘   └─────────┘   └─────────┘
-
-         あなたのアイデアを形にしよう！ 💡
-```
-
-</div>
-
----
-
-## 📚 参考リソース
-
-### 🔗 推奨リンク
-
-<table>
-<tr>
-<td>📖 <b>Unity ECS</b></td>
-<td><a href="https://docs.unity3d.com/Packages/com.unity.entities@latest">公式ドキュメント</a></td>
-</tr>
-<tr>
-<td>📖 <b>Game Programming Patterns</b></td>
-<td>Component パターン解説</td>
-</tr>
-<tr>
-<td>🎥 <b>YouTube</b></td>
-<td>ECS アーキテクチャ解説動画</td>
-</tr>
-<tr>
-<td>💬 <b>Discord/Reddit</b></td>
-<td>ゲーム開発コミュニティ</td>
-</tr>
-</table>
-
----
-
-## 📄 ライセンス
-
-<div align="center">
-
-```
-┌─────────────────────────────────────┐
-│     📜 このプロジェクトは          │
-│     学習用として自由に使えます      │
-│                                     │
-│  ✅ 改変 OK                         │
-│  ✅ 再配布 OK                       │
-│  ✅ 商用利用 OK                     │
-│                                     │
-│  自由に学んで、作って、シェアしよう！ │
-└─────────────────────────────────────┘
-```
-
-</div>
-
----
-
-## 👤 作成者
-
-<div align="center">
-
-**山内陽** 🧑‍💻
-
-### 📊 バージョン履歴
-
-| バージョン | リリース日 | 内容 |
-|:---:|:---:|:---|
-| v5.0 | 2025 | ✨ ミニゲーム実装版（可読性最重視） |
-| v4.0 | 2025 | 📚 段階的学習用サンプル集 |
-| v3.0 | 2025 | 🏗️ ECSコアシステム |
-| v2.0 | 2025 | 🎨 DirectX11統合 |
-| v1.0 | 2025 | 🎉 初期リリース |
-
-</div>
-
----
-
-## 🙏 謝辞
-
-<div align="center">
-
-このプロジェクトは、**Entity Component System** アーキテクチャの
-教育目的で作成されました。
-
-ECSの概念を実践的に学べるよう、
-**シンプルさ**と**可読性**を最優先に設計しています。
-
----
-
-### 🌟 Happy Learning! 🎓
-
-質問やフィードバックがあれば、
-Issue や Pull Request でお気軽にどうぞ！
-
-[![GitHub](https://img.shields.io/badge/GitHub-ECS__BACE-blue?logo=github)](https://github.com/aptmara/ECS_BACE)
-
----
-
-**Let's Build Amazing Games with ECS! 🎮✨**
-
-</div>
+HEW_ECS/
+├── 📂 include/
+│   ├── 📂 ecs/              # ECSコアシステム
+│   │   ├── Entity.h
+│   │   └── World.h
+│   ├── 📂 components/       # コンポーネント定義
+│   │   ├── Component.h
+│   │   ├── Transform.h
+│   │   ├── MeshRenderer.h
+│   │   └── Rotator.h
+│   ├── 📂 scenes/           # ゲームシーン
+│   │   ├── SceneManager.h
+│   │   └── MiniGame.h
+│   ├── 📂 samples/          # サンプル集
+│   │   ├── ComponentSamples.h
+│   │   └── SampleScenes.h
+│   ├── 📂 graphics/         # 描画システム
+│   ├── 📂 input/    
