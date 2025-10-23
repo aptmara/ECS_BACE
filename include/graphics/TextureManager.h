@@ -319,8 +319,8 @@ public:
      * 管理しているすべてのテクスチャを自動的に解放します。
      */
     ~TextureManager() {
-        DEBUGLOG("TextureManager::~TextureManager() - Destructor called");
-        if (!isShutdown_) { DEBUGLOG_WARNING("TextureManager::Shutdown() was not called explicitly. Auto-cleanup in destructor."); }
+        DEBUGLOG("TextureManager::~TextureManager() - デストラクタ呼び出し");
+        if (!isShutdown_) { DEBUGLOG_WARNING("TextureManager::Shutdown()が明示的に呼ばれていません。デストラクタで自動クリーンアップします。"); }
         Shutdown();
     }
 
@@ -329,10 +329,10 @@ public:
      */
     void Shutdown() {
         if (isShutdown_) return; // 冪等性
-        DEBUGLOG("TextureManager::Shutdown() - Releasing " + std::to_string(textures_.size()) + " texture(s)");
+        DEBUGLOG("TextureManager::Shutdown() - " + std::to_string(textures_.size()) + " 個のテクスチャを解放中");
         textures_.clear();
         isShutdown_ = true;
-        DEBUGLOG("TextureManager::Shutdown() completed");
+        DEBUGLOG("TextureManager::Shutdown() 完了");
     }
 
 private:

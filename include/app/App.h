@@ -99,19 +99,19 @@ struct App {
      */
     bool Init(HINSTANCE hInst, int width = 1280, int height = 720) {
         DEBUGLOG("========================================");
-        DEBUGLOG("App::Init() started");
-        DEBUGLOG("Window size: " + std::to_string(width) + "x" + std::to_string(height));
+        DEBUGLOG("App::Init() 開始");
+        DEBUGLOG("ウィンドウサイズ: " + std::to_string(width) + "x" + std::to_string(height));
         
         CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-        DEBUGLOG("COM library initialized");
+        DEBUGLOG("COMライブラリを初期化");
 
         if (!CreateAppWindow(hInst, width, height)) {
-            DEBUGLOG("[ERROR] CreateAppWindow() failed");
+            DEBUGLOG("[ERROR] CreateAppWindow() 失敗");
             return false;
         }
 
         if (!InitializeGraphics(width, height)) {
-            DEBUGLOG("[ERROR] InitializeGraphics() failed");
+            DEBUGLOG("[ERROR] InitializeGraphics() 失敗");
             return false;
         }
 
@@ -120,7 +120,7 @@ struct App {
         // ゲームシーンの初期化
         InitializeGame();
 
-        DEBUGLOG("App::Init() completed successfully");
+        DEBUGLOG("App::Init() 正常に完了");
         DEBUGLOG("========================================");
         return true;
     }
@@ -134,7 +134,7 @@ struct App {
      * アプリケーションが終了するまで、メッセージ処理、更新、描画を繰り返します。
      */
     void Run() {
-        DEBUGLOG("App::Run() - Main loop started");
+        DEBUGLOG("App::Run() - メインループ開始");
         
         MSG msg{};
         auto previousTime = std::chrono::high_resolution_clock::now();
@@ -157,7 +157,7 @@ struct App {
             
             // デルタタイムの異常値チェック
             if (deltaTime > 1.0f) {
-                DEBUGLOG("[WARNING] Abnormal deltaTime detected: " + std::to_string(deltaTime) + "s (clamped to 0.1s)");
+                DEBUGLOG("[WARNING] 異常なdeltaTimeを検出: " + std::to_string(deltaTime) + "s (0.1sにクランプ)");
                 deltaTime = 0.1f;
             }
             
@@ -169,7 +169,7 @@ struct App {
             
             // ESCキーで終了
             if (input_.GetKeyDown(VK_ESCAPE)) {
-                DEBUGLOG("ESC key pressed - Quitting application");
+                DEBUGLOG("ESCキーが押されました - アプリケーション終了");
                 PostQuitMessage(0);
             }
             
@@ -177,7 +177,7 @@ struct App {
             try {
                 sceneManager_.Update(world_, input_, deltaTime);
             } catch (const std::exception& e) {
-                DEBUGLOG("[CRITICAL ERROR] Exception in scene update: " + std::string(e.what()));
+                DEBUGLOG("[CRITICAL ERROR] シーン更新中に例外が発生: " + std::string(e.what()));
                 PostQuitMessage(-1);
             }
             
@@ -223,16 +223,16 @@ struct App {
             frameCount++;
         }
         
-        DEBUGLOG("App::Run() - Main loop ended (Total frames: " + std::to_string(frameCount) + ")");
+        DEBUGLOG("App::Run() - メインループ終了 (総フレーム数: " + std::to_string(frameCount) + ")");
     }
 
     /**
      * @brief デストラクタ
      */
     ~App() {
-        DEBUGLOG("App::~App() - Destructor called");
+        DEBUGLOG("App::~App() - デストラクタ呼び出し");
         Shutdown();
-        DEBUGLOG("App destroyed successfully");
+        DEBUGLOG("App 正常に破棄");
     }
 
 private:
@@ -241,49 +241,49 @@ private:
      * @details 正しい順序でリソースを解放します
      */
     void Shutdown() {
-        DEBUGLOG("App::Shutdown() - Starting cleanup");
+        DEBUGLOG("App::Shutdown() - クリーンアップ開始");
         
         // Phase 1: シーンマネージャーの終了（シーンのOnExitを呼び出し）
-        DEBUGLOG("Phase 1: Shutting down SceneManager");
+        DEBUGLOG("Phase 1: SceneManagerのシャットダウン");
         sceneManager_.Shutdown(world_);
         gameScene_ = nullptr;  // SceneManagerが所有しているのでnullptrに設定するだけ
         
         // Phase 2: WorldのDestroyキュー/Spawnキューを明示的にフラッシュ
-        DEBUGLOG("Phase 2: Flushing World queues (entities: " + std::to_string(world_.GetAliveCount()) + ")");
+        DEBUGLOG("Phase 2: Worldキューをフラッシュ (エンティティ数: " + std::to_string(world_.GetAliveCount()) + ")");
         world_.FlushDestroyEndOfFrame();
         world_.FlushSpawnStartOfFrame(); // 念のため
         
         // Phase 3: World破棄前に残存エンティティを警告
-        DEBUGLOG("Phase 3: Checking for remaining entities before World destruction");
+        DEBUGLOG("Phase 3: World破棄前の残存エンティティチェック");
         if (world_.GetAliveCount() > 0) {
-            DEBUGLOG_WARNING("World still has " + std::to_string(world_.GetAliveCount()) + " alive entities before destruction");
+            DEBUGLOG_WARNING("World破棄前に " + std::to_string(world_.GetAliveCount()) + " 個の生存エンティティが残っています");
         } else {
-            DEBUGLOG("Phase 3: All entities properly destroyed");
+            DEBUGLOG("Phase 3: すべてのエンティティが正常に破棄されました");
         }
         
 #ifdef _DEBUG
         // Phase 4: デバッグ描画解放
-        DEBUGLOG("Phase 4: Releasing DebugDraw");
+        DEBUGLOG("Phase 4: DebugDrawを解放");
         debugDraw_.Shutdown();
 #endif
         
         // Phase 5: レンダリングシステム解放
-        DEBUGLOG("Phase 5: Releasing RenderSystem");
+        DEBUGLOG("Phase 5: RenderSystemを解放");
         renderer_.Shutdown();
         
         // Phase 6: テクスチャマネージャー解放
-        DEBUGLOG("Phase 6: Releasing TextureManager");
+        DEBUGLOG("Phase 6: TextureManagerを解放");
         texManager_.Shutdown();
         
         // Phase 7: グラフィックスデバイス解放
-        DEBUGLOG("Phase 7: Releasing GfxDevice");
+        DEBUGLOG("Phase 7: GfxDeviceを解放");
         gfx_.Shutdown();
         
         // Phase 8: COM終了（最後）
-        DEBUGLOG("Phase 8: Uninitializing COM");
+        DEBUGLOG("Phase 8: COMを終了");
         CoUninitialize();
         
-        DEBUGLOG("App::Shutdown() completed successfully");
+        DEBUGLOG("App::Shutdown() 正常に完了");
     }
 
     // ========================================================
@@ -298,7 +298,7 @@ private:
      * @return bool 成功した場合は true
      */
     bool CreateAppWindow(HINSTANCE hInst, int width, int height) {
-        DEBUGLOG("CreateAppWindow() started");
+        DEBUGLOG("CreateAppWindow() 開始");
         
         WNDCLASSEX wc{ sizeof(WNDCLASSEX) };
         wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -308,15 +308,15 @@ private:
         wc.lpszClassName = L"MiniGame_Class";
         
         if (!RegisterClassEx(&wc)) {
-            DEBUGLOG("[ERROR] RegisterClassEx() failed - Error code: " + std::to_string(GetLastError()));
+            DEBUGLOG("[ERROR] RegisterClassEx() 失敗 - エラーコード: " + std::to_string(GetLastError()));
             return false;
         }
-        DEBUGLOG("Window class registered successfully");
+        DEBUGLOG("ウィンドウクラスを正常に登録");
 
         RECT rc{ 0, 0, width, height };
         AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
         
-        DEBUGLOG("Adjusted window rect: " + std::to_string(rc.right - rc.left) + "x" + std::to_string(rc.bottom - rc.top));
+        DEBUGLOG("ウィンドウサイズを調整: " + std::to_string(rc.right - rc.left) + "x" + std::to_string(rc.bottom - rc.top));
         
         hwnd_ = CreateWindowW(
             wc.lpszClassName,
@@ -328,15 +328,15 @@ private:
         );
         
         if (!hwnd_) {
-            DEBUGLOG("[ERROR] CreateWindowW() failed - Error code: " + std::to_string(GetLastError()));
+            DEBUGLOG("[ERROR] CreateWindowW() 失敗 - エラーコード: " + std::to_string(GetLastError()));
             return false;
         }
         
-        DEBUGLOG("Window created successfully (HWND: 0x" + std::to_string(reinterpret_cast<uintptr_t>(hwnd_)) + ")");
-        
+        DEBUGLOG("ウィンドウ作成成功 (HWND: 0x" + std::to_string(reinterpret_cast<uintptr_t>(hwnd_)) + ")");
+
         ShowWindow(hwnd_, SW_SHOW);
-        DEBUGLOG("Window shown");
-        DEBUGLOG("CreateAppWindow() completed successfully");
+        DEBUGLOG("ウィンドウを表示");
+        DEBUGLOG("CreateAppWindow() 正常に完了");
         return true;
     }
 
@@ -347,43 +347,43 @@ private:
      * @return bool 成功した場合は true
      */
     bool InitializeGraphics(int width, int height) {
-        DEBUGLOG("InitializeGraphics() started");
+        DEBUGLOG("InitializeGraphics() 開始");
         
         if (!gfx_.Init(hwnd_, width, height)) {
-            DEBUGLOG("[CRITICAL ERROR] GfxDevice::Init() failed");
+            DEBUGLOG("[CRITICAL ERROR] GfxDevice::Init() 失敗");
             MessageBoxA(nullptr, "DirectX11の初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("GfxDevice initialized successfully");
+        DEBUGLOG("GfxDeviceを正常に初期化");
         
         if (!texManager_.Init(gfx_)) {
-            DEBUGLOG("[ERROR] TextureManager::Init() failed");
+            DEBUGLOG("[ERROR] TextureManager::Init() 失敗");
             MessageBoxA(nullptr, "TextureManagerの初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("TextureManager initialized successfully");
+        DEBUGLOG("TextureManagerを正常に初期化");
         
         if (!renderer_.Init(gfx_, texManager_)) {
-            DEBUGLOG("[ERROR] RenderSystem::Init() failed");
+            DEBUGLOG("[ERROR] RenderSystem::Init() 失敗");
             MessageBoxA(nullptr, "RenderSystemの初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("RenderSystem initialized successfully");
+        DEBUGLOG("RenderSystemを正常に初期化");
 
         input_.Init();
-        DEBUGLOG("InputSystem initialized");
+        DEBUGLOG("InputSystemを初期化");
 
 #ifdef _DEBUG
-        DEBUGLOG("Initializing DebugDraw (DEBUG build)");
+        DEBUGLOG("DebugDrawを初期化中 (DEBUGビルド)");
         if (!debugDraw_.Init(gfx_)) {
-            DEBUGLOG("[WARNING] DebugDraw::Init() failed - Debug visualization will be unavailable");
+            DEBUGLOG("[WARNING] DebugDraw::Init() 失敗 - デバッグビジュアライゼーションは利用できません");
             MessageBoxA(nullptr, "DebugDrawの初期化に失敗", "警告", MB_OK | MB_ICONWARNING);
         } else {
-            DEBUGLOG("DebugDraw initialized successfully");
+            DEBUGLOG("DebugDrawを正常に初期化");
         }
 #endif
 
-        DEBUGLOG("InitializeGraphics() completed successfully");
+        DEBUGLOG("InitializeGraphics() 正常に完了");
         return true;
     }
 
@@ -393,10 +393,10 @@ private:
      * @param[in] height 高さ
      */
     void SetupCamera(int width, int height) {
-        DEBUGLOG("SetupCamera() started");
+        DEBUGLOG("SetupCamera() 開始");
         
         float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
-        DEBUGLOG("Aspect ratio: " + std::to_string(aspectRatio));
+        DEBUGLOG("アスペクト比: " + std::to_string(aspectRatio));
         
         camera_ = Camera::LookAtLH(
             DirectX::XM_PIDIV4,
@@ -408,27 +408,27 @@ private:
             DirectX::XMFLOAT3{ 0, 1, 0 }
         );
         
-        DEBUGLOG("Camera setup completed (Position: 0, 0, -20 | Target: 0, 0, 0)");
+        DEBUGLOG("カメラ設定完了 (位置: 0, 0, -20 | ターゲット: 0, 0, 0)");
     }
     
     /**
      * @brief ゲーム関連の初期化
      */
     void InitializeGame() {
-        DEBUGLOG("InitializeGame() started");
+        DEBUGLOG("InitializeGame() 開始");
         
         // ゲームシーンを作成
         gameScene_ = new GameScene();
-        DEBUGLOG("GameScene instance created");
+        DEBUGLOG("GameSceneインスタンスを作成");
         
         // シーンマネージャーに登録
         sceneManager_.RegisterScene("Game", gameScene_);
-        DEBUGLOG("GameScene registered to SceneManager");
+        DEBUGLOG("GameSceneをSceneManagerに登録");
         
         sceneManager_.Init(gameScene_, world_);
-        DEBUGLOG("SceneManager initialized with GameScene");
+        DEBUGLOG("SceneManagerをGameSceneで初期化");
         
-        DEBUGLOG("InitializeGame() completed successfully");
+        DEBUGLOG("InitializeGame() 正常に完了");
     }
 
     // ========================================================
@@ -535,7 +535,7 @@ private:
     /**
      * @brief ウィンドウプロシージャ（静的）
      * @details
-     * ウィンドウ作成時にインスタンスポインタをウィンドウに紐付け、
+     * ウィンドウ作成時にインスタンスをウィンドウに紐付け、
      * 以降のメッセージをメンバ関数のWndProcに転送します。
      */
     static LRESULT CALLBACK WndProcStatic(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
@@ -545,7 +545,7 @@ private:
             CREATESTRUCT* cs = reinterpret_cast<CREATESTRUCT*>(lp);
             app = reinterpret_cast<App*>(cs->lpCreateParams);
             SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(app));
-            DEBUGLOG("WM_NCCREATE: App instance associated with window");
+            DEBUGLOG("WM_NCCREATE: Appインスタンスをウィンドウに関連付け");
         } else {
             app = reinterpret_cast<App*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
         }
@@ -564,7 +564,7 @@ private:
     LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
         switch (msg) {
         case WM_DESTROY:
-            DEBUGLOG("WM_DESTROY received - Posting quit message");
+            DEBUGLOG("WM_DESTROYを受信 - 終了メッセージを投稿");
             PostQuitMessage(0);
             return 0;
             

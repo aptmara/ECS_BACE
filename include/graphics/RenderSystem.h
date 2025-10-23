@@ -95,8 +95,8 @@ struct RenderSystem {
      * すべてのDirectX11リソースを自動的に解放します。
      */
     ~RenderSystem() {
-        DEBUGLOG("RenderSystem::~RenderSystem() - Destructor called");
-        if (!isShutdown_) { DEBUGLOG_WARNING("RenderSystem::Shutdown() was not called explicitly. Auto-cleanup in destructor."); }
+        DEBUGLOG("RenderSystem::~RenderSystem() - デストラクタ呼び出し");
+        if (!isShutdown_) { DEBUGLOG_WARNING("RenderSystem::Shutdown()が明示的に呼ばれていません。デストラクタで自動クリーンアップします。"); }
         Shutdown();
     }
 
@@ -104,8 +104,8 @@ struct RenderSystem {
      * @brief リソースの明示的解放
      */
     void Shutdown() {
-        if (isShutdown_) return; DEBUGLOG("RenderSystem::Shutdown() - Releasing resources");
-        vs_.Reset(); ps_.Reset(); layout_.Reset(); cb_.Reset(); psCb_.Reset(); vb_.Reset(); ib_.Reset(); rasterState_.Reset(); samplerState_.Reset(); isShutdown_ = true; DEBUGLOG("RenderSystem::Shutdown() completed");
+        if (isShutdown_) return; DEBUGLOG("RenderSystem::Shutdown() - リソースを解放中");
+        vs_.Reset(); ps_.Reset(); layout_.Reset(); cb_.Reset(); psCb_.Reset(); vb_.Reset(); ib_.Reset(); rasterState_.Reset(); samplerState_.Reset(); isShutdown_ = true; DEBUGLOG("RenderSystem::Shutdown() 完了");
     }
 
     /**
@@ -295,7 +295,7 @@ struct RenderSystem {
      * 2. 各エンティティに対して:
      *    - World行列を計算
      *    - WVP行列を定数バッファに設定
-     *    - 색とテクスチャを設定
+     *    - 色とテクスチャを設定
      *    - キューブを描画
      */
     void Render(GfxDevice& gfx, World& w, const Camera& cam) {

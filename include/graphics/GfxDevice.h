@@ -194,35 +194,35 @@ public:
      */
     void Shutdown() {
         if (isShutdown_) return; // 冪等性
-        DEBUGLOG("GfxDevice::Shutdown() - Releasing resources");
+        DEBUGLOG("GfxDevice::Shutdown() - リソースを解放中");
         
         if (dsv_) {
-            DEBUGLOG("Releasing depth stencil view");
+            DEBUGLOG("深度ステンシルビューを解放");
             dsv_.Reset();
         }
         
         if (rtv_) {
-            DEBUGLOG("Releasing render target view");
+            DEBUGLOG("レンダーターゲットビューを解放");
             rtv_.Reset();
         }
         
         if (swap_) {
-            DEBUGLOG("Releasing swap chain");
+            DEBUGLOG("スワップチェインを解放");
             swap_.Reset();
         }
         
         if (context_) {
-            DEBUGLOG("Releasing device context");
+            DEBUGLOG("デバイスコンテキストを解放");
             context_.Reset();
         }
         
         if (device_) {
-            DEBUGLOG("Releasing device");
+            DEBUGLOG("デバイスを解放");
             device_.Reset();
         }
         
         isShutdown_ = true;
-        DEBUGLOG("GfxDevice::Shutdown() completed");
+        DEBUGLOG("GfxDevice::Shutdown() 完了");
     }
 
     /**
@@ -232,7 +232,7 @@ public:
      * ComPtrは自動で解放されますが、念のため明示的にリセットします。
      */
     ~GfxDevice() {
-        DEBUGLOG("GfxDevice::~GfxDevice() - Destructor called");
+        DEBUGLOG("GfxDevice::~GfxDevice() - デストラクタ呼び出し");
         Shutdown();
     }
 
@@ -306,7 +306,7 @@ private:
                     char name[256];
                     size_t outSize = 0;
                     wcstombs_s(&outSize, name, desc.Description, 255);
-                    DEBUGLOG(std::string("Adapter: ") + name);
+                    DEBUGLOG(std::string("アダプタ: ") + name);
                 }
             }
         }
@@ -320,20 +320,20 @@ private:
             case D3D_FEATURE_LEVEL_10_0: flText = "10.0"; break;
             default: break;
         }
-        DEBUGLOG(std::string("Feature Level: ") + flText);
+        DEBUGLOG(std::string("機能レベル: ") + flText);
 
         // スワップチェイン情報
         const char* swapEffectText = "Unknown";
         switch (sd.SwapEffect) {
-            case DXGI_SWAP_EFFECT_DISCARD: swapEffectText = "DISCARD (Legacy)"; break;
-            case DXGI_SWAP_EFFECT_SEQUENTIAL: swapEffectText = "SEQUENTIAL (Legacy)"; break;
+            case DXGI_SWAP_EFFECT_DISCARD: swapEffectText = "DISCARD (レガシー)"; break;
+            case DXGI_SWAP_EFFECT_SEQUENTIAL: swapEffectText = "SEQUENTIAL (レガシー)"; break;
             case DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL: swapEffectText = "FLIP_SEQUENTIAL"; break;
-            case DXGI_SWAP_EFFECT_FLIP_DISCARD: swapEffectText = "FLIP_DISCARD (Recommended)"; break;
+            case DXGI_SWAP_EFFECT_FLIP_DISCARD: swapEffectText = "FLIP_DISCARD (推奨)"; break;
             default: break;
         }
-        DEBUGLOG(std::string("SwapEffect: ") + swapEffectText);
-        DEBUGLOG(std::string("BackBufferFormat: RGBA8_UNORM"));
-        DEBUGLOG(std::string("VSync: ON (Present(1)) - Locks to display refresh rate"));
+        DEBUGLOG(std::string("スワップ効果: ") + swapEffectText);
+        DEBUGLOG(std::string("バックバッファフォーマット: RGBA8_UNORM"));
+        DEBUGLOG(std::string("垂直同期: ON (Present(1)) - ディスプレイのリフレッシュレートに同期"));
     }
 
     // メンバ変数

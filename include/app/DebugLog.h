@@ -20,8 +20,8 @@
 
 /**
  * @class DebugLog
- * @brief Debug logging utility class
- * @author Yamauchi Yo
+ * @brief デバッグログユーティリティクラス
+ * @author 山内陽
  * @date 2025
  */
 class DebugLog {
@@ -31,7 +31,7 @@ public:
         return instance;
     }
 
-    // Frame tagging (optional). Safe to call from main thread once per frame.
+    // フレームタグ設定（オプション）。メインスレッドからフレームごとに1回呼び出すことを想定。
     void SetFrame(uint64_t frame) {
         currentFrame_.store(frame, std::memory_order_relaxed);
     }
@@ -56,7 +56,7 @@ private:
         logFile_.open("debug_log.txt", std::ios::out | std::ios::trunc);
         if (logFile_.is_open()) {
             logFile_ << "========================================" << std::endl;
-            logFile_ << "Debug Log Started" << std::endl;
+            logFile_ << "デバッグログ開始" << std::endl;
             logFile_ << "========================================" << std::endl;
             logFile_.flush();
         }
@@ -65,7 +65,7 @@ private:
     ~DebugLog() {
         if (logFile_.is_open()) {
             logFile_ << "========================================" << std::endl;
-            logFile_ << "Debug Log Ended" << std::endl;
+            logFile_ << "デバッグログ終了" << std::endl;
             logFile_ << "========================================" << std::endl;
             logFile_.close();
         }
@@ -79,14 +79,14 @@ private:
             std::tm bt{};
             localtime_s(&bt, &in_time_t);
 
-            // Frame prefix
+            // フレームプレフィックス
             uint64_t frame = currentFrame_.load(std::memory_order_relaxed);
 
             logFile_ << std::put_time(&bt, "%Y-%m-%d %H:%M:%S") 
                      << " [F#" << frame << "]"
                      << " [" << level << "] " << message << std::endl;
             
-            // Flush important logs immediately
+            // 重要なログは即座にフラッシュ
             if (level == "ERROR" || level == "WARNING") {
                 logFile_.flush();
             }

@@ -84,7 +84,7 @@ public:
      * 動的頂点バッファの作成を行います。
      */
     bool Init(GfxDevice& gfx) {
-        DEBUGLOG("DebugDraw::Init() started");
+        DEBUGLOG("DebugDraw::Init() 開始");
         
         // すでに初期化済みの再初期化に対応
         if (initialized_) {
@@ -115,42 +115,42 @@ public:
             if (err) {
                 char msg[512];
                 sprintf_s(msg, "DebugDraw VS compile error:\n%s", (char*)err->GetBufferPointer());
-                DEBUGLOG("[ERROR] Vertex shader compilation failed: " + std::string((char*)err->GetBufferPointer()));
+                DEBUGLOG("[ERROR] 頂点シェーダーのコンパイル失敗: " + std::string((char*)err->GetBufferPointer()));
                 MessageBoxA(nullptr, msg, "Shader Error", MB_OK | MB_ICONERROR);
             } else {
-                DEBUGLOG("[ERROR] Vertex shader compilation failed with HRESULT: 0x" + std::to_string(hr));
+                DEBUGLOG("[ERROR] 頂点シェーダーのコンパイル失敗 HRESULT: 0x" + std::to_string(hr));
             }
             return false;
         }
-        DEBUGLOG("Vertex shader compiled successfully");
+        DEBUGLOG("頂点シェーダーのコンパイル成功");
 
         hr = D3DCompile(PS, strlen(PS), nullptr, nullptr, nullptr, "main", "ps_5_0", 0, 0, psb.GetAddressOf(), err.ReleaseAndGetAddressOf());
         if (FAILED(hr)) {
             if (err) {
                 char msg[512];
                 sprintf_s(msg, "DebugDraw PS compile error:\n%s", (char*)err->GetBufferPointer());
-                DEBUGLOG("[ERROR] Pixel shader compilation failed: " + std::string((char*)err->GetBufferPointer()));
+                DEBUGLOG("[ERROR] ピクセルシェーダーのコンパイル失敗: " + std::string((char*)err->GetBufferPointer()));
                 MessageBoxA(nullptr, msg, "Shader Error", MB_OK | MB_ICONERROR);
             } else {
-                DEBUGLOG("[ERROR] Pixel shader compilation failed with HRESULT: 0x" + std::to_string(hr));
+                DEBUGLOG("[ERROR] ピクセルシェーダーのコンパイル失敗 HRESULT: 0x" + std::to_string(hr));
             }
             return false;
         }
-        DEBUGLOG("Pixel shader compiled successfully");
+        DEBUGLOG("ピクセルシェーダーのコンパイル成功");
 
         if (FAILED(gfx.Dev()->CreateVertexShader(vsb->GetBufferPointer(), vsb->GetBufferSize(), nullptr, vs_.GetAddressOf()))) {
-            DEBUGLOG("[ERROR] Failed to create vertex shader");
+            DEBUGLOG("[ERROR] 頂点シェーダーの作成失敗");
             MessageBoxA(nullptr, "Failed to create debug vertex shader", "Shader Error", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("Vertex shader created");
+        DEBUGLOG("頂点シェーダーを作成");
 
         if (FAILED(gfx.Dev()->CreatePixelShader(psb->GetBufferPointer(), psb->GetBufferSize(), nullptr, ps_.GetAddressOf()))) {
-            DEBUGLOG("[ERROR] Failed to create pixel shader");
+            DEBUGLOG("[ERROR] ピクセルシェーダーの作成失敗");
             MessageBoxA(nullptr, "Failed to create debug pixel shader", "Shader Error", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("Pixel shader created");
+        DEBUGLOG("ピクセルシェーダーを作成");
 
         // 入力レイアウト
         D3D11_INPUT_ELEMENT_DESC il[] = {
@@ -158,11 +158,11 @@ public:
             { "COLOR",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
         };
         if (FAILED(gfx.Dev()->CreateInputLayout(il, 2, vsb->GetBufferPointer(), vsb->GetBufferSize(), layout_.GetAddressOf()))) {
-            DEBUGLOG("[ERROR] Failed to create input layout");
+            DEBUGLOG("[ERROR] 入力レイアウトの作成失敗");
             MessageBoxA(nullptr, "Failed to create debug input layout", "Shader Error", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("Input layout created");
+        DEBUGLOG("入力レイアウトを作成");
 
         // 定数バッファ
         D3D11_BUFFER_DESC cbd{};
@@ -170,11 +170,11 @@ public:
         cbd.Usage = D3D11_USAGE_DEFAULT;
         cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         if (FAILED(gfx.Dev()->CreateBuffer(&cbd, nullptr, cb_.GetAddressOf()))) {
-            DEBUGLOG("[ERROR] Failed to create constant buffer");
+            DEBUGLOG("[ERROR] 定数バッファの作成失敗");
             MessageBoxA(nullptr, "Failed to create debug constant buffer", "Buffer Error", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("Constant buffer created");
+        DEBUGLOG("定数バッファを作成");
 
         // 動的頂点バッファ(最大10000線分)
         maxLines_ = 10000;
@@ -184,14 +184,14 @@ public:
         vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         if (FAILED(gfx.Dev()->CreateBuffer(&vbd, nullptr, vb_.GetAddressOf()))) {
-            DEBUGLOG("[ERROR] Failed to create vertex buffer");
+            DEBUGLOG("[ERROR] 頂点バッファの作成失敗");
             MessageBoxA(nullptr, "Failed to create debug vertex buffer", "Buffer Error", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("Vertex buffer created (Max lines: " + std::to_string(maxLines_) + ")");
+        DEBUGLOG("頂点バッファを作成 (最大線数: " + std::to_string(maxLines_) + ")");
 
         initialized_ = true;
-        DEBUGLOG("DebugDraw::Init() completed successfully");
+        DEBUGLOG("DebugDraw::Init() 正常に完了");
         return true;
     }
 
@@ -217,7 +217,7 @@ public:
      */
     void AddLine(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, const DirectX::XMFLOAT3& color) {
         if (lines_.size() >= maxLines_) {
-            DEBUGLOG("[WARNING] DebugDraw line limit reached (" + std::to_string(maxLines_) + "), ignoring AddLine()");
+            DEBUGLOG("[WARNING] DebugDrawの線の上限に到達 (" + std::to_string(maxLines_) + ")、AddLine()を無視します");
             return;
         }
         lines_.push_back({ start, end, color });
@@ -327,7 +327,7 @@ public:
         D3D11_MAPPED_SUBRESOURCE mapped;
         HRESULT hr = gfx.Ctx()->Map(vb_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
         if (FAILED(hr)) {
-            DEBUGLOG("[ERROR] Failed to map vertex buffer for DebugDraw (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG("[ERROR] DebugDrawの頂点バッファのマップ失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             return;
         }
         
@@ -385,9 +385,9 @@ public:
      * すべてのDirectX11リソースを自動的に解放します。
      */
     ~DebugDraw() {
-        DEBUGLOG("DebugDraw::~DebugDraw() - Destructor called");
+        DEBUGLOG("DebugDraw::~DebugDraw() - デストラクタ呼び出し");
         if (!isShutdown_) {
-            DEBUGLOG_WARNING("DebugDraw::Shutdown() was not called explicitly. Auto-cleanup in destructor.");
+            DEBUGLOG_WARNING("DebugDraw::Shutdown()が明示的に呼ばれていません。デストラクタで自動クリーンアップします。");
         }
         Shutdown();
     }
@@ -397,14 +397,14 @@ public:
      */
     void Shutdown() {
         if (isShutdown_) return; // 冪等性
-        DEBUGLOG("DebugDraw::Shutdown() - Releasing resources");
+        DEBUGLOG("DebugDraw::Shutdown() - リソースを解放中");
         vs_.Reset();
         ps_.Reset();
         layout_.Reset();
         cb_.Reset();
         vb_.Reset();
         isShutdown_ = true;
-        DEBUGLOG("DebugDraw::Shutdown() completed");
+        DEBUGLOG("DebugDraw::Shutdown() 完了");
     }
 
 private:
