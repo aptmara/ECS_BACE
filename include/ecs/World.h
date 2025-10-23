@@ -88,12 +88,19 @@ public:
     EntityBuilder& With(Args&&... args);
 
     /**
-     * @brief メソッドチェーンでコンポーネントを追加（原因付き）
+     * @brief メソッドチェーンでコンポーネントを追加（原因付き、int版）
+     * 
+     * @tparam T 追加するコンポーネントの型
+     * @tparam CauseType 原因の型（enum class World::Causeまたはint）
+     * @tparam Args コンストラクタ引数の型(可変長)
+     * @param[in] cause 事象の原因タグ
+     * @param[in] args コンポーネントのコンストラクタに転送する引数
+     * @return EntityBuilder& メソッドチェーン用の自身への参照
      * 
      * @note この宣言はWorldクラス定義後に実装されます
      */
-    template<typename T, typename... Args>
-    EntityBuilder& WithCause(int cause, Args&&... args); // 一時的にintで宣言
+    template<typename T, typename CauseType, typename... Args>
+    EntityBuilder& WithCause(CauseType cause, Args&&... args);
 
     /**
      * @brief エンティティを確定して返す
@@ -168,7 +175,14 @@ private:
 class World {
 public:
     // 起因タグ（ログ解析用）
-    enum class Cause { Unknown, Spawner, WaveTimer, Collision, LifetimeExpired, SceneInit };
+    enum class Cause { 
+        Unknown = 0, 
+        Spawner = 1, 
+        WaveTimer = 2, 
+        Collision = 3, 
+        LifetimeExpired = 4, 
+        SceneInit = 5 
+    };
 
     static const char* CauseToString(Cause c) {
         switch (c) {
@@ -919,13 +933,14 @@ EntityBuilder& EntityBuilder::With(Args&&... args) {
 /**
  * @brief EntityBuilder::WithCause()の実装
  * @tparam T 追加するコンポーネントの型
+ * @tparam CauseType 原因の型（World::CauseまたはWorld::Cause互換の整数型）
  * @tparam Args コンストラクタ引数の型(可変長)
- * @param[in] cause 事象の原因タグ（デバッグ用）
+ * @param[in] cause 事象の原因タグ（World::Causeまたはその基礎型）
  * @param[in] args コンポーネントのコンストラクタに転送する引数
  * @return EntityBuilder& メソッドチェーン用の自身への参照
  */
-template<typename T, typename... Args>
-EntityBuilder& EntityBuilder::WithCause(int cause, Args&&... args) {
+template<typename T, typename CauseType, typename... Args>
+EntityBuilder& EntityBuilder::WithCause(CauseType cause, Args&&... args) {
     world_->AddWithCause<T>(entity_, static_cast<World::Cause>(cause), std::forward<Args>(args)...);
     return *this;
 }

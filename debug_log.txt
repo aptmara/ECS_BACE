@@ -1,103 +1,160 @@
 ========================================
 Debug Log Started
 ========================================
-2025-10-22 18:25:36 [INFO] ========================================
-2025-10-22 18:25:36 [INFO] App::Init() started
-2025-10-22 18:25:36 [INFO] Window size: 1280x720
-2025-10-22 18:25:36 [INFO] COM library initialized
-2025-10-22 18:25:36 [INFO] CreateAppWindow() started
-2025-10-22 18:25:36 [INFO] Window class registered successfully
-2025-10-22 18:25:36 [INFO] Adjusted window rect: 1296x759
-2025-10-22 18:25:36 [INFO] WM_NCCREATE: App instance associated with window
-2025-10-22 18:25:36 [INFO] Window created successfully (HWND: 0x2692280)
-2025-10-22 18:25:36 [INFO] Window shown
-2025-10-22 18:25:36 [INFO] CreateAppWindow() completed successfully
-2025-10-22 18:25:36 [INFO] InitializeGraphics() started
-2025-10-22 18:25:36 [INFO] Adapter: NVIDIA GeForce RTX 4070 Laptop GPU
-2025-10-22 18:25:36 [INFO] Feature Level: 11.0
-2025-10-22 18:25:36 [INFO] SwapEffect: DISCARD
-2025-10-22 18:25:36 [INFO] BackBufferFormat: RGBA8_UNORM
-2025-10-22 18:25:36 [INFO] VSync: ON (Present(1))
-2025-10-22 18:25:36 [INFO] GfxDevice initialized successfully
-2025-10-22 18:25:36 [INFO] TextureManager initialized successfully
-2025-10-22 18:25:36 [INFO] RenderSystem initialized successfully
-2025-10-22 18:25:36 [INFO] InputSystem initialized
-2025-10-22 18:25:36 [INFO] Initializing DebugDraw (DEBUG build)
-2025-10-22 18:25:36 [INFO] DebugDraw::Init() started
-2025-10-22 18:25:36 [INFO] Vertex shader compiled successfully
-2025-10-22 18:25:36 [INFO] Pixel shader compiled successfully
-2025-10-22 18:25:36 [INFO] Vertex shader created
-2025-10-22 18:25:36 [INFO] Pixel shader created
-2025-10-22 18:25:36 [INFO] Input layout created
-2025-10-22 18:25:36 [INFO] Constant buffer created
-2025-10-22 18:25:36 [INFO] Vertex buffer created (Max lines: 10000)
-2025-10-22 18:25:36 [INFO] DebugDraw::Init() completed successfully
-2025-10-22 18:25:36 [INFO] DebugDraw initialized successfully
-2025-10-22 18:25:36 [INFO] InitializeGraphics() completed successfully
-2025-10-22 18:25:36 [INFO] SetupCamera() started
-2025-10-22 18:25:36 [INFO] Aspect ratio: 1.777778
-2025-10-22 18:25:36 [INFO] Camera setup completed (Position: 0, 0, -20 | Target: 0, 0, 0)
-2025-10-22 18:25:36 [INFO] InitializeGame() started
-2025-10-22 18:25:36 [INFO] GameScene instance created
-2025-10-22 18:25:36 [INFO] GameScene registered to SceneManager
-2025-10-22 18:25:36 [INFO] Entity created (new ID: 1)
-2025-10-22 18:25:36 [INFO] Component struct Transform added to entity 1
-2025-10-22 18:25:36 [INFO] Component struct MeshRenderer added to entity 1
-2025-10-22 18:25:36 [INFO] Component struct Player added to entity 1
-2025-10-22 18:25:36 [INFO] Component struct PlayerMovement added to entity 1
-2025-10-22 18:25:36 [INFO] Component struct ColorCycle added to entity 1
-2025-10-22 18:25:36 [INFO] SceneManager initialized with GameScene
-2025-10-22 18:25:36 [INFO] InitializeGame() completed successfully
-2025-10-22 18:25:36 [INFO] App::Init() completed successfully
-2025-10-22 18:25:36 [INFO] ========================================
-2025-10-22 18:25:36 [INFO] App::Run() - Main loop started
-2025-10-22 18:25:36 [INFO] Behaviour started: struct PlayerMovement on Entity 1 (gen 1)
-2025-10-22 18:25:36 [INFO] Behaviour started: struct ColorCycle on Entity 1 (gen 1)
-2025-10-22 18:25:36 [INFO] Started 2 new behaviour(s)
-2025-10-22 18:25:37 [INFO] WM_DESTROY received - Posting quit message
-2025-10-22 18:25:37 [INFO] App::Run() - Main loop ended (Total frames: 216)
-2025-10-22 18:25:37 [INFO] App::~App() - Destructor called
-2025-10-22 18:25:37 [INFO] App::Shutdown() - Starting cleanup
-2025-10-22 18:25:37 [INFO] Phase 1: Shutting down SceneManager
-2025-10-22 18:25:37 [INFO] SceneManager::Shutdown() called
-2025-10-22 18:25:37 [INFO] Exiting current scene
-2025-10-22 18:25:37 [INFO] Destroying entity (ID: 1)
-2025-10-22 18:25:37 [INFO] Removed 2 behaviour(s) from entity 1
-2025-10-22 18:25:37 [INFO] Entity destroyed successfully (ID: 1, Total alive: 0)
-2025-10-22 18:25:37 [INFO] Deleting 1 scene(s)
-2025-10-22 18:25:37 [INFO] Deleting scene: Game
-2025-10-22 18:25:37 [INFO] SceneManager::Shutdown() completed
-2025-10-22 18:25:37 [INFO] Phase 2: Destroying World (entities: 0)
-2025-10-22 18:25:37 [INFO] Phase 3: Releasing DebugDraw
-2025-10-22 18:25:37 [INFO] DebugDraw::Shutdown() - Releasing resources
-2025-10-22 18:25:37 [INFO] DebugDraw::Shutdown() completed
-2025-10-22 18:25:37 [INFO] Phase 4: Releasing RenderSystem
-2025-10-22 18:25:37 [INFO] RenderSystem::Shutdown() - Releasing resources
-2025-10-22 18:25:37 [INFO] RenderSystem::Shutdown() completed
-2025-10-22 18:25:37 [INFO] Phase 5: Releasing TextureManager
-2025-10-22 18:25:37 [INFO] TextureManager::Shutdown() - Releasing 1 texture(s)
-2025-10-22 18:25:37 [INFO] TextureManager::Shutdown() completed
-2025-10-22 18:25:37 [INFO] Phase 6: Releasing GfxDevice
-2025-10-22 18:25:37 [INFO] GfxDevice::Shutdown() - Releasing resources
-2025-10-22 18:25:37 [INFO] Releasing depth stencil view
-2025-10-22 18:25:37 [INFO] Releasing render target view
-2025-10-22 18:25:37 [INFO] Releasing swap chain
-2025-10-22 18:25:37 [INFO] Releasing device context
-2025-10-22 18:25:37 [INFO] Releasing device
-2025-10-22 18:25:37 [INFO] GfxDevice::Shutdown() completed
-2025-10-22 18:25:37 [INFO] Phase 7: Uninitializing COM
-2025-10-22 18:25:37 [INFO] App::Shutdown() completed successfully
-2025-10-22 18:25:37 [INFO] App destroyed successfully
-2025-10-22 18:25:37 [INFO] DebugDraw::~DebugDraw() - Destructor called
-2025-10-22 18:25:37 [INFO] SceneManager::~SceneManager() - Cleaning up
-2025-10-22 18:25:37 [INFO] SceneManager destroyed
-2025-10-22 18:25:37 [INFO] World::~World() - Destroying world
-2025-10-22 18:25:37 [INFO] Active entities: 0
-2025-10-22 18:25:37 [INFO] Active behaviours: 0
-2025-10-22 18:25:37 [INFO] World destroyed
-2025-10-22 18:25:37 [INFO] TextureManager::~TextureManager() - Destructor called
-2025-10-22 18:25:37 [INFO] RenderSystem::~RenderSystem() - Destructor called
-2025-10-22 18:25:37 [INFO] GfxDevice::~GfxDevice() - Destructor called
+2025-10-23 14:08:25 [F#0] [INFO] ========================================
+2025-10-23 14:08:25 [F#0] [INFO] App::Init() started
+2025-10-23 14:08:25 [F#0] [INFO] Window size: 1280x720
+2025-10-23 14:08:25 [F#0] [INFO] COM library initialized
+2025-10-23 14:08:25 [F#0] [INFO] CreateAppWindow() started
+2025-10-23 14:08:25 [F#0] [INFO] Window class registered successfully
+2025-10-23 14:08:25 [F#0] [INFO] Adjusted window rect: 1296x759
+2025-10-23 14:08:25 [F#0] [INFO] WM_NCCREATE: App instance associated with window
+2025-10-23 14:08:25 [F#0] [INFO] Window created successfully (HWND: 0x593718)
+2025-10-23 14:08:25 [F#0] [INFO] Window shown
+2025-10-23 14:08:25 [F#0] [INFO] CreateAppWindow() completed successfully
+2025-10-23 14:08:25 [F#0] [INFO] InitializeGraphics() started
+2025-10-23 14:08:26 [F#0] [INFO] Adapter: NVIDIA GeForce RTX 4070 Laptop GPU
+2025-10-23 14:08:26 [F#0] [INFO] Feature Level: 11.0
+2025-10-23 14:08:26 [F#0] [INFO] SwapEffect: FLIP_DISCARD (Recommended)
+2025-10-23 14:08:26 [F#0] [INFO] BackBufferFormat: RGBA8_UNORM
+2025-10-23 14:08:26 [F#0] [INFO] VSync: ON (Present(1)) - Locks to display refresh rate
+2025-10-23 14:08:26 [F#0] [INFO] GfxDevice initialized successfully
+2025-10-23 14:08:26 [F#0] [INFO] TextureManager initialized successfully
+2025-10-23 14:08:26 [F#0] [INFO] RenderSystem initialized successfully
+2025-10-23 14:08:26 [F#0] [INFO] InputSystem initialized
+2025-10-23 14:08:26 [F#0] [INFO] Initializing DebugDraw (DEBUG build)
+2025-10-23 14:08:26 [F#0] [INFO] DebugDraw::Init() started
+2025-10-23 14:08:26 [F#0] [INFO] Vertex shader compiled successfully
+2025-10-23 14:08:26 [F#0] [INFO] Pixel shader compiled successfully
+2025-10-23 14:08:26 [F#0] [INFO] Vertex shader created
+2025-10-23 14:08:26 [F#0] [INFO] Pixel shader created
+2025-10-23 14:08:26 [F#0] [INFO] Input layout created
+2025-10-23 14:08:26 [F#0] [INFO] Constant buffer created
+2025-10-23 14:08:26 [F#0] [INFO] Vertex buffer created (Max lines: 10000)
+2025-10-23 14:08:26 [F#0] [INFO] DebugDraw::Init() completed successfully
+2025-10-23 14:08:26 [F#0] [INFO] DebugDraw initialized successfully
+2025-10-23 14:08:26 [F#0] [INFO] InitializeGraphics() completed successfully
+2025-10-23 14:08:26 [F#0] [INFO] SetupCamera() started
+2025-10-23 14:08:26 [F#0] [INFO] Aspect ratio: 1.777778
+2025-10-23 14:08:26 [F#0] [INFO] Camera setup completed (Position: 0, 0, -20 | Target: 0, 0, 0)
+2025-10-23 14:08:26 [F#0] [INFO] InitializeGame() started
+2025-10-23 14:08:26 [F#0] [INFO] GameScene instance created
+2025-10-23 14:08:26 [F#0] [INFO] GameScene registered to SceneManager
+2025-10-23 14:08:26 [F#0] [INFO] Entity created (new ID: 1)
+2025-10-23 14:08:26 [F#0] [INFO] Component struct Transform added to entity 1
+2025-10-23 14:08:26 [F#0] [INFO] Component struct MeshRenderer added to entity 1
+2025-10-23 14:08:26 [F#0] [INFO] Component struct Player added to entity 1
+2025-10-23 14:08:26 [F#0] [INFO] Component struct PlayerMovement added to entity 1
+2025-10-23 14:08:26 [F#0] [INFO] Component struct ColorCycle added to entity 1
+2025-10-23 14:08:26 [F#0] [INFO] SceneManager initialized with GameScene
+2025-10-23 14:08:26 [F#0] [INFO] InitializeGame() completed successfully
+2025-10-23 14:08:26 [F#0] [INFO] App::Init() completed successfully
+2025-10-23 14:08:26 [F#0] [INFO] ========================================
+2025-10-23 14:08:26 [F#0] [INFO] App::Run() - Main loop started
+2025-10-23 14:08:26 [F#1] [INFO] Behaviour started: struct PlayerMovement on Entity 1 (gen 1) cause=SceneInit
+2025-10-23 14:08:26 [F#1] [INFO] Behaviour started: struct ColorCycle on Entity 1 (gen 1) cause=SceneInit
+2025-10-23 14:08:26 [F#1] [INFO] Started 2 new behaviour(s)
+2025-10-23 14:08:27 [F#58] [INFO] Entity created (new ID: 2)
+2025-10-23 14:08:27 [F#58] [INFO] Component struct Transform added to entity 2
+2025-10-23 14:08:27 [F#58] [INFO] Component struct MeshRenderer added to entity 2
+2025-10-23 14:08:27 [F#58] [INFO] Component struct Enemy added to entity 2
+2025-10-23 14:08:27 [F#58] [INFO] Component struct EnemyMovement added to entity 2
+2025-10-23 14:08:27 [F#58] [INFO] Component struct Rotator added to entity 2
+2025-10-23 14:08:27 [F#59] [INFO] Behaviour started: struct EnemyMovement on Entity 2 (gen 1) cause=WaveTimer
+2025-10-23 14:08:27 [F#59] [INFO] Behaviour started: struct Rotator on Entity 2 (gen 1) cause=WaveTimer
+2025-10-23 14:08:27 [F#59] [INFO] Started 2 new behaviour(s)
+2025-10-23 14:08:27 [F#94] [INFO] Entity created (new ID: 3)
+2025-10-23 14:08:27 [F#94] [INFO] Component struct Transform added to entity 3
+2025-10-23 14:08:27 [F#94] [INFO] Component struct MeshRenderer added to entity 3
+2025-10-23 14:08:27 [F#94] [INFO] Component struct Bullet added to entity 3
+2025-10-23 14:08:27 [F#94] [INFO] Component struct BulletMovement added to entity 3
+2025-10-23 14:08:27 [F#94] [INFO] Component struct Rotator added to entity 3
+2025-10-23 14:08:27 [F#95] [INFO] Behaviour started: struct BulletMovement on Entity 3 (gen 1) cause=Spawner
+2025-10-23 14:08:27 [F#95] [INFO] Behaviour started: struct Rotator on Entity 3 (gen 1) cause=Spawner
+2025-10-23 14:08:27 [F#95] [INFO] Started 2 new behaviour(s)
+2025-10-23 14:08:28 [F#117] [INFO] Entity created (new ID: 4)
+2025-10-23 14:08:28 [F#117] [INFO] Component struct Transform added to entity 4
+2025-10-23 14:08:28 [F#117] [INFO] Component struct MeshRenderer added to entity 4
+2025-10-23 14:08:28 [F#117] [INFO] Component struct Enemy added to entity 4
+2025-10-23 14:08:28 [F#117] [INFO] Component struct EnemyMovement added to entity 4
+2025-10-23 14:08:28 [F#117] [INFO] Component struct Rotator added to entity 4
+2025-10-23 14:08:28 [F#118] [INFO] Behaviour started: struct EnemyMovement on Entity 4 (gen 1) cause=WaveTimer
+2025-10-23 14:08:28 [F#118] [INFO] Behaviour started: struct Rotator on Entity 4 (gen 1) cause=WaveTimer
+2025-10-23 14:08:28 [F#118] [INFO] Started 2 new behaviour(s)
+2025-10-23 14:08:28 [F#151] [INFO] Destroy queued (ID: 3, cause=LifetimeExpired)
+2025-10-23 14:08:28 [F#151] [INFO] Destroying entity (ID: 3, cause=LifetimeExpired)
+2025-10-23 14:08:28 [F#151] [INFO] Removed 2 behaviour(s) from entity 3
+2025-10-23 14:08:28 [F#151] [INFO] Entity destroyed successfully (ID: 3, Total alive: 3)
+2025-10-23 14:08:28 [F#151] [INFO] Flushed destroy queue: 1 entity(ies)
+2025-10-23 14:08:29 [F#175] [INFO] Entity created (reused ID: 3)
+2025-10-23 14:08:29 [F#175] [INFO] Component struct Transform added to entity 3
+2025-10-23 14:08:29 [F#175] [INFO] Component struct MeshRenderer added to entity 3
+2025-10-23 14:08:29 [F#175] [INFO] Component struct Enemy added to entity 3
+2025-10-23 14:08:29 [F#175] [INFO] Component struct EnemyMovement added to entity 3
+2025-10-23 14:08:29 [F#175] [INFO] Component struct Rotator added to entity 3
+2025-10-23 14:08:29 [F#176] [INFO] Behaviour started: struct EnemyMovement on Entity 3 (gen 2) cause=WaveTimer
+2025-10-23 14:08:29 [F#176] [INFO] Behaviour started: struct Rotator on Entity 3 (gen 2) cause=WaveTimer
+2025-10-23 14:08:29 [F#176] [INFO] Started 2 new behaviour(s)
+2025-10-23 14:08:30 [F#231] [INFO] WM_DESTROY received - Posting quit message
+2025-10-23 14:08:30 [F#231] [INFO] App::Run() - Main loop ended (Total frames: 231)
+2025-10-23 14:08:30 [F#231] [INFO] App::~App() - Destructor called
+2025-10-23 14:08:30 [F#231] [INFO] App::Shutdown() - Starting cleanup
+2025-10-23 14:08:30 [F#231] [INFO] Phase 1: Shutting down SceneManager
+2025-10-23 14:08:30 [F#231] [INFO] SceneManager::Shutdown() called
+2025-10-23 14:08:30 [F#231] [INFO] Exiting current scene
+2025-10-23 14:08:30 [F#231] [INFO] Destroy queued (ID: 1, cause=Unknown)
+2025-10-23 14:08:30 [F#231] [INFO] Destroy queued (ID: 2, cause=Unknown)
+2025-10-23 14:08:30 [F#231] [INFO] Destroy queued (ID: 4, cause=Unknown)
+2025-10-23 14:08:30 [F#231] [INFO] Destroy queued (ID: 3, cause=Unknown)
+2025-10-23 14:08:30 [F#231] [INFO] Deleting 1 scene(s)
+2025-10-23 14:08:30 [F#231] [INFO] Deleting scene: Game
+2025-10-23 14:08:30 [F#231] [INFO] SceneManager::Shutdown() completed
+2025-10-23 14:08:30 [F#231] [INFO] Phase 2: Flushing World queues (entities: 4)
+2025-10-23 14:08:30 [F#231] [INFO] Destroying entity (ID: 1, cause=Unknown)
+2025-10-23 14:08:30 [F#231] [INFO] Removed 2 behaviour(s) from entity 1
+2025-10-23 14:08:30 [F#231] [INFO] Entity destroyed successfully (ID: 1, Total alive: 3)
+2025-10-23 14:08:30 [F#231] [INFO] Destroying entity (ID: 2, cause=Unknown)
+2025-10-23 14:08:30 [F#231] [INFO] Removed 2 behaviour(s) from entity 2
+2025-10-23 14:08:30 [F#231] [INFO] Entity destroyed successfully (ID: 2, Total alive: 2)
+2025-10-23 14:08:30 [F#231] [INFO] Destroying entity (ID: 4, cause=Unknown)
+2025-10-23 14:08:30 [F#231] [INFO] Removed 2 behaviour(s) from entity 4
+2025-10-23 14:08:30 [F#231] [INFO] Entity destroyed successfully (ID: 4, Total alive: 1)
+2025-10-23 14:08:30 [F#231] [INFO] Destroying entity (ID: 3, cause=Unknown)
+2025-10-23 14:08:30 [F#231] [INFO] Removed 2 behaviour(s) from entity 3
+2025-10-23 14:08:30 [F#231] [INFO] Entity destroyed successfully (ID: 3, Total alive: 0)
+2025-10-23 14:08:30 [F#231] [INFO] Flushed destroy queue: 4 entity(ies)
+2025-10-23 14:08:30 [F#231] [INFO] Phase 3: Checking for remaining entities before World destruction
+2025-10-23 14:08:30 [F#231] [INFO] Phase 3: All entities properly destroyed
+2025-10-23 14:08:30 [F#231] [INFO] Phase 4: Releasing DebugDraw
+2025-10-23 14:08:30 [F#231] [INFO] DebugDraw::Shutdown() - Releasing resources
+2025-10-23 14:08:30 [F#231] [INFO] DebugDraw::Shutdown() completed
+2025-10-23 14:08:30 [F#231] [INFO] Phase 5: Releasing RenderSystem
+2025-10-23 14:08:30 [F#231] [INFO] RenderSystem::Shutdown() - Releasing resources
+2025-10-23 14:08:30 [F#231] [INFO] RenderSystem::Shutdown() completed
+2025-10-23 14:08:30 [F#231] [INFO] Phase 6: Releasing TextureManager
+2025-10-23 14:08:30 [F#231] [INFO] TextureManager::Shutdown() - Releasing 1 texture(s)
+2025-10-23 14:08:30 [F#231] [INFO] TextureManager::Shutdown() completed
+2025-10-23 14:08:30 [F#231] [INFO] Phase 7: Releasing GfxDevice
+2025-10-23 14:08:30 [F#231] [INFO] GfxDevice::Shutdown() - Releasing resources
+2025-10-23 14:08:30 [F#231] [INFO] Releasing depth stencil view
+2025-10-23 14:08:30 [F#231] [INFO] Releasing render target view
+2025-10-23 14:08:30 [F#231] [INFO] Releasing swap chain
+2025-10-23 14:08:30 [F#231] [INFO] Releasing device context
+2025-10-23 14:08:30 [F#231] [INFO] Releasing device
+2025-10-23 14:08:30 [F#231] [INFO] GfxDevice::Shutdown() completed
+2025-10-23 14:08:30 [F#231] [INFO] Phase 8: Uninitializing COM
+2025-10-23 14:08:30 [F#231] [INFO] App::Shutdown() completed successfully
+2025-10-23 14:08:30 [F#231] [INFO] App destroyed successfully
+2025-10-23 14:08:30 [F#231] [INFO] DebugDraw::~DebugDraw() - Destructor called
+2025-10-23 14:08:30 [F#231] [INFO] SceneManager::~SceneManager() - Cleaning up
+2025-10-23 14:08:30 [F#231] [INFO] SceneManager destroyed
+2025-10-23 14:08:30 [F#231] [INFO] World::~World() - Destroying world
+2025-10-23 14:08:30 [F#231] [INFO] Active entities: 0
+2025-10-23 14:08:30 [F#231] [INFO] Active behaviours: 0
+2025-10-23 14:08:30 [F#231] [INFO] World destroyed
+2025-10-23 14:08:30 [F#231] [INFO] TextureManager::~TextureManager() - Destructor called
+2025-10-23 14:08:30 [F#231] [INFO] RenderSystem::~RenderSystem() - Destructor called
+2025-10-23 14:08:30 [F#231] [INFO] GfxDevice::~GfxDevice() - Destructor called
 ========================================
 Debug Log Ended
 ========================================

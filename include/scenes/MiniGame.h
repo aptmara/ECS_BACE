@@ -180,8 +180,8 @@ public:
             .With<Transform>(playerTransform)
             .With<MeshRenderer>(playerRenderer)
             .With<Player>()
-            .WithCause<PlayerMovement>(static_cast<int>(World::Cause::SceneInit)) // 原因を明示
-            .WithCause<ColorCycle>(static_cast<int>(World::Cause::SceneInit), 1.0f) // 原因を明示
+            .WithCause<PlayerMovement>(World::Cause::SceneInit) // 原因を明示
+            .WithCause<ColorCycle>(World::Cause::SceneInit, 1.0f) // 原因を明示
             .Build();
         ownedEntities_.push_back(playerEntity_);
 
@@ -285,8 +285,8 @@ private:
                     .With<Transform>(bulletTransform)
                     .With<MeshRenderer>(bulletRenderer)
                     .With<Bullet>()
-                    .WithCause<BulletMovement>(static_cast<int>(World::Cause::Spawner))
-                    .WithCause<Rotator>(static_cast<int>(World::Cause::Spawner), 1000.0f) // 原因を明示
+                    .WithCause<BulletMovement>(World::Cause::Spawner)
+                    .WithCause<Rotator>(World::Cause::Spawner, 1000.0f) // 原因を明示
                     .Build();
                 ownedEntities_.push_back(bullet);
 
@@ -322,8 +322,8 @@ private:
                 .With<Transform>(enemyTransform)
                 .With<MeshRenderer>(enemyRenderer)
                 .With<Enemy>()
-                .WithCause<EnemyMovement>(static_cast<int>(World::Cause::WaveTimer))
-                .WithCause<Rotator>(static_cast<int>(World::Cause::WaveTimer), 10000.0f) // 原因を明示
+                .WithCause<EnemyMovement>(World::Cause::WaveTimer)
+                .WithCause<Rotator>(World::Cause::WaveTimer, 10000.0f)
                 .Build();
             ownedEntities_.push_back(enemy);
         }

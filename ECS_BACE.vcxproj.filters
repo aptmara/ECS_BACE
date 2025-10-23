@@ -107,14 +107,14 @@
     <ClInclude Include="include\pch.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\ecs\World_v7.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\samples\WorldImprovementDemo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\app\DebugLog.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ecs\World.h">
+      <Filter>ヘッダー ファイル\ecs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

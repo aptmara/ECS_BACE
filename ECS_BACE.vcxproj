@@ -146,7 +146,7 @@
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\App.h" />
     <ClInclude Include="include\app\DebugLog.h" />
-    <ClInclude Include="include\ecs\World_v7.h" />
+    <ClInclude Include="include\ecs\World.h" />
     <ClInclude Include="include\graphics\Camera.h" />
     <ClInclude Include="include\components\Component.h" />
     <ClInclude Include="include\pch.h" />
