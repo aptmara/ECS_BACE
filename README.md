@@ -795,288 +795,338 @@ include/app/       # アプリケーション基盤
 
 ### 🔀 Git/GitHubのルール
 
-#### コミットメッセージ
-
-<table>
-<tr>
-<td width="50%">
-
-**✅ 良い例**
-
-```bash
-git commit -m "✨ Add player shooting system"
-git commit -m "🐛 Fix collision detection bug"
-git commit -m "📝 Update README with team guide"
-git commit -m "⚡ Optimize render loop performance"
-git commit -m "🎨 Refactor component structure"
-```
-
-</td>
-<td width="50%">
-
-**❌ 悪い例**
-
-```bash
-git commit -m "update"
-git commit -m "fix bug"
-git commit -m "modified files"
-git commit -m "aaa"
-git commit -m "temp"
-```
-
-</td>
-</tr>
-</table>
-
-#### 絵文字プレフィックス
-
-| 絵文字 | 意味 |
-|:-----:|------|
-| ✨ | 新機能追加 |
-| 🐛 | バグ修正 |
-| 📝 | ドキュメント更新 |
-| ⚡ | パフォーマンス改善 |
-| 🎨 | コードリファクタリング |
-| 🔥 | コード削除 |
-| 🚧 | 作業中 |
-
 ---
 
-#### ブランチ命名規約
-
-<table>
-<tr>
-<td width="50%">
-
-**✅ 良い例**
-
-```bash
-feature/player-movement
-feature/enemy-ai
-bugfix/collision-crash
-hotfix/critical-memory-leak
-refactor/component-structure
-```
-
-</td>
-<td width="50%">
-
-**❌ 悪い例**
-
-```bash
-test
-my-branch
-temp
-branch1
-new
-```
-
-</td>
-</tr>
-</table>
-
----
-
-### ✅ 提出前チェックリスト
-
-```
-□ C++14標準に準拠している
-□ ビルドエラーがない（Debug/Release両方）
-□ コンポーネントは IComponent または Behaviour を継承
-□ ポインタ取得時は TryGet を使用
-□ Doxygenスタイルのコメントを記述
-□ 他のメンバーの作業に影響しない
-□ Gitコミットメッセージが明確
-□ 不要なコメントアウトを削除
-□ デバッグ用のprintfを削除
-□ メモリリークがない
-```
-
----
-
-## 📖 参考資料
-
-### 📚 サンプルファイル
-
-新しいコンポーネントを作成する際の参考：
-
-| ファイル | 説明 |
-|---------|------|
-| `include/samples/ComponentSamples.h` | 📦 コンポーネントの実装例 |
-| `include/samples/SampleScenes.h` | 🎬 シーンの実装例 |
-| `include/scenes/MiniGame.h` | 🎮 実践的なゲーム実装 |
-
----
-
-### 🎓 学習ガイド
+## 🌟 GitHub初心者ガイド
 
 <div align="center">
 
-```
-🌱 初心者      👉  SampleScenes.h のレベル1～3を参照
-🌿 中級者      👉  ComponentSamples.h のBehaviourを参照
-🌳 上級者      👉  MiniGame.h の実装を参照
-```
+### 🤔 GitHubって何？
+
+**GitHub**は、プログラムのソースコードを保存・管理・共有できるオンラインサービスです。  
+チームで開発する際に、**誰がいつどこを変更したか**を記録し、**複数人が同時に作業しても混乱しない**ようにしてくれます。
 
 </div>
 
 ---
 
-### ❓ よくある質問（FAQ）
+### 📖 重要な用語集（初心者向け）
+
+<table>
+<tr>
+<th width="25%">用語</th>
+<th width="75%">説明</th>
+</tr>
+<tr>
+<td><b>🗂️ リポジトリ<br>(Repository)</b></td>
+<td>プロジェクトのファイルを保存する場所。<b>プロジェクトフォルダ</b>のようなもの。<br>例: <code>HEW_ECS</code> がこのプロジェクトのリポジトリ</td>
+</tr>
+<tr>
+<td><b>📥 クローン<br>(Clone)</b></td>
+<td>GitHub上のリポジトリを<b>自分のパソコンにコピー</b>すること。<br>ダウンロードのようなもの（ただし履歴情報も含む）</td>
+</tr>
+<tr>
+<td><b>💾 コミット<br>(Commit)</b></td>
+<td>変更を<b>記録する</b>こと。セーブポイントのようなもの。<br>「何を変更したか」のメッセージも記録する</td>
+</tr>
+<tr>
+<td><b>📤 プッシュ<br>(Push)</b></td>
+<td>自分のパソコンの変更を<b>GitHub（サーバー）にアップロード</b>すること</td>
+</tr>
+<tr>
+<td><b>📥 プル<br>(Pull)</b></td>
+<td>GitHub（サーバー）の最新の変更を<b>自分のパソコンにダウンロード</b>すること</td>
+</tr>
+<tr>
+<td><b>🏠 master/main<br>ブランチ</b></td>
+<td>プロジェクトの<b>本番用</b>のブランチ。完成したコードが入る。<br>ペアプログラミングでは、このブランチで直接作業します</td>
+</tr>
+</table>
+
+---
+
+### 🚀 完全ステップバイステップガイド
+
+---
+
+## ステップ1️⃣: Gitのインストール
+
+### Windowsの場合
+
+1. **Git for Windows**をダウンロード  
+   👉 https://git-scm.com/download/win
+
+2. インストーラーを実行（基本的に全て「Next」で進めてOK）
+
+3. インストール確認  
+   ```bash
+   # コマンドプロンプトまたはPowerShellを開く
+   git --version
+   ```
+   
+   ✅ `git version 2.x.x` のように表示されればOK
+
+---
+
+## ステップ2️⃣: GitHubアカウントの設定
+
+### 初回のみ必要な設定
+
+```bash
+# 1. ユーザー名を設定（GitHubのユーザー名を入力）
+git config --global user.name "あなたのGitHubユーザー名"
+
+# 2. メールアドレスを設定（GitHubのメールアドレスを入力）
+git config --global user.email "your.email@example.com"
+
+# 3. 設定確認
+git config --list
+```
+
+**例:**
+```bash
+git config --global user.name "YamaYamamoto"
+git config --global user.email "yama@example.com"
+```
+
+---
+
+## ステップ3️⃣: リポジトリをクローン（初回のみ）
+
+### 3-1. クローンする場所を決める
+
+```bash
+# 例: デスクトップに移動
+cd Desktop
+
+# または Documents フォルダに移動
+cd Documents
+
+# 現在のフォルダを確認
+pwd
+```
+
+### 3-2. GitHubからクローン
+
+```bash
+# HEW_ECSリポジトリをクローン
+git clone https://github.com/aptma-sHEWTeam/HEW_ECS.git
+
+# クローンしたフォルダに移動
+cd HEW_ECS
+```
+
+<div align="center">
+
+✅ **成功すると**:
+
+```
+Cloning into 'HEW_ECS'...
+remote: Enumerating objects: 1234, done.
+remote: Counting objects: 100% (1234/1234), done.
+Unpacking objects: 100% (1234/1234), done.
+
+````````
+
+## 🆘 トラブルシューティング
+
+### ❓ よくあるエラーと解決方法
 
 <details>
-<summary><b>Q1: コンポーネントとBehaviourの違いは？</b></summary>
+<summary><b>エラー: "fatal: not a git repository"</b></summary>
 
-**A**: データコンポーネント（IComponent）はデータのみ、Behaviourは毎フレーム更新されるロジックを持ちます。
+**原因**: Gitリポジトリではないフォルダで実行した
 
-```cpp
-// データコンポーネント: データのみ
-struct Health : IComponent {
-    float current = 100.0f;
-};
+**解決策**:
+```bash
+# HEW_ECSフォルダに移動しているか確認
+cd HEW_ECS
 
-// Behaviour: ロジックを持つ
-struct Rotator : Behaviour {
-    void OnUpdate(World& w, Entity self, float dt) override {
-        // 毎フレーム実行される
-    }
-};
+# または、再度クローン
+git clone https://github.com/aptma-sHEWTeam/HEW_ECS.git
+cd HEW_ECS
 ```
 
 </details>
 
 <details>
-<summary><b>Q2: ビルダーパターンと従来の方法、どちらを使うべき？</b></summary>
+<summary><b>エラー: "error: Your local changes would be overwritten"</b></summary>
 
-**A**: **ビルダーパターンを推奨**します。コードが読みやすく、書きやすいです。
+**原因**: 変更をコミットせずにプルしようとした
 
-```cpp
-// ✅ 推奨: ビルダーパターン
-Entity e = world.Create()
-    .With<Transform>()
-    .With<MeshRenderer>()
-    .Build();
+**解決策**:
+```bash
+# 変更をコミット
+git add .
+git commit -m "💾 Save work in progress"
 
-// 許容: 従来の方法
-Entity e = world.CreateEntity();
-world.Add<Transform>(e);
-world.Add<MeshRenderer>(e);
+# 再度プル
+git pull origin master
 ```
 
 </details>
 
 <details>
-<summary><b>Q3: TryGetとGetの違いは？</b></summary>
+<summary><b>エラー: "rejected - non-fast-forward"</b></summary>
 
-**A**: **TryGetはnullを返す可能性があり安全**、Getは例外を投げる可能性があります。**TryGet推奨**。
+**原因**: GitHub上に自分の持っていない変更がある
 
-```cpp
-// ✅ 推奨: TryGet（安全）
-auto* t = world.TryGet<Transform>(e);
-if (t) {
-    t->position.x += 1.0f;
-}
+**解決策**:
+```bash
+# 1. 最新の変更を取得
+git pull origin master
 
-// 許容: Get（例外の可能性あり）
-try {
-    auto& t = world.Get<Transform>(e);
-    t.position.x += 1.0f;
-} catch (const std::runtime_error& ex) {
-    // エラー処理
-}
+# 2. コンフリクトがあれば解決←わかんなければ私まで
+
+# 3. 再度プッシュ
+git push origin master
 ```
 
 </details>
 
 <details>
-<summary><b>Q4: エンティティはいつ削除される？</b></summary>
+<summary><b>問題: "間違えたファイルをコミットしてしまった"</b></summary>
 
-**A**: `DestroyEntity`を呼ぶとキューに追加され、**フレーム終了時に実際に削除**されます。
+**解決策（プッシュ前）**:
+```bash
+# 最後のコミットを取り消し（変更は残る）
+git reset --soft HEAD~1
 
-```cpp
-// フレーム中に削除要求
-world.DestroyEntity(entity);
-
-// ↓ フレーム終了時（Tick完了後）に実際に削除される
+# 正しいファイルのみ追加
+git add 正しいファイル
+git commit -m "✨ 正しいコミット"
 ```
 
-これにより、イテレーション中の削除による不具合を防ぎます。
+**解決策（プッシュ済み）**:
+```bash
+# 新しいコミットで修正
+git rm 間違えたファイル
+git commit -m "🔥 Remove accidentally committed file"
+git push origin master
+```
 
 </details>
 
 <details>
-<summary><b>Q5: C++17の機能を使いたい場合は？</b></summary>
+<summary><b>問題: "前のバージョンに戻したい※誰かに相談してほしい"</b></summary>
 
-**A**: このプロジェクトは**C++14に制限**されています。プロジェクト設定を変更する場合は、チーム全体で相談してください。
+**解決策**:
+```bash
+# 1. コミット履歴を確認
+git log --oneline
 
-**使用不可な機能**:
-- `std::optional`
-- `if constexpr`
-- `std::filesystem`
-- 構造化束縛 `auto [a, b] = ...`
+# 例:
+# def5678 ✨ Add player shoot
+# abc1234 ✨ Add player jump
+# 9876543 🐛 Fix collision bug
+
+# 2. 戻りたいコミットのハッシュをコピー（例: abc1234）
+
+# 3. そのコミットに戻る（変更は破棄される）
+git reset --hard abc1234
+
+# 4. 強制的にプッシュ（⚠️注意: 全員に必ず伝える）
+git push origin master --force
+```
+
+⚠️ **注意**: `--force`を使うと履歴が書き換わるため、必ず誰かに確認してください。
 
 </details>
 
 ---
 
-## 🚫 禁止事項
+## 📋 コマンド一覧
 
-### ⚠️ アーキテクチャの破壊
+<table>
+<tr>
+<th width="40%">コマンド</th>
+<th width="60%">説明</th>
+</tr>
+<tr>
+<td><code>git status</code></td>
+<td>現在の状態を確認（変更されたファイルなど）</td>
+</tr>
+<tr>
+<td><code>git add .</code></td>
+<td>全ての変更をステージング</td>
+</tr>
+<tr>
+<td><code>git add ファイル名</code></td>
+<td>特定のファイルをステージング</td>
+</tr>
+<tr>
+<td><code>git commit -m "メッセージ"</code></td>
+<td>変更をコミット</td>
+</tr>
+<tr>
+<td><code>git pull origin master</code></td>
+<td>GitHub上の最新を取得</td>
+</tr>
+<tr>
+<td><code>git push origin master</code></td>
+<td>GitHubにプッシュ</td>
+</tr>
+<tr>
+<td><code>git log</code></td>
+<td>コミット履歴を表示</td>
+</tr>
+<tr>
+<td><code>git log --oneline</code></td>
+<td>コミット履歴を1行で表示</td>
+</tr>
+<tr>
+<td><code>git diff</code></td>
+<td>変更内容を表示</td>
+</tr>
+<tr>
+<td><code>git reset --soft HEAD~1</code></td>
+<td>最後のコミットを取り消し（変更は残す）</td>
+</tr>
+<tr>
+<td><code>git reset --hard HEAD~1</code></td>
+<td>最後のコミットを取り消し（変更も破棄）</td>
+</tr>
+</table>
 
-```cpp
-// ❌ NG: Entityにロジックを追加
-struct Entity {
-    void Update();  // NG: Entityはデータのみ
-    void Render();  // NG
-};
+---
 
-// ❌ NG: グローバル変数でエンティティ管理
-Entity g_player;  // NG: Worldで管理すべき
+## 🎓 さらに学習するには
 
-// ❌ NG: コンポーネントが他のコンポーネントを直接参照
-struct MyComponent : IComponent {
-    Transform* transform_;  // NG: World経由で取得すべき
-};
+### 📚 推奨リソース
+
+| リソース | URL |
+|---------|-----|
+| **Git公式ドキュメント（日本語）** | https://git-scm.com/book/ja/v2 |
+| **GitHub公式ガイド** | https://docs.github.com/ja |
+| **サル先生のGit入門** | https://backlog.com/ja/git-tutorial/ |
+| **わかばちゃんと学ぶ Git使い方入門←オヌヌメ** | （書籍・Kindle版あり） |
+
+---
+
+## ✅ チェックリスト（作業前）
+
+```
+開発開始前に必ず確認:
+
+□ 最新のmasterブランチを取得した（git pull origin master）
+□ Visual Studioでビルドが通る
+□ ペアの人に作業内容を伝えた
+□ コンフリクトがないことを確認した
 ```
 
 ---
 
-### ⚠️ 非推奨なパターン
-
-```cpp
-// ❌ NG: Update内でのエンティティ作成（同期的）
-void OnUpdate(World& w, Entity self, float dt) override {
-    Entity newEnemy = w.CreateEntity();  // 代わりにEnqueueSpawnを使用
-}
-
-// ✅ 正しい: キューイング
-void OnUpdate(World& w, Entity self, float dt) override {
-    w.EnqueueSpawn(World::Cause::Spawner, [](Entity e) {
-        // 生成後の初期化
-    });
-}
-```
-
----
-
-## 📊 プロジェクト構成
+## ✅ チェックリスト（作業後）
 
 ```
-HEW_ECS/
-├── 📂 include/
-│   ├── 📂 ecs/              # ECSコアシステム
-│   │   ├── Entity.h
-│   │   └── World.h
-│   ├── 📂 components/       # コンポーネント定義
-│   │   ├── Component.h
-│   │   ├── Transform.h
-│   │   ├── MeshRenderer.h
-│   │   └── Rotator.h
-│   ├── 📂 scenes/           # ゲームシーン
-│   │   ├── SceneManager.h
-│   │   └── MiniGame.h
-│   ├── 📂 samples/          # サンプル集
-│   │   ├── ComponentSamples.h
-│   │   └── SampleScenes.h
-│   ├── 📂 graphics/         # 描画システム
-│   ├── 📂 input/    
+masterにプッシュする前に必ず確認:
+
+□ ビルドエラーがない（Debug/Release両方）
+□ コミットメッセージが明確
+□ 不要なファイル（.obj, .exe など）をコミットしていない
+□ コメントアウトされたコードを削除した
+□ デバッグ用のprintfを削除した
+□ 他のメンバーの作業に影響しない
+□ README更新が必要な場合は更新した
+□ ペアの人にレビューしてもらった
+□ プッシュ前に再度 git pull した
