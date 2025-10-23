@@ -1,8 +1,8 @@
-/**
+﻿/**
  * @file RenderSystem.h
  * @brief テクスチャ対応レンダリングシステム
  * @author 山内陽
- * @date 2024
+ * @date 2025
  * @version 5.0
  * 
  * @details
@@ -29,7 +29,7 @@
  * @brief テクスチャ対応レンダリングシステム
  * 
  * @details
- * ECSワールド内のすべての描画可能なエンティティ（Transform + MeshRenderer）を
+ * ECSワールド内のすべての描画可能なエンティティ(Transform + MeshRenderer)を
  * 自動的に描画します。単色描画とテクスチャ描画の両方に対応しています。
  * 
  * ### レンダリングパイプライン:
@@ -38,7 +38,7 @@
  * 3. MeshRenderer の色・テクスチャ設定を適用
  * 4. キューブメッシュを描画
  * 
- * @par 使用例:
+ * @par 使用例
  * @code
  * RenderSystem renderer;
  * renderer.Init(gfx, texManager);
@@ -58,7 +58,7 @@ struct RenderSystem {
     Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;      ///< 頂点シェーダー
     Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;       ///< ピクセルシェーダー
     Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;   ///< 入力レイアウト
-    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_;            ///< 定数バッファ（VS用）
+    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_;            ///< 定数バッファ(VS用)
     Microsoft::WRL::ComPtr<ID3D11Buffer> vb_;            ///< 頂点バッファ
     Microsoft::WRL::ComPtr<ID3D11Buffer> ib_;            ///< インデックスバッファ
     Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterState_;  ///< ラスタライザステート
@@ -83,24 +83,29 @@ struct RenderSystem {
     struct PSConstants {
         DirectX::XMFLOAT4 color;  ///< 基本色
         float useTexture;  ///< 0=カラー, 1=テクスチャ
-        float padding[3];  ///< パディング（16バイトアライメント）
+        float padding[3];  ///< パディング(16バイトアライメント)
     };
 
     Microsoft::WRL::ComPtr<ID3D11Buffer> psCb_;  ///< PSの定数バッファ
 
     /**
      * @brief デストラクタ
+     * 
+     * @details
+     * すべてのDirectX11リソースを自動的に解放します。
      */
     ~RenderSystem() {
-        vs_.Reset();
-        ps_.Reset();
-        layout_.Reset();
-        cb_.Reset();
-        psCb_.Reset();
-        vb_.Reset();
-        ib_.Reset();
-        rasterState_.Reset();
-        samplerState_.Reset();
+        DEBUGLOG("RenderSystem::~RenderSystem() - Destructor called");
+        if (!isShutdown_) { DEBUGLOG_WARNING("RenderSystem::Shutdown() was not called explicitly. Auto-cleanup in destructor."); }
+        Shutdown();
+    }
+
+    /**
+     * @brief リソースの明示的解放
+     */
+    void Shutdown() {
+        if (isShutdown_) return; DEBUGLOG("RenderSystem::Shutdown() - Releasing resources");
+        vs_.Reset(); ps_.Reset(); layout_.Reset(); cb_.Reset(); psCb_.Reset(); vb_.Reset(); ib_.Reset(); rasterState_.Reset(); samplerState_.Reset(); isShutdown_ = true; DEBUGLOG("RenderSystem::Shutdown() completed");
     }
 
     /**
@@ -108,9 +113,14 @@ struct RenderSystem {
      * @param[in] gfx グラフィックスデバイス
      * @param[in] texMgr テクスチャマネージャー
      * @return bool 初期化が成功した場合は true
+     * 
+     * @details
+     * シェーダーのコンパイル、パイプラインステートの作成、
+     * キューブメッシュの作成を行います。
      */
     bool Init(GfxDevice& gfx, TextureManager& texMgr) {
         texManager_ = &texMgr;
+        isShutdown_ = false;
 
         // テクスチャ対応シェーダー
         const char* VS = R"(
@@ -183,7 +193,7 @@ struct RenderSystem {
             return false;
         }
 
-        // 入力レイアウト（Position + TexCoord）
+        // 入力レイアウト(Position + TexCoord)
         D3D11_INPUT_ELEMENT_DESC il[] = {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,                            D3D11_INPUT_PER_VERTEX_DATA, 0 },
             { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
@@ -231,7 +241,7 @@ struct RenderSystem {
             return false;
         }
 
-        // ジオメトリ（UV座標付きキューブ）
+        // ジオメトリ(Y座標軸付きキューブ)
         struct V { DirectX::XMFLOAT3 pos; DirectX::XMFLOAT2 tex; };
         const float c = 0.5f;
         V verts[] = {
@@ -279,6 +289,14 @@ struct RenderSystem {
      * 
      * @details
      * ワールド内のすべてのMeshRendererを持つエンティティを描画します。
+     * 
+     * ### 描画の流れ:
+     * 1. パイプラインステートを設定
+     * 2. 各エンティティに対して:
+     *    - World行列を計算
+     *    - WVP行列を定数バッファに設定
+     *    - 색とテクスチャを設定
+     *    - キューブを描画
      */
     void Render(GfxDevice& gfx, World& w, const Camera& cam) {
         gfx.Ctx()->IASetInputLayout(layout_.Get());
@@ -331,4 +349,6 @@ struct RenderSystem {
             gfx.Ctx()->DrawIndexed(indexCount_, 0, 0);
         });
     }
+
+    bool isShutdown_ = false; ///< シャットダウン済みフラグ
 };

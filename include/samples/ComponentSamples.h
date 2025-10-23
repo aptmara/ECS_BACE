@@ -1,13 +1,13 @@
-/**
+﻿/**
  * @file ComponentSamples.h
- * @brief 学習用コンポーネント集
+ * @brief サンプルコンポーネント集
  * @author 山内陽
- * @date 2024
+ * @date 2025
  * @version 4.0
- * 
+ *
  * @details
- * コピペして使える実用的なコンポーネントサンプル集です。
- * 学習方針：コードを読む → 理解する → 改造する
+ * このファイルは学習用のサンプルコンポーネントとBehaviourを定義します。
+ * ECSアーキテクチャの使い方を学ぶための実例として活用してください。
  */
 #pragma once
 
@@ -20,48 +20,71 @@
 #include <cstdlib>
 
 // ========================================================
-// カテゴリ1: データ型のコンポーネント
+// サンプル集1: データコンポーネント
 // ========================================================
 /**
- * @brief データ型のコンポーネント
- * @details 状態を保存するだけで、動作はしない
- * 使い方：他のBehaviourから参照される
+ * @brief データコンポーネント
+ * @details ゲーム内のオブジェクトに関する情報を保持するコンポーネントです。
+ * データのみを持ち、ロジックは持ちません(Behaviourとは異なります)。
  */
 
 /**
  * @struct Health
- * @brief 体力コンポーネント
- * 
+ * @brief 体力管理コンポーネント
+ *
  * @details
- * エンティティの体力を管理します。
- * ダメージや回復、死亡判定を提供します。
+ * エンティティの現在の体力と最大体力を管理します。
+ * ダメージを受けたり、回復したりする機能を提供します。
+ *
+ * @par 使用例
+ * @code
+ * Health hp;
+ * hp.current = 50.0f;
+ * hp.max = 100.0f;
+ * world.Add<Health>(entity, hp);
  * 
+ * // ダメージを受ける
+ * auto* health = world.TryGet<Health>(entity);
+ * if (health) {
+ *     health->TakeDamage(10.0f);
+ *     if (health->IsDead()) {
+ *         // 死亡処理
+ *     }
+ * }
+ * @endcode
+ *
  * @author 山内陽
  */
 struct Health : IComponent {
     float current = 100.0f;  ///< 現在の体力
     float max = 100.0f;      ///< 最大体力
-    
+
     /**
      * @brief ダメージを受ける
      * @param[in] damage ダメージ量
+     * 
+     * @details
+     * 体力を減少させます。0未満にはなりません。
      */
     void TakeDamage(float damage) {
         current -= damage;
         if (current < 0.0f) current = 0.0f;
     }
-    
+
     /**
      * @brief 回復する
      * @param[in] amount 回復量
+     * 
+     * @details
+     * 体力を増加させます。最大値を超えることはありません。
      */
     void Heal(float amount) {
         current += amount;
         if (current > max) current = max;
     }
-    
+
     /**
-     * @brief 死亡しているか
+     * @brief 死亡しているか確認
      * @return true 死亡している, false 生存している
      */
     bool IsDead() const {
@@ -71,21 +94,22 @@ struct Health : IComponent {
 
 /**
  * @struct Velocity
- * @brief 速度コンポーネント
- * 
+ * @brief 速度ベクトルコンポーネント
+ *
  * @details
- * エンティティの速度ベクトルを保持します。
- * 
+ * エンティティの移動速度を保持します。
+ * 物理演算や移動処理に使用します。
+ *
  * @author 山内陽
  */
 struct Velocity : IComponent {
     DirectX::XMFLOAT3 velocity{ 0.0f, 0.0f, 0.0f };  ///< 速度ベクトル
-    
+
     /**
      * @brief 速度を加算
-     * @param[in] x X方向の速度
-     * @param[in] y Y方向の速度
-     * @param[in] z Z方向の速度
+     * @param[in] x X軸方向の速度
+     * @param[in] y Y軸方向の速度
+     * @param[in] z Z軸方向の速度
      */
     void AddVelocity(float x, float y, float z) {
         velocity.x += x;
@@ -95,19 +119,22 @@ struct Velocity : IComponent {
 };
 
 /**
- * @brief スコアコンポーネント（マクロ版）
+ * @brief スコア管理コンポーネント
+ * 
+ * @details
+ * ゲームのスコア(得点)を保持します。
  */
 DEFINE_DATA_COMPONENT(Score,
-    int points = 0;  ///< 獲得ポイント
-    
+    int points = 0;  ///< 現在のスコア
+
     /**
      * @brief ポイントを加算
-     * @param[in] p 加算するポイント
+     * @param[in] p 加算するスコア
      */
     void AddPoints(int p) {
         points += p;
     }
-    
+
     /**
      * @brief スコアをリセット
      */
@@ -117,71 +144,85 @@ DEFINE_DATA_COMPONENT(Score,
 );
 
 /**
- * @brief 名前コンポーネント（マクロ版）
+ * @brief 名前コンポーネント
+ * 
+ * @details
+ * エンティティの名前を保持します。
+ * デバッグ表示などに使用します。
  */
 DEFINE_DATA_COMPONENT(Name,
-    const char* name = "Unnamed";  ///< エンティティ名
+    const char* name = "Unnamed";  ///< エンティティの名前
 );
 
 /**
- * @brief タグコンポーネント（データなし）
- * @details エンティティの種類を識別するためのマーカー
+ * @brief タグコンポーネント
+ * @details エンティティの種類を識別するためのマーカーです。
+ * データは持たず、エンティティが特定の種類であることを示すために使用します。
  */
 struct PlayerTag : IComponent {};  ///< プレイヤータグ
 struct EnemyTag : IComponent {};   ///< 敵タグ
-struct BulletTag : IComponent {};  ///< 弾タグ
+struct BulletTag : IComponent {};  ///< 弾丸タグ
 
 // ========================================================
-// カテゴリ2: シンプルなBehaviour（1つの機能）
+// サンプル集2: シンプルなBehaviour
 // ========================================================
 /**
  * @brief シンプルなBehaviour
- * @details 1つの明確な動作を実装
- * 学習ポイント：OnUpdateの使い方
+ * @details 1つのシンプルな動きを実装します。
+ * 学習用として、OnUpdateの書き方を学べます。
  */
 
 /**
  * @struct Bouncer
- * @brief 上下に跳ねる（バウンス）Behaviour
- * 
+ * @brief 上下に跳ねる動きを持つBehaviour
+ *
  * @details
- * sin波を使ってエンティティを上下に跳ねさせます。
- * OnStartで初期位置を記録し、OnUpdateで位置を更新します。
- * 
+ * sin関数を使って滑らかに上下へ跳ねる動きを実現します。
+ * OnStartで初期位置を記録し、OnUpdateで現在位置を更新します。
+ *
+ * @par 使用例
+ * @code
+ * Entity cube = world.Create()
+ *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+ *     .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})
+ *     .With<Bouncer>()
+ *     .Build();
+ * @endcode
+ *
  * @author 山内陽
  */
 struct Bouncer : Behaviour {
     float speed = 2.0f;      ///< 跳ねる速度
-    float amplitude = 2.0f;  ///< 振幅
-    float time = 0.0f;       ///< 経過時間（内部管理）
-    float startY = 0.0f;     ///< 開始位置（内部管理）
-    
+    float amplitude = 2.0f;  ///< 振幅(跳ねる高さ)
+    float time = 0.0f;       ///< 内部時間(触らなくてOK)
+    float startY = 0.0f;     ///< 開始時のY座標(内部使用)
+
     /**
-     * @brief 初期化処理
+     * @brief 初回起動時の処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
+     * @param[in] self このコンポーネントが付いているエンティティ
      */
     void OnStart(World& w, Entity self) override {
-        // 最初に1回だけ呼ばれる
+        // 最初の実行時に現在位置を記録
         auto* t = w.TryGet<Transform>(self);
         if (t) {
-            startY = t->position.y; // 開始位置を記録
+            startY = t->position.y; // 開始時のY座標を記録
         }
     }
-    
+
     /**
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] self このコンポーネントが付いているエンティティ
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
-        // 毎フレーム呼ばれる
+        // 毎フレーム時間を進める
         time += dt * speed;
-        
+
         auto* t = w.TryGet<Transform>(self);
         if (t) {
-            // sin波で上下に跳ねる
+            // sin関数で上下に跳ねる
             t->position.y = startY + sinf(time) * amplitude;
         }
     }
@@ -189,65 +230,65 @@ struct Bouncer : Behaviour {
 
 /**
  * @struct MoveForward
- * @brief 前に進むBehaviour
- * 
+ * @brief 前方に移動するBehaviour
+ *
  * @details
- * Z軸方向（前方）に一定速度で移動します。
- * 範囲外に出たら自動的に削除されます。
- * 
+ * Z軸に沿って前方向に移動します。画面奥へ一定速度で進みます。
+ * 一定範囲を超えたら自動的に削除されます。
+ *
  * @author 山内陽
  */
 struct MoveForward : Behaviour {
-    float speed = 2.0f; ///< 前進速度（単位/秒）
-    
+    float speed = 2.0f; ///< 移動速度(単位/秒)
+
     /**
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] self このコンポーネントが付いているエンティティ
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         auto* t = w.TryGet<Transform>(self);
         if (!t) return;
-        
-        // Z軸方向（前）に進む
+
+        // Z軸に沿って前方向に移動
         t->position.z += speed * dt;
-        
-        // 遠くに行ったら削除（オプション）
+
+        // 遠くまで行ったら自動削除(メモリリーク防止) - 原因付き
         if (t->position.z > 20.0f) {
-            w.DestroyEntity(self);
+            w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
     }
 };
 
 /**
  * @struct PulseScale
- * @brief 拡大縮小（パルス）Behaviour
- * 
+ * @brief 大きさが脈打つように変化するBehaviour
+ *
  * @details
- * sin波を使ってエンティティのスケールを周期的に変化させます。
- * 
+ * sin関数を使ってエンティティのスケールを周期的に変化させ、脈打つような視覚効果を実現します。
+ *
  * @author 山内陽
  */
 struct PulseScale : Behaviour {
-    float speed = 3.0f;           ///< パルス速度
+    float speed = 3.0f;           ///< 脈打つ速度
     float minScale = 0.5f;        ///< 最小スケール
     float maxScale = 1.5f;        ///< 最大スケール
-    float time = 0.0f;            ///< 経過時間（内部管理）
-    
+    float time = 0.0f;            ///< 内部時間(触らなくてOK)
+
     /**
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] self このコンポーネントが付いているエンティティ
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         time += dt * speed;
-        
+
         auto* t = w.TryGet<Transform>(self);
         if (!t) return;
-        
-        // sin波でスケールを変化
+
+        // sin関数でスケールを周期変化
         float scale = minScale + (maxScale - minScale) * (sinf(time) * 0.5f + 0.5f);
         t->scale = DirectX::XMFLOAT3{ scale, scale, scale };
     }
@@ -255,41 +296,41 @@ struct PulseScale : Behaviour {
 
 /**
  * @struct ColorCycle
- * @brief 色を変化（サイクル）Behaviour
- * 
+ * @brief 色を周期的に変化させるBehaviour
+ *
  * @details
- * 時間経過で色相を変化させ、虹色にサイクルします。
- * 
+ * 時間経過に応じて色相を周期的に変化させ、虹色にサイクルします。
+ *
  * @author 山内陽
  */
 struct ColorCycle : Behaviour {
-    float speed = 1.0f;  ///< 色変化の速度
-    float time = 0.0f;   ///< 経過時間（内部管理）
-    
+    float speed = 1.0f;  ///< 色相変化の速度
+    float time = 0.0f;   ///< 内部時間(触らなくてOK)
+
     /**
      * @brief デフォルトコンストラクタ
      */
     ColorCycle() = default;
-    
+
     /**
      * @brief コンストラクタ
-     * @param[in] s 色変化の速度
+     * @param[in] s 色相変化の速度
      */
     ColorCycle(float s) : speed(s) {}
-    
+
     /**
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] self このコンポーネントが付いているエンティティ
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         time += dt * speed;
-        
+
         auto* mr = w.TryGet<MeshRenderer>(self);
         if (!mr) return;
-        
-        // HSV風に色を変化（虹色）
+
+        // HSV色空間で色相を周期変化(簡易版)
         float hue = fmodf(time, 1.0f);
         mr->color.x = sinf(hue * DirectX::XM_2PI) * 0.5f + 0.5f;
         mr->color.y = sinf((hue + 0.333f) * DirectX::XM_2PI) * 0.5f + 0.5f;
@@ -298,37 +339,37 @@ struct ColorCycle : Behaviour {
 };
 
 // ========================================================
-// カテゴリ3: 複雑なBehaviour（複数の機能）
+// サンプル集3: 複雑なBehaviour(組み合わせの例)
 // ========================================================
 /**
  * @brief 複雑なBehaviour
- * @details 複数のコンポーネントを組み合わせる
- * 学習ポイント：コンポーネント間の連携
+ * @details 複雑なゲームロジックを持つコンポーネントの実装例です。
+ * 学習用として、コンポーネント間の連携方法を学べます。
  */
 
 /**
  * @struct DestroyOnDeath
- * @brief 体力が0になったら削除するBehaviour
- * 
+ * @brief 体力が0になったら自動削除するBehaviour
+ *
  * @details
  * Healthコンポーネントを監視し、体力が0以下になったら
- * エンティティを削除します。
- * 
+ * エンティティを自動削除します。
+ *
  * @author 山内陽
  */
 struct DestroyOnDeath : Behaviour {
     /**
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] self このコンポーネントが付いているエンティティ
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
-        // Healthコンポーネントを確認
+        // Healthコンポーネントを取得
         auto* health = w.TryGet<Health>(self);
         if (!health) return;
-        
-        // 体力が0以下なら削除
+
+        // 体力が0以下なら自動削除
         if (health->IsDead()) {
             w.DestroyEntity(self);
         }
@@ -337,57 +378,57 @@ struct DestroyOnDeath : Behaviour {
 
 /**
  * @struct RandomWalk
- * @brief ランダムに動き回るBehaviour
- * 
+ * @brief ランダムに歩き回るBehaviour
+ *
  * @details
- * 一定時間ごとにランダムな方向を選び、その方向に移動します。
- * 範囲外に出ないように制限されます。
- * 
+ * 一定時間ごとにランダムな方向を選び、その方向へ移動します。
+ * 一定範囲内に位置を制限します。
+ *
  * @author 山内陽
  */
 struct RandomWalk : Behaviour {
     float speed = 2.0f;             ///< 移動速度
-    float changeInterval = 2.0f;    ///< 方向転換の間隔（秒）
-    float timer = 0.0f;             ///< タイマー（内部管理）
+    float changeInterval = 2.0f;    ///< 方向変更の間隔(秒)
+    float timer = 0.0f;             ///< タイマー(内部使用)
     DirectX::XMFLOAT3 direction{ 1.0f, 0.0f, 0.0f }; ///< 現在の方向
-    
+
     /**
-     * @brief 初期化処理
+     * @brief 初回起動時の処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
+     * @param[in] self このコンポーネントが付いているエンティティ
      */
     void OnStart(World& w, Entity self) override {
-        // 最初にランダムな方向を選ぶ
+        // 最初の実行時にランダムな方向を選択
         ChooseRandomDirection();
     }
-    
+
     /**
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] self このコンポーネントが付いているエンティティ
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         timer += dt;
-        
-        // 一定時間ごとに方向転換
+
+        // 一定時間ごとに方向変更
         if (timer >= changeInterval) {
             timer = 0.0f;
             ChooseRandomDirection();
         }
-        
+
         // 移動
         auto* t = w.TryGet<Transform>(self);
         if (!t) return;
-        
+
         t->position.x += direction.x * speed * dt;
         t->position.y += direction.y * speed * dt;
         t->position.z += direction.z * speed * dt;
-        
-        // 範囲外に出たら戻す
+
+        // 一定範囲内に制限
         ClampPosition(t);
     }
-    
+
 private:
     /**
      * @brief ランダムな方向を選択
@@ -397,10 +438,10 @@ private:
         direction.x = (static_cast<float>(rand()) / RAND_MAX) * 2.0f - 1.0f;
         direction.y = (static_cast<float>(rand()) / RAND_MAX) * 2.0f - 1.0f;
         direction.z = (static_cast<float>(rand()) / RAND_MAX) * 2.0f - 1.0f;
-        
-        // 正規化（長さを1に）
-        float length = sqrtf(direction.x * direction.x + 
-                           direction.y * direction.y + 
+
+        // 正規化(長さを1にする)
+        float length = sqrtf(direction.x * direction.x +
+                           direction.y * direction.y +
                            direction.z * direction.z);
         if (length > 0.0f) {
             direction.x /= length;
@@ -408,9 +449,9 @@ private:
             direction.z /= length;
         }
     }
-    
+
     /**
-     * @brief 位置を範囲内に制限
+     * @brief 現在位置を一定範囲内に制限
      * @param[in,out] t Transform参照
      */
     void ClampPosition(Transform* t) {
@@ -426,59 +467,62 @@ private:
 
 /**
  * @struct LifeTime
- * @brief 時間経過で削除するBehaviour
- * 
+ * @brief 一定時間経過後に自動削除するBehaviour
+ *
  * @details
- * 指定された時間が経過したらエンティティを削除します。
- * 一時的なエフェクトなどに使用します。
- * 
+ * 指定した時間が経過したらエンティティを自動削除します。
+ * 一時的なエフェクトや弾丸などに使用します。
+ *
  * @author 山内陽
  */
 struct LifeTime : Behaviour {
-    float remainingTime = 5.0f; ///< 残り時間（秒）
-    
+    float remainingTime = 5.0f; ///< 残り寿命(秒)
+
     /**
      * @brief 毎フレーム更新処理
      * @param[in,out] w ワールド参照
-     * @param[in] self 自身のエンティティ
-     * @param[in] dt デルタタイム（秒）
+     * @param[in] self このコンポーネントが付いているエンティティ
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         remainingTime -= dt;
-        
-        // 時間切れで削除
+
+        // 寿命が尽きたら削除（原因付き）
         if (remainingTime <= 0.0f) {
-            w.DestroyEntity(self);
+            w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
     }
 };
 
 // ========================================================
-// カテゴリ4: マクロを使った簡潔な定義
+// サンプル集4: マクロを使った簡潔な定義
 // ========================================================
 /**
  * @brief マクロを使った簡潔な定義
- * @details DEFINE_BEHAVIOURマクロで短く書ける
- * 学習ポイント：ボイラープレートの削減
+ * @details DEFINE_BEHAVIOURマクロを使って簡潔に定義できます。
+ * 学習用として、コード量を減らす方法を学べます。
  */
 
 /**
- * @brief 回転しながら色を変える（マクロ版）
+ * @brief 回転しながら色を変化させるBehaviour
+ * 
+ * @details
+ * 回転とカラーサイクルを組み合わせた複合Behaviourです。
  */
 DEFINE_BEHAVIOUR(SpinAndColor,
     float rotSpeed = 90.0f;    ///< 回転速度
-    float colorSpeed = 1.0f;   ///< 色変化速度
-    float time = 0.0f;         ///< 経過時間
+    float colorSpeed = 1.0f;   ///< 色相変化速度
+    float time = 0.0f;         ///< 内部時間
 ,
     time += dt * colorSpeed;
-    
+
     // 回転
     auto* t = w.TryGet<Transform>(self);
     if (t) {
         t->rotation.y += rotSpeed * dt;
     }
-    
-    // 色変化
+
+    // 色相変化
     auto* mr = w.TryGet<MeshRenderer>(self);
     if (mr) {
         float hue = fmodf(time, 1.0f);
@@ -489,16 +533,19 @@ DEFINE_BEHAVIOUR(SpinAndColor,
 );
 
 /**
- * @brief 円運動を行う（マクロ版）
+ * @brief 円を描いて移動するBehaviour
+ * 
+ * @details
+ * 円軌道を描きながら移動します。
  */
 DEFINE_BEHAVIOUR(CircularMotion,
-    float radius = 3.0f;   ///< 円の半径
+    float radius = 3.0f;   ///< 円軌道の半径
     float speed = 1.0f;    ///< 回転速度
     float angle = 0.0f;    ///< 現在の角度
     float centerY = 0.0f;  ///< 中心のY座標
 ,
     angle += speed * dt;
-    
+
     auto* t = w.TryGet<Transform>(self);
     if (t) {
         t->position.x = cosf(angle) * radius;
@@ -508,49 +555,6 @@ DEFINE_BEHAVIOUR(CircularMotion,
 );
 
 // ========================================================
-// 使い方の例
-// ========================================================
-/*
-
-// 例1: 上下に跳ねる赤いキューブ
-Entity cube = world.Create()
-    .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-    .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
-    .With<Bouncer>()
-    .Build();
-
-// 例2: 5秒後に消えるキューブ
-Entity temp = world.Create()
-    .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-    .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})
-    .Build();
-
-LifeTime lt;
-lt.remainingTime = 5.0f;
-world.Add<LifeTime>(temp, lt);
-
-// 例3: 体力システム付きキューブ
-Entity enemy = world.Create()
-    .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-    .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
-    .With<EnemyTag>()
-    .Build();
-
-Health hp;
-hp.current = 50.0f;
-hp.max = 50.0f;
-world.Add<Health>(enemy, hp);
-world.Add<DestroyOnDeath>(enemy, DestroyOnDeath{});
-
-// ダメージを与える
-auto* health = world.TryGet<Health>(enemy);
-if (health) {
-    health->TakeDamage(10.0f);
-}
-
-*/
-
-// ========================================================
 // 作成者: 山内陽
-// バージョン: v4.0 - 学習用コンポーネント集
+// バージョン: v4.0 - サンプルコンポーネント集
 // ========================================================

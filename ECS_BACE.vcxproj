@@ -143,9 +143,10 @@
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AllComponents.h" />
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\App.h" />
+    <ClInclude Include="include\app\DebugLog.h" />
+    <ClInclude Include="include\ecs\World.h" />
     <ClInclude Include="include\graphics\Camera.h" />
     <ClInclude Include="include\components\Component.h" />
     <ClInclude Include="include\pch.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="include\graphics\GfxDevice.h" />
     <ClInclude Include="include\input\InputSystem.h" />
     <ClInclude Include="include\components\MeshRenderer.h" />
+    <ClInclude Include="include\samples\WorldImprovementDemo.h" />
     <ClInclude Include="include\scenes\MiniGame.h" />
     <ClInclude Include="include\graphics\RenderSystem.h" />
     <ClInclude Include="include\components\Rotator.h" />
@@ -163,15 +165,16 @@
     <ClInclude Include="include\graphics\TextureManager.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\graphics\VideoPlayer.h" />
-    <ClInclude Include="include\ecs\World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Textures\test.png" />
-    <None Include="Assets\Videos\video.mp4" />
     <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
     <None Include="docs\HEADER_INCLUDES.md" />
     <None Include="docs\PCH_SETUP.md" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="x64\Debug\debug_log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
