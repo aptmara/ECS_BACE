@@ -194,35 +194,49 @@ public:
      */
     void Shutdown() {
         if (isShutdown_) return; // 冪等性
-        DEBUGLOG("GfxDevice::Shutdown() - リソースを解放中");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "GfxDevice::Shutdown() - リソースを解放中");
         
         if (dsv_) {
-            DEBUGLOG("深度ステンシルビューを解放");
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "深度ステンシルビューを解放");
             dsv_.Reset();
         }
         
         if (rtv_) {
-            DEBUGLOG("レンダーターゲットビューを解放");
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "レンダーターゲットビューを解放");
             rtv_.Reset();
         }
         
         if (swap_) {
-            DEBUGLOG("スワップチェインを解放");
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "スワップチェインを解放");
             swap_.Reset();
         }
         
         if (context_) {
-            DEBUGLOG("デバイスコンテキストを解放");
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "デバイスコンテキストを解放");
             context_.Reset();
         }
         
+#ifdef _DEBUG
+        // デバッグビルドでD3D11のリークレポートを出力
         if (device_) {
-            DEBUGLOG("デバイスを解放");
+            Microsoft::WRL::ComPtr<ID3D11Debug> debug;
+            if (SUCCEEDED(device_.As(&debug))) {
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "D3D11デバッグレイヤー: リークレポート開始");
+                debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "D3D11デバッグレイヤー: リークレポート完了 (Visual Studioの出力ウィンドウを確認)");
+            } else {
+                DEBUGLOG_WARNING("D3D11デバッグレイヤーが利用できません (デバッグフラグで作成されていない可能性)");
+            }
+        }
+#endif
+        
+        if (device_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "デバイスを解放");
             device_.Reset();
         }
         
         isShutdown_ = true;
-        DEBUGLOG("GfxDevice::Shutdown() 完了");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "GfxDevice::Shutdown() 完了");
     }
 
     /**

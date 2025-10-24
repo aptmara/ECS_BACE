@@ -241,49 +241,53 @@ private:
      * @details 正しい順序でリソースを解放します
      */
     void Shutdown() {
-        DEBUGLOG("App::Shutdown() - クリーンアップ開始");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "App::Shutdown() - クリーンアップ開始");
         
         // Phase 1: シーンマネージャーの終了（シーンのOnExitを呼び出し）
-        DEBUGLOG("Phase 1: SceneManagerのシャットダウン");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 1: SceneManagerのシャットダウン");
         sceneManager_.Shutdown(world_);
         gameScene_ = nullptr;  // SceneManagerが所有しているのでnullptrに設定するだけ
         
         // Phase 2: WorldのDestroyキュー/Spawnキューを明示的にフラッシュ
-        DEBUGLOG("Phase 2: Worldキューをフラッシュ (エンティティ数: " + std::to_string(world_.GetAliveCount()) + ")");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 2: Worldキューをフラッシュ (エンティティ数: " + std::to_string(world_.GetAliveCount()) + ")");
         world_.FlushDestroyEndOfFrame();
         world_.FlushSpawnStartOfFrame(); // 念のため
         
         // Phase 3: World破棄前に残存エンティティを警告
-        DEBUGLOG("Phase 3: World破棄前の残存エンティティチェック");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 3: World破棄前の残存エンティティチェック");
         if (world_.GetAliveCount() > 0) {
             DEBUGLOG_WARNING("World破棄前に " + std::to_string(world_.GetAliveCount()) + " 個の生存エンティティが残っています");
         } else {
-            DEBUGLOG("Phase 3: すべてのエンティティが正常に破棄されました");
+            DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 3: すべてのエンティティが正常に破棄されました");
         }
         
 #ifdef _DEBUG
         // Phase 4: デバッグ描画解放
-        DEBUGLOG("Phase 4: DebugDrawを解放");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 4: DebugDrawを解放");
         debugDraw_.Shutdown();
 #endif
         
         // Phase 5: レンダリングシステム解放
-        DEBUGLOG("Phase 5: RenderSystemを解放");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 5: RenderSystemを解放");
         renderer_.Shutdown();
         
         // Phase 6: テクスチャマネージャー解放
-        DEBUGLOG("Phase 6: TextureManagerを解放");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 6: TextureManagerを解放");
         texManager_.Shutdown();
         
-        // Phase 7: グラフィックスデバイス解放
-        DEBUGLOG("Phase 7: GfxDeviceを解放");
+        // Phase 7: 入力システム解放
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 7: InputSystemを解放");
+        input_.Shutdown();
+        
+        // Phase 8: グラフィックスデバイス解放
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 8: GfxDeviceを解放");
         gfx_.Shutdown();
         
-        // Phase 8: COM終了（最後）
-        DEBUGLOG("Phase 8: COMを終了");
+        // Phase 9: COM終了（最後）
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 9: COMを終了");
         CoUninitialize();
         
-        DEBUGLOG("App::Shutdown() 正常に完了");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "App::Shutdown() 正常に完了");
     }
 
     // ========================================================

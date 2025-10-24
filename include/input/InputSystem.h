@@ -70,12 +70,33 @@ public:
      * すべての入力状態をリセットし初期状態にします。
      */
     void Init() {
+#ifdef _DEBUG
+        DEBUGLOG_CATEGORY(DebugLog::Category::Input, "InputSystem::Init() - 初期化開始");
+#endif
         memset(keyStates_, 0, sizeof(keyStates_));
         memset(prevKeyStates_, 0, sizeof(prevKeyStates_));
         mouseX_ = mouseY_ = 0;
         mouseDeltaX_ = mouseDeltaY_ = 0;
         mouseWheel_ = 0;
         mouseWheelAccum_ = 0;
+#ifdef _DEBUG
+        DEBUGLOG_CATEGORY(DebugLog::Category::Input, "InputSystem::Init() - 初期化完了");
+#endif
+    }
+
+    /**
+     * @brief シャットダウン
+     * 
+     * @details
+     * 入力システムをシャットダウンします。
+     */
+    void Shutdown() {
+#ifdef _DEBUG
+        DEBUGLOG_CATEGORY(DebugLog::Category::Input, "InputSystem::Shutdown() - シャットダウン中");
+        memset(keyStates_, 0, sizeof(keyStates_));
+        memset(prevKeyStates_, 0, sizeof(prevKeyStates_));
+        DEBUGLOG_CATEGORY(DebugLog::Category::Input, "InputSystem::Shutdown() - 完了");
+#endif
     }
 
     /**

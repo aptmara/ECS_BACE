@@ -181,7 +181,10 @@ public:
         WaveTimer = 2, 
         Collision = 3, 
         LifetimeExpired = 4, 
-        SceneInit = 5 
+        SceneInit = 5,
+        SceneTeardown = 6,   // シーン終了時
+        SceneUnload = 7,     // シーン切り替え時
+        AppShutdown = 8      // アプリケーション終了時
     };
 
     static const char* CauseToString(Cause c) {
@@ -191,6 +194,9 @@ public:
         case Cause::Collision: return "Collision";
         case Cause::LifetimeExpired: return "LifetimeExpired";
         case Cause::SceneInit: return "SceneInit";
+        case Cause::SceneTeardown: return "SceneTeardown";
+        case Cause::SceneUnload: return "SceneUnload";
+        case Cause::AppShutdown: return "AppShutdown";
         default: return "Unknown";
         }
     }
