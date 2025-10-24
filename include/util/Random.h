@@ -1,18 +1,17 @@
-/**
+ï»¿/**
  * @file Random.h
- * @brief ‚•i¿‚È—”‚ğŠÈ’P‚Ég‚¤‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒB
- * @author R“à—z
- * @date 2025
- * @version 1.0
+ * @brief é«˜å“è³ªãªä¹±æ•°ã‚’ç°¡å˜ã«ä½¿ã†ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+ * @author å±±å†…é™½
+ã‚ * @version 1.0
  *
  * @details
- * C‚Ì rand()/srand() ‚Ì‘ã‚í‚è‚ÉAC++‚Ì <random> ‚ğg‚Á‚½‚•i¿‚È—”¶¬‚ğ’ñ‹Ÿ‚µ‚Ü‚·B
- * g‚¢•û‚ÍƒVƒ“ƒvƒ‹‚ÅA`Random::Float(min, max)` ‚â `Random::Int(min, max)` ‚ğŒÄ‚Ô‚¾‚¯‚Å‚·B
- * •K—v‚É‰‚¶‚Ä `Random::Seed(seed)` ‚ÅƒV[ƒhŒÅ’è‚à‰Â”\‚Å‚·iƒŠƒvƒŒƒCÄŒ»‚È‚Ç‚É•Ö—˜jB
+ * Cã® rand()/srand() ã®ä»£ã‚ã‚Šã«ã€C++ã® <random> ã‚’ä½¿ã£ãŸé«˜å“è³ªãªä¹±æ•°ç”Ÿæˆã‚’æä¾›ã—ã¾ã™ã€‚
+ * ä½¿ã„æ–¹ã¯ã‚·ãƒ³ãƒ—ãƒ«ã§ã€`Random::Float(min, max)` ã‚„ `Random::Int(min, max)` ã‚’å‘¼ã¶ã ã‘ã§ã™ã€‚
+ * å¿…è¦ã«å¿œã˜ã¦ `Random::Seed(seed)` ã§ã‚·ãƒ¼ãƒ‰å›ºå®šã‚‚å¯èƒ½ã§ã™ï¼ˆãƒªãƒ—ãƒ¬ã‚¤å†ç¾ãªã©ã«ä¾¿åˆ©ï¼‰ã€‚
  *
- * - ƒXƒŒƒbƒhƒ[ƒJƒ‹‚È `std::mt19937` ‚ğ“à•”‚Åg—p
- * - ’Ç‰ÁƒRƒXƒg‚È‚µ‚ÅˆÀ‘S‚É•¡”‰ÓŠ‚©‚ç—˜—p‰Â”\
- * - C++14‘Î‰iƒwƒbƒ_ƒIƒ“ƒŠ[j
+ * - ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ­ãƒ¼ã‚«ãƒ«ãª `std::mt19937` ã‚’å†…éƒ¨ã§ä½¿ç”¨
+ * - è¿½åŠ ã‚³ã‚¹ãƒˆãªã—ã§å®‰å…¨ã«è¤‡æ•°ç®‡æ‰€ã‹ã‚‰åˆ©ç”¨å¯èƒ½
+ * - C++14å¯¾å¿œï¼ˆãƒ˜ãƒƒãƒ€ã‚ªãƒ³ãƒªãƒ¼ï¼‰
  */
 #pragma once
 
@@ -22,38 +21,42 @@
 #include <chrono>
 #include <cmath>
 #include <DirectXMath.h>
+#include <string>
+
+#include "util/Random.h"
 
 namespace util {
 
 class Random {
 public:
-    // ”CˆÓ‚ÌŒÅ’èƒV[ƒh‚Å‰Šú‰»iŒ»İ‚ÌƒXƒŒƒbƒh‚ÌƒGƒ“ƒWƒ“‚ğÄƒV[ƒhj
+    // ä»»æ„ã®å›ºå®šã‚·ãƒ¼ãƒ‰ã§åˆæœŸåŒ–ï¼ˆç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚¨ãƒ³ã‚¸ãƒ³ã‚’å†ã‚·ãƒ¼ãƒ‰ï¼‰
     static void Seed(uint32_t seed) {
         Engine() .seed(seed);
+		DEBUGLOG_CATEGORY(DebugLog::Category::System, "Randomã®ã‚·ãƒ¼ãƒ‰è¨­å®šï¼š " + std::to_string(seed));
     }
 
-    // Œ»İ‚ÅƒV[ƒhiŠÈˆÕj
+    // ç¾åœ¨æ™‚åˆ»ã§ã‚·ãƒ¼ãƒ‰ï¼ˆç°¡æ˜“ï¼‰
     static void SeedTime() {
         uint32_t seed = static_cast<uint32_t>(
             std::chrono::high_resolution_clock::now().time_since_epoch().count() & 0xFFFFFFFFULL);
         Seed(seed);
     }
 
-    // [min, max] ‚ÌÀ”ˆê—l—”i•Â‹æŠÔj
+    // [min, max] ã®å®Ÿæ•°ä¸€æ§˜ä¹±æ•°ï¼ˆé–‰åŒºé–“ï¼‰
     static float Float(float minInclusive, float maxInclusive) {
         if (minInclusive > maxInclusive) std::swap(minInclusive, maxInclusive);
         std::uniform_real_distribution<float> dist(minInclusive, nextUp(maxInclusive));
         return dist(Engine());
     }
 
-    // [min, max] ‚Ì®”ˆê—l—”i•Â‹æŠÔj
+    // [min, max] ã®æ•´æ•°ä¸€æ§˜ä¹±æ•°ï¼ˆé–‰åŒºé–“ï¼‰
     static int Int(int minInclusive, int maxInclusive) {
         if (minInclusive > maxInclusive) std::swap(minInclusive, maxInclusive);
         std::uniform_int_distribution<int> dist(minInclusive, maxInclusive);
         return dist(Engine());
     }
 
-    // true ‚ğ•Ô‚·Šm—¦ pi0..1j
+    // true ã‚’è¿”ã™ç¢ºç‡ pï¼ˆ0..1ï¼‰
     static bool Bool(float p = 0.5f) {
         if (p <= 0.0f) return false;
         if (p >= 1.0f) return true;
@@ -61,36 +64,36 @@ public:
         return dist(Engine());
     }
 
-    // ³‹K•ª•z N(mean, stddev)
+    // æ­£è¦åˆ†å¸ƒ N(mean, stddev)
     static float Normal(float mean = 0.0f, float stddev = 1.0f) {
         if (stddev <= 0.0f) return mean;
         std::normal_distribution<float> dist(mean, stddev);
         return dist(Engine());
     }
 
-    // [0,1] ‚Ì–¾‚é‚ßƒJƒ‰[i0.33`1.0j
+    // [0,1] ã®æ˜ã‚‹ã‚ã‚«ãƒ©ãƒ¼ï¼ˆ0.33ï½1.0ï¼‰
     static DirectX::XMFLOAT3 ColorBright() {
         return DirectX::XMFLOAT3{ Float(0.33f, 1.0f), Float(0.33f, 1.0f), Float(0.33f, 1.0f) };
     }
 
-    // [min,max] ‚ÌƒJƒ‰[
+    // [min,max] ã®ã‚«ãƒ©ãƒ¼
     static DirectX::XMFLOAT3 Color(float minInclusive = 0.0f, float maxInclusive = 1.0f) {
         return DirectX::XMFLOAT3{ Float(minInclusive, maxInclusive),
                                    Float(minInclusive, maxInclusive),
                                    Float(minInclusive, maxInclusive) };
     }
 
-    // ˆê—l‚È’PˆÊƒxƒNƒgƒ‹i‹ß—j
+    // ä¸€æ§˜ãªå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ï¼ˆè¿‘ä¼¼ï¼‰
     static DirectX::XMFLOAT3 UnitVec3() {
-        // ‹…–Êˆê—l•ª•ziŠp“x‚©‚ç¶¬j
+        // çƒé¢ä¸€æ§˜åˆ†å¸ƒï¼ˆè§’åº¦ã‹ã‚‰ç”Ÿæˆï¼‰
         const float z = Float(-1.0f, 1.0f);
-        const float t = Float(0.0f, 6.28318530718f); // 2ƒÎ
+        const float t = Float(0.0f, 6.28318530718f); // 2Ï€
         const float r = std::sqrt(std::max(0.0f, 1.0f - z * z));
         return DirectX::XMFLOAT3{ r * std::cos(t), r * std::sin(t), z };
     }
 
 private:
-    // ƒXƒŒƒbƒhƒ[ƒJƒ‹‚ÈƒGƒ“ƒWƒ“iÅ‰‚Ìg—p‚Éƒ‰ƒ“ƒ_ƒ€ƒfƒoƒCƒX‚Å‰Šú‰»j
+    // ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ­ãƒ¼ã‚«ãƒ«ãªã‚¨ãƒ³ã‚¸ãƒ³ï¼ˆæœ€åˆã®ä½¿ç”¨æ™‚ã«ãƒ©ãƒ³ãƒ€ãƒ ãƒ‡ãƒã‚¤ã‚¹ã§åˆæœŸåŒ–ï¼‰
     static std::mt19937& Engine() {
         thread_local std::mt19937 rng(seedFromDevice());
         return rng;
@@ -98,14 +101,14 @@ private:
 
     static uint32_t seedFromDevice() {
         std::random_device rd;
-        // ˆê•”ŠÂ‹«‚Å rd() ‚ª’á•i¿‚Èê‡‚à‚ ‚é‚½‚ßA•¡”‰ñ¬‡
+        // ä¸€éƒ¨ç’°å¢ƒã§ rd() ãŒä½å“è³ªãªå ´åˆã‚‚ã‚ã‚‹ã‚‰ã—ã„ãŸã‚ã€è¤‡æ•°å›æ··åˆ
         uint32_t s = rd();
         s ^= (rd() << 1);
         s ^= (rd() << 2);
         return s;
     }
 
-    // ã•ûŒü‚Ì—×Ú•‚“®¬”i•Â‹æŠÔ‚ğÀŒ»‚·‚é‚½‚ß‚Ì”÷¬ƒIƒtƒZƒbƒgj
+    // ä¸Šæ–¹å‘ã®éš£æ¥æµ®å‹•å°æ•°ï¼ˆé–‰åŒºé–“ã‚’å®Ÿç¾ã™ã‚‹ãŸã‚ã®å¾®å°ã‚ªãƒ•ã‚»ãƒƒãƒˆï¼‰
     static float nextUp(float x) {
         if (std::isinf(x) && x > 0) return x;
         if (std::isnan(x)) return x;
