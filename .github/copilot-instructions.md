@@ -1,27 +1,27 @@
-# GitHub Copilot カスタム指示 - HEW_ECS プロジェクト
+````markdown
+# GitHub Copilot カスタム指示 - HEW_GAME プロジェクト
 
-このファイルは、GitHub Copilotがこのプロジェクト（HEW_ECS）のコードを生成・修正する際に従うべきルールと規約を定義します。
-
----
-
-## ?? プロジェクト概要
-
-**プロジェクト名**: HEW_ECS (ECS_BACE)  
-**目的**: Entity Component System (ECS) を活用したチームゲーム開発  
-**言語**: C++14（厳守）  
-**プラットフォーム**: Windows (DirectX 11)  
-**アーキテクチャ**: Entity Component System (ECS)  
-**開発スタイル**: チーム開発（Git/GitHub使用）
+このファイルは、GitHub Copilot が本プロジェクト（**HEW_GAME**）でコードを生成・修正する際に従うべき **技術規約・運用フロー** を定義します。  
+**大規模変更前には必ず「プロジェクト読込 → 計画立案 → レビュー承認」を経ること。**
 
 ---
 
-## ?? 重要な制約事項
+## プロジェクト概要
 
-### 1. C++標準とバージョン
+- **プロジェクト名**: HEW_GAME
+- **目的**: Entity Component System (ECS) を活用したチームゲーム開発
+- **言語**: C++14（厳守）
+- **プラットフォーム**: Windows / DirectX 11
+- **アーキテクチャ**: Entity Component System
+- **開発スタイル**: Git/GitHub（Draft PR + 承認ゲート運用）
 
-#### ? 使用可能（C++14）
+---
+
+## 重要な制約事項（C++ 標準）
+
+### 使用可能（C++14）
 ```cpp
-// auto型推論
+// auto 型推論
 auto entity = world.CreateEntity();
 
 // ラムダ式
@@ -33,148 +33,97 @@ world.ForEach<Transform>([](Entity e, Transform& t) {
 std::unique_ptr<Component> component;
 std::shared_ptr<Resource> resource;
 
-// 範囲for
+// 範囲 for
 for (const auto& entity : entities) { }
 
 // 初期化リスト
 DirectX::XMFLOAT3 position{0.0f, 0.0f, 0.0f};
-```
+````
 
-#### ? 使用禁止（C++17以降）
+### 使用禁止（C++17 以降）
+
 ```cpp
 // std::optional（C++17）
 std::optional<Transform> GetTransform(Entity e);  // NG
 
 // if constexpr（C++17）
-if constexpr (std::is_same_v<T, Transform>) { }  // NG
+if constexpr (std::is_same_v<T, Transform>) { }   // NG
 
 // std::filesystem（C++17）
-std::filesystem::path filePath;  // NG
+std::filesystem::path filePath;                   // NG
 
 // 構造化束縛（C++17）
-auto [x, y, z] = GetPosition();  // NG
+auto [x, y, z] = GetPosition();                   // NG
 
 // インライン変数（C++17）
-inline constexpr int MAX_ENTITIES = 1000;  // NG
+inline constexpr int MAX_ENTITIES = 1000;         // NG
 ```
 
-**対処法**: C++14互換の代替手段を使用
+**対処方針（C++14 互換）**
+
 ```cpp
-// ポインタで代用
-Transform* GetTransform(Entity e) {
-    return world.TryGet<Transform>(e);
-}
+// 可空はポインタで代替（所有権はWorld）
+Transform* GetTransform(Entity e) { return world.TryGet<Transform>(e); }
 
-// テンプレート特殊化で代用
-template<typename T>
-void Process(T& component);
+// 型分岐はテンプレート特殊化
+template<typename T> void Process(T& component);
 
-// 従来のファイルシステムAPI
+// 旧来のWin32 API or boost::filesystem（利用可なら）を使用
 #include <windows.h>
-// または boost::filesystem（利用可能な場合）
 ```
 
 ---
 
-## ??? ECSアーキテクチャの原則
+## ECS アーキテクチャの原則
 
-### Entity（エンティティ）
-
-**役割**: 一意なID（識別子）のみを持つ
+### Entity（識別子のみ）
 
 ```cpp
 struct Entity {
     uint32_t id;   // エンティティID
-    uint32_t gen;  // 世代番号（削除管理用）
+    uint32_t gen;  // 世代番号（削除/再利用管理）
 };
 ```
 
-**禁止事項**:
+**禁止**: Entity にロジックや状態を持たせない。
+
+### Component（2 種類）
+
+1. **データコンポーネント（IComponent 継承）**: データ保持＋軽いヘルパのみ
+
 ```cpp
-// ? NG: Entityにメソッドやデータを追加しない
-struct Entity {
-    uint32_t id;
-    void Move(float x, float y);  // NG
-    float health;                 // NG
-};
-```
-
-### Component（コンポーネント）
-
-**2種類のコンポーネント**:
-
-#### 1. データコンポーネント（IComponent継承）
-```cpp
-// ? 正しい: データのみ保持
 struct Health : IComponent {
     float current = 100.0f;
     float max = 100.0f;
-    
-    // ヘルパー関数はOK
+
     void TakeDamage(float dmg) {
         current -= dmg;
         if (current < 0.0f) current = 0.0f;
     }
-    
-    bool IsDead() const {
-        return current <= 0.0f;
-    }
-};
-
-// ? 間違い: IComponentを継承していない
-struct Health {  // NG
-    float current = 100.0f;
+    bool IsDead() const { return current <= 0.0f; }
 };
 ```
 
-#### 2. Behaviourコンポーネント（Behaviour継承）
+2. **Behaviour コンポーネント（Behaviour 継承）**: 毎フレーム更新されるロジック
+
 ```cpp
-// ? 正しい: 毎フレーム更新されるロジック
 struct Rotator : Behaviour {
     float speedDegY = 45.0f;
-    
-    void OnStart(World& w, Entity self) override {
-        // 初回起動時に1度だけ実行（オプション）
-    }
-    
     void OnUpdate(World& w, Entity self, float dt) override {
         auto* t = w.TryGet<Transform>(self);
-        if (t) {
-            t->rotation.y += speedDegY * dt;
-        }
-    }
-};
-
-// ? 間違い: Behaviourを継承していない
-struct Rotator {  // NG
-    void Update() { }
-};
-```
-
-### System（システム）
-
-**2つの実装パターン**:
-
-#### パターン1: Behaviourパターン（推奨）
-```cpp
-struct PlayerController : Behaviour {
-    InputSystem* input_ = nullptr;
-    float speed = 5.0f;
-    
-    void OnUpdate(World& w, Entity self, float dt) override {
-        auto* t = w.TryGet<Transform>(self);
-        if (!t || !input_) return;
-        
-        if (input_->GetKey('W')) t->position.z += speed * dt;
-        if (input_->GetKey('S')) t->position.z -= speed * dt;
+        if (t) t->rotation.y += speedDegY * dt;
     }
 };
 ```
 
-#### パターン2: ForEachパターン
+### System 実装パターン
+
+* **Behaviour パターン（推奨）**: 各 Entity に振る舞いを装着
+* **ForEach パターン**: データ指向に一括処理
+
 ```cpp
 void UpdateMovementSystem(World& world, float dt) {
-    world.ForEach<Transform, Velocity>([dt](Entity e, Transform& t, Velocity& v) {
+    world.ForEach<Transform, Velocity>([dt](Entity, Transform& t, Velocity& v) {
         t.position.x += v.velocity.x * dt;
         t.position.y += v.velocity.y * dt;
         t.position.z += v.velocity.z * dt;
@@ -184,403 +133,158 @@ void UpdateMovementSystem(World& world, float dt) {
 
 ---
 
-## ?? コーディング規約
+## コーディング規約
 
-### 命名規約
-
-| 要素 | 規約 | 例 |
-|------|------|-----|
-| **クラス名** | PascalCase | `Transform`, `MeshRenderer`, `World` |
-| **構造体名** | PascalCase | `Entity`, `Health`, `Velocity` |
-| **関数名** | PascalCase | `CreateEntity()`, `TryGet()`, `OnUpdate()` |
-| **変数名** | camelCase | `deltaTime`, `entityId`, `speed` |
-| **メンバ変数** | camelCase + `_` 接尾辞 | `world_`, `nextId_`, `alive_` |
-| **定数** | UPPER_SNAKE_CASE | `MAX_ENTITIES`, `DEFAULT_SPEED` |
-| **プライベートメンバ** | アンダースコア接尾辞 | `stores_`, `behaviours_` |
-
-### コードスタイル例
+| 要素      | 規約                     | 例                                          |
+| ------- | ---------------------- | ------------------------------------------ |
+| クラス/構造体 | PascalCase             | `Transform`, `MeshRenderer`, `World`       |
+| 関数      | PascalCase             | `CreateEntity()`, `TryGet()`, `OnUpdate()` |
+| 変数      | camelCase              | `deltaTime`, `entityId`, `speed`           |
+| メンバ変数   | camelCase + `_` サフィックス | `world_`, `nextId_`                        |
+| 定数      | UPPER_SNAKE_CASE       | `MAX_ENTITIES`, `DEFAULT_SPEED`            |
 
 ```cpp
-// ? 正しい例
 class PlayerController : public Behaviour {
 public:
-    float speed = 5.0f;  // publicメンバ（camelCase）
-    
+    float speed = 5.0f;
     void OnUpdate(World& w, Entity self, float dt) override {
         auto* transform = w.TryGet<Transform>(self);
-        if (transform) {
-            transform->position.x += speed * dt;
-        }
+        if (transform) transform->position.x += speed * dt;
     }
-    
 private:
-    InputSystem* input_;  // privateメンバ（アンダースコア接尾辞）
-    float acceleration_;
-};
-
-// ? 間違った例
-class player_controller {  // NG: PascalCaseを使用
-public:
-    float Speed;           // NG: camelCaseを使用
-    
-    void on_update() { }   // NG: PascalCaseを使用
-    
-private:
-    int m_health;          // NG: アンダースコア接尾辞を使用
+    InputSystem* input_ = nullptr;
 };
 ```
 
 ---
 
-## ?? Worldクラスの使用方法
+## World クラスの使用
 
-### エンティティの作成
+### エンティティ作成（ビルダーパターン推奨）
 
-#### 方法1: ビルダーパターン（推奨）
 ```cpp
-// ? 推奨: メソッドチェーンで直感的
 Entity player = world.Create()
-    .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-    .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})
+    .With<Transform>(DirectX::XMFLOAT3{0,0,0})
+    .With<MeshRenderer>(DirectX::XMFLOAT3{0,1,0})
     .With<Rotator>(45.0f)
     .With<PlayerTag>()
-    .Build();  // Build()は省略可能
-
-// ? Build()省略版
-Entity enemy = world.Create()
-    .With<Transform>(DirectX::XMFLOAT3{5, 0, 0})
-    .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0});
+    .Build();
 ```
 
-#### 方法2: 従来の方法
+### コンポーネント操作
+
 ```cpp
-// 許容されるが、ビルダーパターンを推奨
-Entity enemy = world.CreateEntity();
-world.Add<Transform>(enemy, Transform{});
-world.Add<MeshRenderer>(enemy, MeshRenderer{});
-```
+// 安全取得
+if (auto* t = world.TryGet<Transform>(entity)) { t->position.x += 1.0f; }
 
-#### 方法3: 遅延スポーン（並列処理対応）
-```cpp
-// スレッドセーフなスポーン
-world.EnqueueSpawn(World::Cause::Spawner, [](Entity e) {
-    // 生成後の初期化（メインスレッドで実行）
-});
-```
-
-### コンポーネントの操作
-
-#### 安全な取得（TryGet推奨）
-```cpp
-// ? 推奨: TryGetでnullチェック
-auto* transform = world.TryGet<Transform>(entity);
-if (transform) {
-    transform->position.x += 1.0f;
-}
-
-// ?? 許容: Getは例外を投げる可能性あり
-try {
-    auto& transform = world.Get<Transform>(entity);
-    transform.position.x += 1.0f;
-} catch (const std::runtime_error& e) {
-    // エラー処理
-}
-
-// ? 間違い: nullチェックなし
-auto* transform = world.TryGet<Transform>(entity);
-transform->position.x += 1.0f;  // NG: クラッシュの可能性
-```
-
-#### コンポーネントの追加と削除
-```cpp
-// ? 追加
+// 追加/存在確認/削除
 world.Add<Health>(entity, Health{100.0f, 100.0f});
-
-// ? 存在確認
-if (world.Has<Transform>(entity)) {
-    // Transformが存在する
-}
-
-// ? 削除
+if (world.Has<Transform>(entity)) { /* ... */ }
 world.Remove<Health>(entity);
-```
 
-#### エンティティの削除
-```cpp
-// ? 通常の削除（フレーム終了時に実際に削除）
-world.DestroyEntity(entity);
-
-// ? 原因付き削除（デバッグログに記録）
+// 削除（原因付きログ）
 world.DestroyEntityWithCause(entity, World::Cause::Collision);
-world.DestroyEntityWithCause(entity, World::Cause::LifetimeExpired);
 ```
 
-### ForEachの使用
+### ForEach 利用
 
 ```cpp
-// 単一コンポーネント
-world.ForEach<Transform>([](Entity e, Transform& t) {
-    t.position.y += 0.1f;
-});
-
-// 複数コンポーネント
-world.ForEach<Transform, Velocity>([dt](Entity e, Transform& t, Velocity& v) {
-    t.position.x += v.velocity.x * dt;
-    t.position.y += v.velocity.y * dt;
-    t.position.z += v.velocity.z * dt;
-});
-
-// タグでフィルタリング
-world.ForEach<PlayerTag, Transform>([](Entity e, PlayerTag& tag, Transform& t) {
-    // プレイヤーのみ処理
-});
+world.ForEach<Transform>([](Entity, Transform& t) { t.position.y += 0.1f; });
+world.ForEach<PlayerTag, Transform>([](Entity, PlayerTag&, Transform& t) { /* プレイヤのみ */ });
 ```
 
 ---
 
-## ?? DirectXMathの使用
+## DirectXMath の使用
 
-### データ保持はXMFLOAT3/XMFLOAT4
-
-```cpp
-// ? 正しい: コンポーネント内ではXMFLOAT3を使用
-struct Transform : IComponent {
-    DirectX::XMFLOAT3 position{0.0f, 0.0f, 0.0f};
-    DirectX::XMFLOAT3 rotation{0.0f, 0.0f, 0.0f};
-    DirectX::XMFLOAT3 scale{1.0f, 1.0f, 1.0f};
-};
-```
-
-### 計算時はXMVECTORを使用
+**保持は `XMFLOAT3/4`、計算は `XMVECTOR`**
 
 ```cpp
-// ? 推奨: SIMD最適化のためXMVECTORで計算
 void MoveTowards(Transform& t, const DirectX::XMFLOAT3& target, float speed) {
     using namespace DirectX;
-    
-    // XMFLOAT3 → XMVECTOR に変換
     XMVECTOR pos = XMLoadFloat3(&t.position);
     XMVECTOR tgt = XMLoadFloat3(&target);
-    
-    // ベクトル計算（SIMD最適化）
     XMVECTOR dir = XMVectorSubtract(tgt, pos);
     dir = XMVector3Normalize(dir);
     XMVECTOR move = XMVectorScale(dir, speed);
-    XMVECTOR newPos = XMVectorAdd(pos, move);
-    
-    // XMVECTOR → XMFLOAT3 に戻す
-    XMStoreFloat3(&t.position, newPos);
-}
-
-// ? 非推奨: 直接計算は非効率（許容はされる）
-void MoveTowards(Transform& t, const DirectX::XMFLOAT3& target, float speed) {
-    t.position.x += (target.x - t.position.x) * speed;
-    t.position.y += (target.y - t.position.y) * speed;
-    t.position.z += (target.z - t.position.z) * speed;
+    XMStoreFloat3(&t.position, XMVectorAdd(pos, move));
 }
 ```
 
 ---
 
-## ?? ドキュメンテーション規約
-
-### Doxygenスタイルのコメント
+## ドキュメンテーション規約（Doxygen）
 
 ```cpp
 /**
  * @file MyComponent.h
- * @brief コンポーネントの簡潔な説明
- * @author [あなたの名前]
+ * @brief コンポーネントの説明
+ * @author ...
  * @date 2025
  * @version 6.0
- *
- * @details
- * 詳細な説明をここに記述します。
  */
-
-/**
- * @struct MyComponent
- * @brief コンポーネントの簡潔な説明
- *
- * @details
- * より詳しい説明。このコンポーネントの役割や使い方を記述します。
- *
- * @par 使用例
- * @code
- * Entity e = world.Create()
- *     .With<MyComponent>(param1, param2)
- *     .Build();
- * @endcode
- *
- * @author [あなたの名前]
- */
-struct MyComponent : IComponent {
-    float value = 0.0f;  ///< 値の説明
-};
-
-/**
- * @brief 関数の簡潔な説明
- * 
- * @param[in] input 入力パラメータ
- * @param[out] output 出力パラメータ
- * @param[in,out] inout 入出力パラメータ
- * @return 戻り値の説明
- * 
- * @details
- * より詳しい動作の説明。
- * 
- * @note 補足情報
- * @warning 警告事項
- * @author [あなたの名前]
- */
-ReturnType FunctionName(Type input, Type& output, Type& inout);
 ```
 
-### インラインコメント
-
-```cpp
-// ? 良いコメント: 「なぜ」を説明
-// 同一フレームでのID再利用を防ぐため、世代番号をインクリメント
-generations_[id]++;
-
-// sin関数で滑らかな上下運動を実現（範囲: [-amplitude, +amplitude]）
-t->position.y = startY + sinf(time * speed) * amplitude;
-
-// ? 悪いコメント: コードの繰り返し
-// idを1増やす
-id++;  // NG: コードを読めば分かる
-
-// transformを取得
-auto* t = world.TryGet<Transform>(entity);  // NG
-```
+関数・構造体には `@brief`, `@details`, `@note`, `@warning`, `@param`, `@return` を適宜付与。
 
 ---
 
-## ?? 禁止事項
+## 禁止事項（アーキ破壊/非推奨パターン）
 
-### アーキテクチャの破壊
-
-```cpp
-// ? NG: Entityにロジックを追加
-struct Entity {
-    void Update();  // NG
-    void Render();  // NG
-    float health;   // NG
-};
-
-// ? NG: グローバル変数でエンティティ管理
-Entity g_player;           // NG: Worldで管理すべき
-World* g_globalWorld;      // NG
-
-// ? NG: コンポーネントが他のコンポーネントを直接参照
-struct MyComponent : IComponent {
-    Transform* transform_;  // NG: World経由で取得すべき
-    Entity target_;         // NG: 無効化される可能性
-};
-
-// ? 正しい: World経由で取得
-struct MyBehaviour : Behaviour {
-    void OnUpdate(World& w, Entity self, float dt) override {
-        auto* transform = w.TryGet<Transform>(self);
-        if (transform) {
-            // 使用
-        }
-    }
-};
-```
-
-### 非推奨なコーディングパターン
-
-```cpp
-// ? NG: Update内での同期的エンティティ作成
-void OnUpdate(World& w, Entity self, float dt) override {
-    Entity newEnemy = w.CreateEntity();  // NG: イテレータ無効化の可能性
-}
-
-// ? 正しい: キューイング
-void OnUpdate(World& w, Entity self, float dt) override {
-    w.EnqueueSpawn(World::Cause::Spawner, [](Entity e) {
-        // 生成後の初期化
-    });
-}
-
-// ? NG: 毎フレームメモリ確保
-void OnUpdate(World& w, Entity self, float dt) override {
-    std::vector<Entity> enemies;  // NG: 毎フレーム確保
-    // ...
-}
-
-// ? 改善: メンバ変数として保持
-struct MySystem : Behaviour {
-    std::vector<Entity> enemies_;  // メンバ変数で再利用
-    
-    void OnUpdate(World& w, Entity self, float dt) override {
-        enemies_.clear();  // クリアして再利用
-        // ...
-    }
-};
-```
+* Entity にロジック/状態を追加しない
+* グローバルでエンティティ管理しない（World 管理）
+* コンポーネントから別コンポーネントへの**直接生ポインタ保持**禁止（World 経由で取得）
+* Update 内で同期的に大量スポーン/破棄しない（**Enqueue** を使用）
+* 毎フレームの不要な動的確保を避け、メンバ再利用
 
 ---
 
-## ?? デバッグとログ
-
-### DebugLogの使用
+## デバッグとログ（規約）
 
 ```cpp
 #include "app/DebugLog.h"
 
-// 通常のログ
-DEBUGLOG("Entity created: ID=" + std::to_string(entity.id));
+// レベル別
+DEBUGLOG("Entity created: ID=%u", entity.id);
+DEBUGLOG_WARNING("Transform not found on entity %u", entity.id);
+DEBUGLOG_ERROR("Failed to load resource: %s", resourceName.c_str());
 
-// 警告
-DEBUGLOG_WARNING("Transform not found on entity " + std::to_string(entity.id));
-
-// エラー
-DEBUGLOG_ERROR("Failed to load resource: " + resourceName);
-
-// 条件付きログ
+// _DEBUG 節での条件付きログ
 #ifdef _DEBUG
-    DEBUGLOG("Debug mode: Delta time = " + std::to_string(deltaTime));
+DEBUGLOG("Delta time = %f", deltaTime);
 #endif
 ```
 
+**セキュリティ/運用**
+
+* PII/シークレット（鍵/トークン/メール）を出力しない
+* スロットリング：同一メッセージは 1 秒に 1 回まで（呼び出し側で制御）
+* `INFO`, `WARN`, `ERROR` 以外は `_DEBUG` ビルド限定
+
 ---
 
-## ?? マクロの活用
+## マクロ活用
 
 ### DEFINE_DATA_COMPONENT
 
 ```cpp
-// ? シンプルなデータコンポーネント用
 DEFINE_DATA_COMPONENT(Score,
     int points = 0;
-    
-    void AddPoints(int p) {
-        points += p;
-    }
-    
-    void Reset() {
-        points = 0;
-    }
+    void AddPoints(int p) { points += p; }
+    void Reset() { points = 0; }
 );
 ```
 
 ### DEFINE_BEHAVIOUR
 
 ```cpp
-// ? シンプルなBehaviour用
 DEFINE_BEHAVIOUR(CircularMotion,
-    // メンバ変数
     float radius = 3.0f;
     float speed = 1.0f;
     float angle = 0.0f;
 ,
-    // OnUpdate内の処理
     angle += speed * dt;
-    
-    auto* t = w.TryGet<Transform>(self);
-    if (t) {
+    if (auto* t = w.TryGet<Transform>(self)) {
         t->position.x = cosf(angle) * radius;
         t->position.z = sinf(angle) * radius;
     }
@@ -589,86 +293,189 @@ DEFINE_BEHAVIOUR(CircularMotion,
 
 ---
 
-## ?? チーム開発ルール
+## 変更計画と承認フロー（Large Change Gate）
 
-### ファイル編集の優先順位
+**目的**: 影響の大きい修正に対し、**着手前の「計画→レビュー→承認」を必須化**し、設計崩壊や差し戻しを防止。
 
-#### ?? コアシステム（触らない）
-以下のファイルは**変更する場合はチーム全体で相談**:
-- `include/ecs/World.h`
-- `include/ecs/Entity.h`
-- `include/components/Component.h`
-- `include/components/Transform.h`
-- `include/components/MeshRenderer.h`
+### 大規模変更の判定基準（以下のいずれか）
 
-#### ? 自由に編集可能
-- `include/scenes/` - ゲームシーンの実装
-- `include/components/Custom*.h` - カスタムコンポーネント
-- `src/` - 実装ファイル
+* 変更行数（加算+削除） > **300**
+* **新規ファイル 3 個以上** または **公開 API/コンポーネントのシグネチャ変更**
+* **Core 領域**（`include/ecs/*`, `include/components/*`）に触れる
+* **スレッドモデル/ライフサイクル**へ影響（スポーン/破棄/更新順序/同期）
+* **ビルド設定/依存追加** を含む
 
-#### ?? 要相談
-- `include/graphics/` - グラフィックスシステム
-- `include/input/` - 入力システム
-- `include/app/` - アプリケーション基盤
+### 実行手順
 
-### Gitコミットメッセージ
+1. **コードベース読込**（関連 `.h/.cpp`、呼び出し関係、依存）
+2. **計画作成（PLAN.md 生成）** ? 本書テンプレ使用
+3. **ドラフト PR 作成（Draft 指定）** ? PR 本文に PLAN.md を貼付、レビューア指名
+4. **承認ゲート** ? レビューアが `APPROVED: <氏名 or チーム>` コメントを付けるまで、**実装はスケルトン/スタブ最小限**
+5. **実装開始** ? 計画から逸れる場合は PLAN.md 更新 → **再承認** 必須
 
-```bash
-# ? 良い例: プレフィックスを使用
-git commit -m "? Add player shooting system"
-git commit -m "?? Fix collision detection bug"
-git commit -m "?? Update README with component guide"
-git commit -m "? Optimize render loop performance"
-git commit -m "?? Refactor component structure"
+### 禁止事項
 
-# ? 悪い例: 内容が不明
-git commit -m "update"
-git commit -m "fix bug"
-git commit -m "modified files"
+* `APPROVED:` コメント **前** に大規模改変をマージ/Push
+* Core 領域の無断編集（Hotfix は `HOTFIX:` チケット + 最小差分に限る）
+
+---
+
+## PLAN.md テンプレート（貼付用）
+
+```md
+# PLAN.md ? 変更計画
+
+## 概要
+- タイトル: <変更名>
+- 目的: <ユーザ価値/性能/保守性>
+- スコープ: <対象シーン/システム/コンポーネント>
+
+## 影響範囲
+- 既存 API/ABI: <有/無 + 詳細>
+- 変更予定ファイル:
+  - include/...
+  - src/...
+
+## 設計方針
+- アーキテクチャ: <ECS 原則に沿った分離>
+- データフロー/更新順序: <OnStart/OnUpdate/ForEach>
+- 代替案比較: <案A/案B/不採用理由>
+
+## 失敗モードと緩和策
+- 競合/並列: <EnqueueSpawn/Destroy、イテレータ無効化防止>
+- ライフサイクル: <Entity 世代/参照失効>
+- 数値安定性: <正規化前の長さチェック/NaN対策>
+
+## マイルストーン
+- M1: スケルトン導入（テスト通過）
+- M2: 機能A
+- M3: 機能B/負荷試験
+
+## 計測/検証
+- 性能指標: <フレーム時間、ForEach 走査件数>
+- テスト: <単体/統合/シーン回帰>
+
+## ロールバック
+- 手順: <Revert/Feature Flag>
+
+## レビュー依頼
+- レビューア: <担当者>
+- 承認トークン: `APPROVED: <氏名>`
 ```
 
 ---
 
-## ?? 参考ファイル
+## Copilot 前段タスク（大規模変更時は必須）
 
-新しいコンポーネントを作成する際の参考:
-
-- `include/samples/ComponentSamples.h` - コンポーネントの実装例
-- `include/samples/SampleScenes.h` - シーンの実装例
-- `include/scenes/MiniGame.h` - 実践的なゲーム実装
-- `include/ecs/World.h` - Worldクラスの使用方法
-
----
-
-## ? コード生成時のチェックリスト
-
-GitHub Copilotがコードを生成する際は、以下を確認してください：
-
-- [ ] C++14標準に準拠している（C++17以降の機能は不可）
-- [ ] ECS三大要素（Entity, Component, System）を正しく分離
-- [ ] コンポーネントは `IComponent` または `Behaviour` を継承
-- [ ] エンティティ作成にビルダーパターンを使用（推奨）
-- [ ] ポインタ取得時は `TryGet` を使用し、nullチェック
-- [ ] 命名規約に従っている（PascalCase/camelCase）
-- [ ] Doxygenスタイルのコメントを記述
-- [ ] DirectXMathの型（XMFLOAT3など）を正しく使用
-- [ ] グローバル変数を使用していない
-- [ ] メモリリークの可能性がない（Worldが自動管理）
+* プロジェクトを走査し、関連ファイル/呼び出し関係/依存を列挙
+* 上記 **PLAN.md** を自動生成（テンプレ厳守）
+* Draft PR 本文に PLAN.md を埋め込むテキストを出力
+* 承認待ちコメントを自動挿入:
+  `READY FOR REVIEW ? Reply with "APPROVED: <name>" to proceed.`
+* `APPROVED:` が付くまで**実装コード生成はスケルトン/インタフェースのみに限定**
 
 ---
 
-**作成者**: 山内陽  
-**最終更新**: 2025  
-**バージョン**: v6.0 - チームゲーム開発フレームワーク
+## 変更凍結領域（要承認）
+
+* `include/ecs/World.h`
+* `include/ecs/Entity.h`
+* `include/components/Component.h`
+* `include/components/Transform.h`
+* `include/components/MeshRenderer.h`
+
+**規則**: 上記に触れる PR は **無条件で PLAN.md 必須**。`APPROVED:` 付与前は Draft のまま。
 
 ---
 
-## ?? 学習リソース
+## C++14 代替パターン（関数ブロック）
 
-- **初心者**: `include/samples/SampleScenes.h` のレベル1～3
-- **中級者**: `include/samples/ComponentSamples.h` のBehaviour例
-- **上級者**: `include/scenes/MiniGame.h` の実装
+```cpp
+// Optional の代替（借用明示）
+template<typename T>
+T* TryGetBorrowed(World& w, Entity e) { return w.TryGet<T>(e); }
+
+struct MaybeTransform { Transform* ptr; bool has; };
+inline MaybeTransform GetMaybeTransform(World& w, Entity e) {
+    Transform* t = w.TryGet<Transform>(e);
+    return { t, t != nullptr };
+}
+```
 
 ---
 
-このファイルに従うことで、一貫性のある高品質なコードが生成されます。
+## DirectXMath 安全ガード（完全形）
+
+```cpp
+static inline void MoveTowardsSafe(Transform& t, const DirectX::XMFLOAT3& target, float speed, float dt) {
+    using namespace DirectX;
+    XMVECTOR pos = XMLoadFloat3(&t.position);
+    XMVECTOR tgt = XMLoadFloat3(&target);
+    XMVECTOR delta = XMVectorSubtract(tgt, pos);
+
+    // ゼロ長回避
+    XMVECTOR lenSq = XMVector3LengthSq(delta);
+    if (XMVectorGetX(lenSq) < 1e-12f) return;
+
+    // 単位系: speed[m/s] * dt[s]
+    XMVECTOR dir = XMVector3Normalize(delta);
+    XMVECTOR step = XMVectorScale(dir, speed * dt);
+    XMStoreFloat3(&t.position, XMVectorAdd(pos, step));
+}
+```
+
+---
+
+## チーム開発ルール
+
+### ファイル編集の優先順位
+
+* **コア（触らない/要承認）**: 前節「変更凍結領域」参照
+* **自由に編集**: `include/scenes/`, `include/components/Custom*.h`, `src/`
+* **要相談**: `include/graphics/`, `include/input/`, `include/app/`
+
+### Git コミットメッセージ
+
+```bash
+# 良い例（型＋内容）
+git commit -m "feat: Add player shooting system"
+git commit -m "fix: Resolve collision detection NaN at zero-length"
+git commit -m "docs: Update README with component guide"
+git commit -m "perf: Optimize render loop"
+git commit -m "refactor: Restructure component stores"
+```
+
+---
+
+## 参考ファイル
+
+* `include/samples/ComponentSamples.h` ? コンポーネント実装例
+* `include/samples/SampleScenes.h` ? シーン実装例
+* `include/scenes/MiniGame.h` ? 小規模ゲーム実装
+* `include/ecs/World.h` ? 利用ガイド/インタフェース
+
+---
+
+## コード生成チェックリスト（Copilot 用）
+
+* [ ] C++14 準拠（C++17 機能は不使用）
+* [ ] ECS の分離（Entity / Component / System）
+* [ ] コンポーネントは `IComponent` または `Behaviour` を継承
+* [ ] エンティティ作成はビルダーパターン（推奨）
+* [ ] ポインタ取得は `TryGet` を用いて null チェック
+* [ ] 命名規約（PascalCase / camelCase / `_` 接尾辞）遵守
+* [ ] Doxygen コメント付与
+* [ ] DirectXMath の型（XMFLOAT3 等）と計算手順の分離
+* [ ] グローバル管理を避け、World 管理
+* [ ] リーク無し（World が所有権を持つ）/ ライフサイクル安全
+* [ ] **大規模変更時は PLAN.md + Draft PR + `APPROVED:` 承認を確認**
+
+---
+
+## 作成者・メタ情報
+
+* **作成者**: 山内陽
+* **最終更新**: 2025
+* **バージョン**: v6.0 ? チームゲーム開発フレームワーク（HEW_GAME 対応）
+
+---

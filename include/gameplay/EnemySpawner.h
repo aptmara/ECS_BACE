@@ -16,9 +16,8 @@
 #include "components/MeshRenderer.h"
 #include "components/Rotator.h"
 #include "ecs/World.h"
-#include <cstdlib>
-#include <ctime>
 #include <DirectXMath.h>
+#include "util/Random.h"
 
 /**
  * @struct EnemyTag
@@ -113,12 +112,8 @@ struct EnemySpawner : Behaviour {
      * @param[in] self 自身のエンティティ
      */
     void OnStart(World& w, Entity self) override {
-        // 乱数シードを初期化(最初の1回のみ)
-        static bool initialized = false;
-        if (!initialized) {
-            srand(static_cast<unsigned int>(time(nullptr)));
-            initialized = true;
-        }
+        // 高品質乱数を時刻でシード（初回のみ）
+        util::Random::SeedTime();
     }
     
     /**
@@ -144,28 +139,23 @@ private:
      */
     void SpawnEnemy(World& w) {
         // ランダムなX座標
-        float randomX = ((rand() % 2000 - 1000) / 100.0f) * spawnRangeX / 10.0f;
+        float randomX = util::Random::Float(-spawnRangeX, spawnRangeX);
         
         // ランダムな形状(0-4: Cube, Sphere, Cylinder, Cone, Capsule)
-        // Planeは除外(地面用なので)
-        int shapeIndex = rand() % 5;
+        int shapeIndex = util::Random::Int(0, 4);
         if (shapeIndex >= static_cast<int>(MeshType::Plane)) {
             shapeIndex++;  // Planeをスキップ
         }
         MeshType randomShape = static_cast<MeshType>(shapeIndex);
         
         // ランダムな色(明るめの色)
-        DirectX::XMFLOAT3 randomColor = {
-            (rand() % 100 + 50) / 150.0f,  // R: 0.33～1.0
-            (rand() % 100 + 50) / 150.0f,  // G: 0.33～1.0
-            (rand() % 100 + 50) / 150.0f   // B: 0.33～1.0
-        };
+        DirectX::XMFLOAT3 randomColor = util::Random::ColorBright();
         
         // ランダムな回転速度
-        float randomRotSpeed = (rand() % 100 + 30) * (rand() % 2 == 0 ? 1.0f : -1.0f);
+        float randomRotSpeed = util::Random::Float(30.0f, 130.0f) * (util::Random::Bool() ? 1.0f : -1.0f);
         
         // ランダムなスケール(0.8～1.5倍)
-        float randomScale = 0.8f + (rand() % 70) / 100.0f;
+        float randomScale = util::Random::Float(0.8f, 1.5f);
         
         // Transform設定
         Transform enemyTransform;
@@ -214,11 +204,7 @@ struct WaveSpawner : Behaviour {
     int currentWave = 0;         ///< 現在のウェーブ番号
     
     void OnStart(World& w, Entity self) override {
-        static bool initialized = false;
-        if (!initialized) {
-            srand(static_cast<unsigned int>(time(nullptr)));
-            initialized = true;
-        }
+        util::Random::SeedTime();
     }
     
     void OnUpdate(World& w, Entity self, float dt) override {
@@ -240,7 +226,7 @@ private:
             float x = startX + i * spacing;
             
             // ランダムな形状
-            int shapeIndex = rand() % 5;
+            int shapeIndex = util::Random::Int(0, 4);
             if (shapeIndex >= static_cast<int>(MeshType::Plane)) {
                 shapeIndex++;
             }
@@ -255,7 +241,7 @@ private:
                 case 1: // 緑系
                     color = DirectX::XMFLOAT3{0.3f, 1.0f, 0.3f};
                     break;
-                case 2: // 青系
+                default: // 青系
                     color = DirectX::XMFLOAT3{0.3f, 0.3f, 1.0f};
                     break;
             }

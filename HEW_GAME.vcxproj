@@ -167,6 +167,7 @@
     <ClInclude Include="include\graphics\TextureManager.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\graphics\VideoPlayer.h" />
+    <ClInclude Include="include\util\Random.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Textures\test.png" />

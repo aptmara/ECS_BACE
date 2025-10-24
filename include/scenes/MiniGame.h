@@ -25,6 +25,7 @@
 #include "components/Rotator.h"
 #include <cstdlib>
 #include <ctime>
+#include "util/Random.h"
 
 // ========================================================
 // ゲーム用コンポーネント
@@ -170,8 +171,8 @@ public:
      * プレイヤー、地面を生成し、スコアとタイマーを初期化します。
      */
     void OnEnter(World& world) override {
-        // 乱数シードを設定
-        srand(static_cast<unsigned int>(time(nullptr)));
+        // 高品質乱数の時刻シードを設定（1回のみでOK）
+        util::Random::SeedTime();
         ownedEntities_.clear();
 
         // 地面を作成
@@ -335,28 +336,23 @@ private:
             enemySpawnTimer_ = 0.0f;
 
             // ランダムなX座標
-            float randomX = (rand() % 1600 - 800) / 100.0f; // -8.0 ~ 8.0
+            float randomX = util::Random::Float(-8.0f, 8.0f);
 
             // ランダムな形状(Cube, Sphere, Cylinder, Cone, Capsule)
-            // Planeは除外(地面用なので)
-            int shapeIndex = rand() % 5;
+            int shapeIndex = util::Random::Int(0, 4);
             if (shapeIndex >= static_cast<int>(MeshType::Plane)) {
                 shapeIndex++;  // Planeをスキップ
             }
             MeshType randomShape = static_cast<MeshType>(shapeIndex);
 
             // ランダムな色(明るめの色)
-            DirectX::XMFLOAT3 randomColor = {
-                (rand() % 100 + 50) / 150.0f,  // R: 0.33～1.0
-                (rand() % 100 + 50) / 150.0f,  // G: 0.33～1.0
-                (rand() % 100 + 50) / 150.0f   // B: 0.33～1.0
-            };
+            DirectX::XMFLOAT3 randomColor = util::Random::ColorBright();
 
             // ランダムな回転速度
-            float randomRotSpeed = (rand() % 100 + 30) * (rand() % 2 == 0 ? 1.0f : -1.0f);
+            float randomRotSpeed = util::Random::Float(30.0f, 130.0f) * (util::Random::Bool() ? 1.0f : -1.0f);
 
             // ランダムなスケール(0.7～1.2倍)
-            float randomScale = 0.7f + (rand() % 50) / 100.0f;
+            float randomScale = util::Random::Float(0.7f, 1.2f);
 
             Transform enemyTransform;
             enemyTransform.position = DirectX::XMFLOAT3{randomX, 8.0f, 0.0f};

@@ -125,6 +125,9 @@
     <ClInclude Include="include\gameplay\EnemySpawner.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
+    <ClInclude Include="include\util\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

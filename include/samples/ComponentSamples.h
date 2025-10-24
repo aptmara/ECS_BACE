@@ -18,6 +18,7 @@
 #include <DirectXMath.h>
 #include <cmath>
 #include <cstdlib>
+#include "util/Random.h"
 
 // ========================================================
 // サンプル集1: データコンポーネント
@@ -434,20 +435,8 @@ private:
      * @brief ランダムな方向を選択
      */
     void ChooseRandomDirection() {
-        // -1.0 ～ 1.0 のランダムな値
-        direction.x = (static_cast<float>(rand()) / RAND_MAX) * 2.0f - 1.0f;
-        direction.y = (static_cast<float>(rand()) / RAND_MAX) * 2.0f - 1.0f;
-        direction.z = (static_cast<float>(rand()) / RAND_MAX) * 2.0f - 1.0f;
-
-        // 正規化(長さを1にする)
-        float length = sqrtf(direction.x * direction.x +
-                           direction.y * direction.y +
-                           direction.z * direction.z);
-        if (length > 0.0f) {
-            direction.x /= length;
-            direction.y /= length;
-            direction.z /= length;
-        }
+        // 球面一様分布から単位ベクトルを取得
+        direction = util::Random::UnitVec3();
     }
 
     /**
