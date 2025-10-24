@@ -329,10 +329,22 @@ public:
      */
     void Shutdown() {
         if (isShutdown_) return; // 冪等性
-        DEBUGLOG("TextureManager::Shutdown() - " + std::to_string(textures_.size()) + " 個のテクスチャを解放中");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "TextureManager::Shutdown() - " + std::to_string(textures_.size()) + " 個のテクスチャを解放中");
+        
+        // 各テクスチャの詳細をログ
+        int textureCount = 0;
+        int srvCount = 0;
+        for (const auto& pair : textures_) {
+            if (pair.second.texture) textureCount++;
+            if (pair.second.srv) srvCount++;
+        }
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "テクスチャ2D: " + std::to_string(textureCount) + " 個");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "シェーダーリソースビュー: " + std::to_string(srvCount) + " 個");
+        
         textures_.clear();
         isShutdown_ = true;
-        DEBUGLOG("TextureManager::Shutdown() 完了");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "TextureManager::Shutdown() 完了");
     }
 
 private:

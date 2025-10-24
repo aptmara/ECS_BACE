@@ -16,11 +16,13 @@
 #include "components/Transform.h"
 #include "components/MeshRenderer.h"
 #include "graphics/TextureManager.h"
+#include "app/DebugLog.h" // デバッグビルド/リリースビルド両方で必要
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
 #include <cstring>
 #include <cstdio>
+#include <string> // std::to_string のために追加
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -104,8 +106,67 @@ struct RenderSystem {
      * @brief リソースの明示的解放
      */
     void Shutdown() {
-        if (isShutdown_) return; DEBUGLOG("RenderSystem::Shutdown() - リソースを解放中");
-        vs_.Reset(); ps_.Reset(); layout_.Reset(); cb_.Reset(); psCb_.Reset(); vb_.Reset(); ib_.Reset(); rasterState_.Reset(); samplerState_.Reset(); isShutdown_ = true; DEBUGLOG("RenderSystem::Shutdown() 完了");
+        if (isShutdown_) return;
+        DEBUGLOG_CATEGORY(DebugLog::Category::Render, "RenderSystem::Shutdown() - リソースを解放中");
+        
+        int releasedCount = 0;
+        
+        if (vs_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "頂点シェーダーを解放");
+            vs_.Reset();
+            releasedCount++;
+        }
+        
+        if (ps_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "ピクセルシェーダーを解放");
+            ps_.Reset();
+            releasedCount++;
+        }
+        
+        if (layout_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "入力レイアウトを解放");
+            layout_.Reset();
+            releasedCount++;
+        }
+        
+        if (cb_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "VS定数バッファを解放");
+            cb_.Reset();
+            releasedCount++;
+        }
+        
+        if (psCb_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "PS定数バッファを解放");
+            psCb_.Reset();
+            releasedCount++;
+        }
+        
+        if (vb_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "頂点バッファを解放");
+            vb_.Reset();
+            releasedCount++;
+        }
+        
+        if (ib_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "インデックスバッファを解放");
+            ib_.Reset();
+            releasedCount++;
+        }
+        
+        if (rasterState_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "ラスタライザステートを解放");
+            rasterState_.Reset();
+            releasedCount++;
+        }
+        
+        if (samplerState_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Render, "サンプラーステートを解放");
+            samplerState_.Reset();
+            releasedCount++;
+        }
+        
+        isShutdown_ = true;
+        DEBUGLOG_CATEGORY(DebugLog::Category::Render, "RenderSystem::Shutdown() 完了 (解放リソース数: " + std::to_string(releasedCount) + ")");
     }
 
     /**

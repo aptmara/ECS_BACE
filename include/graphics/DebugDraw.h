@@ -8,16 +8,14 @@
 #pragma once
 #include "graphics/GfxDevice.h"
 #include "graphics/Camera.h"
+#include "app/DebugLog.h" // デバッグビルド/リリースビルド両方で必要
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
 #include <vector>
 #include <cstring>
 #include <cstdio>
-
-#ifdef _DEBUG
-#include "app/DebugLog.h"
-#endif
+#include <string> // std::to_string のために追加
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -397,14 +395,42 @@ public:
      */
     void Shutdown() {
         if (isShutdown_) return; // 冪等性
-        DEBUGLOG("DebugDraw::Shutdown() - リソースを解放中");
-        vs_.Reset();
-        ps_.Reset();
-        layout_.Reset();
-        cb_.Reset();
-        vb_.Reset();
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Shutdown() - リソースを解放中");
+        
+        int releasedCount = 0;
+        
+        if (vs_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "頂点シェーダーを解放 (DebugDraw)");
+            vs_.Reset();
+            releasedCount++;
+        }
+        
+        if (ps_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "ピクセルシェーダーを解放 (DebugDraw)");
+            ps_.Reset();
+            releasedCount++;
+        }
+        
+        if (layout_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "入力レイアウトを解放 (DebugDraw)");
+            layout_.Reset();
+            releasedCount++;
+        }
+        
+        if (cb_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "定数バッファを解放 (DebugDraw)");
+            cb_.Reset();
+            releasedCount++;
+        }
+        
+        if (vb_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "頂点バッファを解放 (DebugDraw, 最大線数: " + std::to_string(maxLines_) + ")");
+            vb_.Reset();
+            releasedCount++;
+        }
+        
         isShutdown_ = true;
-        DEBUGLOG("DebugDraw::Shutdown() 完了");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Shutdown() 完了 (解放リソース数: " + std::to_string(releasedCount) + ")");
     }
 
 private:

@@ -1,6 +1,7 @@
 #pragma once
 #include "ecs/Entity.h"
 #include "components/Component.h"
+#include "app/DebugLog.h" // デバッグビルド/リリースビルド両方で必要
 #include <unordered_map>
 #include <typeindex>
 #include <vector>
@@ -13,10 +14,10 @@
 #include <algorithm> // std::remove_if のために追加
 #include <limits>
 #include <mutex>
+#include <string> // std::to_string のために追加
 
 #ifdef _DEBUG
 #include <cassert>
-#include "app/DebugLog.h"
 #endif
 
 /**
@@ -221,14 +222,14 @@ public:
         // 未処理の破棄キューを先に処理
         FlushDestroyEndOfFrame();
         
-        // ⚠️ 残存エンティティを強制削除
+        // ⚠️ 残存エンティティを強制削除（原因をAppShutdownに明確化）
         if (!alive_.empty()) {
-            DEBUGLOG_WARNING(std::to_string(alive_.size()) + " 個の残存エンティティを強制破棄");
+            DEBUGLOG_WARNING(std::to_string(alive_.size()) + " 個の残存エンティティを強制破棄 (原因=AppShutdown)");
             
             // イテレータ無効化を避けるためコピー
             std::vector<uint32_t> aliveIds(alive_.begin(), alive_.end());
             for (uint32_t id : aliveIds) {
-                DestroyEntityInternal(id, Cause::Unknown);
+                DestroyEntityInternal(id, Cause::AppShutdown);
             }
             
             DEBUGLOG("すべてのエンティティを破棄 (最終生存数: " + std::to_string(alive_.size()) + ")");
@@ -293,6 +294,10 @@ public:
      * @param onCreated 生成直後に呼ばれるコールバック（メインスレッド）。引数に生成された Entity。
      */
     void EnqueueSpawn(Cause cause, const std::function<void(Entity)>& onCreated) {
+        if (systemsStopped_) {
+            DEBUGLOG_WARNING(std::string("システム停止後のスポーン要求を拒否 (原因=") + CauseToString(cause) + ")");
+            return;
+        }
         std::lock_guard<std::mutex> lock(spawnMutex_);
         pendingSpawn_.push_back({ cause, onCreated });
         DEBUGLOG(std::string("スポーンをキューに追加 (原因=") + CauseToString(cause) + ")");
@@ -747,6 +752,16 @@ public:
      * @brief メインスレッドのみで呼ぶ（契約）。フレーム開始時にスポーンキューを反映。
      */
     void FlushSpawnStartOfFrame() {
+        if (systemsStopped_) {
+            // システム停止後はスポーンキューを処理しない
+            std::lock_guard<std::mutex> lock(spawnMutex_);
+            if (!pendingSpawn_.empty()) {
+                DEBUGLOG_WARNING("システム停止後、" + std::to_string(pendingSpawn_.size()) + " 個の保留スポーンを破棄");
+                pendingSpawn_.clear();
+            }
+            return;
+        }
+        
         std::vector<std::pair<Cause, std::function<void(Entity)>>> toSpawn;
         {
             std::lock_guard<std::mutex> lock(spawnMutex_);
@@ -766,6 +781,29 @@ public:
 
     // デバッグオプション: Update中の生成/破棄禁止を有効化
     void SetEnforceNoMutateDuranteUpdate(bool en) { enforceNoMutateDuranteUpdate_ = en; }
+
+    /**
+     * @brief すべてのシステムを停止（新規Spawn無効化）
+     * @details
+     * シャットダウン前に呼び出し、新規エンティティの生成を無効化します。
+     * この後はEnqueueSpawn()が拒否され、既存のエンティティのみ処理されます。
+     */
+    void StopAllSystems() {
+        if (systemsStopped_) return; // 冪等性
+        DEBUGLOG_CATEGORY(DebugLog::Category::ECS, "World::StopAllSystems() - すべてのシステムを停止");
+        systemsStopped_ = true;
+        
+        // 保留中のスポーンキューをクリア
+        {
+            std::lock_guard<std::mutex> lock(spawnMutex_);
+            if (!pendingSpawn_.empty()) {
+                DEBUGLOG_WARNING("システム停止時、" + std::to_string(pendingSpawn_.size()) + " 個の保留スポーンをクリア");
+                pendingSpawn_.clear();
+            }
+        }
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::ECS, "新規Spawnが無効化されました");
+    }
 
 private:
     /**
@@ -923,6 +961,9 @@ private:
     // オプション: Update中の生成/破棄禁止
     bool inUpdate_ = false;
     bool enforceNoMutateDuranteUpdate_ = false;
+
+    // システム停止フラグ（新規Spawn無効化）
+    bool systemsStopped_ = false;
 
     friend class EntityBuilder;
 };

@@ -21,6 +21,8 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <vector>
+#include <algorithm>
 
 // DirectX11 & ECS システム
 #include "graphics/GfxDevice.h"
@@ -87,6 +89,15 @@ struct App {
     int metricsFrameCount_ = 0;         ///< メトリクス計測フレーム数
     const int metricsUpdateInterval_ = 30; ///< メトリクス更新間隔（フレーム）
 
+    // 詳細統計用（最大1000フレーム分のサンプル）
+    std::vector<float> frameTotalSamples_; ///< フレーム合計時間のサンプル
+    std::vector<float> updateSamples_;     ///< Update時間のサンプル
+    std::vector<float> renderSamples_;     ///< Render時間のサンプル
+    std::vector<float> presentSamples_;    ///< Present時間のサンプル
+    
+    const int maxSamples_ = 1000;          ///< 最大サンプル数
+    bool metricsCollecting_ = true;        ///< メトリクス収集中フラグ
+
     // ========================================================
     // 初期化
     // ========================================================
@@ -102,8 +113,17 @@ struct App {
         DEBUGLOG("App::Init() 開始");
         DEBUGLOG("ウィンドウサイズ: " + std::to_string(width) + "x" + std::to_string(height));
         
-        CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-        DEBUGLOG("COMライブラリを初期化");
+        // P2: COM初期化モードを明示的に記録
+        HRESULT hrCom = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+        if (SUCCEEDED(hrCom)) {
+            DEBUGLOG("COMライブラリを初期化 (モード: COINIT_MULTITHREADED, HRESULT: 0x" + std::to_string(hrCom) + ")");
+            if (hrCom == S_FALSE) {
+                DEBUGLOG("COMは既に初期化されていました (S_FALSE)");
+            }
+        } else {
+            DEBUGLOG_ERROR("COMライブラリの初期化失敗 (HRESULT: 0x" + std::to_string(hrCom) + ")");
+            return false;
+        }
 
         if (!CreateAppWindow(hInst, width, height)) {
             DEBUGLOG("[ERROR] CreateAppWindow() 失敗");
@@ -169,7 +189,7 @@ struct App {
             
             // ESCキーで終了
             if (input_.GetKeyDown(VK_ESCAPE)) {
-                DEBUGLOG("ESCキーが押されました - アプリケーション終了");
+                DEBUGLOG_CATEGORY(DebugLog::Category::System, "ESCキーが押されました - アプリケーション終了要求（ユーザー操作）");
                 PostQuitMessage(0);
             }
             
@@ -188,16 +208,31 @@ struct App {
             // ========== RENDER PHASE ==========
             auto renderStartTime = std::chrono::high_resolution_clock::now();
             
-            RenderFrame();
+            // BeginFrameとレンダリング処理
+            gfx_.BeginFrame();
+            
+#ifdef _DEBUG
+            DrawDebugInfo();
+#endif
+            
+            renderer_.Render(gfx_, world_, camera_);
+            
+#ifdef _DEBUG
+            debugDraw_.Render(gfx_, camera_);
+#endif
             
             auto renderEndTime = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> renderDuration = renderEndTime - renderStartTime;
             currentMetrics_.renderTime = renderDuration.count();
             
             // ========== PRESENT PHASE ==========
-            // (EndFrame内でPresent実行済み - ここでは計測のみ)
+            auto presentStartTime = std::chrono::high_resolution_clock::now();
+            
+            // Present実行（VSync待機含む）
+            gfx_.EndFrame();
+            
             auto presentEndTime = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<float> presentDuration = presentEndTime - renderEndTime;
+            std::chrono::duration<float> presentDuration = presentEndTime - presentStartTime;
             currentMetrics_.presentTime = presentDuration.count();
             
             // フレーム合計時間
@@ -211,6 +246,14 @@ struct App {
             avgMetrics_.totalTime += currentMetrics_.totalTime;
             metricsFrameCount_++;
             
+            // サンプル収集（最大1000フレーム）
+            if (metricsCollecting_ && frameTotalSamples_.size() < maxSamples_) {
+                frameTotalSamples_.push_back(currentMetrics_.totalTime);
+                updateSamples_.push_back(currentMetrics_.updateTime);
+                renderSamples_.push_back(currentMetrics_.renderTime);
+                presentSamples_.push_back(currentMetrics_.presentTime);
+            }
+            
             // ウィンドウタイトルにスコアとFPS表示
             if (metricsFrameCount_ >= metricsUpdateInterval_) {
                 UpdateWindowTitleWithMetrics();
@@ -219,7 +262,7 @@ struct App {
                 avgMetrics_ = FrameMetrics{};
                 metricsFrameCount_ = 0;
             }
-            
+
             frameCount++;
         }
         
@@ -231,6 +274,10 @@ struct App {
      */
     ~App() {
         DEBUGLOG("App::~App() - デストラクタ呼び出し");
+        
+        // 終了前にフレーム統計を出力
+        OutputFrameStatistics();
+        
         Shutdown();
         DEBUGLOG("App 正常に破棄");
     }
@@ -243,6 +290,10 @@ private:
     void Shutdown() {
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "App::Shutdown() - クリーンアップ開始");
         
+        // Phase 0: すべてのシステムを停止（新規Spawn無効化）
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 0: すべてのシステムを停止（新規Spawn無効化）");
+        world_.StopAllSystems();
+        
         // Phase 1: シーンマネージャーの終了（シーンのOnExitを呼び出し）
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 1: SceneManagerのシャットダウン");
         sceneManager_.Shutdown(world_);
@@ -251,7 +302,7 @@ private:
         // Phase 2: WorldのDestroyキュー/Spawnキューを明示的にフラッシュ
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 2: Worldキューをフラッシュ (エンティティ数: " + std::to_string(world_.GetAliveCount()) + ")");
         world_.FlushDestroyEndOfFrame();
-        world_.FlushSpawnStartOfFrame(); // 念のため
+        world_.FlushSpawnStartOfFrame(); // 念のため（systemsStopped_でガード済み）
         
         // Phase 3: World破棄前に残存エンティティを警告
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 3: World破棄前の残存エンティティチェック");
@@ -466,25 +517,6 @@ private:
     }
     
     /**
-     * @brief 1フレームを描画する
-     */
-    void RenderFrame() {
-        gfx_.BeginFrame();
-        
-#ifdef _DEBUG
-        DrawDebugInfo();
-#endif
-        
-        renderer_.Render(gfx_, world_, camera_);
-        
-#ifdef _DEBUG
-        debugDraw_.Render(gfx_, camera_);
-#endif
-        
-        gfx_.EndFrame();
-    }
-    
-    /**
      * @brief ウィンドウタイトルを更新する
      */
     void UpdateWindowTitle() {
@@ -532,6 +564,99 @@ private:
     }
 #endif
 
+    /**
+     * @brief フレーム統計を出力する
+     * @details
+     * アプリケーション終了時に、収集したフレームメトリクスの統計
+     * （平均、最小、最大、99%タイル）をログに出力します。
+     */
+    void OutputFrameStatistics() {
+        if (frameTotalSamples_.empty()) {
+            DEBUGLOG_WARNING("フレーム統計データが収集されていません");
+            return;
+        }
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "フレーム統計サマリ (サンプル数: " + std::to_string(frameTotalSamples_.size()) + ")");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
+        
+        // 各メトリクスの統計を計算
+        OutputMetricStatistics("フレーム合計時間", frameTotalSamples_, "ms");
+        OutputMetricStatistics("Update時間", updateSamples_, "ms");
+        OutputMetricStatistics("Render時間", renderSamples_, "ms");
+        OutputMetricStatistics("Present時間", presentSamples_, "ms");
+        
+        // FPS統計
+        std::vector<float> fpsSamples;
+        fpsSamples.reserve(frameTotalSamples_.size());
+        for (float t : frameTotalSamples_) {
+            if (t > 0.0f) {
+                fpsSamples.push_back(1.0f / t);
+            }
+        }
+        OutputMetricStatistics("FPS", fpsSamples, "");
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
+    }
+    
+    /**
+     * @brief メトリクス統計を出力する
+     * @param name メトリクス名
+     * @param samples サンプルデータ
+     * @param unit 単位
+     */
+    void OutputMetricStatistics(const std::string& name, std::vector<float> samples, const std::string& unit) {
+        if (samples.empty()) return;
+        
+        // 外れ値フィルタリング（上位1%と下位1%を除外）
+        std::sort(samples.begin(), samples.end());
+        
+        size_t removeCount = static_cast<size_t>(samples.size() * 0.01);
+        if (removeCount > 0 && samples.size() > removeCount * 2) {
+            samples.erase(samples.begin(), samples.begin() + removeCount); // 下位1%を除外
+            samples.erase(samples.end() - removeCount, samples.end());     // 上位1%を除外
+        }
+        
+        if (samples.empty()) {
+            DEBUGLOG_WARNING(name + ": 外れ値除外後にサンプルが空になりました");
+            return;
+        }
+        
+        // 統計計算
+        float sum = 0.0f;
+        for (float s : samples) sum += s;
+        float avg = sum / samples.size();
+        float min = samples.front();
+        float max = samples.back();
+        
+        // 99%タイル（上位1%を除外）
+        size_t p99Index = static_cast<size_t>(samples.size() * 0.99);
+        if (p99Index >= samples.size()) p99Index = samples.size() - 1;
+        float p99 = samples[p99Index];
+        
+        // 50%タイル（中央値）
+        size_t p50Index = samples.size() / 2;
+        float p50 = samples[p50Index];
+        
+        // 1%タイル（下位1%）
+        size_t p01Index = static_cast<size_t>(samples.size() * 0.01);
+        float p01 = samples[p01Index];
+        
+        // ログ出力（msの場合は1000倍、FPSの場合はそのまま）
+        float multiplier = (unit == "ms") ? 1000.0f : 1.0f;
+        
+        std::ostringstream oss;
+        oss << name << " (外れ値除外後サンプル数: " << samples.size() << "): "
+            << "平均=" << std::fixed << std::setprecision(2) << (avg * multiplier) << unit
+            << ", 最小=" << (min * multiplier) << unit
+            << ", 1%タイル=" << (p01 * multiplier) << unit
+            << ", 中央値=" << (p50 * multiplier) << unit
+            << ", 99%タイル=" << (p99 * multiplier) << unit
+            << ", 最大=" << (max * multiplier) << unit;
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, oss.str());
+    }
+
     // ========================================================
     // Windowsメッセージ処理
     // ========================================================
@@ -567,8 +692,13 @@ private:
      */
     LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
         switch (msg) {
+        case WM_CLOSE:
+            DEBUGLOG_CATEGORY(DebugLog::Category::System, "WM_CLOSEを受信 - ユーザーによるウィンドウ閉じる操作");
+            // デフォルト処理に委ねる（WM_DESTROYが発生）
+            return DefWindowProc(hWnd, msg, wp, lp);
+            
         case WM_DESTROY:
-            DEBUGLOG("WM_DESTROYを受信 - 終了メッセージを投稿");
+            DEBUGLOG_CATEGORY(DebugLog::Category::System, "WM_DESTROYを受信 - 終了メッセージを投稿");
             PostQuitMessage(0);
             return 0;
             

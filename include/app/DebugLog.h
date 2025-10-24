@@ -106,29 +106,68 @@ public:
         WriteLog("INFO", message, cat);
     }
 
+    /**
+     * @brief 終了時統計を出力
+     */
+    void OutputShutdownStatistics() {
+        if (frameCount_ == 0) return;
+
+        float avgDt = totalTime_ / frameCount_;
+        float avgFps = (avgDt > 0.0f) ? (1.0f / avgDt) : 0.0f;
+
+        // 直近100フレームの平均を計算
+        float recentSum = 0.0f;
+        int recentValidCount = 0;
+        for (int i = 0; i < 100; ++i) {
+            if (recentFrameTimes_[i] > 0.0f) {
+                recentSum += recentFrameTimes_[i];
+                recentValidCount++;
+            }
+        }
+        float recentAvgDt = (recentValidCount > 0) ? (recentSum / recentValidCount) : 0.0f;
+        float recentAvgFps = (recentAvgDt > 0.0f) ? (1.0f / recentAvgDt) : 0.0f;
+
+        logFile_ << "========================================" << std::endl;
+        logFile_ << "フレーム統計（DebugLog）" << std::endl;
+        logFile_ << "========================================" << std::endl;
+        logFile_ << "総フレーム数: " << frameCount_ << std::endl;
+        logFile_ << "総実行時間: " << std::fixed << std::setprecision(2) << totalTime_ << "秒" << std::endl;
+        logFile_ << "平均FPS: " << std::fixed << std::setprecision(2) << avgFps << std::endl;
+        logFile_ << "平均フレーム時間: " << std::fixed << std::setprecision(2) << (avgDt * 1000.0f) << "ms" << std::endl;
+        logFile_ << "直近100フレームの平均FPS: " << std::fixed << std::setprecision(2) << recentAvgFps << std::endl;
+        logFile_ << "直近100フレームの平均時間: " << std::fixed << std::setprecision(2) << (recentAvgDt * 1000.0f) << "ms" << std::endl;
+        logFile_ << "========================================" << std::endl;
+    }
+
 private:
     DebugLog() {
+#ifdef _DEBUG
         // UTF-8 BOMで出力するため、バイナリモードで開く
         logFile_.open("debug_log.txt", std::ios::out | std::ios::trunc | std::ios::binary);
         if (logFile_.is_open()) {
             // UTF-8 BOMを書き込む
             const unsigned char bom[] = { 0xEF, 0xBB, 0xBF };
             logFile_.write(reinterpret_cast<const char*>(bom), sizeof(bom));
-
             logFile_ << "========================================" << std::endl;
             logFile_ << "デバッグログ開始" << std::endl;
             logFile_ << "========================================" << std::endl;
             logFile_.flush();
         }
+#endif
     }
 
     ~DebugLog() {
+#ifdef _DEBUG
         if (logFile_.is_open()) {
+            // 終了時統計を出力
+            OutputShutdownStatistics();
+
             logFile_ << "========================================" << std::endl;
             logFile_ << "デバッグログ終了" << std::endl;
             logFile_ << "========================================" << std::endl;
             logFile_.close();
         }
+#endif
     }
 
     const char* CategoryToString(Category cat) const {

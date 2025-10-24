@@ -223,7 +223,7 @@ public:
     void OnExit(World& world) override {
         for (const auto& entity : ownedEntities_) {
             if (world.IsAlive(entity)) {
-                world.DestroyEntity(entity);
+                world.DestroyEntityWithCause(entity, World::Cause::SceneUnload);
             }
         }
         ownedEntities_.clear();
