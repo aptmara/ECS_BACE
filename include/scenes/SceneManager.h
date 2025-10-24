@@ -313,12 +313,17 @@ public:
 
         // 現在のシーンを終了
         if (currentScene_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Scene, "シーン切り替え: OnExit()を呼び出し");
             currentScene_->OnExit(world);
+            
+            // シーン切り替え時のエンティティ破棄原因を明示
+            world.FlushDestroyEndOfFrame();
         }
 
         // 新しいシーンを開始
         currentScene_ = it->second;
         if (currentScene_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Scene, "新しいシーンを開始: OnEnter()を呼び出し");
             currentScene_->OnEnter(world);
         }
     }
@@ -336,34 +341,34 @@ public:
      * @details 登録されたすべてのシーンを削除します
      */
     ~SceneManager() {
-        DEBUGLOG("SceneManager::~SceneManager() - Cleaning up");
+        DEBUGLOG("SceneManager::~SceneManager() - クリーンアップ中");
 
         if (!isShutdown_) {
-            DEBUGLOG_WARNING("SceneManager::Shutdown() was not called explicitly. Auto-cleanup in destructor.");
+            DEBUGLOG_WARNING("SceneManager::Shutdown()が明示的に呼ばれていません。デストラクタで自動クリーンアップします。");
         }
 
         if (isShutdown_) {
-            DEBUGLOG("SceneManager destroyed");
+            DEBUGLOG("SceneManager破棄完了");
             return;
         }
 
         // 現在のシーンが残っている場合は警告
         if (currentScene_) {
-            DEBUGLOG_WARNING("Current scene still active during destruction - this should have been cleaned up by App::Shutdown()");
+            DEBUGLOG_WARNING("破棄時にシーンがまだアクティブです - App::Shutdown()でクリーンアップされるべきでした");
         }
 
         // 各シーンを削除
-        DEBUGLOG("Deleting " + std::to_string(scenes_.size()) + " scene(s)");
+        DEBUGLOG(std::to_string(scenes_.size()) + " 個のシーンを削除中");
         for (auto& pair : scenes_) {
             if (pair.second) {
-                DEBUGLOG("Deleting scene: " + pair.first);
+                DEBUGLOG("シーン削除: " + pair.first);
                 delete pair.second;
                 pair.second = nullptr;
             }
         }
         scenes_.clear();
 
-        DEBUGLOG("SceneManager destroyed");
+        DEBUGLOG("SceneManager破棄完了");
     }
 
     /**
@@ -374,21 +379,21 @@ public:
         if (isShutdown_) {
             return; // 冪等性の確保
         }
-        DEBUGLOG("SceneManager::Shutdown() called");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Scene, "SceneManager::Shutdown() 呼び出し");
 
         // 現在のシーンを終了
         if (currentScene_) {
-            DEBUGLOG("Exiting current scene");
+            DEBUGLOG_CATEGORY(DebugLog::Category::Scene, "現在のシーンを終了中");
             currentScene_->OnExit(world);
             currentScene_ = nullptr;
         }
 
         // 登録済みシーンをすべて削除
         if (!scenes_.empty()) {
-            DEBUGLOG("Deleting " + std::to_string(scenes_.size()) + " scene(s)");
+            DEBUGLOG_CATEGORY(DebugLog::Category::Scene, std::to_string(scenes_.size()) + " 個のシーンを削除中");
             for (auto& pair : scenes_) {
                 if (pair.second) {
-                    DEBUGLOG("Deleting scene: " + pair.first);
+                    DEBUGLOG_CATEGORY(DebugLog::Category::Scene, "シーン削除: " + pair.first);
                     delete pair.second;
                     pair.second = nullptr;
                 }
@@ -397,7 +402,7 @@ public:
         }
 
         isShutdown_ = true;
-        DEBUGLOG("SceneManager::Shutdown() completed");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Scene, "SceneManager::Shutdown() 完了");
     }
 
 private:

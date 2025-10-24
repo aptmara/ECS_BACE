@@ -3,7 +3,7 @@
  * @brief 学習用サンプルシーン集
  * @author 山内陽
  * @date 2025
- * @version 4.0
+ * @version 6.0
  * 
  * @details
  * 初学者がコンポーネント指向を段階的に学べるサンプル集です。
@@ -18,6 +18,7 @@
 #include "components/Rotator.h"
 #include "animation/Animation.h"
 #include "samples/ComponentSamples.h"
+#include "gameplay/EnemySpawner.h"  // 敵スポーンシステムを追加
 #include <DirectXMath.h>
 
 namespace SampleScenes {
@@ -436,6 +437,318 @@ inline Entity CreateTemporaryCube(World& world, float lifeTime = 5.0f) {
     
     return cube;
 }
+
+// ========================================================
+// レベル10: 様々な形状を使う
+// ========================================================
+/**
+ * @brief レベル10: 様々な形状を使う
+ * @details
+ * 学べること:
+ * - MeshTypeを使って形状を指定
+ * - 球体、円柱、円錐、平面、カプセルの使い方
+ */
+
+/**
+ * @brief 赤い球体を作成
+ * 
+ * @param[in,out] world ワールド参照
+ * @param[in] position 配置する位置
+ * @return Entity 作成されたエンティティ
+ * 
+ * @author 山内陽
+ */
+inline Entity CreateSphere(World& world, const DirectX::XMFLOAT3& position) {
+    Transform transform;
+    transform.position = position;
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+    MeshRenderer renderer;
+    renderer.meshType = MeshType::Sphere;  // 球体を指定
+    renderer.color = DirectX::XMFLOAT3{1.0f, 0.3f, 0.3f};  // 赤系
+
+    return world.Create()
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
+        .Build();
+}
+
+/**
+ * @brief 緑の円柱を作成
+ * 
+ * @param[in,out] world ワールド参照
+ * @param[in] position 配置する位置
+ * @return Entity 作成されたエンティティ
+ * 
+ * @author 山内陽
+ */
+inline Entity CreateCylinder(World& world, const DirectX::XMFLOAT3& position) {
+    Transform transform;
+    transform.position = position;
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+    MeshRenderer renderer;
+    renderer.meshType = MeshType::Cylinder;  // 円柱を指定
+    renderer.color = DirectX::XMFLOAT3{0.3f, 1.0f, 0.3f};  // 緑系
+
+    return world.Create()
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
+        .Build();
+}
+
+/**
+ * @brief 青い円錐を作成
+ * 
+ * @param[in,out] world ワールド参照
+ * @param[in] position 配置する位置
+ * @return Entity 作成されたエンティティ
+ * 
+ * @author 山内陽
+ */
+inline Entity CreateCone(World& world, const DirectX::XMFLOAT3& position) {
+    Transform transform;
+    transform.position = position;
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+    MeshRenderer renderer;
+    renderer.meshType = MeshType::Cone;  // 円錐を指定
+    renderer.color = DirectX::XMFLOAT3{0.3f, 0.3f, 1.0f};  // 青系
+
+    return world.Create()
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
+        .Build();
+}
+
+/**
+ * @brief 灰色の平面(地面)を作成
+ * 
+ * @param[in,out] world ワールド参照
+ * @param[in] position 配置する位置
+ * @param[in] scale スケール(大きさ)
+ * @return Entity 作成されたエンティティ
+ * 
+ * @author 山内陽
+ */
+inline Entity CreatePlane(World& world, const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& scale) {
+    Transform transform;
+    transform.position = position;
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = scale;
+
+    MeshRenderer renderer;
+    renderer.meshType = MeshType::Plane;  // 平面を指定
+    renderer.color = DirectX::XMFLOAT3{0.6f, 0.6f, 0.6f};  // 灰色
+
+    return world.Create()
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
+        .Build();
+}
+
+/**
+ * @brief 紫のカプセルを作成
+ * 
+ * @param[in,out] world ワールド参照
+ * @param[in] position 配置する位置
+ * @return Entity 作成されたエンティティ
+ * 
+ * @author 山内陽
+ */
+inline Entity CreateCapsule(World& world, const DirectX::XMFLOAT3& position) {
+    Transform transform;
+    transform.position = position;
+    transform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+    transform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+
+    MeshRenderer renderer;
+    renderer.meshType = MeshType::Capsule;  // カプセルを指定
+    renderer.color = DirectX::XMFLOAT3{0.8f, 0.3f, 0.8f};  // 紫系
+
+    return world.Create()
+        .With<Transform>(transform)
+        .With<MeshRenderer>(renderer)
+        .Build();
+}
+
+/**
+ * @brief 様々な形状を回転させながら配置するデモ
+ * 
+ * @param[in,out] world ワールド参照
+ * 
+ * @author 山内陽
+ */
+inline void CreateShapeShowcase(World& world) {
+    const float spacing = 3.0f;
+    
+    // 地面(大きな平面)
+    CreatePlane(world, DirectX::XMFLOAT3{0.0f, -1.5f, 0.0f}, DirectX::XMFLOAT3{20.0f, 1.0f, 20.0f});
+    
+    // 中央に立方体
+    Entity cube = world.Create()
+        .With<Transform>(DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f})
+        .With<MeshRenderer>(DirectX::XMFLOAT3{1.0f, 1.0f, 0.3f})  // 黄色
+        .With<Rotator>(30.0f)
+        .Build();
+    
+    // 左に球体
+    Entity sphere = CreateSphere(world, DirectX::XMFLOAT3{-spacing, 0.0f, 0.0f});
+    world.Add<Rotator>(sphere, Rotator{45.0f});
+    
+    // 右に円柱
+    Entity cylinder = CreateCylinder(world, DirectX::XMFLOAT3{spacing, 0.0f, 0.0f});
+    world.Add<Rotator>(cylinder, Rotator{60.0f});
+    
+    // 手前に円錐
+    Entity cone = CreateCone(world, DirectX::XMFLOAT3{0.0f, 0.0f, -spacing});
+    world.Add<Rotator>(cone, Rotator{75.0f});
+    
+    // 奥にカプセル
+    Entity capsule = CreateCapsule(world, DirectX::XMFLOAT3{0.0f, 0.0f, spacing});
+    world.Add<Rotator>(capsule, Rotator{90.0f});
+}
+
+// ========================================================
+// レベル11: 敵スポーンシステムを使う
+// ========================================================
+/**
+ * @brief レベル11: 敵スポーンシステムを使う
+ * @details
+ * 学べること:
+ * - 自動的に敵を生成するシステムの作り方
+ * - ランダムな形状・色の敵を生成
+ * - ゲームループの基本構造
+ */
+
+/**
+ * @brief ランダム敵スポーンシステムのデモ
+ * 
+ * @param[in,out] world ワールド参照
+ * 
+ * @details
+ * 1.5秒ごとにランダムな形状・色の敵が上から降ってきます。
+ * 
+ * @author 山内陽
+ */
+inline void CreateEnemySpawnerDemo(World& world) {
+    // 地面を作成
+    Transform groundTransform;
+    groundTransform.position = DirectX::XMFLOAT3{0.0f, -2.0f, 0.0f};
+    groundTransform.scale = DirectX::XMFLOAT3{30.0f, 1.0f, 30.0f};
+    
+    MeshRenderer groundRenderer;
+    groundRenderer.meshType = MeshType::Plane;
+    groundRenderer.color = DirectX::XMFLOAT3{0.2f, 0.6f, 0.2f};  // 草原風
+    
+    world.Create()
+        .With<Transform>(groundTransform)
+        .With<MeshRenderer>(groundRenderer)
+        .Build();
+    
+    // スポーナーエンティティを作成(見えない管理用エンティティ)
+    Entity spawner = world.Create()
+        .With<Transform>(DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f})
+        .With<EnemySpawner>()
+        .Build();
+}
+
+/**
+ * @brief ウェーブ形式の敵スポーンデモ
+ * 
+ * @param[in,out] world ワールド参照
+ * 
+ * @details
+ * 5秒ごとに5体の敵が横並びで出現します。
+ * ウェーブごとに色のテーマが変わります。
+ * 
+ * @author 山内陽
+ */
+inline void CreateWaveSpawnerDemo(World& world) {
+    // 地面
+    Transform groundTransform;
+    groundTransform.position = DirectX::XMFLOAT3{0.0f, -2.0f, 0.0f};
+    groundTransform.scale = DirectX::XMFLOAT3{30.0f, 1.0f, 30.0f};
+    
+    MeshRenderer groundRenderer;
+    groundRenderer.meshType = MeshType::Plane;
+    groundRenderer.color = DirectX::XMFLOAT3{0.3f, 0.3f, 0.4f};  // 暗い地面
+    
+    world.Create()
+        .With<Transform>(groundTransform)
+        .With<MeshRenderer>(groundRenderer)
+        .Build();
+    
+    // ウェーブスポーナー
+    Entity spawner = world.Create()
+        .With<Transform>(DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f})
+        .With<WaveSpawner>()
+        .Build();
+}
+
+/**
+ * @brief カスタマイズ可能な敵スポーナーの作成例
+ * 
+ * @param[in,out] world ワールド参照
+ * @param[in] interval スポーン間隔(秒)
+ * @param[in] spawnY スポーン位置のY座標
+ * @return Entity スポーナーエンティティ
+ * 
+ * @details
+ * パラメータを調整して、スポーン頻度や位置を変更できます。
+ * 
+ * @author 山内陽
+ */
+inline Entity CreateCustomEnemySpawner(World& world, float interval = 2.0f, float spawnY = 12.0f) {
+    Entity spawner = world.Create()
+        .With<Transform>(DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f})
+        .Build();
+    
+    // スポーナーコンポーネントを手動で設定
+    auto& spawnerComp = world.Add<EnemySpawner>(spawner);
+    spawnerComp.spawnInterval = interval;
+    spawnerComp.spawnY = spawnY;
+    spawnerComp.spawnRangeX = 10.0f;
+    
+    return spawner;
+}
+
+/**
+ * @brief 複数のスポーナーを配置するデモ
+ * 
+ * @param[in,out] world ワールド参照
+ * 
+ * @details
+ * 異なる速度で動く複数のスポーナーを配置します。
+ * より複雑な敵の出現パターンを作れます。
+ * 
+ * @author 山内陽
+ */
+inline void CreateMultiSpawnerDemo(World& world) {
+    // 地面
+    Transform groundTransform;
+    groundTransform.position = DirectX::XMFLOAT3{0.0f, -2.0f, 0.0f};
+    groundTransform.scale = DirectX::XMFLOAT3{30.0f, 1.0f, 30.0f};
+    
+    MeshRenderer groundRenderer;
+    groundRenderer.meshType = MeshType::Plane;
+    groundRenderer.color = DirectX::XMFLOAT3{0.4f, 0.4f, 0.3f};
+    
+    world.Create()
+        .With<Transform>(groundTransform)
+        .With<MeshRenderer>(groundRenderer)
+        .Build();
+    
+    // 速いスポーナー(1秒ごと)
+    CreateCustomEnemySpawner(world, 1.0f, 12.0f);
+    
+    // 遅いスポーナー(3秒ごと)
+    CreateCustomEnemySpawner(world, 3.0f, 15.0f);
+}
+
 } // namespace SampleScenes
 
 // ========================================================
@@ -465,11 +778,33 @@ void CreateDemoScene() {
     SampleScenes::CreateRainbowCube(world_);
     SampleScenes::CreateWanderingCube(world_);
     SampleScenes::CreateTemporaryCube(world_, 10.0f);
+    
+    // 新しい形状のデモ
+    SampleScenes::CreateShapeShowcase(world_);
+    
+    // 個別の形状作成
+    SampleScenes::CreateSphere(world_, DirectX::XMFLOAT3{5, 0, 0});
+    SampleScenes::CreateCylinder(world_, DirectX::XMFLOAT3{-5, 0, 0});
+    SampleScenes::CreateCone(world_, DirectX::XMFLOAT3{0, 3, 0});
+    SampleScenes::CreatePlane(world_, DirectX::XMFLOAT3{0, -2, 0}, DirectX::XMFLOAT3{10, 1, 10});
+    SampleScenes::CreateCapsule(world_, DirectX::XMFLOAT3{0, -3, 0});
+    
+    // 敵スポーンシステムのデモ
+    SampleScenes::CreateEnemySpawnerDemo(world_);
+    
+    // または、ウェーブ形式
+    // SampleScenes::CreateWaveSpawnerDemo(world_);
+    
+    // または、複数スポーナー
+    // SampleScenes::CreateMultiSpawnerDemo(world_);
+    
+    // または、カスタム設定
+    // SampleScenes::CreateCustomEnemySpawner(world_, 0.5f, 15.0f);
 }
 
 */
 
 // ========================================================
 // 作成者: 山内陽
-// バージョン: v4.0 - 段階的学習用サンプル集
+// バージョン: v7.0 - 敵スポーンシステム対応
 // ========================================================

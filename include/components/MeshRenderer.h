@@ -7,30 +7,65 @@
  * @brief メッシュ描画コンポーネントの定義
  * @author 山内陽
  * @date 2025
- * @version 5.0
+ * @version 6.0
  * 
  * @details
  * このファイルは3Dオブジェクトの「見た目」を制御するコンポーネントを定義します。
+ * 複数の基本形状(キューブ、球体、円柱など)をサポートします。
  */
 
 /**
+ * @enum MeshType
+ * @brief 3Dメッシュの形状タイプ
+ * 
+ * @details
+ * 描画する3D形状の種類を指定します。
+ * 
+ * @par 利用可能な形状:
+ * - Cube: 立方体(デフォルト)
+ * - Sphere: 球体
+ * - Cylinder: 円柱
+ * - Cone: 円錐
+ * - Plane: 平面(地面などに使用)
+ * - Capsule: カプセル(円柱の両端が半球)
+ * 
+ * @par 使用例
+ * @code
+ * MeshRenderer renderer;
+ * renderer.meshType = MeshType::Sphere;  // 球体を描画
+ * renderer.color = DirectX::XMFLOAT3{1, 0, 0};  // 赤色
+ * @endcode
+ * 
+ * @author 山内陽
+ */
+enum class MeshType {
+    Cube = 0,      ///< 立方体(デフォルト)
+    Sphere,        ///< 球体
+    Cylinder,      ///< 円柱
+    Cone,          ///< 円錐
+    Plane,         ///< 平面
+    Capsule        ///< カプセル
+};
+
+/**
  * @struct MeshRenderer
- * @brief オブジェクトの見た目(色・テクスチャ)を管理するデータコンポーネント
+ * @brief オブジェクトの見た目(色・テクスチャ・形状)を管理するデータコンポーネント
  * 
  * @details
  * このコンポーネントは3Dオブジェクトの描画設定を保持します。
- * 単色表示とテクスチャ表示の両方に対応しています。
+ * 単色表示とテクスチャ表示の両方に対応し、複数の基本形状を選択できます。
  * 
  * ### 描画の仕組み:
  * 1. テクスチャが設定されていない場合: colorで指定した単色で描画
  * 2. テクスチャが設定されている場合: テクスチャ画像で描画(colorは色調として使用)
+ * 3. meshTypeで指定された形状で描画
  * 
  * ### UV座標について:
  * UV座標は、テクスチャのどの部分を表示するかを指定します。
  * - uvOffset: テクスチャの開始位置をずらす(アニメーション等に使用)
  * - uvScale: テクスチャの繰り返し回数(タイリング)
  * 
- * @par 使用例(単色)
+ * @par 使用例(単色キューブ)
  * @code
  * Entity cube = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
@@ -38,34 +73,76 @@
  *     .Build();
  * @endcode
  * 
- * @par 使用例(テクスチャ)
+ * @par 使用例(球体)
  * @code
  * MeshRenderer renderer;
- * renderer.color = DirectX::XMFLOAT3{1, 1, 1};  // 白(テクスチャ本来の色)
- * renderer.texture = texManager.LoadFromFile("brick.png");
+ * renderer.meshType = MeshType::Sphere;
+ * renderer.color = DirectX::XMFLOAT3{0, 1, 0};  // 緑色の球
  * 
- * Entity cube = world.Create()
+ * Entity sphere = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
  *     .With<MeshRenderer>(renderer)
  *     .Build();
  * @endcode
  * 
- * @par 使用例(UVアニメーション)
+ * @par 使用例(テクスチャ付き円柱)
  * @code
- * // 毎フレーム、テクスチャを横にスクロール
- * auto* renderer = world.TryGet<MeshRenderer>(entity);
- * if (renderer) {
- *     renderer->uvOffset.x += 0.01f * dt;
- * }
+ * MeshRenderer renderer;
+ * renderer.meshType = MeshType::Cylinder;
+ * renderer.color = DirectX::XMFLOAT3{1, 1, 1};  // 白(テクスチャ本来の色)
+ * renderer.texture = texManager.LoadFromFile("wood.png");
+ * 
+ * Entity pillar = world.Create()
+ *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
+ *     .With<MeshRenderer>(renderer)
+ *     .Build();
  * @endcode
  * 
  * @note Transformコンポーネントと組み合わせて使用します
  * @see Transform 位置・回転・スケールを管理するコンポーネント
  * @see TextureManager テクスチャ管理クラス
+ * @see MeshType 形状タイプの列挙型
  * 
  * @author 山内陽
  */
 struct MeshRenderer {
+    /**
+     * @var meshType
+     * @brief 描画する3D形状のタイプ
+     * 
+     * @details
+     * どの形状を描画するかを指定します。
+     * 
+     * @par 形状の種類:
+     * - MeshType::Cube: 立方体(デフォルト)
+     * - MeshType::Sphere: 球体
+     * - MeshType::Cylinder: 円柱(Y軸方向)
+     * - MeshType::Cone: 円錐
+     * - MeshType::Plane: 平面(地面など)
+     * - MeshType::Capsule: カプセル
+     * 
+     * @par 使用例(球体に変更)
+     * @code
+     * auto* renderer = world.TryGet<MeshRenderer>(entity);
+     * if (renderer) {
+     *     renderer->meshType = MeshType::Sphere;
+     * }
+     * @endcode
+     * 
+     * @par 使用例(ランタイムで形状変更)
+     * @code
+     * // 状態によって形状を切り替え
+     * if (isPowerUp) {
+     *     renderer->meshType = MeshType::Sphere;  // パワーアップ時は球
+     * } else {
+     *     renderer->meshType = MeshType::Cube;    // 通常時は立方体
+     * }
+     * @endcode
+     * 
+     * @note デフォルトはMeshType::Cube(立方体)
+     */
+    MeshType meshType = MeshType::Cube;
+    
     /**
      * @var color
      * @brief オブジェクトの基本色(RGB: 0.0～1.0)

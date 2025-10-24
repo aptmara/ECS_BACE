@@ -21,6 +21,8 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <vector>
+#include <algorithm>
 
 // DirectX11 & ECS システム
 #include "graphics/GfxDevice.h"
@@ -87,6 +89,15 @@ struct App {
     int metricsFrameCount_ = 0;         ///< メトリクス計測フレーム数
     const int metricsUpdateInterval_ = 30; ///< メトリクス更新間隔（フレーム）
 
+    // 詳細統計用（最大1000フレーム分のサンプル）
+    std::vector<float> frameTotalSamples_; ///< フレーム合計時間のサンプル
+    std::vector<float> updateSamples_;     ///< Update時間のサンプル
+    std::vector<float> renderSamples_;     ///< Render時間のサンプル
+    std::vector<float> presentSamples_;    ///< Present時間のサンプル
+    
+    const int maxSamples_ = 1000;          ///< 最大サンプル数
+    bool metricsCollecting_ = true;        ///< メトリクス収集中フラグ
+
     // ========================================================
     // 初期化
     // ========================================================
@@ -99,19 +110,28 @@ struct App {
      */
     bool Init(HINSTANCE hInst, int width = 1280, int height = 720) {
         DEBUGLOG("========================================");
-        DEBUGLOG("App::Init() started");
-        DEBUGLOG("Window size: " + std::to_string(width) + "x" + std::to_string(height));
+        DEBUGLOG("App::Init() 開始");
+        DEBUGLOG("ウィンドウサイズ: " + std::to_string(width) + "x" + std::to_string(height));
         
-        CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-        DEBUGLOG("COM library initialized");
+        // P2: COM初期化モードを明示的に記録
+        HRESULT hrCom = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+        if (SUCCEEDED(hrCom)) {
+            DEBUGLOG("COMライブラリを初期化 (モード: COINIT_MULTITHREADED, HRESULT: 0x" + std::to_string(hrCom) + ")");
+            if (hrCom == S_FALSE) {
+                DEBUGLOG("COMは既に初期化されていました (S_FALSE)");
+            }
+        } else {
+            DEBUGLOG_ERROR("COMライブラリの初期化失敗 (HRESULT: 0x" + std::to_string(hrCom) + ")");
+            return false;
+        }
 
         if (!CreateAppWindow(hInst, width, height)) {
-            DEBUGLOG("[ERROR] CreateAppWindow() failed");
+            DEBUGLOG("[ERROR] CreateAppWindow() 失敗");
             return false;
         }
 
         if (!InitializeGraphics(width, height)) {
-            DEBUGLOG("[ERROR] InitializeGraphics() failed");
+            DEBUGLOG("[ERROR] InitializeGraphics() 失敗");
             return false;
         }
 
@@ -120,7 +140,7 @@ struct App {
         // ゲームシーンの初期化
         InitializeGame();
 
-        DEBUGLOG("App::Init() completed successfully");
+        DEBUGLOG("App::Init() 正常に完了");
         DEBUGLOG("========================================");
         return true;
     }
@@ -134,7 +154,7 @@ struct App {
      * アプリケーションが終了するまで、メッセージ処理、更新、描画を繰り返します。
      */
     void Run() {
-        DEBUGLOG("App::Run() - Main loop started");
+        DEBUGLOG("App::Run() - メインループ開始");
         
         MSG msg{};
         auto previousTime = std::chrono::high_resolution_clock::now();
@@ -157,7 +177,7 @@ struct App {
             
             // デルタタイムの異常値チェック
             if (deltaTime > 1.0f) {
-                DEBUGLOG("[WARNING] Abnormal deltaTime detected: " + std::to_string(deltaTime) + "s (clamped to 0.1s)");
+                DEBUGLOG("[WARNING] 異常なdeltaTimeを検出: " + std::to_string(deltaTime) + "s (0.1sにクランプ)");
                 deltaTime = 0.1f;
             }
             
@@ -169,7 +189,7 @@ struct App {
             
             // ESCキーで終了
             if (input_.GetKeyDown(VK_ESCAPE)) {
-                DEBUGLOG("ESC key pressed - Quitting application");
+                DEBUGLOG_CATEGORY(DebugLog::Category::System, "ESCキーが押されました - アプリケーション終了要求（ユーザー操作）");
                 PostQuitMessage(0);
             }
             
@@ -177,7 +197,7 @@ struct App {
             try {
                 sceneManager_.Update(world_, input_, deltaTime);
             } catch (const std::exception& e) {
-                DEBUGLOG("[CRITICAL ERROR] Exception in scene update: " + std::string(e.what()));
+                DEBUGLOG("[CRITICAL ERROR] シーン更新中に例外が発生: " + std::string(e.what()));
                 PostQuitMessage(-1);
             }
             
@@ -188,16 +208,31 @@ struct App {
             // ========== RENDER PHASE ==========
             auto renderStartTime = std::chrono::high_resolution_clock::now();
             
-            RenderFrame();
+            // BeginFrameとレンダリング処理
+            gfx_.BeginFrame();
+            
+#ifdef _DEBUG
+            DrawDebugInfo();
+#endif
+            
+            renderer_.Render(gfx_, world_, camera_);
+            
+#ifdef _DEBUG
+            debugDraw_.Render(gfx_, camera_);
+#endif
             
             auto renderEndTime = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> renderDuration = renderEndTime - renderStartTime;
             currentMetrics_.renderTime = renderDuration.count();
             
             // ========== PRESENT PHASE ==========
-            // (EndFrame内でPresent実行済み - ここでは計測のみ)
+            auto presentStartTime = std::chrono::high_resolution_clock::now();
+            
+            // Present実行（VSync待機含む）
+            gfx_.EndFrame();
+            
             auto presentEndTime = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<float> presentDuration = presentEndTime - renderEndTime;
+            std::chrono::duration<float> presentDuration = presentEndTime - presentStartTime;
             currentMetrics_.presentTime = presentDuration.count();
             
             // フレーム合計時間
@@ -211,6 +246,14 @@ struct App {
             avgMetrics_.totalTime += currentMetrics_.totalTime;
             metricsFrameCount_++;
             
+            // サンプル収集（最大1000フレーム）
+            if (metricsCollecting_ && frameTotalSamples_.size() < maxSamples_) {
+                frameTotalSamples_.push_back(currentMetrics_.totalTime);
+                updateSamples_.push_back(currentMetrics_.updateTime);
+                renderSamples_.push_back(currentMetrics_.renderTime);
+                presentSamples_.push_back(currentMetrics_.presentTime);
+            }
+            
             // ウィンドウタイトルにスコアとFPS表示
             if (metricsFrameCount_ >= metricsUpdateInterval_) {
                 UpdateWindowTitleWithMetrics();
@@ -219,20 +262,24 @@ struct App {
                 avgMetrics_ = FrameMetrics{};
                 metricsFrameCount_ = 0;
             }
-            
+
             frameCount++;
         }
         
-        DEBUGLOG("App::Run() - Main loop ended (Total frames: " + std::to_string(frameCount) + ")");
+        DEBUGLOG("App::Run() - メインループ終了 (総フレーム数: " + std::to_string(frameCount) + ")");
     }
 
     /**
      * @brief デストラクタ
      */
     ~App() {
-        DEBUGLOG("App::~App() - Destructor called");
+        DEBUGLOG("App::~App() - デストラクタ呼び出し");
+        
+        // 終了前にフレーム統計を出力
+        OutputFrameStatistics();
+        
         Shutdown();
-        DEBUGLOG("App destroyed successfully");
+        DEBUGLOG("App 正常に破棄");
     }
 
 private:
@@ -241,49 +288,57 @@ private:
      * @details 正しい順序でリソースを解放します
      */
     void Shutdown() {
-        DEBUGLOG("App::Shutdown() - Starting cleanup");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "App::Shutdown() - クリーンアップ開始");
+        
+        // Phase 0: すべてのシステムを停止（新規Spawn無効化）
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 0: すべてのシステムを停止（新規Spawn無効化）");
+        world_.StopAllSystems();
         
         // Phase 1: シーンマネージャーの終了（シーンのOnExitを呼び出し）
-        DEBUGLOG("Phase 1: Shutting down SceneManager");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 1: SceneManagerのシャットダウン");
         sceneManager_.Shutdown(world_);
         gameScene_ = nullptr;  // SceneManagerが所有しているのでnullptrに設定するだけ
         
         // Phase 2: WorldのDestroyキュー/Spawnキューを明示的にフラッシュ
-        DEBUGLOG("Phase 2: Flushing World queues (entities: " + std::to_string(world_.GetAliveCount()) + ")");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 2: Worldキューをフラッシュ (エンティティ数: " + std::to_string(world_.GetAliveCount()) + ")");
         world_.FlushDestroyEndOfFrame();
-        world_.FlushSpawnStartOfFrame(); // 念のため
+        world_.FlushSpawnStartOfFrame(); // 念のため（systemsStopped_でガード済み）
         
         // Phase 3: World破棄前に残存エンティティを警告
-        DEBUGLOG("Phase 3: Checking for remaining entities before World destruction");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 3: World破棄前の残存エンティティチェック");
         if (world_.GetAliveCount() > 0) {
-            DEBUGLOG_WARNING("World still has " + std::to_string(world_.GetAliveCount()) + " alive entities before destruction");
+            DEBUGLOG_WARNING("World破棄前に " + std::to_string(world_.GetAliveCount()) + " 個の生存エンティティが残っています");
         } else {
-            DEBUGLOG("Phase 3: All entities properly destroyed");
+            DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 3: すべてのエンティティが正常に破棄されました");
         }
         
 #ifdef _DEBUG
         // Phase 4: デバッグ描画解放
-        DEBUGLOG("Phase 4: Releasing DebugDraw");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 4: DebugDrawを解放");
         debugDraw_.Shutdown();
 #endif
         
         // Phase 5: レンダリングシステム解放
-        DEBUGLOG("Phase 5: Releasing RenderSystem");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 5: RenderSystemを解放");
         renderer_.Shutdown();
         
         // Phase 6: テクスチャマネージャー解放
-        DEBUGLOG("Phase 6: Releasing TextureManager");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 6: TextureManagerを解放");
         texManager_.Shutdown();
         
-        // Phase 7: グラフィックスデバイス解放
-        DEBUGLOG("Phase 7: Releasing GfxDevice");
+        // Phase 7: 入力システム解放
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 7: InputSystemを解放");
+        input_.Shutdown();
+        
+        // Phase 8: グラフィックスデバイス解放
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 8: GfxDeviceを解放");
         gfx_.Shutdown();
         
-        // Phase 8: COM終了（最後）
-        DEBUGLOG("Phase 8: Uninitializing COM");
+        // Phase 9: COM終了（最後）
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 9: COMを終了");
         CoUninitialize();
         
-        DEBUGLOG("App::Shutdown() completed successfully");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "App::Shutdown() 正常に完了");
     }
 
     // ========================================================
@@ -298,7 +353,7 @@ private:
      * @return bool 成功した場合は true
      */
     bool CreateAppWindow(HINSTANCE hInst, int width, int height) {
-        DEBUGLOG("CreateAppWindow() started");
+        DEBUGLOG("CreateAppWindow() 開始");
         
         WNDCLASSEX wc{ sizeof(WNDCLASSEX) };
         wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -308,15 +363,15 @@ private:
         wc.lpszClassName = L"MiniGame_Class";
         
         if (!RegisterClassEx(&wc)) {
-            DEBUGLOG("[ERROR] RegisterClassEx() failed - Error code: " + std::to_string(GetLastError()));
+            DEBUGLOG("[ERROR] RegisterClassEx() 失敗 - エラーコード: " + std::to_string(GetLastError()));
             return false;
         }
-        DEBUGLOG("Window class registered successfully");
+        DEBUGLOG("ウィンドウクラスを正常に登録");
 
         RECT rc{ 0, 0, width, height };
         AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
         
-        DEBUGLOG("Adjusted window rect: " + std::to_string(rc.right - rc.left) + "x" + std::to_string(rc.bottom - rc.top));
+        DEBUGLOG("ウィンドウサイズを調整: " + std::to_string(rc.right - rc.left) + "x" + std::to_string(rc.bottom - rc.top));
         
         hwnd_ = CreateWindowW(
             wc.lpszClassName,
@@ -328,15 +383,15 @@ private:
         );
         
         if (!hwnd_) {
-            DEBUGLOG("[ERROR] CreateWindowW() failed - Error code: " + std::to_string(GetLastError()));
+            DEBUGLOG("[ERROR] CreateWindowW() 失敗 - エラーコード: " + std::to_string(GetLastError()));
             return false;
         }
         
-        DEBUGLOG("Window created successfully (HWND: 0x" + std::to_string(reinterpret_cast<uintptr_t>(hwnd_)) + ")");
-        
+        DEBUGLOG("ウィンドウ作成成功 (HWND: 0x" + std::to_string(reinterpret_cast<uintptr_t>(hwnd_)) + ")");
+
         ShowWindow(hwnd_, SW_SHOW);
-        DEBUGLOG("Window shown");
-        DEBUGLOG("CreateAppWindow() completed successfully");
+        DEBUGLOG("ウィンドウを表示");
+        DEBUGLOG("CreateAppWindow() 正常に完了");
         return true;
     }
 
@@ -347,43 +402,43 @@ private:
      * @return bool 成功した場合は true
      */
     bool InitializeGraphics(int width, int height) {
-        DEBUGLOG("InitializeGraphics() started");
+        DEBUGLOG("InitializeGraphics() 開始");
         
         if (!gfx_.Init(hwnd_, width, height)) {
-            DEBUGLOG("[CRITICAL ERROR] GfxDevice::Init() failed");
+            DEBUGLOG("[CRITICAL ERROR] GfxDevice::Init() 失敗");
             MessageBoxA(nullptr, "DirectX11の初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("GfxDevice initialized successfully");
+        DEBUGLOG("GfxDeviceを正常に初期化");
         
         if (!texManager_.Init(gfx_)) {
-            DEBUGLOG("[ERROR] TextureManager::Init() failed");
+            DEBUGLOG("[ERROR] TextureManager::Init() 失敗");
             MessageBoxA(nullptr, "TextureManagerの初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("TextureManager initialized successfully");
+        DEBUGLOG("TextureManagerを正常に初期化");
         
         if (!renderer_.Init(gfx_, texManager_)) {
-            DEBUGLOG("[ERROR] RenderSystem::Init() failed");
+            DEBUGLOG("[ERROR] RenderSystem::Init() 失敗");
             MessageBoxA(nullptr, "RenderSystemの初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
         }
-        DEBUGLOG("RenderSystem initialized successfully");
+        DEBUGLOG("RenderSystemを正常に初期化");
 
         input_.Init();
-        DEBUGLOG("InputSystem initialized");
+        DEBUGLOG("InputSystemを初期化");
 
 #ifdef _DEBUG
-        DEBUGLOG("Initializing DebugDraw (DEBUG build)");
+        DEBUGLOG("DebugDrawを初期化中 (DEBUGビルド)");
         if (!debugDraw_.Init(gfx_)) {
-            DEBUGLOG("[WARNING] DebugDraw::Init() failed - Debug visualization will be unavailable");
+            DEBUGLOG("[WARNING] DebugDraw::Init() 失敗 - デバッグビジュアライゼーションは利用できません");
             MessageBoxA(nullptr, "DebugDrawの初期化に失敗", "警告", MB_OK | MB_ICONWARNING);
         } else {
-            DEBUGLOG("DebugDraw initialized successfully");
+            DEBUGLOG("DebugDrawを正常に初期化");
         }
 #endif
 
-        DEBUGLOG("InitializeGraphics() completed successfully");
+        DEBUGLOG("InitializeGraphics() 正常に完了");
         return true;
     }
 
@@ -393,10 +448,10 @@ private:
      * @param[in] height 高さ
      */
     void SetupCamera(int width, int height) {
-        DEBUGLOG("SetupCamera() started");
+        DEBUGLOG("SetupCamera() 開始");
         
         float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
-        DEBUGLOG("Aspect ratio: " + std::to_string(aspectRatio));
+        DEBUGLOG("アスペクト比: " + std::to_string(aspectRatio));
         
         camera_ = Camera::LookAtLH(
             DirectX::XM_PIDIV4,
@@ -408,27 +463,27 @@ private:
             DirectX::XMFLOAT3{ 0, 1, 0 }
         );
         
-        DEBUGLOG("Camera setup completed (Position: 0, 0, -20 | Target: 0, 0, 0)");
+        DEBUGLOG("カメラ設定完了 (位置: 0, 0, -20 | ターゲット: 0, 0, 0)");
     }
     
     /**
      * @brief ゲーム関連の初期化
      */
     void InitializeGame() {
-        DEBUGLOG("InitializeGame() started");
+        DEBUGLOG("InitializeGame() 開始");
         
         // ゲームシーンを作成
         gameScene_ = new GameScene();
-        DEBUGLOG("GameScene instance created");
+        DEBUGLOG("GameSceneインスタンスを作成");
         
         // シーンマネージャーに登録
         sceneManager_.RegisterScene("Game", gameScene_);
-        DEBUGLOG("GameScene registered to SceneManager");
+        DEBUGLOG("GameSceneをSceneManagerに登録");
         
         sceneManager_.Init(gameScene_, world_);
-        DEBUGLOG("SceneManager initialized with GameScene");
+        DEBUGLOG("SceneManagerをGameSceneで初期化");
         
-        DEBUGLOG("InitializeGame() completed successfully");
+        DEBUGLOG("InitializeGame() 正常に完了");
     }
 
     // ========================================================
@@ -459,25 +514,6 @@ private:
         std::chrono::duration<float> deltaTime = currentTime - previousTime;
         previousTime = currentTime;
         return deltaTime.count();
-    }
-    
-    /**
-     * @brief 1フレームを描画する
-     */
-    void RenderFrame() {
-        gfx_.BeginFrame();
-        
-#ifdef _DEBUG
-        DrawDebugInfo();
-#endif
-        
-        renderer_.Render(gfx_, world_, camera_);
-        
-#ifdef _DEBUG
-        debugDraw_.Render(gfx_, camera_);
-#endif
-        
-        gfx_.EndFrame();
     }
     
     /**
@@ -528,6 +564,99 @@ private:
     }
 #endif
 
+    /**
+     * @brief フレーム統計を出力する
+     * @details
+     * アプリケーション終了時に、収集したフレームメトリクスの統計
+     * （平均、最小、最大、99%タイル）をログに出力します。
+     */
+    void OutputFrameStatistics() {
+        if (frameTotalSamples_.empty()) {
+            DEBUGLOG_WARNING("フレーム統計データが収集されていません");
+            return;
+        }
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "フレーム統計サマリ (サンプル数: " + std::to_string(frameTotalSamples_.size()) + ")");
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
+        
+        // 各メトリクスの統計を計算
+        OutputMetricStatistics("フレーム合計時間", frameTotalSamples_, "ms");
+        OutputMetricStatistics("Update時間", updateSamples_, "ms");
+        OutputMetricStatistics("Render時間", renderSamples_, "ms");
+        OutputMetricStatistics("Present時間", presentSamples_, "ms");
+        
+        // FPS統計
+        std::vector<float> fpsSamples;
+        fpsSamples.reserve(frameTotalSamples_.size());
+        for (float t : frameTotalSamples_) {
+            if (t > 0.0f) {
+                fpsSamples.push_back(1.0f / t);
+            }
+        }
+        OutputMetricStatistics("FPS", fpsSamples, "");
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
+    }
+    
+    /**
+     * @brief メトリクス統計を出力する
+     * @param name メトリクス名
+     * @param samples サンプルデータ
+     * @param unit 単位
+     */
+    void OutputMetricStatistics(const std::string& name, std::vector<float> samples, const std::string& unit) {
+        if (samples.empty()) return;
+        
+        // 外れ値フィルタリング（上位1%と下位1%を除外）
+        std::sort(samples.begin(), samples.end());
+        
+        size_t removeCount = static_cast<size_t>(samples.size() * 0.01);
+        if (removeCount > 0 && samples.size() > removeCount * 2) {
+            samples.erase(samples.begin(), samples.begin() + removeCount); // 下位1%を除外
+            samples.erase(samples.end() - removeCount, samples.end());     // 上位1%を除外
+        }
+        
+        if (samples.empty()) {
+            DEBUGLOG_WARNING(name + ": 外れ値除外後にサンプルが空になりました");
+            return;
+        }
+        
+        // 統計計算
+        float sum = 0.0f;
+        for (float s : samples) sum += s;
+        float avg = sum / samples.size();
+        float min = samples.front();
+        float max = samples.back();
+        
+        // 99%タイル（上位1%を除外）
+        size_t p99Index = static_cast<size_t>(samples.size() * 0.99);
+        if (p99Index >= samples.size()) p99Index = samples.size() - 1;
+        float p99 = samples[p99Index];
+        
+        // 50%タイル（中央値）
+        size_t p50Index = samples.size() / 2;
+        float p50 = samples[p50Index];
+        
+        // 1%タイル（下位1%）
+        size_t p01Index = static_cast<size_t>(samples.size() * 0.01);
+        float p01 = samples[p01Index];
+        
+        // ログ出力（msの場合は1000倍、FPSの場合はそのまま）
+        float multiplier = (unit == "ms") ? 1000.0f : 1.0f;
+        
+        std::ostringstream oss;
+        oss << name << " (外れ値除外後サンプル数: " << samples.size() << "): "
+            << "平均=" << std::fixed << std::setprecision(2) << (avg * multiplier) << unit
+            << ", 最小=" << (min * multiplier) << unit
+            << ", 1%タイル=" << (p01 * multiplier) << unit
+            << ", 中央値=" << (p50 * multiplier) << unit
+            << ", 99%タイル=" << (p99 * multiplier) << unit
+            << ", 最大=" << (max * multiplier) << unit;
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, oss.str());
+    }
+
     // ========================================================
     // Windowsメッセージ処理
     // ========================================================
@@ -535,7 +664,7 @@ private:
     /**
      * @brief ウィンドウプロシージャ（静的）
      * @details
-     * ウィンドウ作成時にインスタンスポインタをウィンドウに紐付け、
+     * ウィンドウ作成時にインスタンスをウィンドウに紐付け、
      * 以降のメッセージをメンバ関数のWndProcに転送します。
      */
     static LRESULT CALLBACK WndProcStatic(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
@@ -545,7 +674,7 @@ private:
             CREATESTRUCT* cs = reinterpret_cast<CREATESTRUCT*>(lp);
             app = reinterpret_cast<App*>(cs->lpCreateParams);
             SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(app));
-            DEBUGLOG("WM_NCCREATE: App instance associated with window");
+            DEBUGLOG("WM_NCCREATE: Appインスタンスをウィンドウに関連付け");
         } else {
             app = reinterpret_cast<App*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
         }
@@ -563,8 +692,13 @@ private:
      */
     LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
         switch (msg) {
+        case WM_CLOSE:
+            DEBUGLOG_CATEGORY(DebugLog::Category::System, "WM_CLOSEを受信 - ユーザーによるウィンドウ閉じる操作");
+            // デフォルト処理に委ねる（WM_DESTROYが発生）
+            return DefWindowProc(hWnd, msg, wp, lp);
+            
         case WM_DESTROY:
-            DEBUGLOG("WM_DESTROY received - Posting quit message");
+            DEBUGLOG_CATEGORY(DebugLog::Category::System, "WM_DESTROYを受信 - 終了メッセージを投稿");
             PostQuitMessage(0);
             return 0;
             

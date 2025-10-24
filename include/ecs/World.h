@@ -1,6 +1,7 @@
 #pragma once
 #include "ecs/Entity.h"
 #include "components/Component.h"
+#include "app/DebugLog.h" // デバッグビルド/リリースビルド両方で必要
 #include <unordered_map>
 #include <typeindex>
 #include <vector>
@@ -13,10 +14,10 @@
 #include <algorithm> // std::remove_if のために追加
 #include <limits>
 #include <mutex>
+#include <string> // std::to_string のために追加
 
 #ifdef _DEBUG
 #include <cassert>
-#include "app/DebugLog.h"
 #endif
 
 /**
@@ -181,7 +182,10 @@ public:
         WaveTimer = 2, 
         Collision = 3, 
         LifetimeExpired = 4, 
-        SceneInit = 5 
+        SceneInit = 5,
+        SceneTeardown = 6,   // シーン終了時
+        SceneUnload = 7,     // シーン切り替え時
+        AppShutdown = 8      // アプリケーション終了時
     };
 
     static const char* CauseToString(Cause c) {
@@ -191,6 +195,9 @@ public:
         case Cause::Collision: return "Collision";
         case Cause::LifetimeExpired: return "LifetimeExpired";
         case Cause::SceneInit: return "SceneInit";
+        case Cause::SceneTeardown: return "SceneTeardown";
+        case Cause::SceneUnload: return "SceneUnload";
+        case Cause::AppShutdown: return "AppShutdown";
         default: return "Unknown";
         }
     }
@@ -208,31 +215,31 @@ public:
      * @details 確保したコンポーネントストアのメモリを解放します
      */
     ~World() {
-        DEBUGLOG("World::~World() - Destroying world");
-        DEBUGLOG("Active entities: " + std::to_string(alive_.size()));
-        DEBUGLOG("Active behaviours: " + std::to_string(behaviours_.size()));
+        DEBUGLOG("World::~World() - World破棄中");
+        DEBUGLOG("アクティブエンティティ: " + std::to_string(alive_.size()));
+        DEBUGLOG("アクティブビヘイビア: " + std::to_string(behaviours_.size()));
 
         // 未処理の破棄キューを先に処理
         FlushDestroyEndOfFrame();
         
-        // ⚠️ 残存エンティティを強制削除
+        // ⚠️ 残存エンティティを強制削除（原因をAppShutdownに明確化）
         if (!alive_.empty()) {
-            DEBUGLOG_WARNING("Force destroying " + std::to_string(alive_.size()) + " remaining entities");
+            DEBUGLOG_WARNING(std::to_string(alive_.size()) + " 個の残存エンティティを強制破棄 (原因=AppShutdown)");
             
             // イテレータ無効化を避けるためコピー
             std::vector<uint32_t> aliveIds(alive_.begin(), alive_.end());
             for (uint32_t id : aliveIds) {
-                DestroyEntityInternal(id, Cause::Unknown);
+                DestroyEntityInternal(id, Cause::AppShutdown);
             }
             
-            DEBUGLOG("All entities destroyed (Final alive: " + std::to_string(alive_.size()) + ")");
+            DEBUGLOG("すべてのエンティティを破棄 (最終生存数: " + std::to_string(alive_.size()) + ")");
         }
         
         for (auto& pair : stores_) {
             delete pair.second;
         }
         
-        DEBUGLOG("World destroyed");
+        DEBUGLOG("World破棄完了");
     }
 
     /**
@@ -253,7 +260,7 @@ public:
      */
     Entity CreateEntityWithCause(Cause cause) {
         if (enforceNoMutateDuranteUpdate_ && inUpdate_) {
-            DEBUGLOG_WARNING(std::string("CreateEntity during update (cause=") + CauseToString(cause) + ")");
+            DEBUGLOG_WARNING(std::string("Update中にエンティティ作成 (原因=") + CauseToString(cause) + ")");
 
         }
 
@@ -263,13 +270,13 @@ public:
             // 再利用可能なIDがあればそれを使う
             id = freeIdsReady_.back();
             freeIdsReady_.pop_back();
-            DEBUGLOG("Entity created (reused ID: " + std::to_string(id) + ")");
+            DEBUGLOG("エンティティ作成 (再利用ID: " + std::to_string(id) + ")");
         }
         else {
             // なければ新規ID
             id = ++nextId_;
             generations_.resize(std::max<size_t>(generations_.size(), id + 1), 1);
-            DEBUGLOG("Entity created (new ID: " + std::to_string(id) + ")");
+            DEBUGLOG("エンティティ作成 (新規ID: " + std::to_string(id) + ")");
         }
         alive_.insert(id); // live setへコミット
         
@@ -287,9 +294,13 @@ public:
      * @param onCreated 生成直後に呼ばれるコールバック（メインスレッド）。引数に生成された Entity。
      */
     void EnqueueSpawn(Cause cause, const std::function<void(Entity)>& onCreated) {
+        if (systemsStopped_) {
+            DEBUGLOG_WARNING(std::string("システム停止後のスポーン要求を拒否 (原因=") + CauseToString(cause) + ")");
+            return;
+        }
         std::lock_guard<std::mutex> lock(spawnMutex_);
         pendingSpawn_.push_back({ cause, onCreated });
-        DEBUGLOG(std::string("Spawn queued (cause=") + CauseToString(cause) + ")");
+        DEBUGLOG(std::string("スポーンをキューに追加 (原因=") + CauseToString(cause) + ")");
     }
 
     /**
@@ -349,7 +360,7 @@ public:
      */
     void DestroyEntityWithCause(Entity e, Cause cause) {
         if (!IsAlive(e)) {
-            DEBUGLOG_WARNING("Attempted to destroy already dead/stale entity (ID: " + std::to_string(e.id) + ", gen: " + std::to_string(e.gen) + ")");
+            DEBUGLOG_WARNING("既に死亡/無効なエンティティの破棄を試行 (ID: " + std::to_string(e.id) + ", gen: " + std::to_string(e.gen) + ")");
             return;
         }
         // 破棄要求はEoFで処理（スレッド安全）
@@ -357,7 +368,7 @@ public:
             std::lock_guard<std::mutex> lock(pendingMutex_);
             pendingDestroy_.push_back({ e.id, cause });
         }
-        DEBUGLOG(std::string("Destroy queued (ID: ") + std::to_string(e.id) + ", cause=" + CauseToString(cause) + ")");
+        DEBUGLOG(std::string("破棄をキューに追加 (ID: ") + std::to_string(e.id) + ", 原因=" + CauseToString(cause) + ")");
     }
 
     /**
@@ -386,7 +397,7 @@ public:
     T& AddWithCause(Entity e, Cause cause, Args&&...args) {
         if (!IsAlive(e)) {
             char msg[160];
-            sprintf_s(msg, "Attempting to add component to dead/stale entity (ID: %u, gen: %u)", e.id, e.gen);
+            sprintf_s(msg, "死亡/無効なエンティティにコンポーネント追加を試行 (ID: %u, gen: %u)", e.id, e.gen);
             DEBUGLOG_ERROR(std::string(msg));
             throw std::runtime_error(msg);
         }
@@ -397,7 +408,7 @@ public:
         // デバッグモードでは重複チェック
         if (s.map.find(e.id) != s.map.end()) {
             char msg[160];
-            sprintf_s(msg, "Component %s already exists on entity (ID: %u, gen: %u)", typeid(T).name(), e.id, e.gen);
+            sprintf_s(msg, "コンポーネント %s は既にエンティティに存在します (ID: %u, gen: %u)", typeid(T).name(), e.id, e.gen);
             DEBUGLOG_ERROR(std::string(msg));
             throw std::runtime_error(msg);
         }
@@ -408,7 +419,7 @@ public:
         s.map[e.id] = std::move(obj);
         registerBehaviourWithCause<T>(e, &ref, cause);
         
-        DEBUGLOG("Component " + std::string(typeid(T).name()) + " added to entity " + std::to_string(e.id));
+        DEBUGLOG("コンポーネント " + std::string(typeid(T).name()) + " をエンティティ " + std::to_string(e.id) + " に追加");
         
         return ref;
     }
@@ -423,7 +434,7 @@ public:
     template<class T>
     bool Remove(Entity e) {
         if (!IsAlive(e)) {
-            DEBUGLOG_WARNING("Attempted to remove component from dead/stale entity (ID: " + std::to_string(e.id) + ")");
+            DEBUGLOG_WARNING("死亡/無効なエンティティからコンポーネント削除を試行 (ID: " + std::to_string(e.id) + ")");
             return false;
         }
 
@@ -440,7 +451,7 @@ public:
         // コンポーネントを削除
         s->map.erase(it);
         
-        DEBUGLOG("Component " + std::string(typeid(T).name()) + " removed from entity " + std::to_string(e.id));
+        DEBUGLOG("コンポーネント " + std::string(typeid(T).name()) + " をエンティティ " + std::to_string(e.id) + " から削除");
         
         return true;
     }
@@ -555,12 +566,12 @@ public:
         DebugLog::GetInstance().SetFrame(frameCount_ + 1);
 #endif
         if (dt < 0.0f) {
-            DEBUGLOG_WARNING("Negative deltaTime detected in World::Tick: " + std::to_string(dt));
+            DEBUGLOG_WARNING("World::Tickで負のdeltaTimeを検出: " + std::to_string(dt));
             dt = 0.0f;
         }
         
         if (dt > 1.0f) {
-            DEBUGLOG_WARNING("Very large deltaTime detected in World::Tick: " + std::to_string(dt) + "s");
+            DEBUGLOG_WARNING("World::Tickで非常に大きいdeltaTimeを検出: " + std::to_string(dt) + "s");
         }
 
         // フレーム開始時に、フレーム内カウンタをリセット
@@ -597,12 +608,12 @@ public:
                     entry.started = true;
                     startedCount++;
                     // 原因付きログ
-                    DEBUGLOG(std::string("Behaviour started: ") + typeid(*entry.b).name() +
+                    DEBUGLOG(std::string("ビヘイビア開始: ") + typeid(*entry.b).name() +
                              " on Entity " + std::to_string(entry.e.id) +
                              " (gen " + std::to_string(entry.e.gen) + ")" +
-                             " cause=" + CauseToString(entry.cause));
+                             " 原因=" + CauseToString(entry.cause));
                 } catch (const std::exception& ex) {
-                    DEBUGLOG_ERROR("Exception in Behaviour::OnStart for entity " + std::to_string(entry.e.id) + ": " + ex.what());
+                    DEBUGLOG_ERROR("エンティティ " + std::to_string(entry.e.id) + " のBehaviour::OnStartで例外発生: " + ex.what());
                 }
             }
             
@@ -612,7 +623,7 @@ public:
         }
         
         if (startedCount > 0) {
-            DEBUGLOG("Started " + std::to_string(startedCount) + " new behaviour(s)");
+            DEBUGLOG(std::to_string(startedCount) + " 個の新しいビヘイビアを開始");
         }
 
         // OnUpdateの実行（より安全なイテレーション）
@@ -632,7 +643,7 @@ public:
             try {
                 entry.b->OnUpdate(*this, currentEntity, dt);
             } catch (const std::exception& ex) {
-                DEBUGLOG_ERROR("Exception in Behaviour::OnUpdate for entity " + std::to_string(currentEntity.id) + ": " + ex.what());
+                DEBUGLOG_ERROR("エンティティ " + std::to_string(currentEntity.id) + " のBehaviour::OnUpdateで例外発生: " + ex.what());
             }
 
             if (i >= behaviours_.size()) {
@@ -662,13 +673,13 @@ public:
         );
         
         if (behaviours_.size() != beforeCleanup) {
-            DEBUGLOG("Cleaned up " + std::to_string(beforeCleanup - behaviours_.size()) + " dead behaviour(s)");
+            DEBUGLOG(std::to_string(beforeCleanup - behaviours_.size()) + " 個の死んだビヘイビアをクリーンアップ");
         }
 
         // 整合性チェック（生存数 = 開始時 + 作成 - 破棄）
         size_t expectedAlive = windowAliveStart_ + createdThisFrame_ - destroyedThisFrame_;
         if (alive_.size() != expectedAlive) {
-            DEBUGLOG_WARNING("Metrics mismatch: alive=" + std::to_string(alive_.size()) +
+            DEBUGLOG_WARNING("メトリクス不一致: alive=" + std::to_string(alive_.size()) +
                              ", expected=" + std::to_string(expectedAlive) +
                              ", startAlive=" + std::to_string(windowAliveStart_) +
                              ", createdThisFrame=" + std::to_string(createdThisFrame_) +
@@ -684,7 +695,7 @@ public:
         // Nフレームごとに集計ログを出す（スパム抑制）
         if (recentCount_ >= metricsWindow_) {
             float avg = (recentCount_ > 0) ? (recentDtSum_ / recentCount_) : 0.0f;
-            DEBUGLOG("Metrics: frames=" + std::to_string(metricsWindow_) +
+            DEBUGLOG("メトリクス: frames=" + std::to_string(metricsWindow_) +
                      ", dt(avg/min/max)=" + std::to_string(avg) + "/" + std::to_string(recentDtMin_) + "/" + std::to_string(recentDtMax_) +
                      ", created=" + std::to_string(recentCreated_) +
                      ", destroyed=" + std::to_string(recentDestroyed_) +
@@ -733,7 +744,7 @@ public:
             destroyed++;
         }
         if (destroyed > 0) {
-            DEBUGLOG("Flushed destroy queue: " + std::to_string(destroyed) + " entity(ies)");
+            DEBUGLOG("破棄キューをフラッシュ: " + std::to_string(destroyed) + " 個のエンティティ");
         }
     }
 
@@ -741,6 +752,16 @@ public:
      * @brief メインスレッドのみで呼ぶ（契約）。フレーム開始時にスポーンキューを反映。
      */
     void FlushSpawnStartOfFrame() {
+        if (systemsStopped_) {
+            // システム停止後はスポーンキューを処理しない
+            std::lock_guard<std::mutex> lock(spawnMutex_);
+            if (!pendingSpawn_.empty()) {
+                DEBUGLOG_WARNING("システム停止後、" + std::to_string(pendingSpawn_.size()) + " 個の保留スポーンを破棄");
+                pendingSpawn_.clear();
+            }
+            return;
+        }
+        
         std::vector<std::pair<Cause, std::function<void(Entity)>>> toSpawn;
         {
             std::lock_guard<std::mutex> lock(spawnMutex_);
@@ -754,12 +775,35 @@ public:
             spawned++;
         }
         if (spawned > 0) {
-            DEBUGLOG("Flushed spawn queue: " + std::to_string(spawned) + " entity(ies)");
+            DEBUGLOG("スポーンキューをフラッシュ: " + std::to_string(spawned) + " 個のエンティティ");
         }
     }
 
     // デバッグオプション: Update中の生成/破棄禁止を有効化
     void SetEnforceNoMutateDuranteUpdate(bool en) { enforceNoMutateDuranteUpdate_ = en; }
+
+    /**
+     * @brief すべてのシステムを停止（新規Spawn無効化）
+     * @details
+     * シャットダウン前に呼び出し、新規エンティティの生成を無効化します。
+     * この後はEnqueueSpawn()が拒否され、既存のエンティティのみ処理されます。
+     */
+    void StopAllSystems() {
+        if (systemsStopped_) return; // 冪等性
+        DEBUGLOG_CATEGORY(DebugLog::Category::ECS, "World::StopAllSystems() - すべてのシステムを停止");
+        systemsStopped_ = true;
+        
+        // 保留中のスポーンキューをクリア
+        {
+            std::lock_guard<std::mutex> lock(spawnMutex_);
+            if (!pendingSpawn_.empty()) {
+                DEBUGLOG_WARNING("システム停止時、" + std::to_string(pendingSpawn_.size()) + " 個の保留スポーンをクリア");
+                pendingSpawn_.clear();
+            }
+        }
+        
+        DEBUGLOG_CATEGORY(DebugLog::Category::ECS, "新規Spawnが無効化されました");
+    }
 
 private:
     /**
@@ -836,7 +880,7 @@ private:
 
     // 内部破棄: 世代インクリメント + フリーIDは次フレームまで保留
     void DestroyEntityInternal(uint32_t id, Cause cause = Cause::Unknown) {
-        DEBUGLOG("Destroying entity (ID: " + std::to_string(id) + ", cause=" + CauseToString(cause) + ")");
+        DEBUGLOG("エンティティ破棄中 (ID: " + std::to_string(id) + ", 原因=" + CauseToString(cause) + ")");
 
         // Behaviourリストから該当IDを除去
         size_t behaviourCount = behaviours_.size();
@@ -846,7 +890,7 @@ private:
             behaviours_.end());
         size_t removedBehaviours = behaviourCount - behaviours_.size();
         if (removedBehaviours > 0) {
-            DEBUGLOG("Removed " + std::to_string(removedBehaviours) + " behaviour(s) from entity " + std::to_string(id));
+            DEBUGLOG("エンティティ " + std::to_string(id) + " から " + std::to_string(removedBehaviours) + " 個のビヘイビアを削除");
         }
 
         // 全コンポーネント削除
@@ -866,7 +910,7 @@ private:
         totalDestroyed_++;
         if (trackFrameAccounting_) { destroyedThisFrame_++; }
 
-        DEBUGLOG("Entity destroyed successfully (ID: " + std::to_string(id) + ", Total alive: " + std::to_string(alive_.size()) + ")");
+        DEBUGLOG("エンティティ破棄成功 (ID: " + std::to_string(id) + ", 総生存数: " + std::to_string(alive_.size()) + ")");
     }
 
     uint32_t nextId_ = 0;
@@ -917,6 +961,9 @@ private:
     // オプション: Update中の生成/破棄禁止
     bool inUpdate_ = false;
     bool enforceNoMutateDuranteUpdate_ = false;
+
+    // システム停止フラグ（新規Spawn無効化）
+    bool systemsStopped_ = false;
 
     friend class EntityBuilder;
 };

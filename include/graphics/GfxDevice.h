@@ -18,6 +18,10 @@
 #include <cstdio>
 #include "app/DebugLog.h"
 
+#ifdef _DEBUG
+#include <dxgidebug.h>
+#endif
+
 /**
  * @class GfxDevice
  * @brief DirectX11デバイス管理クラス
@@ -194,35 +198,111 @@ public:
      */
     void Shutdown() {
         if (isShutdown_) return; // 冪等性
-        DEBUGLOG("GfxDevice::Shutdown() - Releasing resources");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "GfxDevice::Shutdown() - リソースを解放中");
+        
+        // P2: コンテキストの状態をクリアしてFlush
+        if (context_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "ID3D11DeviceContext::ClearState() を呼び出し");
+            context_->ClearState();
+            
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "ID3D11DeviceContext::Flush() を呼び出し");
+            context_->Flush();
+        }
+        
+        // リソース解放カウンタ
+        int releasedCount = 0;
+        
+        // Live Objects用に参照カウントを収集
+        long dsvRefForReport = -1;
+        long rtvRefForReport = -1;
+        long swapRefForReport = -1;
+        long ctxRefForReport = -1;
+        long devRefForReport = -1;
         
         if (dsv_) {
-            DEBUGLOG("Releasing depth stencil view");
+            ULONG refCount = dsv_.Get()->AddRef() - 1;
+            dsv_.Get()->Release();
+            dsvRefForReport = static_cast<long>(refCount);
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "深度ステンシルビューを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             dsv_.Reset();
+            releasedCount++;
         }
         
         if (rtv_) {
-            DEBUGLOG("Releasing render target view");
+            ULONG refCount = rtv_.Get()->AddRef() - 1;
+            rtv_.Get()->Release();
+            rtvRefForReport = static_cast<long>(refCount);
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "レンダーターゲットビューを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             rtv_.Reset();
+            releasedCount++;
         }
         
         if (swap_) {
-            DEBUGLOG("Releasing swap chain");
+            ULONG refCount = swap_.Get()->AddRef() - 1;
+            swap_.Get()->Release();
+            swapRefForReport = static_cast<long>(refCount);
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "スワップチェインを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             swap_.Reset();
+            releasedCount++;
         }
         
         if (context_) {
-            DEBUGLOG("Releasing device context");
+            ULONG refCount = context_.Get()->AddRef() - 1;
+            context_.Get()->Release();
+            ctxRefForReport = static_cast<long>(refCount);
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "デバイスコンテキストを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             context_.Reset();
+            releasedCount++;
         }
         
+#ifdef _DEBUG
+        // デバッグビルド: VS出力を使わず、アプリのログに参照カウント要約を出力
         if (device_) {
-            DEBUGLOG("Releasing device");
+            Microsoft::WRL::ComPtr<ID3D11Debug> debug;
+            if (SUCCEEDED(device_.As(&debug))) {
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "========================================");
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "D3D11デバッグレイヤー: Live Objectsレポート(アプリログ)開始");
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "========================================");
+
+                // Visual Studio出力は呼ばない
+                // 参照カウント測定前に debug を明示的に解放して自己参照を除去
+                debug.Reset();
+
+                // デバイスの参照カウントをチェック（測定専用）
+                ULONG deviceRefCount = device_.Get()->AddRef() - 1;
+                device_.Get()->Release();
+                devRefForReport = static_cast<long>(deviceRefCount);
+
+                // ログに要約を出力
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "--- Live Objects要約 (参照カウント) ---");
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DSV RefCount: " + std::to_string(dsvRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "RTV RefCount: " + std::to_string(rtvRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "SwapChain RefCount: " + std::to_string(swapRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DeviceContext RefCount: " + std::to_string(ctxRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "Device RefCount: " + std::to_string(devRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "========================================");
+
+                if (deviceRefCount > 1) {
+                    DEBUGLOG_WARNING("デバイスの参照カウントが 1 より大きい: " + std::to_string(deviceRefCount) + " (リーク可能性)");
+                } else {
+                    DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "デバイスの参照カウント: " + std::to_string(deviceRefCount) + " (正常)");
+                }
+            } else {
+                DEBUGLOG_WARNING("D3D11デバッグレイヤーが利用できません (デバッグフラグで作成されていない可能性)");
+            }
+        }
+#endif
+        
+        if (device_) {
+            ULONG refCount = device_.Get()->AddRef() - 1;
+            device_.Get()->Release();
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "デバイスを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             device_.Reset();
+            releasedCount++;
         }
         
         isShutdown_ = true;
-        DEBUGLOG("GfxDevice::Shutdown() completed");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "GfxDevice::Shutdown() 完了 (解放リソース数: " + std::to_string(releasedCount) + ")");
     }
 
     /**
@@ -232,7 +312,7 @@ public:
      * ComPtrは自動で解放されますが、念のため明示的にリセットします。
      */
     ~GfxDevice() {
-        DEBUGLOG("GfxDevice::~GfxDevice() - Destructor called");
+        DEBUGLOG("GfxDevice::~GfxDevice() - デストラクタ呼び出し");
         Shutdown();
     }
 
@@ -306,7 +386,7 @@ private:
                     char name[256];
                     size_t outSize = 0;
                     wcstombs_s(&outSize, name, desc.Description, 255);
-                    DEBUGLOG(std::string("Adapter: ") + name);
+                    DEBUGLOG(std::string("アダプタ: ") + name);
                 }
             }
         }
@@ -320,21 +400,28 @@ private:
             case D3D_FEATURE_LEVEL_10_0: flText = "10.0"; break;
             default: break;
         }
-        DEBUGLOG(std::string("Feature Level: ") + flText);
+        DEBUGLOG(std::string("機能レベル: ") + flText);
 
         // スワップチェイン情報
         const char* swapEffectText = "Unknown";
         switch (sd.SwapEffect) {
-            case DXGI_SWAP_EFFECT_DISCARD: swapEffectText = "DISCARD (Legacy)"; break;
-            case DXGI_SWAP_EFFECT_SEQUENTIAL: swapEffectText = "SEQUENTIAL (Legacy)"; break;
+            case DXGI_SWAP_EFFECT_DISCARD: swapEffectText = "DISCARD (レガシー)"; break;
+            case DXGI_SWAP_EFFECT_SEQUENTIAL: swapEffectText = "SEQUENTIAL (レガシー)"; break;
             case DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL: swapEffectText = "FLIP_SEQUENTIAL"; break;
-            case DXGI_SWAP_EFFECT_FLIP_DISCARD: swapEffectText = "FLIP_DISCARD (Recommended)"; break;
+            case DXGI_SWAP_EFFECT_FLIP_DISCARD: swapEffectText = "FLIP_DISCARD (推奨)"; break;
             default: break;
         }
-        DEBUGLOG(std::string("SwapEffect: ") + swapEffectText);
-        DEBUGLOG(std::string("BackBufferFormat: RGBA8_UNORM"));
-        DEBUGLOG(std::string("VSync: ON (Present(1)) - Locks to display refresh rate"));
+        DEBUGLOG(std::string("スワップ効果: ") + swapEffectText);
+        DEBUGLOG(std::string("バックバッファフォーマット: RGBA8_UNORM"));
+        DEBUGLOG(std::string("垂直同期: ON (Present(1)) - ディスプレイのリフレッシュレートに同期"));
     }
+
+#ifdef _DEBUG
+    /**
+     * @brief 旧仕様の互換ダミー
+     */
+    void ReportLiveObjects() {}
+#endif
 
     // メンバ変数
     uint32_t width_ = 0;  ///< 画面幅
