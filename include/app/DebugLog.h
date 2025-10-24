@@ -44,7 +44,8 @@ public:
         Input,     ///< 入力
         Graphics,  ///< グラフィックス
         Scene,     ///< シーン
-        System     ///< システム
+        System,     ///< システム
+        Game       ///< ゲームロジック
     };
 
     static DebugLog& GetInstance() {

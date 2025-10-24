@@ -51,15 +51,15 @@
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int) {
     // アプリケーションインスタンスを作成
     App app;
-    
+
     // 初期化
     if (!app.Init(hInst)) {
         MessageBoxA(nullptr, "Initialization failed!\nCheck DirectX 11 support.", "Error", MB_ICONERROR | MB_OK);
         return -1;
     }
-    
+
     // メインループを実行
     app.Run();
-    
+
     return 0;
 }

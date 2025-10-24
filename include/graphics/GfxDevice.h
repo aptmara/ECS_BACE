@@ -212,9 +212,17 @@ public:
         // リソース解放カウンタ
         int releasedCount = 0;
         
+        // Live Objects用に参照カウントを収集
+        long dsvRefForReport = -1;
+        long rtvRefForReport = -1;
+        long swapRefForReport = -1;
+        long ctxRefForReport = -1;
+        long devRefForReport = -1;
+        
         if (dsv_) {
             ULONG refCount = dsv_.Get()->AddRef() - 1;
             dsv_.Get()->Release();
+            dsvRefForReport = static_cast<long>(refCount);
             DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "深度ステンシルビューを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             dsv_.Reset();
             releasedCount++;
@@ -223,6 +231,7 @@ public:
         if (rtv_) {
             ULONG refCount = rtv_.Get()->AddRef() - 1;
             rtv_.Get()->Release();
+            rtvRefForReport = static_cast<long>(refCount);
             DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "レンダーターゲットビューを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             rtv_.Reset();
             releasedCount++;
@@ -231,6 +240,7 @@ public:
         if (swap_) {
             ULONG refCount = swap_.Get()->AddRef() - 1;
             swap_.Get()->Release();
+            swapRefForReport = static_cast<long>(refCount);
             DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "スワップチェインを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             swap_.Reset();
             releasedCount++;
@@ -239,35 +249,39 @@ public:
         if (context_) {
             ULONG refCount = context_.Get()->AddRef() - 1;
             context_.Get()->Release();
+            ctxRefForReport = static_cast<long>(refCount);
             DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "デバイスコンテキストを解放 (ULONG RefCount: " + std::to_string(refCount) + ")");
             context_.Reset();
             releasedCount++;
         }
         
 #ifdef _DEBUG
-        // デバッグビルドでD3D11のリークレポートを出力し、結果を自前ログに集約
+        // デバッグビルド: VS出力を使わず、アプリのログに参照カウント要約を出力
         if (device_) {
             Microsoft::WRL::ComPtr<ID3D11Debug> debug;
             if (SUCCEEDED(device_.As(&debug))) {
                 DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "========================================");
-                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "D3D11デバッグレイヤー: リークレポート開始");
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "D3D11デバッグレイヤー: Live Objectsレポート(アプリログ)開始");
                 DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "========================================");
-                
-                // P1: IDXGIDebugを使用してリーク情報を取得
-                ReportLiveObjects();
-                
-                // Visual Studioの出力ウィンドウに詳細を出力
-                debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-                
-                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "========================================");
-                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "D3D11デバッグレイヤー: リークレポート完了");
-                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "詳細はVisual Studioの出力ウィンドウを確認してください");
-                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "========================================");
-                
-                // デバイスの参照カウントをチェック
+
+                // Visual Studio出力は呼ばない
+                // 参照カウント測定前に debug を明示的に解放して自己参照を除去
+                debug.Reset();
+
+                // デバイスの参照カウントをチェック（測定専用）
                 ULONG deviceRefCount = device_.Get()->AddRef() - 1;
                 device_.Get()->Release();
-                
+                devRefForReport = static_cast<long>(deviceRefCount);
+
+                // ログに要約を出力
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "--- Live Objects要約 (参照カウント) ---");
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DSV RefCount: " + std::to_string(dsvRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "RTV RefCount: " + std::to_string(rtvRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "SwapChain RefCount: " + std::to_string(swapRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DeviceContext RefCount: " + std::to_string(ctxRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "Device RefCount: " + std::to_string(devRefForReport));
+                DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "========================================");
+
                 if (deviceRefCount > 1) {
                     DEBUGLOG_WARNING("デバイスの参照カウントが 1 より大きい: " + std::to_string(deviceRefCount) + " (リーク可能性)");
                 } else {
@@ -404,66 +418,9 @@ private:
 
 #ifdef _DEBUG
     /**
-     * @brief P1: IDXGIDebugを使用してLive Objectsの要約を自前ログに出力
-     * 
-     * @details
-     * DXGIデバッグインターフェースを使用して、残存しているDirectX/DXGIオブジェクトの
-     * 統計情報を取得し、自前のログシステムに出力します。
+     * @brief 旧仕様の互換ダミー
      */
-    void ReportLiveObjects() {
-        // DXGIDebugインターフェースを取得
-        typedef HRESULT(WINAPI* DXGIGetDebugInterfaceFunc)(REFIID, void**);
-        
-        HMODULE dxgiDebugDll = LoadLibraryW(L"dxgidebug.dll");
-        if (!dxgiDebugDll) {
-            DEBUGLOG_WARNING("dxgidebug.dll をロードできませんでした");
-            return;
-        }
-        
-        DXGIGetDebugInterfaceFunc DXGIGetDebugInterface = 
-            reinterpret_cast<DXGIGetDebugInterfaceFunc>(GetProcAddress(dxgiDebugDll, "DXGIGetDebugInterface"));
-        
-        if (!DXGIGetDebugInterface) {
-            DEBUGLOG_WARNING("DXGIGetDebugInterface 関数が見つかりませんでした");
-            FreeLibrary(dxgiDebugDll);
-            return;
-        }
-        
-        // IDXGIDebug1インターフェースを取得
-        Microsoft::WRL::ComPtr<IDXGIDebug1> dxgiDebug;
-        HRESULT hr = DXGIGetDebugInterface(__uuidof(IDXGIDebug1), (void**)dxgiDebug.GetAddressOf());
-        
-        if (FAILED(hr)) {
-            DEBUGLOG_WARNING("IDXGIDebug1 インターフェースの取得失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-            FreeLibrary(dxgiDebugDll);
-            return;
-        }
-        
-        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "--- Live Objects要約 (自前ログ) ---");
-        
-        // DXGI_DEBUG_ALL と DXGI_DEBUG_D3D11 のGUIDを直接定義
-        static const GUID local_DXGI_DEBUG_ALL = { 0xe48ae283, 0xda80, 0x490b, { 0x87, 0xe6, 0x43, 0xe9, 0xa9, 0xcf, 0xda, 0x8 } };
-        static const GUID local_DXGI_DEBUG_D3D11 = { 0x4b99317b, 0xac39, 0x4aa6, { 0xbb, 0xb, 0xba, 0xa0, 0x47, 0x84, 0x79, 0x8f } };
-        
-        // DXGI_DEBUG_ALL のLive Objectsをレポート
-        hr = dxgiDebug->ReportLiveObjects(local_DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_SUMMARY);
-        
-        if (SUCCEEDED(hr)) {
-            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DXGI Live Objectsレポート完了 (DXGI_DEBUG_RLO_SUMMARY)");
-        } else {
-            DEBUGLOG_WARNING("DXGI Live Objectsレポート失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-        }
-        
-        // 詳細レポート（オプション）
-        hr = dxgiDebug->ReportLiveObjects(local_DXGI_DEBUG_D3D11, DXGI_DEBUG_RLO_DETAIL);
-        if (SUCCEEDED(hr)) {
-            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "D3D11 Live Objectsレポート完了 (DXGI_DEBUG_RLO_DETAIL)");
-        }
-        
-        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "--- Live Objects要約終了 ---");
-        
-        FreeLibrary(dxgiDebugDll);
-    }
+    void ReportLiveObjects() {}
 #endif
 
     // メンバ変数
