@@ -122,18 +122,12 @@
     <ClInclude Include="include\scenes\SceneManager.h">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
+    <ClInclude Include="include\gameplay\EnemySpawner.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="docs\HEADER_INCLUDES.md">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="docs\PCH_SETUP.md">
       <Filter>Resource Files\Docs</Filter>
     </None>
     <None Include="Assets\Textures\test.png">

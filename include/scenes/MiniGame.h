@@ -3,20 +3,28 @@
  * @brief シンプルなシューティングゲーム
  * @author 山内陽
  * @date 2025
- * @version 4.0
+ * @version 5.0
  *
  * @details
  * ### ゲーム内容:
- * - プレイヤー(緑キューブ)をA/Dキーで左右に移動
+ * - プレイヤー(緑のカプセル)をA/Dキーで左右に移動
  * - スペースキーで弾を発射
- * - 敵(赤キューブ)が自動で降ってくる
+ * - ランダムな形状・色の敵が自動で降ってくる
  * - 弾が敵に当たると敵が消滅
  * - スコアが貯まっていく
+ * 
+ * ### v5.0の新機能:
+ * - 敵がランダムな形状(Cube, Sphere, Cylinder, Cone, Capsule)で出現
+ * - 敵がランダムな色で出現
+ * - 敵のサイズと回転速度もランダム
+ * - より視覚的に豊かなゲーム体験
  */
 #pragma once
 
 #include "pch.h"
 #include "components/Rotator.h"
+#include <cstdlib>
+#include <ctime>
 
 // ========================================================
 // ゲーム用コンポーネント
@@ -65,8 +73,7 @@ struct PlayerMovement : Behaviour {
         auto* t = w.TryGet<Transform>(self);
         if (!t) return;
 
-        // キーボード入力はGameSceneで処理
-        // ここでは位置の制限のみ
+        // 位置の制限
         if (t->position.x < -8.0f) t->position.x = -8.0f;
         if (t->position.x > 8.0f) t->position.x = 8.0f;
     }
@@ -96,7 +103,7 @@ struct BulletMovement : Behaviour {
 
         t->position.y += speed * dt;
 
-        // 画面外に出たら削除（原因: LifetimeExpired）
+        // 画面外に出たら削除
         if (t->position.y > 10.0f) {
             w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
@@ -127,7 +134,7 @@ struct EnemyMovement : Behaviour {
 
         t->position.y -= speed * dt;
 
-        // 画面下に出たら削除（原因: LifetimeExpired）
+        // 画面下に出たら削除
         if (t->position.y < -8.0f) {
             w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
@@ -148,7 +155,7 @@ struct EnemyMovement : Behaviour {
  * ### ゲームルール:
  * - A/Dキーでプレイヤーを左右に移動
  * - スペースキーで弾を発射
- * - 敵が上から降ってくる
+ * - ランダムな形状・色の敵が上から降ってくる
  * - 弾が敵に当たると両方消滅し、スコア+10
  *
  * @author 山内陽
@@ -160,28 +167,44 @@ public:
      * @param[in,out] world ワールド参照
      *
      * @details
-     * プレイヤーを生成し、スコアとタイマーを初期化します。
+     * プレイヤー、地面を生成し、スコアとタイマーを初期化します。
      */
     void OnEnter(World& world) override {
         // 乱数シードを設定
         srand(static_cast<unsigned int>(time(nullptr)));
         ownedEntities_.clear();
 
-        // プレイヤーを作成
+        // 地面を作成
+        Transform groundTransform;
+        groundTransform.position = DirectX::XMFLOAT3{0.0f, -8.0f, 0.0f};
+        groundTransform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
+        groundTransform.scale = DirectX::XMFLOAT3{25.0f, 1.0f, 25.0f};
+
+        MeshRenderer groundRenderer;
+        groundRenderer.meshType = MeshType::Plane;
+        groundRenderer.color = DirectX::XMFLOAT3{0.2f, 0.5f, 0.2f};
+
+        Entity ground = world.Create()
+            .With<Transform>(groundTransform)
+            .With<MeshRenderer>(groundRenderer)
+            .Build();
+        ownedEntities_.push_back(ground);
+
+        // プレイヤーを作成(カプセル形状)
         Transform playerTransform;
         playerTransform.position = DirectX::XMFLOAT3{0.0f, -6.0f, 0.0f};
         playerTransform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
-        playerTransform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+        playerTransform.scale = DirectX::XMFLOAT3{0.8f, 0.8f, 0.8f};
 
         MeshRenderer playerRenderer;
-        playerRenderer.color = DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f}; // 緑色
+        playerRenderer.meshType = MeshType::Capsule;
+        playerRenderer.color = DirectX::XMFLOAT3{0.2f, 1.0f, 0.2f}; // 明るい緑
 
         playerEntity_ = world.Create()
             .With<Transform>(playerTransform)
             .With<MeshRenderer>(playerRenderer)
             .With<Player>()
-            .WithCause<PlayerMovement>(World::Cause::SceneInit) // 原因を明示
-            .WithCause<ColorCycle>(World::Cause::SceneInit, 1.0f) // 原因を明示
+            .WithCause<PlayerMovement>(World::Cause::SceneInit)
             .Build();
         ownedEntities_.push_back(playerEntity_);
 
@@ -272,21 +295,25 @@ private:
         if (input.GetKey(VK_SPACE) && shootCooldown_ <= 0.0f) {
             auto* playerTransform = world.TryGet<Transform>(playerEntity_);
             if (playerTransform) {
-                // プレイヤーの位置から弾を発射
+                // プレイヤーの位置から弾を発射(球体)
                 Transform bulletTransform;
-                bulletTransform.position = DirectX::XMFLOAT3{playerTransform->position.x, playerTransform->position.y + 1.0f, 0.0f};
+                bulletTransform.position = DirectX::XMFLOAT3{
+                    playerTransform->position.x, 
+                    playerTransform->position.y + 1.0f, 
+                    0.0f
+                };
                 bulletTransform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
-                bulletTransform.scale = DirectX::XMFLOAT3{0.3f, 0.5f, 0.3f};
+                bulletTransform.scale = DirectX::XMFLOAT3{0.3f, 0.3f, 0.3f};
 
                 MeshRenderer bulletRenderer;
-                bulletRenderer.color = DirectX::XMFLOAT3{1.0f, 1.0f, 0.0f}; // 黄色
+                bulletRenderer.meshType = MeshType::Sphere;  // 球体の弾
+                bulletRenderer.color = DirectX::XMFLOAT3{1.0f, 1.0f, 0.3f}; // 明るい黄色
 
                 Entity bullet = world.Create()
                     .With<Transform>(bulletTransform)
                     .With<MeshRenderer>(bulletRenderer)
                     .With<Bullet>()
                     .WithCause<BulletMovement>(World::Cause::Spawner)
-                    .WithCause<Rotator>(World::Cause::Spawner, 1000.0f) // 原因を明示
                     .Build();
                 ownedEntities_.push_back(bullet);
 
@@ -296,34 +323,56 @@ private:
     }
 
     /**
-     * @brief 敵の生成処理
+     * @brief 敵の生成処理(ランダムな形状・色)
      * @param[in,out] world ワールド参照
      * @param[in] deltaTime デルタタイム(秒単位)
      */
     void UpdateEnemySpawning(World& world, float deltaTime) {
         enemySpawnTimer_ += deltaTime;
 
-        // 1秒ごとに敵を生成
+        // 1秒ごとにランダムな敵を生成
         if (enemySpawnTimer_ >= 1.0f) {
             enemySpawnTimer_ = 0.0f;
 
-            // ランダムな位置に敵を配置
+            // ランダムなX座標
             float randomX = (rand() % 1600 - 800) / 100.0f; // -8.0 ~ 8.0
+
+            // ランダムな形状(Cube, Sphere, Cylinder, Cone, Capsule)
+            // Planeは除外(地面用なので)
+            int shapeIndex = rand() % 5;
+            if (shapeIndex >= static_cast<int>(MeshType::Plane)) {
+                shapeIndex++;  // Planeをスキップ
+            }
+            MeshType randomShape = static_cast<MeshType>(shapeIndex);
+
+            // ランダムな色(明るめの色)
+            DirectX::XMFLOAT3 randomColor = {
+                (rand() % 100 + 50) / 150.0f,  // R: 0.33～1.0
+                (rand() % 100 + 50) / 150.0f,  // G: 0.33～1.0
+                (rand() % 100 + 50) / 150.0f   // B: 0.33～1.0
+            };
+
+            // ランダムな回転速度
+            float randomRotSpeed = (rand() % 100 + 30) * (rand() % 2 == 0 ? 1.0f : -1.0f);
+
+            // ランダムなスケール(0.7～1.2倍)
+            float randomScale = 0.7f + (rand() % 50) / 100.0f;
 
             Transform enemyTransform;
             enemyTransform.position = DirectX::XMFLOAT3{randomX, 8.0f, 0.0f};
             enemyTransform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
-            enemyTransform.scale = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+            enemyTransform.scale = DirectX::XMFLOAT3{randomScale, randomScale, randomScale};
 
             MeshRenderer enemyRenderer;
-            enemyRenderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f}; // 赤色
+            enemyRenderer.meshType = randomShape;
+            enemyRenderer.color = randomColor;
 
             Entity enemy = world.Create()
                 .With<Transform>(enemyTransform)
                 .With<MeshRenderer>(enemyRenderer)
                 .With<Enemy>()
                 .WithCause<EnemyMovement>(World::Cause::WaveTimer)
-                .WithCause<Rotator>(World::Cause::WaveTimer, 10000.0f)
+                .WithCause<Rotator>(World::Cause::WaveTimer, randomRotSpeed)
                 .Build();
             ownedEntities_.push_back(enemy);
         }
@@ -335,6 +384,7 @@ private:
      *
      * @details
      * 弾と敵の衝突を判定し、衝突したら両方を削除してスコアを加算します。
+     * 形状に応じて当たり判定の半径を調整します。
      */
     void CheckCollisions(World& world) {
         // 削除する予定のエンティティリスト(イテレータ破壊を回避)
@@ -359,13 +409,17 @@ private:
                     if (e.id == enemyEntity.id) return;
                 }
 
+                // 敵のサイズを考慮した当たり判定半径
+                float enemyScale = enemyTransform->scale.x;
+                float collisionRadius = 0.8f * enemyScale;
+
                 // 簡易的な距離判定(円衝突)
                 float dx = bulletTransform->position.x - enemyTransform->position.x;
                 float dy = bulletTransform->position.y - enemyTransform->position.y;
                 float distance = sqrtf(dx * dx + dy * dy);
 
                 // 衝突したら削除リストに追加してスコア加算
-                if (distance < 1.0f) {
+                if (distance < collisionRadius) {
                     entitiesToDestroy.push_back(bulletEntity);
                     entitiesToDestroy.push_back(enemyEntity);
                     score_ += 10;

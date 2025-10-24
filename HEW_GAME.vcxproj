@@ -148,6 +148,7 @@
     <ClInclude Include="include\app\App.h" />
     <ClInclude Include="include\app\DebugLog.h" />
     <ClInclude Include="include\ecs\World.h" />
+    <ClInclude Include="include\gameplay\EnemySpawner.h" />
     <ClInclude Include="include\graphics\Camera.h" />
     <ClInclude Include="include\components\Component.h" />
     <ClInclude Include="include\pch.h" />
@@ -169,9 +170,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Textures\test.png" />
-    <None Include="docs\BUG_FIX_ITERATOR_INVALIDATION.md" />
-    <None Include="docs\HEADER_INCLUDES.md" />
-    <None Include="docs\PCH_SETUP.md" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
