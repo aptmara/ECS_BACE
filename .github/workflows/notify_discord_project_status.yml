@@ -2,14 +2,18 @@ name: Discord Notify on Project Status Changes
 
 permissions:
   contents: read
+  issues: write
+  pull-requests: write
 
 on:
-  projects_v2_item:
-    types: [created, edited]
+  issues:
+    types: [opened, edited, closed, reopened, assigned, labeled]
+  pull_request:
+    types: [opened, edited, closed, reopened, assigned, labeled]
   workflow_dispatch:
     inputs:
-      item_node_id:
-        description: 'ProjectV2Item node_id to test (optional)'
+      issue_number:
+        description: 'Issue or PR number to notify'
         required: false
 
 jobs:
@@ -21,6 +25,8 @@ jobs:
         env:
           DISCORD_WEBHOOK_PROJECT_STATUS: ${{ secrets.DISCORD_WEBHOOK_PROJECT_STATUS }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          ORG: aptma-sHEWTeam
+          PROJECT_NUMBER: '3'
         with:
           github-token: ${{ secrets.ORG_PROJECTS_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -29,38 +35,56 @@ jobs:
               core.warning('No Discord webhook found (set DISCORD_WEBHOOK_PROJECT_STATUS or DISCORD_WEBHOOK)');
               return;
             }
+            const org = process.env.ORG;
+            const projectNumber = parseInt(process.env.PROJECT_NUMBER, 10);
             const isDispatch = context.eventName === 'workflow_dispatch';
-            const nodeId = isDispatch ? (context.payload.inputs?.item_node_id || '').trim() : (context.payload.projects_v2_item?.node_id || context.payload.projects_v2_item?.id || '').trim();
-            const action = isDispatch ? 'test' : (context.payload.action || 'edited');
-            if (!nodeId) {
-              core.warning('No ProjectV2Item node_id in payload/inputs; nothing to notify');
+            const issueOrPr = isDispatch ? null : (context.payload.issue || context.payload.pull_request);
+            let itemNumber = isDispatch ? (context.payload.inputs?.issue_number || '').trim() : (issueOrPr ? issueOrPr.number : null);
+            if (!itemNumber) {
+              core.info('No issue/PR to notify');
               return;
             }
-            const itemQuery = `query($id: ID!) { node(id: $id) { __typename ... on ProjectV2Item { id updatedAt project { id title number } content { __typename ... on Issue { id number title url repository { nameWithOwner } } ... on PullRequest { id number title url repository { nameWithOwner } } } fieldValues(first: 50) { nodes { __typename ... on ProjectV2ItemFieldSingleSelectValue { name field { ... on ProjectV2Field { name } } } } } } } }`;
-            const res = await github.graphql(itemQuery, { id: nodeId });
-            const item = res.node;
-            if (!item || item.__typename !== 'ProjectV2Item') {
-              core.warning('Node not a ProjectV2Item or not found');
+            itemNumber = parseInt(itemNumber, 10);
+            const repoOwner = context.repo.owner;
+            const repoName = context.repo.repo;
+            const projectQuery = `query($org: String!, $number: Int!) { organization(login: $org) { projectV2(number: $number) { id title number fields(first: 50) { nodes { __typename ... on ProjectV2Field { id name dataType } ... on ProjectV2SingleSelectField { id name dataType options { id name } } } } } } }`;
+            const findItemQuery = `query($org: String!, $projNum: Int!, $first: Int!, $after: String) { organization(login: $org) { projectV2(number: $projNum) { items(first: $first, after: $after) { nodes { id content { __typename ... on Issue { number repository { owner { login } name } } ... on PullRequest { number repository { owner { login } name } } } fieldValues(first: 50) { nodes { __typename ... on ProjectV2ItemFieldSingleSelectValue { name field { ... on ProjectV2Field { name } } } } } } pageInfo { hasNextPage endCursor } } } } }`;
+            const projRes = await github.graphql(projectQuery, { org, number: projectNumber });
+            const project = projRes.organization.projectV2;
+            const fields = project.fields.nodes;
+            const statusField = fields.find(f => f.name && (f.name.trim().toLowerCase() === 'status' || f.name.trim() === 'ステータス') && f.dataType === 'SINGLE_SELECT');
+            let after = null; let foundItem = null;
+            while (true) {
+              const itemsRes = await github.graphql(findItemQuery, { org, projNum: projectNumber, first: 100, after });
+              const items = itemsRes.organization.projectV2.items;
+              for (const item of items.nodes) {
+                if (!item.content) continue;
+                const content = item.content;
+                if ((content.__typename === 'Issue' || content.__typename === 'PullRequest') && content.number === itemNumber && content.repository.owner.login === repoOwner && content.repository.name === repoName) {
+                  foundItem = item;
+                  break;
+                }
+              }
+              if (foundItem || !items.pageInfo.hasNextPage) break;
+              after = items.pageInfo.endCursor;
+            }
+            if (!foundItem) {
+              core.info(`Issue/PR #${itemNumber} not found in project ${projectNumber}`);
               return;
             }
             let statusName = null;
-            for (const fv of item.fieldValues.nodes) {
-              if (fv.__typename === 'ProjectV2ItemFieldSingleSelectValue' && fv.field?.name && (fv.field.name === 'Status' || fv.field.name === 'ステータス')) {
-                statusName = fv.name || null;
+            if (statusField) {
+              for (const fv of foundItem.fieldValues.nodes) {
+                if (fv.__typename === 'ProjectV2ItemFieldSingleSelectValue' && fv.field?.name === statusField.name) {
+                  statusName = fv.name || null;
+                }
               }
             }
-            const projectTag = item.project ? `${item.project.title} #${item.project.number}` : 'Project';
-            let contentTag = 'Item';
-            if (item.content && (item.content.__typename === 'Issue' || item.content.__typename === 'PullRequest')) {
-              const repo = item.content.repository?.nameWithOwner || '';
-              const num = item.content.number ? `#${item.content.number}` : '';
-              const title = item.content.title || '';
-              const url = item.content.url || '';
-              contentTag = `[${repo}${num}] ${title}\n${url}`;
-            }
+            const action = context.payload.action || 'updated';
+            const title = issueOrPr ? issueOrPr.title : `#${itemNumber}`;
+            const url = issueOrPr ? issueOrPr.html_url : `https://github.com/${repoOwner}/${repoName}/issues/${itemNumber}`;
             const statusText = statusName ? `Status: ${statusName}` : 'Status: (not set)';
-            const actionText = action === 'created' ? 'Added to project' : (action === 'edited' ? 'Updated' : 'Event');
-            const message = `?? ${projectTag}\n${actionText}: ${statusText}\n${contentTag}`;
+            const message = `?? ${project.title} #${project.number}\n${action}: ${statusText}\n[${repoOwner}/${repoName}#${itemNumber}] ${title}\n${url}`;
             const resp = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: message }) });
             if (!resp.ok) {
               const text = await resp.text();
