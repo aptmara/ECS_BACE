@@ -31,30 +31,101 @@ jobs:
           github-token: ${{ secrets.ORG_PROJECTS_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
             const webhook = process.env.DISCORD_WEBHOOK_PROJECT_STATUS || process.env.DISCORD_WEBHOOK;
-            if (!webhook) { core.warning('No Discord webhook found'); return; }
+            if (!webhook) {
+              core.warning('No Discord webhook found');
+              return;
+            }
+
             const org = process.env.ORG;
             const projectNumber = parseInt(process.env.PROJECT_NUMBER, 10);
             const isDispatch = context.eventName === 'workflow_dispatch';
             const issueOrPr = isDispatch ? null : (context.payload.issue || context.payload.pull_request);
             let itemNumber = isDispatch ? (context.payload.inputs?.issue_number || '').trim() : (issueOrPr ? issueOrPr.number : null);
-            if (!itemNumber) { core.info('No issue/PR to notify'); return; }
+
+            if (!itemNumber) {
+              core.info('No issue/PR to notify');
+              return;
+            }
             itemNumber = parseInt(itemNumber, 10);
+
             const repoOwner = context.repo.owner;
             const repoName = context.repo.repo;
-            const projectQuery = `query($org: String!, $number: Int!) { organization(login: $org) { projectV2(number: $number) { id title number fields(first: 50) { nodes { __typename ... on ProjectV2Field { id name dataType } ... on ProjectV2SingleSelectField { id name dataType options { id name } } } } } } }`;
-            const findItemQuery = `query($org: String!, $projNum: Int!, $first: Int!, $after: String) { organization(login: $org) { projectV2(number: $projNum) { items(first: $first, after: $after) { nodes { id content { __typename ... on Issue { number repository { owner { login } name } } ... on PullRequest { number repository { owner { login } name } } } fieldValues(first: 50) { nodes { __typename ... on ProjectV2ItemFieldSingleSelectValue { name field { ... on ProjectV2Field { name } } } } } } pageInfo { hasNextPage endCursor } } } } }`;
+
+            const projectQuery = `
+              query($org: String!, $number: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    id
+                    title
+                    number
+                    fields(first: 50) {
+                      nodes {
+                        __typename
+                        ... on ProjectV2Field { id name dataType }
+                        ... on ProjectV2SingleSelectField { id name dataType options { id name } }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const findItemQuery = `
+              query($org: String!, $projNum: Int!, $first: Int!, $after: String) {
+                organization(login: $org) {
+                  projectV2(number: $projNum) {
+                    items(first: $first, after: $after) {
+                      nodes {
+                        id
+                        content {
+                          __typename
+                          ... on Issue {
+                            number
+                            repository { owner { login } name }
+                          }
+                          ... on PullRequest {
+                            number
+                            repository { owner { login } name }
+                          }
+                        }
+                        fieldValues(first: 50) {
+                          nodes {
+                            __typename
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                              name
+                              field { ... on ProjectV2Field { name } }
+                            }
+                          }
+                        }
+                      }
+                      pageInfo { hasNextPage endCursor }
+                    }
+                  }
+                }
+              }
+            `;
+
             const projRes = await github.graphql(projectQuery, { org, number: projectNumber });
             const project = projRes.organization.projectV2;
             const fields = project.fields.nodes;
-            const statusField = fields.find(f => f.name && (f.name.trim().toLowerCase() === 'status' || f.name.trim() === 'ステータス') && f.dataType === 'SINGLE_SELECT');
-            let after = null; let foundItem = null;
+            const statusField = fields.find(f =>
+              f.name &&
+              (f.name.trim().toLowerCase() === 'status' || f.name.trim() === 'ステータス') &&
+              f.dataType === 'SINGLE_SELECT'
+            );
+
+            let after = null;
+            let foundItem = null;
             while (true) {
               const itemsRes = await github.graphql(findItemQuery, { org, projNum: projectNumber, first: 100, after });
               const items = itemsRes.organization.projectV2.items;
               for (const item of items.nodes) {
                 if (!item.content) continue;
                 const content = item.content;
-                if ((content.__typename === 'Issue' || content.__typename === 'PullRequest') && content.number === itemNumber && content.repository.owner.login === repoOwner && content.repository.name === repoName) {
+                if ((content.__typename === 'Issue' || content.__typename === 'PullRequest') &&
+                    content.number === itemNumber &&
+                    content.repository.owner.login === repoOwner &&
+                    content.repository.name === repoName) {
                   foundItem = item;
                   break;
                 }
@@ -62,7 +133,12 @@ jobs:
               if (foundItem || !items.pageInfo.hasNextPage) break;
               after = items.pageInfo.endCursor;
             }
-            if (!foundItem) { core.info(`Issue/PR #${itemNumber} not found in project ${projectNumber}`); return; }
+
+            if (!foundItem) {
+              core.info(`Issue/PR #${itemNumber} not found in project ${projectNumber}`);
+              return;
+            }
+
             let statusName = null;
             if (statusField) {
               for (const fv of foundItem.fieldValues.nodes) {
@@ -71,10 +147,20 @@ jobs:
                 }
               }
             }
+
             const action = context.payload.action || 'updated';
             const title = issueOrPr ? issueOrPr.title : `#${itemNumber}`;
             const url = issueOrPr ? issueOrPr.html_url : `https://github.com/${repoOwner}/${repoName}/issues/${itemNumber}`;
             const statusText = statusName ? `Status: ${statusName}` : 'Status: (not set)';
             const message = `?? ${project.title} #${project.number}\n${action}: ${statusText}\n[${repoOwner}/${repoName}#${itemNumber}] ${title}\n${url}`;
-            const resp = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: message }) });
-            if (!resp.ok) { const text = await resp.text(); core.warning(`Discord webhook responded with ${resp.status}: ${text}`); }
+
+            const resp = await fetch(webhook, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ content: message })
+            });
+
+            if (!resp.ok) {
+              const text = await resp.text();
+              core.warning(`Discord webhook responded with ${resp.status}: ${text}`);
+            }
