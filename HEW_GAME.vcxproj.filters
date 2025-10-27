@@ -167,6 +167,8 @@
     <None Include="QUICKSTART_PROJECT_AUTOMATION.md" />
     <None Include=".github\docs\FIX_SUMMARY.md" />
     <None Include=".github\workflows\auto_ready_on_start.yml" />
+    <None Include=".github\workflows\notify_discord_project_status.yml" />
+    <None Include=".github\workflows\notify_inprogress_digest.yml" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">

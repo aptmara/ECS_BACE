@@ -1,0 +1,121 @@
+---
+name: Discord Notify on Project Status Changes
+
+permissions:
+  contents: read
+  projects: read
+
+'on':
+  # Fires when a Projects v2 item is created or edited (status changes are edits)
+  projects_v2_item:
+    types: [created, edited]
+  # Allow manual trigger for testing
+  workflow_dispatch:
+    inputs:
+      item_node_id:
+        description: 'ProjectV2Item node_id to test (optional)'
+        required: false
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord
+        uses: actions/github-script@v7
+        env:
+          # Channel-specific webhook secret (preferred)
+          DISCORD_WEBHOOK_PROJECT_STATUS: ${{ secrets.DISCORD_WEBHOOK_PROJECT_STATUS }}
+          # Fallback common webhook (optional)
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          # Optional: use an org-scoped token if needed; falls back to GITHUB_TOKEN
+          ORG_PROJECTS_TOKEN: ${{ secrets.ORG_PROJECTS_TOKEN }}
+        with:
+          github-token: ${{ env.ORG_PROJECTS_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const webhook = process.env.DISCORD_WEBHOOK_PROJECT_STATUS || process.env.DISCORD_WEBHOOK;
+            if (!webhook) {
+              core.warning('No Discord webhook found (set DISCORD_WEBHOOK_PROJECT_STATUS or DISCORD_WEBHOOK)');
+              return;
+            }
+
+            // Determine source item node id
+            const isDispatch = context.eventName === 'workflow_dispatch';
+            const nodeId = isDispatch
+              ? (context.payload.inputs?.item_node_id || '').trim()
+              : (context.payload.projects_v2_item?.node_id || context.payload.projects_v2_item?.id || '').trim();
+
+            const action = isDispatch ? 'test' : (context.payload.action || 'edited');
+
+            if (!nodeId) {
+              core.warning('No ProjectV2Item node_id in payload/inputs; nothing to notify');
+              return;
+            }
+
+            const itemQuery = `
+              query($id: ID!) {
+                node(id: $id) {
+                  __typename
+                  ... on ProjectV2Item {
+                    id
+                    updatedAt
+                    project { id title number }
+                    content {
+                      __typename
+                      ... on Issue { id number title url repository { nameWithOwner } }
+                      ... on PullRequest { id number title url repository { nameWithOwner } }
+                    }
+                    fieldValues(first: 50) {
+                      nodes {
+                        __typename
+                        ... on ProjectV2ItemFieldSingleSelectValue {
+                          name
+                          field { ... on ProjectV2Field { name } }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const res = await github.graphql(itemQuery, { id: nodeId });
+            const item = res.node;
+            if (!item || item.__typename !== 'ProjectV2Item') {
+              core.warning('Node not a ProjectV2Item or not found');
+              return;
+            }
+
+            // Find Status field value if present
+            let statusName = null;
+            for (const fv of item.fieldValues.nodes) {
+              if (fv.__typename === 'ProjectV2ItemFieldSingleSelectValue' && fv.field?.name && (fv.field.name === 'Status' || fv.field.name === 'ステータス')) {
+                statusName = fv.name || null;
+              }
+            }
+
+            // Build a compact message
+            const projectTag = item.project ? `${item.project.title} #${item.project.number}` : 'Project';
+            let contentTag = 'Item';
+            if (item.content && (item.content.__typename === 'Issue' || item.content.__typename === 'PullRequest')) {
+              const repo = item.content.repository?.nameWithOwner || '';
+              const num = item.content.number ? `#${item.content.number}` : '';
+              const title = item.content.title || '';
+              const url = item.content.url || '';
+              contentTag = `[${repo}${num}] ${title}\n${url}`;
+            }
+
+            const statusText = statusName ? `Status: ${statusName}` : 'Status: (not set)';
+            const actionText = action === 'created' ? 'Added to project' : (action === 'edited' ? 'Updated' : 'Event');
+
+            const message = `?? ${projectTag}\n${actionText}: ${statusText}\n${contentTag}`;
+
+            // Post to Discord
+            const resp = await fetch(webhook, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ content: message })
+            });
+            if (!resp.ok) {
+              const text = await resp.text();
+              core.warning(`Discord webhook responded with ${resp.status}: ${text}`);
+            }
