@@ -333,7 +333,12 @@ private:
             return false;
         }
         
-        hr = device_->CreateRenderTargetView(back.Get(), nullptr, rtv_.ReleaseAndGetAddressOf());
+        // RTV作成時にsRGBフォーマットを指定
+        D3D11_RENDER_TARGET_VIEW_DESC rtvDesc{};
+        rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;  // sRBG対応
+        rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+        
+        hr = device_->CreateRenderTargetView(back.Get(), &rtvDesc, rtv_.ReleaseAndGetAddressOf());
         if (FAILED(hr)) {
             MessageBoxA(nullptr, "Failed to create render target view", "DirectX Error", MB_OK | MB_ICONERROR);
             return false;
@@ -412,7 +417,7 @@ private:
             default: break;
         }
         DEBUGLOG(std::string("スワップ効果: ") + swapEffectText);
-        DEBUGLOG(std::string("バックバッファフォーマット: RGBA8_UNORM"));
+        DEBUGLOG(std::string("バックバッファフォーマット: RGBA8_UNORM_sRGB (sRGB対応 - ガンマ補正有効)"));
         DEBUGLOG(std::string("垂直同期: ON (Present(1)) - ディスプレイのリフレッシュレートに同期"));
     }
 

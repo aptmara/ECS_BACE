@@ -113,7 +113,7 @@
     <ClInclude Include="include\samples\WorldImprovementDemo.h">
       <Filter>Header Files\samples</Filter>
     </ClInclude>
-    <ClInclude Include="include\scenes\MiniGame.h">
+    <ClInclude Include="include\scenes\MainGame.h">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
     <ClInclude Include="include\scenes\SceneManager.h">

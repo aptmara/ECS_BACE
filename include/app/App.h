@@ -9,9 +9,6 @@
 // ========================================================
 // App.h - ミニゲームのアプリケーション
 // ========================================================
-// 【ゲーム内容】シンプルなシューティングゲーム
-// 【操作方法】A/D: 移動, スペース: 弾発射, ESC: 終了
-// ========================================================
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -43,7 +40,7 @@
 
 // ゲームシステム
 #include "scenes/SceneManager.h"
-#include "scenes/MiniGame.h"
+#include "scenes/MainGame.h"
 
 /**
  * @struct App
@@ -94,7 +91,7 @@ struct App {
     std::vector<float> updateSamples_;     ///< Update時間のサンプル
     std::vector<float> renderSamples_;     ///< Render時間のサンプル
     std::vector<float> presentSamples_;    ///< Present時間のサンプル
-    
+
     const int maxSamples_ = 1000;          ///< 最大サンプル数
     bool metricsCollecting_ = true;        ///< メトリクス収集中フラグ
 
@@ -112,7 +109,7 @@ struct App {
         DEBUGLOG("========================================");
         DEBUGLOG("App::Init() 開始");
         DEBUGLOG("ウィンドウサイズ: " + std::to_string(width) + "x" + std::to_string(height));
-        
+
         // P2: COM初期化モードを明示的に記録
         HRESULT hrCom = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
         if (SUCCEEDED(hrCom)) {
@@ -136,7 +133,7 @@ struct App {
         }
 
         SetupCamera(width, height);
-        
+
         // ゲームシーンの初期化
         InitializeGame();
 
@@ -155,44 +152,44 @@ struct App {
      */
     void Run() {
         DEBUGLOG("App::Run() - メインループ開始");
-        
+
         MSG msg{};
         auto previousTime = std::chrono::high_resolution_clock::now();
         int frameCount = 0;
-        
+
         while (msg.message != WM_QUIT) {
             // フレーム番号をログシステムに設定
             DebugLog::GetInstance().SetFrame(frameCount);
-            
+
             // Windowsメッセージ処理
             if (ProcessWindowsMessages(msg)) {
                 continue;
             }
-            
+
             // フレーム開始時刻
             auto frameStartTime = std::chrono::high_resolution_clock::now();
-            
+
             // 時間の計算
             float deltaTime = CalculateDeltaTime(previousTime);
-            
+
             // デルタタイムの異常値チェック
             if (deltaTime > 1.0f) {
                 DEBUGLOG("[WARNING] 異常なdeltaTimeを検出: " + std::to_string(deltaTime) + "s (0.1sにクランプ)");
                 deltaTime = 0.1f;
             }
-            
+
             // ========== UPDATE PHASE ==========
             auto updateStartTime = std::chrono::high_resolution_clock::now();
-            
+
             // 入力の更新
             input_.Update();
-            
+
             // ESCキーで終了
             if (input_.GetKeyDown(VK_ESCAPE)) {
                 DEBUGLOG_CATEGORY(DebugLog::Category::System, "ESCキーが押されました - アプリケーション終了要求（ユーザー操作）");
                 PostQuitMessage(0);
             }
-            
+
             // シーンの更新
             try {
                 sceneManager_.Update(world_, input_, deltaTime);
@@ -200,52 +197,52 @@ struct App {
                 DEBUGLOG("[CRITICAL ERROR] シーン更新中に例外が発生: " + std::string(e.what()));
                 PostQuitMessage(-1);
             }
-            
+
             auto updateEndTime = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> updateDuration = updateEndTime - updateStartTime;
             currentMetrics_.updateTime = updateDuration.count();
-            
+
             // ========== RENDER PHASE ==========
             auto renderStartTime = std::chrono::high_resolution_clock::now();
-            
+
             // BeginFrameとレンダリング処理
             gfx_.BeginFrame();
-            
+
 #ifdef _DEBUG
             DrawDebugInfo();
 #endif
-            
+
             renderer_.Render(gfx_, world_, camera_);
-            
+
 #ifdef _DEBUG
             debugDraw_.Render(gfx_, camera_);
 #endif
-            
+
             auto renderEndTime = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> renderDuration = renderEndTime - renderStartTime;
             currentMetrics_.renderTime = renderDuration.count();
-            
+
             // ========== PRESENT PHASE ==========
             auto presentStartTime = std::chrono::high_resolution_clock::now();
-            
+
             // Present実行（VSync待機含む）
             gfx_.EndFrame();
-            
+
             auto presentEndTime = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> presentDuration = presentEndTime - presentStartTime;
             currentMetrics_.presentTime = presentDuration.count();
-            
+
             // フレーム合計時間
             std::chrono::duration<float> frameDuration = presentEndTime - frameStartTime;
             currentMetrics_.totalTime = frameDuration.count();
-            
+
             // メトリクス集計
             avgMetrics_.updateTime += currentMetrics_.updateTime;
             avgMetrics_.renderTime += currentMetrics_.renderTime;
             avgMetrics_.presentTime += currentMetrics_.presentTime;
             avgMetrics_.totalTime += currentMetrics_.totalTime;
             metricsFrameCount_++;
-            
+
             // サンプル収集（最大1000フレーム）
             if (metricsCollecting_ && frameTotalSamples_.size() < maxSamples_) {
                 frameTotalSamples_.push_back(currentMetrics_.totalTime);
@@ -253,19 +250,23 @@ struct App {
                 renderSamples_.push_back(currentMetrics_.renderTime);
                 presentSamples_.push_back(currentMetrics_.presentTime);
             }
-            
+
+#ifdef _DEBUG
             // ウィンドウタイトルにスコアとFPS表示
             if (metricsFrameCount_ >= metricsUpdateInterval_) {
                 UpdateWindowTitleWithMetrics();
-                
+
                 // リセット
                 avgMetrics_ = FrameMetrics{};
                 metricsFrameCount_ = 0;
             }
+#else
+            UpdateWindowTitle();
+#endif
 
             frameCount++;
         }
-        
+
         DEBUGLOG("App::Run() - メインループ終了 (総フレーム数: " + std::to_string(frameCount) + ")");
     }
 
@@ -274,10 +275,10 @@ struct App {
      */
     ~App() {
         DEBUGLOG("App::~App() - デストラクタ呼び出し");
-        
+
         // 終了前にフレーム統計を出力
         OutputFrameStatistics();
-        
+
         Shutdown();
         DEBUGLOG("App 正常に破棄");
     }
@@ -289,21 +290,21 @@ private:
      */
     void Shutdown() {
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "App::Shutdown() - クリーンアップ開始");
-        
+
         // Phase 0: すべてのシステムを停止（新規Spawn無効化）
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 0: すべてのシステムを停止（新規Spawn無効化）");
         world_.StopAllSystems();
-        
+
         // Phase 1: シーンマネージャーの終了（シーンのOnExitを呼び出し）
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 1: SceneManagerのシャットダウン");
         sceneManager_.Shutdown(world_);
         gameScene_ = nullptr;  // SceneManagerが所有しているのでnullptrに設定するだけ
-        
+
         // Phase 2: WorldのDestroyキュー/Spawnキューを明示的にフラッシュ
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 2: Worldキューをフラッシュ (エンティティ数: " + std::to_string(world_.GetAliveCount()) + ")");
         world_.FlushDestroyEndOfFrame();
         world_.FlushSpawnStartOfFrame(); // 念のため（systemsStopped_でガード済み）
-        
+
         // Phase 3: World破棄前に残存エンティティを警告
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 3: World破棄前の残存エンティティチェック");
         if (world_.GetAliveCount() > 0) {
@@ -311,40 +312,40 @@ private:
         } else {
             DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 3: すべてのエンティティが正常に破棄されました");
         }
-        
+
 #ifdef _DEBUG
         // Phase 4: デバッグ描画解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 4: DebugDrawを解放");
         debugDraw_.Shutdown();
 #endif
-        
+
         // Phase 5: レンダリングシステム解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 5: RenderSystemを解放");
         renderer_.Shutdown();
-        
+
         // Phase 6: テクスチャマネージャー解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 6: TextureManagerを解放");
         texManager_.Shutdown();
-        
+
         // Phase 7: 入力システム解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 7: InputSystemを解放");
         input_.Shutdown();
-        
+
         // Phase 8: グラフィックスデバイス解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 8: GfxDeviceを解放");
         gfx_.Shutdown();
-        
+
         // Phase 9: COM終了（最後）
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 9: COMを終了");
         CoUninitialize();
-        
+
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "App::Shutdown() 正常に完了");
     }
 
     // ========================================================
     // 初期化ヘルパー
     // ========================================================
-    
+
     /**
      * @brief ウィンドウを作成する
      * @param[in] hInst インスタンスハンドル
@@ -354,14 +355,14 @@ private:
      */
     bool CreateAppWindow(HINSTANCE hInst, int width, int height) {
         DEBUGLOG("CreateAppWindow() 開始");
-        
+
         WNDCLASSEX wc{ sizeof(WNDCLASSEX) };
         wc.style = CS_HREDRAW | CS_VREDRAW;
         wc.lpfnWndProc = WndProcStatic;
         wc.hInstance = hInst;
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.lpszClassName = L"MiniGame_Class";
-        
+
         if (!RegisterClassEx(&wc)) {
             DEBUGLOG("[ERROR] RegisterClassEx() 失敗 - エラーコード: " + std::to_string(GetLastError()));
             return false;
@@ -370,9 +371,9 @@ private:
 
         RECT rc{ 0, 0, width, height };
         AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-        
+
         DEBUGLOG("ウィンドウサイズを調整: " + std::to_string(rc.right - rc.left) + "x" + std::to_string(rc.bottom - rc.top));
-        
+
         hwnd_ = CreateWindowW(
             wc.lpszClassName,
             L"シューティングゲーム - A/D:移動 スペース:発射 ESC:終了",
@@ -381,12 +382,12 @@ private:
             rc.right - rc.left, rc.bottom - rc.top,
             nullptr, nullptr, hInst, this
         );
-        
+
         if (!hwnd_) {
             DEBUGLOG("[ERROR] CreateWindowW() 失敗 - エラーコード: " + std::to_string(GetLastError()));
             return false;
         }
-        
+
         DEBUGLOG("ウィンドウ作成成功 (HWND: 0x" + std::to_string(reinterpret_cast<uintptr_t>(hwnd_)) + ")");
 
         ShowWindow(hwnd_, SW_SHOW);
@@ -403,21 +404,21 @@ private:
      */
     bool InitializeGraphics(int width, int height) {
         DEBUGLOG("InitializeGraphics() 開始");
-        
+
         if (!gfx_.Init(hwnd_, width, height)) {
             DEBUGLOG("[CRITICAL ERROR] GfxDevice::Init() 失敗");
             MessageBoxA(nullptr, "DirectX11の初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
         }
         DEBUGLOG("GfxDeviceを正常に初期化");
-        
+
         if (!texManager_.Init(gfx_)) {
             DEBUGLOG("[ERROR] TextureManager::Init() 失敗");
             MessageBoxA(nullptr, "TextureManagerの初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
         }
         DEBUGLOG("TextureManagerを正常に初期化");
-        
+
         if (!renderer_.Init(gfx_, texManager_)) {
             DEBUGLOG("[ERROR] RenderSystem::Init() 失敗");
             MessageBoxA(nullptr, "RenderSystemの初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
@@ -449,10 +450,10 @@ private:
      */
     void SetupCamera(int width, int height) {
         DEBUGLOG("SetupCamera() 開始");
-        
+
         float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
         DEBUGLOG("アスペクト比: " + std::to_string(aspectRatio));
-        
+
         camera_ = Camera::LookAtLH(
             DirectX::XM_PIDIV4,
             aspectRatio,
@@ -462,34 +463,34 @@ private:
             DirectX::XMFLOAT3{ 0, 0, 0 },
             DirectX::XMFLOAT3{ 0, 1, 0 }
         );
-        
+
         DEBUGLOG("カメラ設定完了 (位置: 0, 0, -20 | ターゲット: 0, 0, 0)");
     }
-    
+
     /**
      * @brief ゲーム関連の初期化
      */
     void InitializeGame() {
         DEBUGLOG("InitializeGame() 開始");
-        
+
         // ゲームシーンを作成
         gameScene_ = new GameScene();
         DEBUGLOG("GameSceneインスタンスを作成");
-        
+
         // シーンマネージャーに登録
         sceneManager_.RegisterScene("Game", gameScene_);
         DEBUGLOG("GameSceneをSceneManagerに登録");
-        
+
         sceneManager_.Init(gameScene_, world_);
         DEBUGLOG("SceneManagerをGameSceneで初期化");
-        
+
         DEBUGLOG("InitializeGame() 正常に完了");
     }
 
     // ========================================================
     // メインループのヘルパー
     // ========================================================
-    
+
     /**
      * @brief Windowsメッセージを処理する
      * @param[out] msg メッセージ構造体
@@ -503,7 +504,7 @@ private:
         }
         return false;
     }
-    
+
     /**
      * @brief デルタタイムを計算する
      * @param[in,out] previousTime 前フレームの時刻
@@ -515,15 +516,14 @@ private:
         previousTime = currentTime;
         return deltaTime.count();
     }
-    
+
     /**
      * @brief ウィンドウタイトルを更新する
      */
     void UpdateWindowTitle() {
         if (gameScene_) {
             std::wstringstream ss;
-            ss << L"シューティングゲーム - スコア: " << gameScene_->GetScore()
-               << L" | A/D:移動 スペース:発射 ESC:終了";
+            ss << L"はじく！" ;
             SetWindowTextW(hwnd_, ss.str().c_str());
         }
     }
@@ -538,9 +538,9 @@ private:
             float avgPresent = avgMetrics_.presentTime / metricsFrameCount_ * 1000.0f; // ms
             float avgTotal = avgMetrics_.totalTime / metricsFrameCount_; // s
             float fps = (avgTotal > 0.0f) ? (1.0f / avgTotal) : 0.0f;
-            
+
             std::wstringstream ss;
-            ss << L"シューティングゲーム - スコア: " << gameScene_->GetScore()
+            ss << L"はじく！"
                << L" | FPS: " << static_cast<int>(fps)
                << L" (U:" << std::fixed << std::setprecision(1) << avgUpdate
                << L"ms R:" << avgRender
@@ -555,12 +555,12 @@ private:
      */
     void DrawDebugInfo() {
         debugDraw_.Clear();
-        
+
         // グリッドを少し下げて描画（Y = -0.01）
         debugDraw_.DrawGrid(20.0f, 20, DirectX::XMFLOAT3{0.2f, 0.2f, 0.2f});
-        
+
         // 座標軸を後から描画して見やすくする
-        debugDraw_.DrawAxes(5.0f);
+        debugDraw_.DrawAxes(500.0f);
     }
 #endif
 
@@ -575,17 +575,17 @@ private:
             DEBUGLOG_WARNING("フレーム統計データが収集されていません");
             return;
         }
-        
+
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "フレーム統計サマリ (サンプル数: " + std::to_string(frameTotalSamples_.size()) + ")");
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
-        
+
         // 各メトリクスの統計を計算
         OutputMetricStatistics("フレーム合計時間", frameTotalSamples_, "ms");
         OutputMetricStatistics("Update時間", updateSamples_, "ms");
         OutputMetricStatistics("Render時間", renderSamples_, "ms");
         OutputMetricStatistics("Present時間", presentSamples_, "ms");
-        
+
         // FPS統計
         std::vector<float> fpsSamples;
         fpsSamples.reserve(frameTotalSamples_.size());
@@ -595,10 +595,10 @@ private:
             }
         }
         OutputMetricStatistics("FPS", fpsSamples, "");
-        
+
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "========================================");
     }
-    
+
     /**
      * @brief メトリクス統計を出力する
      * @param name メトリクス名
@@ -607,44 +607,44 @@ private:
      */
     void OutputMetricStatistics(const std::string& name, std::vector<float> samples, const std::string& unit) {
         if (samples.empty()) return;
-        
+
         // 外れ値フィルタリング（上位1%と下位1%を除外）
         std::sort(samples.begin(), samples.end());
-        
+
         size_t removeCount = static_cast<size_t>(samples.size() * 0.01);
         if (removeCount > 0 && samples.size() > removeCount * 2) {
             samples.erase(samples.begin(), samples.begin() + removeCount); // 下位1%を除外
             samples.erase(samples.end() - removeCount, samples.end());     // 上位1%を除外
         }
-        
+
         if (samples.empty()) {
             DEBUGLOG_WARNING(name + ": 外れ値除外後にサンプルが空になりました");
             return;
         }
-        
+
         // 統計計算
         float sum = 0.0f;
         for (float s : samples) sum += s;
         float avg = sum / samples.size();
         float min = samples.front();
         float max = samples.back();
-        
+
         // 99%タイル（上位1%を除外）
         size_t p99Index = static_cast<size_t>(samples.size() * 0.99);
         if (p99Index >= samples.size()) p99Index = samples.size() - 1;
         float p99 = samples[p99Index];
-        
+
         // 50%タイル（中央値）
         size_t p50Index = samples.size() / 2;
         float p50 = samples[p50Index];
-        
+
         // 1%タイル（下位1%）
         size_t p01Index = static_cast<size_t>(samples.size() * 0.01);
         float p01 = samples[p01Index];
-        
+
         // ログ出力（msの場合は1000倍、FPSの場合はそのまま）
         float multiplier = (unit == "ms") ? 1000.0f : 1.0f;
-        
+
         std::ostringstream oss;
         oss << name << " (外れ値除外後サンプル数: " << samples.size() << "): "
             << "平均=" << std::fixed << std::setprecision(2) << (avg * multiplier) << unit
@@ -653,14 +653,14 @@ private:
             << ", 中央値=" << (p50 * multiplier) << unit
             << ", 99%タイル=" << (p99 * multiplier) << unit
             << ", 最大=" << (max * multiplier) << unit;
-        
+
         DEBUGLOG_CATEGORY(DebugLog::Category::System, oss.str());
     }
 
     // ========================================================
     // Windowsメッセージ処理
     // ========================================================
-    
+
     /**
      * @brief ウィンドウプロシージャ（静的）
      * @details
@@ -669,7 +669,7 @@ private:
      */
     static LRESULT CALLBACK WndProcStatic(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
         App* app = nullptr;
-        
+
         if (msg == WM_NCCREATE) {
             CREATESTRUCT* cs = reinterpret_cast<CREATESTRUCT*>(lp);
             app = reinterpret_cast<App*>(cs->lpCreateParams);
@@ -678,11 +678,11 @@ private:
         } else {
             app = reinterpret_cast<App*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
         }
-        
+
         if (app) {
             return app->WndProc(hWnd, msg, wp, lp);
         }
-        
+
         return DefWindowProc(hWnd, msg, wp, lp);
     }
 
@@ -696,17 +696,17 @@ private:
             DEBUGLOG_CATEGORY(DebugLog::Category::System, "WM_CLOSEを受信 - ユーザーによるウィンドウ閉じる操作");
             // デフォルト処理に委ねる（WM_DESTROYが発生）
             return DefWindowProc(hWnd, msg, wp, lp);
-            
+
         case WM_DESTROY:
             DEBUGLOG_CATEGORY(DebugLog::Category::System, "WM_DESTROYを受信 - 終了メッセージを投稿");
             PostQuitMessage(0);
             return 0;
-            
+
         case WM_MOUSEWHEEL:
             input_.OnMouseWheel(GET_WHEEL_DELTA_WPARAM(wp));
             return 0;
         }
-        
+
         return DefWindowProc(hWnd, msg, wp, lp);
     }
 };

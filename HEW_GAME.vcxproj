@@ -159,7 +159,7 @@
     <ClInclude Include="include\input\InputSystem.h" />
     <ClInclude Include="include\components\MeshRenderer.h" />
     <ClInclude Include="include\samples\WorldImprovementDemo.h" />
-    <ClInclude Include="include\scenes\MiniGame.h" />
+    <ClInclude Include="include\scenes\MainGame.h" />
     <ClInclude Include="include\graphics\RenderSystem.h" />
     <ClInclude Include="include\components\Rotator.h" />
     <ClInclude Include="include\scenes\SceneManager.h" />

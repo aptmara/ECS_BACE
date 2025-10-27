@@ -35,9 +35,6 @@ public:
     /**
      * @brief シーン開始時の初期化
      * @param[in,out] world ワールド参照
-     *
-     * @details
-     * プレイヤー、地面を生成し、スコアとタイマーを初期化します。
      */
     void OnEnter(World& world) override {
 

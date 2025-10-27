@@ -1,0 +1,21 @@
+name: Auto Update Status to Done
+on:
+issues:
+types: [closed]
+
+
+jobs:
+update-status:
+runs-on: ubuntu-latest
+permissions:
+issues: read
+repository-projects: write
+contents: read
+steps:
+- name: Set Status to Done
+uses: leonsteinhaeuser/project-beta-automations@v1
+with:
+project-url: https://github.com/aptma-sHEWTeam/HEW_ECS
+field: Status
+value: Done
+github-token: ${{ secrets.GITHUB_TOKEN }}
