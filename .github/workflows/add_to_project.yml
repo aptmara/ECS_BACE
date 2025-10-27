@@ -89,13 +89,14 @@ jobs:
             const org = 'aptma-sHEWTeam';
             const projectNumber = 3;
 
-            const query = `
-              query($org: String!, $number: Int!) {
+            const pageQuery = `
+              query($org: String!, $number: Int!, $first: Int!, $after: String) {
                 organization(login: $org) {
                   projectV2(number: $number) {
                     id
-                    items(first: 200) {
+                    items(first: $first, after: $after) {
                       nodes { id content { ... on Issue { id number } } }
+                      pageInfo { hasNextPage endCursor }
                     }
                     fields(first: 50) {
                       nodes {
@@ -116,14 +117,25 @@ jobs:
               }
             `;
 
-            // 1) Ç‹Ç∏éÊìæ
-            let result = await github.graphql(query, { org, number: projectNumber });
-            let project = result.organization.projectV2;
-            const projectId = project.id;
-            let item = project.items.nodes.find(n => n.content && n.content.number === issue.number);
+            async function findItemAndFields() {
+              let after = null; let project = null;
+              while (true) {
+                const res = await github.graphql(pageQuery, { org, number: projectNumber, first: 100, after });
+                project = res.organization.projectV2;
+                const hit = project.items.nodes.find(n => n.content && n.content.number === issue.number);
+                if (hit) return { project, itemId: hit.id };
+                const pi = project.items.pageInfo;
+                if (!pi.hasNextPage) return { project, itemId: null };
+                after = pi.endCursor;
+              }
+            }
 
-            // 2) ñ≥ÇØÇÍÇŒí«â¡ÇµÇƒçƒéÊìæ
-            if (!item) {
+            // 1) íTÇ∑
+            let { project, itemId } = await findItemAndFields();
+            const projectId = project.id;
+
+            // 2) ñ≥ÇØÇÍÇŒí«â¡ÇµÇƒçƒåüçı
+            if (!itemId) {
               console.log('Item not found, adding via GraphQL...');
               try {
                 const addRes = await github.graphql(addMutation, { projectId, contentId: issue.node_id });
@@ -131,15 +143,14 @@ jobs:
               } catch (e) {
                 console.log('Add mutation error (may already exist):', e.message);
               }
-              // è≠Çµë“Ç¡ÇƒçƒéÊìæ
+              // è≠Çµë“ã@ÇµÇƒÇ©ÇÁçƒåüçı
               await new Promise(r => setTimeout(r, 1500));
-              result = await github.graphql(query, { org, number: projectNumber });
-              project = result.organization.projectV2;
-              item = project.items.nodes.find(n => n.content && n.content.number === issue.number);
-              if (!item) throw new Error('Could not find or add issue to project');
+              ({ project, itemId } = await findItemAndFields());
+              if (!itemId) throw new Error('Could not find or add issue to project');
             }
 
-            core.setOutput('item_id', item.id);
+            // èoóÕ
+            core.setOutput('item_id', itemId);
             core.setOutput('project_id', projectId);
 
             const fields = {}; const fieldOptions = {};
