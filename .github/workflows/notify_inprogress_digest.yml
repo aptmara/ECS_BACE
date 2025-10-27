@@ -2,7 +2,6 @@ name: Digest - In Progress Tasks to Discord
 
 permissions:
   contents: read
-  repository-projects: read
 
 on:
   schedule:
@@ -38,7 +37,7 @@ jobs:
           TZ_OFFSET_MINUTES: '540'
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
         with:
-          github-token: ${{ env.ORG_PROJECTS_TOKEN || secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.ORG_PROJECTS_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
             const webhook = process.env.DISCORD_WEBHOOK_INPROGRESS || process.env.DISCORD_WEBHOOK;
             if (!webhook) {
