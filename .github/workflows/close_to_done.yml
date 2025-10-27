@@ -14,4 +14,4 @@ jobs:
           project-url: https://github.com/orgs/aptma-sHEWTeam/projects/3
           field: Status
           value: Done
-          gh-token: ${{ secrets.ORG_PROJECTS_TOKEN }}          gh-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
+          gh-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
