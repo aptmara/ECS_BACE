@@ -170,6 +170,7 @@
     <ClInclude Include="include\util\Random.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".github\workflows\build.yml" />
     <None Include="Assets\Textures\test.png" />
     <None Include="README.md" />
   </ItemGroup>

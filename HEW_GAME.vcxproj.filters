@@ -136,6 +136,7 @@
     <None Include="Assets\Textures\test.png">
       <Filter>Resource Files\Textures</Filter>
     </None>
+    <None Include=".github\workflows\build.yml" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">
