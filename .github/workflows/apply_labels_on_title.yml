@@ -4,23 +4,22 @@ on:
   issues:
     types: [opened, edited]
 
-permissions:
-  issues: write
-
 jobs:
   label:
     runs-on: ubuntu-latest
+    # ORG_PROJECTS_TOKEN Ç™ê›íËÇ≥ÇÍÇƒÇ¢ÇÈèÍçáÇÃÇ›é¿çs
+    if: ${{ secrets.ORG_PROJECTS_TOKEN != '' }}
     steps:
       - name: Apply task label
         if: startsWith(github.event.issue.title, '[TASK]')
         uses: actions-ecosystem/action-add-labels@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.ORG_PROJECTS_TOKEN }}
           labels: task
 
       - name: Apply bug label
         if: startsWith(github.event.issue.title, '[BUG]')
         uses: actions-ecosystem/action-add-labels@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.ORG_PROJECTS_TOKEN }}
           labels: bug

@@ -4,14 +4,10 @@ on:
   issues:
     types: [closed]
 
-permissions:
-  contents: read
-  issues: read
-  projects: write
-
 jobs:
   update-status:
     runs-on: ubuntu-latest
+    if: ${{ secrets.ORG_PROJECTS_TOKEN != '' }}
     steps:
       - name: Set Status to Done
         uses: leonsteinhaeuser/project-beta-automations@v1

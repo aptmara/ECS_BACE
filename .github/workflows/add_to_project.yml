@@ -4,14 +4,11 @@ on:
   issues:
     types: [opened]
 
-permissions:
-  contents: read
-  issues: read
-  projects: write
-
 jobs:
   add-to-project:
     runs-on: ubuntu-latest
+    # ORG_PROJECTS_TOKEN ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İÀs
+    if: ${{ secrets.ORG_PROJECTS_TOKEN != '' }}
     steps:
       - name: Add to Project
         uses: actions/add-to-project@v0.5.0
