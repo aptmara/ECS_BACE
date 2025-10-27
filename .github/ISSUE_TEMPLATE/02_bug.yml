@@ -4,46 +4,42 @@ title: "[BUG] <短い要約>"
 labels: ["bug"]
 assignees: []
 body:
-- type: textarea
-id: description
-attributes:
-label: 事象概要
-placeholder: 何が起こっているか / 期待動作
-render: markdown
-validations:
-required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 事象概要
+      placeholder: 何が起こっているか / 期待動作
+      render: markdown
+      validations:
+        required: true
 
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      placeholder: |
+        1) シーン X を起動
+        2) 敵に接触
+        3) クラッシュ発生
+      render: markdown
 
-- type: textarea
-id: steps
-attributes:
-label: 再現手順
-placeholder: |
-1) シーン X を起動
-2) 敵に接触
-3) クラッシュ発生
-render: markdown
+  - type: input
+    id: env
+    attributes:
+      label: 環境情報（必須なら）
+      placeholder: OS / ビルド番号 / 解像度 / GPU など
 
+  - type: input
+    id: due
+    attributes:
+      label: End date (YYYY-MM-DD)
 
-- type: input
-id: env
-attributes:
-label: 環境情報（必須なら）
-placeholder: OS / ビルド番号 / 解像度 / GPU など
-
-
-- type: input
-id: due
-attributes:
-label: End date (YYYY-MM-DD)
-
-
-- type: dropdown
-id: priority
-attributes:
-label: Priority
-options:
-- High
-- Medium
-- Low
-default: 0
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - High
+        - Medium
+        - Low
+      default: 0

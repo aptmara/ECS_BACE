@@ -4,80 +4,80 @@ title: "[TASK] <短い要約>"
 labels: ["task"]
 assignees: []
 body:
-- type: markdown
-attributes:
-value: |
-必須項目を埋めてください。期限が決まっていれば End date も入力。
+  - type: markdown
+    attributes:
+      value: |
+        必須項目を埋めてください。期限が決まっていれば End date も入力。
 
 
-- type: input
-id: summary
-attributes:
-label: 概要（1行）
-placeholder: 何をするタスクか
-validations:
-required: true
+  - type: input
+    id: summary
+    attributes:
+      label: 概要（1行）
+      placeholder: 何をするタスクか
+      validations:
+        required: true
 
 
-- type: textarea
-id: details
-attributes:
-label: 詳細・受け入れ条件（必須なら）
-placeholder: 完了条件 / 手順 / 参考リンク（Google Drive など）
-render: markdown
+  - type: textarea
+    id: details
+    attributes:
+      label: 詳細・受け入れ条件（必須なら）
+      placeholder: 完了条件 / 手順 / 参考リンク（Google Drive など）
+      render: markdown
 
 
-- type: dropdown
-id: role
-attributes:
-label: Role
-options:
-- Planner
-- Programmer
-- Designer
-- QA
-validations:
-required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: Role
+      options:
+        - Planner
+        - Programmer
+        - Designer
+        - QA
+      validations:
+        required: true
 
 
-- type: dropdown
-id: priority
-attributes:
-label: Priority
-options:
-- High
-- Medium
-- Low
-validations:
-required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - High
+        - Medium
+        - Low
+      validations:
+        required: true
 
 
-- type: input
-id: start
-attributes:
-label: Start date (YYYY-MM-DD)
-placeholder: 2025-11-01
+  - type: input
+    id: start
+    attributes:
+      label: Start date (YYYY-MM-DD)
+      placeholder: 2025-11-01
 
 
-- type: input
-id: due
-attributes:
-label: End date (YYYY-MM-DD)
-placeholder: 2025-11-07
+  - type: input
+    id: due
+    attributes:
+      label: End date (YYYY-MM-DD)
+      placeholder: 2025-11-07
 
 
-- type: input
-id: component
-attributes:
-label: Component (任意)
-placeholder: Core / UI / Audio / Tool / Level / VFX
+  - type: input
+    id: component
+    attributes:
+      label: Component (任意)
+      placeholder: Core / UI / Audio / Tool / Level / VFX
 
 
-- type: checkboxes
-id: checklist
-attributes:
-label: チェック（該当するもの）
-options:
-- label: 仕様確定済み
-- label: 要レビュー
-- label: 外部アセットあり（Drive/URL記載）
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: チェック（該当するもの）
+      options:
+        - label: 仕様確定済み
+        - label: 要レビュー
+        - label: 外部アセットあり（Drive/URL記載）
