@@ -10,6 +10,165 @@ jobs:
     steps:
       - name: Add to Project
         uses: actions/add-to-project@v0.5.0
+        id: add-project
         with:
           project-url: https://github.com/orgs/aptma-sHEWTeam/projects/3
           github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
+
+      - name: Extract Issue Fields
+        id: extract
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueBody = context.payload.issue.body || '';
+            
+            // フィールド抽出用の正規表現
+            const roleMatch = issueBody.match(/### Role\\s*\\n\\s*(.+)/);
+            const teamMatch = issueBody.match(/### Team\\s*\\n\\s*(.+)/);
+            const priorityMatch = issueBody.match(/### Priority\\s*\\n\\s*(.+)/);
+            const startMatch = issueBody.match(/### Start date \\(YYYY-MM-DD\\)\\s*\\n\\s*(.+)/);
+            const dueMatch = issueBody.match(/### End date \\(YYYY-MM-DD\\)\\s*\\n\\s*(.+)/);
+            const componentMatch = issueBody.match(/### Component \\(任意\\)\\s*\\n\\s*(.+)/);
+            
+            core.setOutput('role', roleMatch ? roleMatch[1].trim() : '');
+            core.setOutput('team', teamMatch ? teamMatch[1].trim() : '');
+            core.setOutput('priority', priorityMatch ? priorityMatch[1].trim() : '');
+            core.setOutput('start_date', startMatch ? startMatch[1].trim() : '');
+            core.setOutput('due_date', dueMatch ? dueMatch[1].trim() : '');
+            core.setOutput('component', componentMatch ? componentMatch[1].trim() : '');
+
+      - name: Set Project Fields
+        uses: actions/github-script@v7
+        if: steps.add-project.outputs.itemId
+        env:
+          ITEM_ID: ${{ steps.add-project.outputs.itemId }}
+          ROLE: ${{ steps.extract.outputs.role }}
+          TEAM: ${{ steps.extract.outputs.team }}
+          PRIORITY: ${{ steps.extract.outputs.priority }}
+          START_DATE: ${{ steps.extract.outputs.start_date }}
+          DUE_DATE: ${{ steps.extract.outputs.due_date }}
+          COMPONENT: ${{ steps.extract.outputs.component }}
+        with:
+          github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
+          script: |
+            const itemId = process.env.ITEM_ID;
+            const projectId = 'PVT_kwHOAKhcas4AvQ1B'; // プロジェクトID（後で正しい値に更新）
+            
+            // フィールドIDマッピング（プロジェクト設定から取得する必要があります）
+            // これらは例です。実際のプロジェクトのフィールドIDに置き換えてください
+            const fieldIds = {
+              role: 'PVTSSF_lAHOAKhcas4AvQ1BzgXXXXX',      // 例: Role フィールドID
+              team: 'PVTSSF_lAHOAKhcas4AvQ1BzgYYYYY',      // 例: Team フィールドID
+              priority: 'PVTSSF_lAHOAKhcas4AvQ1BzgZZZZZ',  // 例: Priority フィールドID
+              startDate: 'PVTF_lAHOAKhcas4AvQ1BzgAAAAAA', // 例: Start date フィールドID
+              dueDate: 'PVTF_lAHOAKhcas4AvQ1BzgBBBBBB'    // 例: End date フィールドID
+            };
+            
+            // フィールド値IDマッピング（Single Select フィールド用）
+            const fieldValueIds = {
+              role: {
+                'Planner': 'role_option_planner_id',
+                'Programmer': 'role_option_programmer_id',
+                'Designer': 'role_option_designer_id',
+                'QA': 'role_option_qa_id'
+              },
+              team: {
+                'A': 'team_option_a_id',
+                'B': 'team_option_b_id',
+                'C': 'team_option_c_id'
+              },
+              priority: {
+                'High': 'priority_option_high_id',
+                'Medium': 'priority_option_medium_id',
+                'Low': 'priority_option_low_id'
+              }
+            };
+            
+            console.log('Setting project fields for item:', itemId);
+            
+            // Role フィールド設定
+            if (process.env.ROLE && fieldValueIds.role[process.env.ROLE]) {
+              await github.graphql(`
+                mutation {
+                  updateProjectV2ItemFieldValue(input: {
+                    projectId: "${projectId}"
+                    itemId: "${itemId}"
+                    fieldId: "${fieldIds.role}"
+                    value: { singleSelectOptionId: "${fieldValueIds.role[process.env.ROLE]}" }
+                  }) {
+                    projectV2Item { id }
+                  }
+                }
+              `);
+              console.log('Set Role:', process.env.ROLE);
+            }
+            
+            // Team フィールド設定
+            if (process.env.TEAM && fieldValueIds.team[process.env.TEAM]) {
+              await github.graphql(`
+                mutation {
+                  updateProjectV2ItemFieldValue(input: {
+                    projectId: "${projectId}"
+                    itemId: "${itemId}"
+                    fieldId: "${fieldIds.team}"
+                    value: { singleSelectOptionId: "${fieldValueIds.team[process.env.TEAM]}" }
+                  }) {
+                    projectV2Item { id }
+                  }
+                }
+              `);
+              console.log('Set Team:', process.env.TEAM);
+            }
+            
+            // Priority フィールド設定
+            if (process.env.PRIORITY && fieldValueIds.priority[process.env.PRIORITY]) {
+              await github.graphql(`
+                mutation {
+                  updateProjectV2ItemFieldValue(input: {
+                    projectId: "${projectId}"
+                    itemId: "${itemId}"
+                    fieldId: "${fieldIds.priority}"
+                    value: { singleSelectOptionId: "${fieldValueIds.priority[process.env.PRIORITY]}" }
+                  }) {
+                    projectV2Item { id }
+                  }
+                }
+              `);
+              console.log('Set Priority:', process.env.PRIORITY);
+            }
+            
+            // Start Date フィールド設定
+            if (process.env.START_DATE && /^\\d{4}-\\d{2}-\\d{2}$/.test(process.env.START_DATE)) {
+              await github.graphql(`
+                mutation {
+                  updateProjectV2ItemFieldValue(input: {
+                    projectId: "${projectId}"
+                    itemId: "${itemId}"
+                    fieldId: "${fieldIds.startDate}"
+                    value: { date: "${process.env.START_DATE}" }
+                  }) {
+                    projectV2Item { id }
+                  }
+                }
+              `);
+              console.log('Set Start Date:', process.env.START_DATE);
+            }
+            
+            // End Date フィールド設定
+            if (process.env.DUE_DATE && /^\\d{4}-\\d{2}-\\d{2}$/.test(process.env.DUE_DATE)) {
+              await github.graphql(`
+                mutation {
+                  updateProjectV2ItemFieldValue(input: {
+                    projectId: "${projectId}"
+                    itemId: "${itemId}"
+                    fieldId: "${fieldIds.dueDate}"
+                    value: { date: "${process.env.DUE_DATE}" }
+                  }) {
+                    projectV2Item { id }
+                  }
+                }
+              `);
+              console.log('Set End Date:', process.env.DUE_DATE);
+            }
+            
+            console.log('All fields updated successfully');
