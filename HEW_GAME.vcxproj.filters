@@ -46,6 +46,9 @@
     <Filter Include="Logs">
       <UniqueIdentifier>{EBBA4568-60D7-4969-9639-EBA43D3BC05F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="yml">
+      <UniqueIdentifier>{baa0ee2b-b277-4f5f-a364-a9c9fffb415f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -136,7 +139,27 @@
     <None Include="Assets\Textures\test.png">
       <Filter>Resource Files\Textures</Filter>
     </None>
-    <None Include=".github\workflows\build.yml" />
+    <None Include=".github\ISSUE_TEMPLATE\01_task.yml">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\ISSUE_TEMPLATE\02_bug.yml">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\workflows\add_to_project.yml">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\workflows\apply_labels_on_title.yml">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\workflows\build.yml">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\workflows\close_to_done.yml">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\ISSUE_TEMPLATE\config.yml">
+      <Filter>yml</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">

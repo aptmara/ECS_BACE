@@ -1,21 +1,22 @@
 name: Auto Update Status to Done
-on:
-issues:
-types: [closed]
 
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  contents: read
+  issues: read
+  projects: write
 
 jobs:
-update-status:
-runs-on: ubuntu-latest
-permissions:
-issues: read
-repository-projects: write
-contents: read
-steps:
-- name: Set Status to Done
-uses: leonsteinhaeuser/project-beta-automations@v1
-with:
-project-url: https://github.com/orgs/aptma-sHEWTeam/projects/3
-field: Status
-value: Done
-github-token: ${{ secrets.GITHUB_TOKEN }}
+  update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Status to Done
+        uses: leonsteinhaeuser/project-beta-automations@v1
+        with:
+          project-url: https://github.com/orgs/aptma-sHEWTeam/projects/3
+          field: Status
+          value: Done
+          gh-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
