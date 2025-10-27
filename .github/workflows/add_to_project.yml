@@ -26,30 +26,36 @@ jobs:
         with:
           script: |
             const raw = context.payload.issue.body || '';
-            const text = raw.replace(/\r\n/g, '\n'); // normalize newline
-            console.log('=== Issue Body (normalized) ===\n' + text + '\n=== /Issue Body ===');
+            const lines = raw.replace(/\r\n/g, '\n').split('\n');
+            console.log('=== Issue Body (normalized) ===');
+            console.log(lines.join('\n'));
+            console.log('=== /Issue Body ===');
 
-            function findValue(labelAliases) {
-              // 1) 正規表現で "(###)? Label [:：]? \n <value>" を探す
-              for (const alias of labelAliases) {
-                const pattern = new RegExp(String.raw`(?:^|\n)\s*(?:###\s*)?${alias}\s*[:：]?\s*(?:\n+|\s+)([^\n]+)`, 'i');
-                const m = text.match(pattern);
-                if (m && m[1]) return m[1].trim();
-              }
-              // 2) 行スキャン: ラベル行の次の非空行
-              const lines = text.split('\n');
-              const norm = s => (s||'').trim().toLowerCase();
-              for (let i = 0; i < lines.length; i++) {
-                const l = norm(lines[i]).replace(/^#+\s*/, ''); // 先頭の ### を除去
-                for (const alias of labelAliases) {
-                  const a = norm(alias);
-                  // 同一行に値があるケース: "Label: value"
-                  if (l.startsWith(a)) {
+            // ラベルの別名（小文字で比較）
+            const aliases = {
+              role: ['role'],
+              team: ['programteam','team'],
+              priority: ['priority'],
+              component: ['component','component (任意)'],
+              size: ['size'],
+              estimate: ['estimate','estimate (時間)'],
+              start_date: ['start date','start date (yyyy-mm-dd)'],
+              due_date: ['end date','due date','end date (yyyy-mm-dd)']
+            };
+
+            function norm(s){ return (s||'').trim().toLowerCase().replace(/^#+\s*/, ''); }
+
+            function pick(keys){
+              for (let i=0;i<lines.length;i++){
+                const l = norm(lines[i]);
+                for (const k of keys){
+                  if (l.startsWith(k)){
+                    // 同一行に ":" があればその後を値とする。なければ次の非空行を使う
                     const after = lines[i].split(/[:：]/).slice(1).join(':').trim();
                     if (after) return after;
-                    // 次行が値
                     let j=i+1; while(j<lines.length && lines[j].trim().length===0) j++;
                     if (j<lines.length) return lines[j].trim();
+                    return '';
                   }
                 }
               }
@@ -57,14 +63,14 @@ jobs:
             }
 
             const out = {
-              role: findValue(['Role']),
-              team: findValue(['ProgramTeam','Team']),
-              priority: findValue(['Priority']),
-              component: findValue(['Component','Component (任意)']),
-              size: findValue(['Size']),
-              estimate: findValue(['Estimate','Estimate (時間)']),
-              start_date: findValue(['Start date','Start date (YYYY-MM-DD)']),
-              due_date: findValue(['End date','Due date','End date (YYYY-MM-DD)'])
+              role: pick(aliases.role),
+              team: pick(aliases.team),
+              priority: pick(aliases.priority),
+              component: pick(aliases.component),
+              size: pick(aliases.size),
+              estimate: pick(aliases.estimate),
+              start_date: pick(aliases.start_date),
+              due_date: pick(aliases.due_date)
             };
 
             console.log('Extracted:', out);
@@ -81,25 +87,24 @@ jobs:
           echo "Start Date: ${{ steps.extract.outputs.start_date }}"
           echo "Due Date: ${{ steps.extract.outputs.due_date }}"
 
-      - name: Get Project Data (find or add)
+      - name: Get Project Data (use existing item or add)
         uses: actions/github-script@v7
         id: project-data
+        env:
+          ITEM_ID_HINT: ${{ steps.add-project.outputs.itemId }}
         with:
           github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
           script: |
             const issue = context.payload.issue;
             const org = 'aptma-sHEWTeam';
             const projectNumber = 3;
+            const itemIdHint = process.env.ITEM_ID_HINT;
 
-            const pageQuery = `
-              query($org: String!, $number: Int!, $first: Int!, $after: String) {
+            const projQuery = `
+              query($org: String!, $number: Int!) {
                 organization(login: $org) {
                   projectV2(number: $number) {
                     id
-                    items(first: $first, after: $after) {
-                      nodes { id content { ... on Issue { id number } } }
-                      pageInfo { hasNextPage endCursor }
-                    }
                     fields(first: 50) {
                       nodes {
                         ... on ProjectV2Field { id name dataType }
@@ -113,45 +118,30 @@ jobs:
 
             const addMutation = `
               mutation($projectId: ID!, $contentId: ID!) {
-                addProjectV2ItemById(input: { projectId: $projectId, contentId: $contentId }) {
-                  item { id }
-                }
+                addProjectV2ItemById(input: { projectId: $projectId, contentId: $contentId }) { item { id } }
               }
             `;
 
-            async function findItemAndFields() {
-              let after = null; let project = null;
-              while (true) {
-                const res = await github.graphql(pageQuery, { org, number: projectNumber, first: 100, after });
-                project = res.organization.projectV2;
-                const hit = project.items.nodes.find(n => n.content && n.content.number === issue.number);
-                if (hit) return { project, itemId: hit.id };
-                const pi = project.items.pageInfo;
-                if (!pi.hasNextPage) return { project, itemId: null };
-                after = pi.endCursor;
-              }
-            }
-
-            // 1) 探す
-            let { project, itemId } = await findItemAndFields();
+            // 1) プロジェクトIDとフィールドだけ取得
+            const res = await github.graphql(projQuery, { org, number: projectNumber });
+            const project = res.organization.projectV2;
             const projectId = project.id;
 
-            // 2) 無ければ追加して再検索
+            // 2) アイテムIDを決定
+            let itemId = itemIdHint;
             if (!itemId) {
-              console.log('Item not found, adding via GraphQL...');
               try {
                 const addRes = await github.graphql(addMutation, { projectId, contentId: issue.node_id });
-                console.log('Added item id:', addRes.addProjectV2ItemById.item.id);
+                itemId = addRes.addProjectV2ItemById.item.id;
+                console.log('Added item via mutation:', itemId);
               } catch (e) {
-                console.log('Add mutation error (may already exist):', e.message);
+                console.log('Add mutation failed (may already exist):', e.message);
               }
-              // 少し待機してから再検索
-              await new Promise(r => setTimeout(r, 1500));
-              ({ project, itemId } = await findItemAndFields());
-              if (!itemId) throw new Error('Could not find or add issue to project');
+            }
+            if (!itemId) {
+              throw new Error('itemId could not be determined');
             }
 
-            // 出力
             core.setOutput('item_id', itemId);
             core.setOutput('project_id', projectId);
 
