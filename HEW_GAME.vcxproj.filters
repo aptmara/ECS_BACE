@@ -166,6 +166,7 @@
     <None Include=".github\docs\PROJECT_AUTOMATION_SETUP.md" />
     <None Include="QUICKSTART_PROJECT_AUTOMATION.md" />
     <None Include=".github\docs\FIX_SUMMARY.md" />
+    <None Include=".github\workflows\auto_ready_on_start.yml" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">

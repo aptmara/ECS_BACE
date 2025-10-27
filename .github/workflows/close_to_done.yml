@@ -8,10 +8,104 @@ jobs:
   update-status:
     runs-on: ubuntu-latest
     steps:
-      - name: Set Status to Done
-        uses: leonsteinhaeuser/project-beta-automations@v1
+      - name: Set Status to Done (GraphQL)
+        uses: actions/github-script@v7
+        env:
+          ORG: aptma-sHEWTeam
+          PROJECT_NUMBER: '3'
+          DONE_NAMES: 'Done,完了'
+          # If the item is not in the project, add it first
+          ADD_IF_MISSING: 'true'
+          GITHUB_TOKEN: ${{ secrets.ORG_PROJECTS_TOKEN }}
         with:
-          project-url: https://github.com/orgs/aptma-sHEWTeam/projects/3
-          field: Status
-          value: Done
-          gh-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
+          github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
+          script: |
+            const org = process.env.ORG;
+            const projectNumber = parseInt(process.env.PROJECT_NUMBER, 10);
+            const doneNames = (process.env.DONE_NAMES || '').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+            const addIfMissing = (process.env.ADD_IF_MISSING || 'true').toLowerCase() === 'true';
+            const issue = context.payload.issue;
+
+            const fieldsQuery = `
+              query($org: String!, $number: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 50) {
+                      nodes {
+                        ... on ProjectV2Field { id name dataType }
+                        ... on ProjectV2SingleSelectField { id name dataType options { id name } }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const pageQuery = `
+              query($org: String!, $number: Int!, $first: Int!, $after: String) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    items(first: $first, after: $after) {
+                      nodes {
+                        id
+                        content { ... on Issue { id number } }
+                      }
+                      pageInfo { hasNextPage endCursor }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const addMutation = `
+              mutation($projectId: ID!, $contentId: ID!) { addProjectV2ItemById(input: { projectId: $projectId, contentId: $contentId }) { item { id } } }
+            `;
+
+            const updateMutation = `
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(input: { projectId: $projectId, itemId: $itemId, fieldId: $fieldId, value: { singleSelectOptionId: $optionId } }) { projectV2Item { id } }
+              }
+            `;
+
+            // 1) Get project and fields
+            const fieldsRes = await github.graphql(fieldsQuery, { org, number: projectNumber });
+            const project = fieldsRes.organization.projectV2;
+            const projectId = project.id;
+            const statusField = project.fields.nodes.find(f => f.name.trim().toLowerCase() === 'status' || f.name.trim() === 'ステータス');
+            if (!statusField) throw new Error('Status field not found');
+            const options = (statusField.options || []).map(o=>({name:o.name,id:o.id}));
+            const optIdByName = new Map(options.map(o=>[o.name.trim().toLowerCase(), o.id]));
+            let doneOptionId = null;
+            for (const n of doneNames) { if (optIdByName.has(n)) { doneOptionId = optIdByName.get(n); break; } }
+            if (!doneOptionId) throw new Error('Done option not found. Available: ' + options.map(o=>o.name).join(', '));
+
+            // 2) Find item by scanning pages
+            async function findItemId() {
+              let after = null;
+              while (true) {
+                const res = await github.graphql(pageQuery, { org, number: projectNumber, first: 100, after });
+                const items = res.organization.projectV2.items;
+                const hit = items.nodes.find(n => n.content && n.content.number === issue.number);
+                if (hit) return hit.id;
+                if (!items.pageInfo.hasNextPage) return null;
+                after = items.pageInfo.endCursor;
+              }
+            }
+
+            let itemId = await findItemId();
+            if (!itemId && addIfMissing) {
+              try {
+                const addRes = await github.graphql(addMutation, { projectId, contentId: issue.node_id });
+                itemId = addRes.addProjectV2ItemById.item.id;
+                console.log('Item was not in project; added:', itemId);
+              } catch (e) {
+                console.log('Add mutation failed (maybe already exists):', e.message);
+              }
+              if (!itemId) itemId = await findItemId();
+            }
+            if (!itemId) throw new Error('Project item for this issue not found');
+
+            // 3) Update status to Done
+            await github.graphql(updateMutation, { projectId, itemId, fieldId: statusField.id, optionId: doneOptionId });
+            console.log('Status set to Done for item', itemId);
