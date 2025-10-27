@@ -9,15 +9,13 @@ body:
       value: |
         必須項目を埋めてください。期限が決まっていれば End date も入力。
 
-
   - type: input
     id: summary
     attributes:
       label: 概要（1行）
       placeholder: 何をするタスクか
-      validations:
-        required: true
-
+    validations:
+      required: true
 
   - type: textarea
     id: details
@@ -25,7 +23,6 @@ body:
       label: 詳細・受け入れ条件（必須なら）
       placeholder: 完了条件 / 手順 / 参考リンク（Google Drive など）
       render: markdown
-
 
   - type: dropdown
     id: role
@@ -36,9 +33,8 @@ body:
         - Programmer
         - Designer
         - QA
-      validations:
-        required: true
-
+    validations:
+      required: true
 
   - type: dropdown
     id: priority
@@ -48,30 +44,26 @@ body:
         - High
         - Medium
         - Low
-      validations:
-        required: true
-
+    validations:
+      required: true
 
   - type: input
     id: start
     attributes:
       label: Start date (YYYY-MM-DD)
-      placeholder: 2025-11-01
-
+      placeholder: "2025-11-01"
 
   - type: input
     id: due
     attributes:
       label: End date (YYYY-MM-DD)
-      placeholder: 2025-11-07
-
+      placeholder: "2025-11-07"
 
   - type: input
     id: component
     attributes:
       label: Component (任意)
       placeholder: Core / UI / Audio / Tool / Level / VFX
-
 
   - type: checkboxes
     id: checklist
