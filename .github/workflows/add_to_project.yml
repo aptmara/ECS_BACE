@@ -27,46 +27,48 @@ jobs:
           script: |
             const raw = context.payload.issue.body || '';
             const text = raw.replace(/\r\n/g, '\n'); // normalize newline
-            const lines = text.split('\n');
+            console.log('=== Issue Body (normalized) ===\n' + text + '\n=== /Issue Body ===');
 
-            // 期待ラベルとエイリアス（大小文字無視）
-            const wanted = new Map([
-              ['role', ['role']],
-              ['team', ['programteam', 'team']],
-              ['priority', ['priority']],
-              ['component', ['component']],
-              ['size', ['size']],
-              ['estimate', ['estimate', 'estimate (時間)']],
-              ['start_date', ['start date', 'start date (yyyy-mm-dd)']],
-              ['due_date', ['end date', 'due date', 'end date (yyyy-mm-dd)']],
-            ]);
-
-            const values = {
-              role: '', team: '', priority: '', component: '', size: '', estimate: '', start_date: '', due_date: ''
-            };
-
-            function norm(s) { return (s || '').trim().toLowerCase(); }
-
-            for (let i = 0; i < lines.length; i++) {
-              const label = norm(lines[i]);
-              if (!label) continue;
-              for (const [key, aliases] of wanted.entries()) {
-                if (aliases.some(a => label === a)) {
-                  // 次の非空行を値として拾う
-                  let j = i + 1; let val = '';
-                  while (j < lines.length) {
-                    const v = lines[j].trim();
-                    j++;
-                    if (v.length === 0) continue;
-                    val = v; break;
+            function findValue(labelAliases) {
+              // 1) 正規表現で "(###)? Label [:：]? \n <value>" を探す
+              for (const alias of labelAliases) {
+                const pattern = new RegExp(String.raw`(?:^|\n)\s*(?:###\s*)?${alias}\s*[:：]?\s*(?:\n+|\s+)([^\n]+)`, 'i');
+                const m = text.match(pattern);
+                if (m && m[1]) return m[1].trim();
+              }
+              // 2) 行スキャン: ラベル行の次の非空行
+              const lines = text.split('\n');
+              const norm = s => (s||'').trim().toLowerCase();
+              for (let i = 0; i < lines.length; i++) {
+                const l = norm(lines[i]).replace(/^#+\s*/, ''); // 先頭の ### を除去
+                for (const alias of labelAliases) {
+                  const a = norm(alias);
+                  // 同一行に値があるケース: "Label: value"
+                  if (l.startsWith(a)) {
+                    const after = lines[i].split(/[:：]/).slice(1).join(':').trim();
+                    if (after) return after;
+                    // 次行が値
+                    let j=i+1; while(j<lines.length && lines[j].trim().length===0) j++;
+                    if (j<lines.length) return lines[j].trim();
                   }
-                  if (val.length > 0) { values[key] = val; }
                 }
               }
+              return '';
             }
 
-            console.log('Extracted:', values);
-            for (const [k, v] of Object.entries(values)) core.setOutput(k, v);
+            const out = {
+              role: findValue(['Role']),
+              team: findValue(['ProgramTeam','Team']),
+              priority: findValue(['Priority']),
+              component: findValue(['Component','Component (任意)']),
+              size: findValue(['Size']),
+              estimate: findValue(['Estimate','Estimate (時間)']),
+              start_date: findValue(['Start date','Start date (YYYY-MM-DD)']),
+              due_date: findValue(['End date','Due date','End date (YYYY-MM-DD)'])
+            };
+
+            console.log('Extracted:', out);
+            for (const [k,v] of Object.entries(out)) core.setOutput(k, v);
 
       - name: Debug - Show extracted fields
         run: |
@@ -182,16 +184,14 @@ jobs:
         with:
           github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
           script: |
-            // 早期チェック（スキップ時でもステップが見えるよう診断ログを出す）
             if (!process.env.ITEM_ID || !process.env.PROJECT_ID) {
-              console.log('[Diag] item_id/project_id が未取得のため、フィールド設定はスキップされます。');
+              console.log('[Diag] item_id/project_id 未取得。前段の Get Project Data を確認');
               console.log('[Diag] ITEM_ID=', process.env.ITEM_ID);
               console.log('[Diag] PROJECT_ID=', process.env.PROJECT_ID);
-              console.log('[Diag] 直前の "Get Project Data (find or add)" ステップのログを確認してください。');
               return;
             }
             if (!process.env.FIELDS || !process.env.FIELD_OPTIONS) {
-              console.log('[Diag] FIELDS または FIELD_OPTIONS が空です。プロジェクトのフィールド取得に失敗しています。');
+              console.log('[Diag] FIELDS or FIELD_OPTIONS 未取得');
               console.log('[Diag] FIELDS=', process.env.FIELDS);
               console.log('[Diag] FIELD_OPTIONS=', process.env.FIELD_OPTIONS);
               return;
@@ -206,32 +206,43 @@ jobs:
 
             const SKIP = new Set(['', '_No response_', 'No response', 'Choose an option', 'None', 'No date', 'Enter number...']);
 
-            const fieldIdByName = new Map();
-            for (const [name, id] of Object.entries(fields)) fieldIdByName.set(name.trim().toLowerCase(), id);
-            const optionIdByFieldName = new Map();
-            for (const [fname, opts] of Object.entries(fieldOptions)) {
-              const map = new Map();
-              for (const [optName, optId] of Object.entries(opts || {})) map.set(optName.trim().toLowerCase(), optId);
-              optionIdByFieldName.set(fname.trim().toLowerCase(), map);
-            }
+            const fieldIdByName = new Map(Object.entries(fields).map(([k,v])=>[k.trim().toLowerCase(), v]));
+            const optionIdByFieldName = new Map(Object.entries(fieldOptions).map(([fname, opts])=>[fname.trim().toLowerCase(), new Map(Object.entries(opts||{}).map(([n,id])=>[n.trim().toLowerCase(), id]))]));
 
-            function getFieldId(fieldName) {
-              const id = fieldIdByName.get(fieldName.trim().toLowerCase());
-              if (!id) console.log(`Field not found: '${fieldName}'. Available=`, Array.from(fieldIdByName.keys()));
-              return id;
-            }
-            function getOptionId(fieldName, value) {
-              const opts = optionIdByFieldName.get(fieldName.trim().toLowerCase());
-              if (!opts) { console.log(`Options not found map for field '${fieldName}'`); return null; }
-              const id = opts.get(value.trim().toLowerCase());
-              if (!id) console.log(`Option not found: '${fieldName}' -> '${value}'. Available=`, Array.from(opts.keys()));
-              return id;
+            function getFieldId(fieldName){ const id = fieldIdByName.get(fieldName.trim().toLowerCase()); if(!id) console.log(`Field not found: ${fieldName}`); return id; }
+            function getOptionId(fieldName, value){ const opts = optionIdByFieldName.get(fieldName.trim().toLowerCase()); if(!opts) { console.log(`Options not found for ${fieldName}`); return null; } const id = opts.get(value.trim().toLowerCase()); if(!id) console.log(`Option not found: ${fieldName} -> ${value}. Available=`, Array.from(opts.keys())); return id; }
+
+            // 入力値→プロジェクト側表示名へのマッピング
+            function mapValue(fieldName, value){
+              const v = (value||'').trim();
+              const lc = v.toLowerCase();
+              const maps = {
+                'role': {
+                  'planner':'プランナー','programmer':'プログラマー','designer':'デザイナー','qa':'Q＆A','q&a':'Q＆A','q＆a':'Q＆A'
+                },
+                'priority': {
+                  'high':'P0','p0':'P0','medium':'P1','mid':'P1','p1':'P1','low':'P2','p2':'P2'
+                },
+                'component': {
+                  'level':'Stage','stages':'Stage','stage':'Stage'
+                },
+                'size': {
+                  'xs':'Low','s':'Low','small':'Low','low':'Low','m':'Mid','mid':'Mid','medium':'Mid','l':'High','xl':'High','high':'High'
+                },
+                'programteam': {
+                  'a':'A','b':'B','c':'C'
+                }
+              };
+              const key = fieldName.trim().toLowerCase();
+              if (maps[key] && maps[key][lc]) return maps[key][lc];
+              return v; // マッピング不要ならそのまま
             }
 
             let intended = 0, changed = 0;
 
-            async function setSingleSelect(fieldName, value) {
-              if (SKIP.has(value)) { console.log(`Skip ${fieldName}: '${value}'`); return; }
+            async function setSingleSelect(fieldName, rawValue) {
+              if (SKIP.has(rawValue)) { console.log(`Skip ${fieldName}: '${rawValue}'`); return; }
+              const value = mapValue(fieldName, rawValue);
               intended++;
               const fieldId = getFieldId(fieldName); if (!fieldId) return;
               const optId = getOptionId(fieldName, value); if (!optId) return;
