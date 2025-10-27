@@ -35,7 +35,14 @@ body:
         - QA
     validations:
       required: true
-
+  - type: dropdown
+    id: team
+    attributes:
+      label: Role
+      options:
+        - A
+        - B
+        - C
   - type: dropdown
     id: priority
     attributes:
