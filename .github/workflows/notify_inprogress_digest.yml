@@ -1,11 +1,10 @@
----
 name: Digest - In Progress Tasks to Discord
 
 permissions:
   contents: read
-  projects: read
+  repository-projects: read
 
-'on':
+on:
   schedule:
     # Every hour at minute 10
     - cron: '10 * * * *'
@@ -38,7 +37,6 @@ jobs:
           IMPORTANCE_FIELD_NAMES: 'Importance,d—v“x,Priority,—Dæ“x'
           TZ_OFFSET_MINUTES: '540'
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
-          ORG_PROJECTS_TOKEN: ${{ secrets.ORG_PROJECTS_TOKEN }}
         with:
           github-token: ${{ env.ORG_PROJECTS_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -164,3 +162,39 @@ jobs:
               }
               if (!items.pageInfo.hasNextPage) break;
               after = items.pageInfo.endCursor;
+            }
+
+            // 3) Build digest text
+            const header = `??? In-Progress Digest ? ${project.title} #${project.number} (Statuses: ${statusNames.join(', ')})`;
+            const catNames = Array.from(groups.keys()).sort((a,b)=>a.localeCompare(b));
+            let body = header + "\n";
+            for (const cat of catNames) {
+              body += `\n¡ ${cat}\n`;
+              const imp = groups.get(cat);
+              const impNames = Array.from(imp.keys()).sort((a,b)=>a.localeCompare(b));
+              for (const im of impNames) {
+                body += `  - ${im}\n`;
+                for (const line of imp.get(im)) body += `    ${line}\n`;
+              }
+            }
+            if (kept === 0) body += '\n(ŠY“–‚È‚µ)';
+
+            const chunks = [];
+            const max = 1800;
+            for (let i=0; i<body.length; i+=max) chunks.push(body.slice(i, i+max));
+
+            if (dryRun) {
+              core.info(`Dry-run. Scanned=${scanned}, Kept=${kept}. Would send ${chunks.length} message(s).`);
+              return;
+            }
+
+            for (const part of chunks) {
+              const resp = await fetch(webhook, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ content: part }) });
+              if (!resp.ok) {
+                const t = await resp.text();
+                core.warning(`Discord responded ${resp.status}: ${t}`);
+              }
+              await new Promise(r => setTimeout(r, 400));
+            }
+
+            core.info(`Sent digest. Scanned=${scanned}, Kept=${kept}, Categories=${catNames.length}`);
