@@ -91,7 +91,7 @@ jobs:
             
             // プロジェクトとアイテムIDを取得
             const query = `
-              query($org: String!, $number: Int!, $issueId: ID!) {
+              query($org: String!, $number: Int!) {
                 organization(login: $org) {
                   projectV2(number: $number) {
                     id
@@ -131,8 +131,7 @@ jobs:
             
             const result = await github.graphql(query, {
               org: 'aptma-sHEWTeam',
-              number: 3,
-              issueId: issue.node_id
+              number: 3
             });
             
             const project = result.organization.projectV2;
@@ -150,8 +149,7 @@ jobs:
               
               const retryResult = await github.graphql(query, {
                 org: 'aptma-sHEWTeam',
-                number: 3,
-                issueId: issue.node_id
+                number: 3
               });
               
               const retryItem = retryResult.organization.projectV2.items.nodes.find(
@@ -163,11 +161,11 @@ jobs:
               }
               
               core.setOutput('item_id', retryItem.id);
+              core.setOutput('project_id', projectId);
             } else {
               core.setOutput('item_id', item.id);
+              core.setOutput('project_id', projectId);
             }
-            
-            core.setOutput('project_id', projectId);
             
             // フィールド情報を保存
             const fields = {};
