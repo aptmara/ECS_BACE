@@ -183,7 +183,6 @@
     <None Include=".github\workflows\auto_ready_on_start.yml" />
     <None Include=".github\workflows\build.yml" />
     <None Include=".github\workflows\close_to_done.yml" />
-    <None Include=".github\workflows\notify_discord_project_status.yml" />
     <None Include=".github\workflows\notify_inprogress_digest.yml" />
     <None Include="Assets\Textures\test.png" />
     <None Include="QUICKSTART_PROJECT_AUTOMATION.md" />
