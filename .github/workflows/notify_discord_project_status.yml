@@ -31,7 +31,7 @@ jobs:
           github-token: ${{ secrets.ORG_PROJECTS_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
             const webhook = process.env.DISCORD_WEBHOOK_PROJECT_STATUS || process.env.DISCORD_WEBHOOK;
-            if (!webhook) { core.warning('No Discord webhook found (set DISCORD_WEBHOOK_PROJECT_STATUS or DISCORD_WEBHOOK)'); return; }
+            if (!webhook) { core.warning('No Discord webhook found'); return; }
             const org = process.env.ORG;
             const projectNumber = parseInt(process.env.PROJECT_NUMBER, 10);
             const isDispatch = context.eventName === 'workflow_dispatch';
