@@ -29,60 +29,26 @@ jobs:
               core.warning('No Discord webhook found (set DISCORD_WEBHOOK_PROJECT_STATUS or DISCORD_WEBHOOK)');
               return;
             }
-
             const isDispatch = context.eventName === 'workflow_dispatch';
-            const nodeId = isDispatch
-              ? (context.payload.inputs?.item_node_id || '').trim()
-              : (context.payload.projects_v2_item?.node_id || context.payload.projects_v2_item?.id || '').trim();
-
+            const nodeId = isDispatch ? (context.payload.inputs?.item_node_id || '').trim() : (context.payload.projects_v2_item?.node_id || context.payload.projects_v2_item?.id || '').trim();
             const action = isDispatch ? 'test' : (context.payload.action || 'edited');
-
             if (!nodeId) {
               core.warning('No ProjectV2Item node_id in payload/inputs; nothing to notify');
               return;
             }
-
-            const itemQuery = `
-              query($id: ID!) {
-                node(id: $id) {
-                  __typename
-                  ... on ProjectV2Item {
-                    id
-                    updatedAt
-                    project { id title number }
-                    content {
-                      __typename
-                      ... on Issue { id number title url repository { nameWithOwner } }
-                      ... on PullRequest { id number title url repository { nameWithOwner } }
-                    }
-                    fieldValues(first: 50) {
-                      nodes {
-                        __typename
-                        ... on ProjectV2ItemFieldSingleSelectValue {
-                          name
-                          field { ... on ProjectV2Field { name } }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            `;
-
+            const itemQuery = `query($id: ID!) { node(id: $id) { __typename ... on ProjectV2Item { id updatedAt project { id title number } content { __typename ... on Issue { id number title url repository { nameWithOwner } } ... on PullRequest { id number title url repository { nameWithOwner } } } fieldValues(first: 50) { nodes { __typename ... on ProjectV2ItemFieldSingleSelectValue { name field { ... on ProjectV2Field { name } } } } } } } }`;
             const res = await github.graphql(itemQuery, { id: nodeId });
             const item = res.node;
             if (!item || item.__typename !== 'ProjectV2Item') {
               core.warning('Node not a ProjectV2Item or not found');
               return;
             }
-
             let statusName = null;
             for (const fv of item.fieldValues.nodes) {
               if (fv.__typename === 'ProjectV2ItemFieldSingleSelectValue' && fv.field?.name && (fv.field.name === 'Status' || fv.field.name === 'ステータス')) {
                 statusName = fv.name || null;
               }
             }
-
             const projectTag = item.project ? `${item.project.title} #${item.project.number}` : 'Project';
             let contentTag = 'Item';
             if (item.content && (item.content.__typename === 'Issue' || item.content.__typename === 'PullRequest')) {
@@ -92,17 +58,10 @@ jobs:
               const url = item.content.url || '';
               contentTag = `[${repo}${num}] ${title}\n${url}`;
             }
-
             const statusText = statusName ? `Status: ${statusName}` : 'Status: (not set)';
             const actionText = action === 'created' ? 'Added to project' : (action === 'edited' ? 'Updated' : 'Event');
-
             const message = `?? ${projectTag}\n${actionText}: ${statusText}\n${contentTag}`;
-
-            const resp = await fetch(webhook, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ content: message })
-            });
+            const resp = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: message }) });
             if (!resp.ok) {
               const text = await resp.text();
               core.warning(`Discord webhook responded with ${resp.status}: ${text}`);
