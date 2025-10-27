@@ -33,8 +33,31 @@ body:
     id: priority
     attributes:
       label: Priority
-      options:
-        - High
-        - Medium
-        - Low
+      options: [High, Medium, Low]
       default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options: [Core, UI, Audio, Tool, Level, VFX, Other]
+    validations:
+      required: false
+
+  - type: dropdown
+    id: role
+    attributes:
+      label: Role (担当が決まっている場合)
+      options: [Programmer, Designer, Planner, QA]
+    validations:
+      required: false
+
+  - type: dropdown
+    id: team
+    attributes:
+      label: ProgramTeam
+      options: [A, B, C]
+    validations:
+      required: false

@@ -15,6 +15,11 @@ jobs:
           project-url: https://github.com/orgs/aptma-sHEWTeam/projects/3
           github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
 
+      - name: Debug - Show add-project outputs
+        run: |
+          echo "Item ID: ${{ steps.add-project.outputs.itemId }}"
+          echo "All outputs: ${{ toJson(steps.add-project.outputs) }}"
+
       - name: Extract Issue Fields
         id: extract
         uses: actions/github-script@v7
@@ -22,153 +27,357 @@ jobs:
           script: |
             const issueBody = context.payload.issue.body || '';
             
-            // フィールド抽出用の正規表現
-            const roleMatch = issueBody.match(/### Role\\s*\\n\\s*(.+)/);
-            const teamMatch = issueBody.match(/### Team\\s*\\n\\s*(.+)/);
-            const priorityMatch = issueBody.match(/### Priority\\s*\\n\\s*(.+)/);
-            const startMatch = issueBody.match(/### Start date \\(YYYY-MM-DD\\)\\s*\\n\\s*(.+)/);
-            const dueMatch = issueBody.match(/### End date \\(YYYY-MM-DD\\)\\s*\\n\\s*(.+)/);
-            const componentMatch = issueBody.match(/### Component \\(任意\\)\\s*\\n\\s*(.+)/);
+            console.log('=== Issue Body ===');
+            console.log(issueBody);
+            console.log('==================');
             
-            core.setOutput('role', roleMatch ? roleMatch[1].trim() : '');
-            core.setOutput('team', teamMatch ? teamMatch[1].trim() : '');
-            core.setOutput('priority', priorityMatch ? priorityMatch[1].trim() : '');
-            core.setOutput('start_date', startMatch ? startMatch[1].trim() : '');
-            core.setOutput('due_date', dueMatch ? dueMatch[1].trim() : '');
-            core.setOutput('component', componentMatch ? componentMatch[1].trim() : '');
+            // フィールド抽出用の正規表現（複数パターン対応）
+            const roleMatch = issueBody.match(/### Role\\s*\\n+\\s*(.+?)(?:\\n|$)/i);
+            const teamMatch = issueBody.match(/### (?:Team|ProgramTeam)\\s*\\n+\\s*(.+?)(?:\\n|$)/i);
+            const priorityMatch = issueBody.match(/### Priority\\s*\\n+\\s*(.+?)(?:\\n|$)/i);
+            const startMatch = issueBody.match(/### Start date[^\\n]*\\s*\\n+\\s*(.+?)(?:\\n|$)/i);
+            const dueMatch = issueBody.match(/### (?:End date|Due date)[^\\n]*\\s*\\n+\\s*(.+?)(?:\\n|$)/i);
+            const componentMatch = issueBody.match(/### Component[^\\n]*\\s*\\n+\\s*(.+?)(?:\\n|$)/i);
+            const estimateMatch = issueBody.match(/### Estimate[^\\n]*\\s*\\n+\\s*(.+?)(?:\\n|$)/i);
+            const sizeMatch = issueBody.match(/### Size[^\\n]*\\s*\\n+\\s*(.+?)(?:\\n|$)/i);
+            
+            const role = roleMatch ? roleMatch[1].trim() : '';
+            const team = teamMatch ? teamMatch[1].trim() : '';
+            const priority = priorityMatch ? priorityMatch[1].trim() : '';
+            const startDate = startMatch ? startMatch[1].trim() : '';
+            const dueDate = dueMatch ? dueMatch[1].trim() : '';
+            const component = componentMatch ? componentMatch[1].trim() : '';
+            const estimate = estimateMatch ? estimateMatch[1].trim() : '';
+            const size = sizeMatch ? sizeMatch[1].trim() : '';
+            
+            console.log('=== Extracted Fields ===');
+            console.log('Role:', role);
+            console.log('Team:', team);
+            console.log('Priority:', priority);
+            console.log('Start Date:', startDate);
+            console.log('Due Date:', dueDate);
+            console.log('Component:', component);
+            console.log('Estimate:', estimate);
+            console.log('Size:', size);
+            console.log('========================');
+            
+            core.setOutput('role', role);
+            core.setOutput('team', team);
+            core.setOutput('priority', priority);
+            core.setOutput('start_date', startDate);
+            core.setOutput('due_date', dueDate);
+            core.setOutput('component', component);
+            core.setOutput('estimate', estimate);
+            core.setOutput('size', size);
+
+      - name: Debug - Show extracted fields
+        run: |
+          echo "Role: ${{ steps.extract.outputs.role }}"
+          echo "Team: ${{ steps.extract.outputs.team }}"
+          echo "Priority: ${{ steps.extract.outputs.priority }}"
+          echo "Start Date: ${{ steps.extract.outputs.start_date }}"
+          echo "Due Date: ${{ steps.extract.outputs.due_date }}"
+          echo "Component: ${{ steps.extract.outputs.component }}"
+          echo "Estimate: ${{ steps.extract.outputs.estimate }}"
+          echo "Size: ${{ steps.extract.outputs.size }}"
+
+      - name: Get Project Data
+        uses: actions/github-script@v7
+        id: project-data
+        with:
+          github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            
+            // プロジェクトとアイテムIDを取得
+            const query = `
+              query($org: String!, $number: Int!, $issueId: ID!) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    id
+                    items(first: 100) {
+                      nodes {
+                        id
+                        content {
+                          ... on Issue {
+                            id
+                            number
+                          }
+                        }
+                      }
+                    }
+                    fields(first: 20) {
+                      nodes {
+                        ... on ProjectV2Field {
+                          id
+                          name
+                          dataType
+                        }
+                        ... on ProjectV2SingleSelectField {
+                          id
+                          name
+                          dataType
+                          options {
+                            id
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+            
+            const result = await github.graphql(query, {
+              org: 'aptma-sHEWTeam',
+              number: 3,
+              issueId: issue.node_id
+            });
+            
+            const project = result.organization.projectV2;
+            const projectId = project.id;
+            
+            // 追加されたアイテムを見つける
+            const item = project.items.nodes.find(
+              node => node.content && node.content.number === issue.number
+            );
+            
+            if (!item) {
+              console.log('Item not found in project yet, retrying...');
+              // 少し待ってから再試行
+              await new Promise(resolve => setTimeout(resolve, 2000));
+              
+              const retryResult = await github.graphql(query, {
+                org: 'aptma-sHEWTeam',
+                number: 3,
+                issueId: issue.node_id
+              });
+              
+              const retryItem = retryResult.organization.projectV2.items.nodes.find(
+                node => node.content && node.content.number === issue.number
+              );
+              
+              if (!retryItem) {
+                throw new Error('Could not find issue in project');
+              }
+              
+              core.setOutput('item_id', retryItem.id);
+            } else {
+              core.setOutput('item_id', item.id);
+            }
+            
+            core.setOutput('project_id', projectId);
+            
+            // フィールド情報を保存
+            const fields = {};
+            const fieldOptions = {};
+            
+            for (const field of project.fields.nodes) {
+              fields[field.name] = field.id;
+              if (field.options) {
+                fieldOptions[field.name] = {};
+                for (const option of field.options) {
+                  fieldOptions[field.name][option.name] = option.id;
+                }
+              }
+            }
+            
+            core.setOutput('fields', JSON.stringify(fields));
+            core.setOutput('field_options', JSON.stringify(fieldOptions));
+            
+            console.log('Project ID:', projectId);
+            console.log('Item ID:', item ? item.id : 'not found');
+            console.log('Fields:', JSON.stringify(fields, null, 2));
+            console.log('Field Options:', JSON.stringify(fieldOptions, null, 2));
 
       - name: Set Project Fields
         uses: actions/github-script@v7
-        if: steps.add-project.outputs.itemId
+        if: steps.project-data.outputs.item_id
         env:
-          ITEM_ID: ${{ steps.add-project.outputs.itemId }}
+          PROJECT_ID: ${{ steps.project-data.outputs.project_id }}
+          ITEM_ID: ${{ steps.project-data.outputs.item_id }}
+          FIELDS: ${{ steps.project-data.outputs.fields }}
+          FIELD_OPTIONS: ${{ steps.project-data.outputs.field_options }}
           ROLE: ${{ steps.extract.outputs.role }}
           TEAM: ${{ steps.extract.outputs.team }}
           PRIORITY: ${{ steps.extract.outputs.priority }}
           START_DATE: ${{ steps.extract.outputs.start_date }}
           DUE_DATE: ${{ steps.extract.outputs.due_date }}
           COMPONENT: ${{ steps.extract.outputs.component }}
+          ESTIMATE: ${{ steps.extract.outputs.estimate }}
+          SIZE: ${{ steps.extract.outputs.size }}
         with:
           github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
           script: |
+            const projectId = process.env.PROJECT_ID;
             const itemId = process.env.ITEM_ID;
-            const projectId = 'PVT_kwHOAKhcas4AvQ1B'; // プロジェクトID（後で正しい値に更新）
+            const fields = JSON.parse(process.env.FIELDS);
+            const fieldOptions = JSON.parse(process.env.FIELD_OPTIONS);
             
-            // フィールドIDマッピング（プロジェクト設定から取得する必要があります）
-            // これらは例です。実際のプロジェクトのフィールドIDに置き換えてください
-            const fieldIds = {
-              role: 'PVTSSF_lAHOAKhcas4AvQ1BzgXXXXX',      // 例: Role フィールドID
-              team: 'PVTSSF_lAHOAKhcas4AvQ1BzgYYYYY',      // 例: Team フィールドID
-              priority: 'PVTSSF_lAHOAKhcas4AvQ1BzgZZZZZ',  // 例: Priority フィールドID
-              startDate: 'PVTF_lAHOAKhcas4AvQ1BzgAAAAAA', // 例: Start date フィールドID
-              dueDate: 'PVTF_lAHOAKhcas4AvQ1BzgBBBBBB'    // 例: End date フィールドID
-            };
+            console.log('Setting fields for item:', itemId);
             
-            // フィールド値IDマッピング（Single Select フィールド用）
-            const fieldValueIds = {
-              role: {
-                'Planner': 'role_option_planner_id',
-                'Programmer': 'role_option_programmer_id',
-                'Designer': 'role_option_designer_id',
-                'QA': 'role_option_qa_id'
-              },
-              team: {
-                'A': 'team_option_a_id',
-                'B': 'team_option_b_id',
-                'C': 'team_option_c_id'
-              },
-              priority: {
-                'High': 'priority_option_high_id',
-                'Medium': 'priority_option_medium_id',
-                'Low': 'priority_option_low_id'
+            // Single Select フィールドを設定するヘルパー関数
+            async function setSingleSelectField(fieldName, value) {
+              if (!value || value === '_No response_' || value === 'Choose an option') {
+                console.log(`Skipping ${fieldName}: no value`);
+                return;
               }
-            };
-            
-            console.log('Setting project fields for item:', itemId);
-            
-            // Role フィールド設定
-            if (process.env.ROLE && fieldValueIds.role[process.env.ROLE]) {
-              await github.graphql(`
-                mutation {
-                  updateProjectV2ItemFieldValue(input: {
-                    projectId: "${projectId}"
-                    itemId: "${itemId}"
-                    fieldId: "${fieldIds.role}"
-                    value: { singleSelectOptionId: "${fieldValueIds.role[process.env.ROLE]}" }
-                  }) {
-                    projectV2Item { id }
+              
+              const fieldId = fields[fieldName];
+              const options = fieldOptions[fieldName];
+              
+              if (!fieldId) {
+                console.log(`Warning: Field "${fieldName}" not found in project`);
+                return;
+              }
+              
+              if (!options || !options[value]) {
+                console.log(`Warning: Option "${value}" not found for field "${fieldName}"`);
+                console.log(`Available options:`, Object.keys(options || {}));
+                return;
+              }
+              
+              const optionId = options[value];
+              
+              try {
+                await github.graphql(`
+                  mutation {
+                    updateProjectV2ItemFieldValue(input: {
+                      projectId: "${projectId}"
+                      itemId: "${itemId}"
+                      fieldId: "${fieldId}"
+                      value: { singleSelectOptionId: "${optionId}" }
+                    }) {
+                      projectV2Item { id }
+                    }
                   }
-                }
-              `);
-              console.log('Set Role:', process.env.ROLE);
+                `);
+                console.log(`? Set ${fieldName}: ${value}`);
+              } catch (error) {
+                console.error(`? Failed to set ${fieldName}:`, error.message);
+              }
             }
             
-            // Team フィールド設定
-            if (process.env.TEAM && fieldValueIds.team[process.env.TEAM]) {
-              await github.graphql(`
-                mutation {
-                  updateProjectV2ItemFieldValue(input: {
-                    projectId: "${projectId}"
-                    itemId: "${itemId}"
-                    fieldId: "${fieldIds.team}"
-                    value: { singleSelectOptionId: "${fieldValueIds.team[process.env.TEAM]}" }
-                  }) {
-                    projectV2Item { id }
+            // Date フィールドを設定するヘルパー関数
+            async function setDateField(fieldName, value) {
+              if (!value || value === '_No response_' || value === 'No date') {
+                console.log(`Skipping ${fieldName}: no value`);
+                return;
+              }
+              
+              // YYYY-MM-DD 形式チェック
+              if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+                console.log(`Skipping ${fieldName}: invalid date format "${value}"`);
+                return;
+              }
+              
+              const fieldId = fields[fieldName];
+              
+              if (!fieldId) {
+                console.log(`Warning: Field "${fieldName}" not found in project`);
+                return;
+              }
+              
+              try {
+                await github.graphql(`
+                  mutation {
+                    updateProjectV2ItemFieldValue(input: {
+                      projectId: "${projectId}"
+                      itemId: "${itemId}"
+                      fieldId: "${fieldId}"
+                      value: { date: "${value}" }
+                    }) {
+                      projectV2Item { id }
+                    }
                   }
-                }
-              `);
-              console.log('Set Team:', process.env.TEAM);
+                `);
+                console.log(`? Set ${fieldName}: ${value}`);
+              } catch (error) {
+                console.error(`? Failed to set ${fieldName}:`, error.message);
+              }
             }
             
-            // Priority フィールド設定
-            if (process.env.PRIORITY && fieldValueIds.priority[process.env.PRIORITY]) {
-              await github.graphql(`
-                mutation {
-                  updateProjectV2ItemFieldValue(input: {
-                    projectId: "${projectId}"
-                    itemId: "${itemId}"
-                    fieldId: "${fieldIds.priority}"
-                    value: { singleSelectOptionId: "${fieldValueIds.priority[process.env.PRIORITY]}" }
-                  }) {
-                    projectV2Item { id }
+            // Number フィールドを設定するヘルパー関数
+            async function setNumberField(fieldName, value) {
+              if (!value || value === '_No response_' || value === 'Enter number...') {
+                console.log(`Skipping ${fieldName}: no value`);
+                return;
+              }
+              
+              const numValue = parseFloat(value);
+              if (isNaN(numValue)) {
+                console.log(`Skipping ${fieldName}: invalid number "${value}"`);
+                return;
+              }
+              
+              const fieldId = fields[fieldName];
+              
+              if (!fieldId) {
+                console.log(`Warning: Field "${fieldName}" not found in project`);
+                return;
+              }
+              
+              try {
+                await github.graphql(`
+                  mutation {
+                    updateProjectV2ItemFieldValue(input: {
+                      projectId: "${projectId}"
+                      itemId: "${itemId}"
+                      fieldId: "${fieldId}"
+                      value: { number: ${numValue} }
+                    }) {
+                      projectV2Item { id }
+                    }
                   }
-                }
-              `);
-              console.log('Set Priority:', process.env.PRIORITY);
+                `);
+                console.log(`? Set ${fieldName}: ${numValue}`);
+              } catch (error) {
+                console.error(`? Failed to set ${fieldName}:`, error.message);
+              }
             }
             
-            // Start Date フィールド設定
-            if (process.env.START_DATE && /^\\d{4}-\\d{2}-\\d{2}$/.test(process.env.START_DATE)) {
-              await github.graphql(`
-                mutation {
-                  updateProjectV2ItemFieldValue(input: {
-                    projectId: "${projectId}"
-                    itemId: "${itemId}"
-                    fieldId: "${fieldIds.startDate}"
-                    value: { date: "${process.env.START_DATE}" }
-                  }) {
-                    projectV2Item { id }
+            // Text フィールドを設定するヘルパー関数
+            async function setTextField(fieldName, value) {
+              if (!value || value === '_No response_') {
+                console.log(`Skipping ${fieldName}: no value`);
+                return;
+              }
+              
+              const fieldId = fields[fieldName];
+              
+              if (!fieldId) {
+                console.log(`Warning: Field "${fieldName}" not found in project`);
+                return;
+              }
+              
+              try {
+                await github.graphql(`
+                  mutation {
+                    updateProjectV2ItemFieldValue(input: {
+                      projectId: "${projectId}"
+                      itemId: "${itemId}"
+                      fieldId: "${fieldId}"
+                      value: { text: "${value.replace(/"/g, '\\"')}" }
+                    }) {
+                      projectV2Item { id }
+                    }
                   }
-                }
-              `);
-              console.log('Set Start Date:', process.env.START_DATE);
+                `);
+                console.log(`? Set ${fieldName}: ${value}`);
+              } catch (error) {
+                console.error(`? Failed to set ${fieldName}:`, error.message);
+              }
             }
             
-            // End Date フィールド設定
-            if (process.env.DUE_DATE && /^\\d{4}-\\d{2}-\\d{2}$/.test(process.env.DUE_DATE)) {
-              await github.graphql(`
-                mutation {
-                  updateProjectV2ItemFieldValue(input: {
-                    projectId: "${projectId}"
-                    itemId: "${itemId}"
-                    fieldId: "${fieldIds.dueDate}"
-                    value: { date: "${process.env.DUE_DATE}" }
-                  }) {
-                    projectV2Item { id }
-                  }
-                }
-              `);
-              console.log('Set End Date:', process.env.DUE_DATE);
-            }
+            // 各フィールドを設定
+            await setSingleSelectField('Role', process.env.ROLE);
+            await setSingleSelectField('ProgramTeam', process.env.TEAM);
+            await setSingleSelectField('Priority', process.env.PRIORITY);
+            await setSingleSelectField('Component', process.env.COMPONENT);
+            await setSingleSelectField('Size', process.env.SIZE);
+            await setDateField('Start date', process.env.START_DATE);
+            await setDateField('End date', process.env.DUE_DATE);
+            await setNumberField('Estimate', process.env.ESTIMATE);
             
-            console.log('All fields updated successfully');
+            console.log('? All fields processed');

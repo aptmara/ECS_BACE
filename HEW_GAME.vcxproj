@@ -170,6 +170,7 @@
     <ClInclude Include="include\util\Random.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".github\docs\FIX_SUMMARY.md" />
     <None Include=".github\docs\PROJECT_AUTOMATION_SETUP.md" />
     <None Include=".github\ISSUE_TEMPLATE\01_task.yml" />
     <None Include=".github\ISSUE_TEMPLATE\02_bug.yml" />
