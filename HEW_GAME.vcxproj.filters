@@ -116,9 +116,6 @@
     <ClInclude Include="include\scenes\MiniGame.h">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="include\scenes\SampleScenes.h">
-      <Filter>Header Files\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="include\scenes\SceneManager.h">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
@@ -127,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="include\util\Random.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scenes\Tags.h">
+      <Filter>Header Files\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

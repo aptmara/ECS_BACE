@@ -162,11 +162,11 @@
     <ClInclude Include="include\scenes\MiniGame.h" />
     <ClInclude Include="include\graphics\RenderSystem.h" />
     <ClInclude Include="include\components\Rotator.h" />
-    <ClInclude Include="include\scenes\SampleScenes.h" />
     <ClInclude Include="include\scenes\SceneManager.h" />
     <ClInclude Include="include\graphics\TextureManager.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\graphics\VideoPlayer.h" />
+    <ClInclude Include="include\scenes\Tags.h" />
     <ClInclude Include="include\util\Random.h" />
   </ItemGroup>
   <ItemGroup>
