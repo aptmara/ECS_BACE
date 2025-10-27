@@ -1,9 +1,9 @@
+---
 name: Auto Update Status to Done
 
-on:
+'on':
   issues:
-    types:
-      - closed
+    types: [closed]
 
 jobs:
   update-status:
@@ -18,6 +18,7 @@ jobs:
             const projectNumber = 3;
             const doneNames = ['Done','完了'].map(s=>s.toLowerCase());
             const issue = context.payload.issue;
+            if (!issue) throw new Error('This workflow only runs on issues');
 
             const fieldsQuery = `
               query($org: String!, $number: Int!) {
@@ -55,7 +56,7 @@ jobs:
             `;
 
             const updateMutation = `
-              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: ID!) {
                 updateProjectV2ItemFieldValue(input: { projectId: $projectId, itemId: $itemId, fieldId: $fieldId, value: { singleSelectOptionId: $optionId } }) { projectV2Item { id } }
               }
             `;
@@ -64,8 +65,12 @@ jobs:
             const fieldsRes = await github.graphql(fieldsQuery, { org, number: projectNumber });
             const project = fieldsRes.organization.projectV2;
             const projectId = project.id;
-            const statusField = project.fields.nodes.find(f => f.name.trim().toLowerCase() === 'status' || f.name.trim() === 'ステータス');
-            if (!statusField) throw new Error('Status field not found');
+            // Prefer SINGLE_SELECT field named Status/ステータス
+            const statusField = project.fields.nodes.find(f =>
+              (f.name && (f.name.trim().toLowerCase() === 'status' || f.name.trim() === 'ステータス')) &&
+              (f.dataType === 'SINGLE_SELECT')
+            );
+            if (!statusField) throw new Error('Status (single-select) field not found');
             const options = (statusField.options || []).map(o=>({name:o.name,id:o.id}));
             const optIdByName = new Map(options.map(o=>[o.name.trim().toLowerCase(), o.id]));
             let doneOptionId = null;
