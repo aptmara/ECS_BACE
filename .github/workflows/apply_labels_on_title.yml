@@ -7,8 +7,6 @@ on:
 jobs:
   label:
     runs-on: ubuntu-latest
-    # ORG_PROJECTS_TOKEN ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İÀs
-    if: ${{ secrets.ORG_PROJECTS_TOKEN != '' }}
     steps:
       - name: Apply task label
         if: startsWith(github.event.issue.title, '[TASK]')

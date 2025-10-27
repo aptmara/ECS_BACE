@@ -160,6 +160,7 @@
     <None Include=".github\ISSUE_TEMPLATE\config.yml">
       <Filter>yml</Filter>
     </None>
+    <None Include=".github\workflows\add_to_project_safe.yml.example" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">

@@ -7,7 +7,6 @@ on:
 jobs:
   update-status:
     runs-on: ubuntu-latest
-    if: ${{ secrets.ORG_PROJECTS_TOKEN != '' }}
     steps:
       - name: Set Status to Done
         uses: leonsteinhaeuser/project-beta-automations@v1
@@ -15,4 +14,4 @@ jobs:
           project-url: https://github.com/orgs/aptma-sHEWTeam/projects/3
           field: Status
           value: Done
-          gh-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
+          gh-token: ${{ secrets.ORG_PROJECTS_TOKEN }}          gh-token: ${{ secrets.ORG_PROJECTS_TOKEN }}

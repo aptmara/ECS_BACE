@@ -174,6 +174,7 @@
     <None Include=".github\ISSUE_TEMPLATE\02_bug.yml" />
     <None Include=".github\ISSUE_TEMPLATE\config.yml" />
     <None Include=".github\workflows\add_to_project.yml" />
+    <None Include=".github\workflows\add_to_project_safe.yml.example" />
     <None Include=".github\workflows\apply_labels_on_title.yml" />
     <None Include=".github\workflows\build.yml" />
     <None Include=".github\workflows\close_to_done.yml" />
