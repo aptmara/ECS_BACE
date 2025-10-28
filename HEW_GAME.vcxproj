@@ -170,8 +170,6 @@
     <ClInclude Include="include\util\Random.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".github\docs\FIX_SUMMARY.md" />
-    <None Include=".github\docs\PROJECT_AUTOMATION_SETUP.md" />
     <None Include=".github\ISSUE_TEMPLATE\01_task.yml" />
     <None Include=".github\ISSUE_TEMPLATE\02_bug.yml" />
     <None Include=".github\ISSUE_TEMPLATE\config.yml" />
@@ -185,7 +183,6 @@
     <None Include=".github\workflows\close_to_done.yml" />
     <None Include=".github\workflows\notify_inprogress_digest.yml" />
     <None Include="Assets\Textures\test.png" />
-    <None Include="QUICKSTART_PROJECT_AUTOMATION.md" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>

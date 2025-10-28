@@ -160,16 +160,19 @@
     <None Include=".github\ISSUE_TEMPLATE\config.yml">
       <Filter>yml</Filter>
     </None>
-    <None Include=".github\workflows\add_to_project_safe.yml.example" />
-    <None Include=".github\scripts\get_project_fields.sh" />
-    <None Include=".github\scripts\get_project_fields.ps1" />
-    <None Include=".github\docs\PROJECT_AUTOMATION_SETUP.md" />
-    <None Include="QUICKSTART_PROJECT_AUTOMATION.md" />
-    <None Include=".github\docs\FIX_SUMMARY.md" />
     <None Include=".github\workflows\auto_ready_on_start.yml">
       <Filter>yml</Filter>
     </None>
     <None Include=".github\workflows\notify_inprogress_digest.yml">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\workflows\add_to_project_safe.yml.example">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\scripts\get_project_fields.sh">
+      <Filter>yml</Filter>
+    </None>
+    <None Include=".github\scripts\get_project_fields.ps1">
       <Filter>yml</Filter>
     </None>
   </ItemGroup>
