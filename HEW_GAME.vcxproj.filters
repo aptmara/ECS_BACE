@@ -57,6 +57,9 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\input\GamepadSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\animation\Animation.h">
@@ -131,6 +134,18 @@
     <ClInclude Include="include\scenes\Tags.h">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
+    <ClInclude Include="include\input\GamepadSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\samples\GamepadSample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\samples\ChargeSystemSample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\samples\RealtimeChargeSamples.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -175,6 +190,10 @@
     <None Include=".github\scripts\get_project_fields.ps1">
       <Filter>yml</Filter>
     </None>
+    <None Include="docs\GamepadSystem_README.md" />
+    <None Include="docs\ChargeSystem_Guide.md" />
+    <None Include="docs\RealtimeCharge_Guide.md" />
+    <None Include="docs\ChargeSystem_QuickRef.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">

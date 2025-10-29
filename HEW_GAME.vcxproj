@@ -140,6 +140,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\input\GamepadSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
@@ -151,13 +152,17 @@
     <ClInclude Include="include\gameplay\EnemySpawner.h" />
     <ClInclude Include="include\graphics\Camera.h" />
     <ClInclude Include="include\components\Component.h" />
+    <ClInclude Include="include\input\GamepadSystem.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\samples\ChargeSystemSample.h" />
     <ClInclude Include="include\samples\ComponentSamples.h" />
     <ClInclude Include="include\graphics\DebugDraw.h" />
     <ClInclude Include="include\ecs\Entity.h" />
     <ClInclude Include="include\graphics\GfxDevice.h" />
     <ClInclude Include="include\input\InputSystem.h" />
     <ClInclude Include="include\components\MeshRenderer.h" />
+    <ClInclude Include="include\samples\GamepadSample.h" />
+    <ClInclude Include="include\samples\RealtimeChargeSamples.h" />
     <ClInclude Include="include\samples\WorldImprovementDemo.h" />
     <ClInclude Include="include\scenes\MainGame.h" />
     <ClInclude Include="include\graphics\RenderSystem.h" />
@@ -183,6 +188,10 @@
     <None Include=".github\workflows\close_to_done.yml" />
     <None Include=".github\workflows\notify_inprogress_digest.yml" />
     <None Include="Assets\Textures\test.png" />
+    <None Include="docs\ChargeSystem_Guide.md" />
+    <None Include="docs\ChargeSystem_QuickRef.md" />
+    <None Include="docs\GamepadSystem_README.md" />
+    <None Include="docs\RealtimeCharge_Guide.md" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
