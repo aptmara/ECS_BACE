@@ -211,6 +211,14 @@ public:
     }
 
     /**
+     * @brief 総エンティティ数を取得
+     * @return size_t 総エンティティ数
+     */
+    size_t GetEntityCount() const {
+        return alive_.size();
+    }
+
+    /**
      * @brief デストラクタ
      * @details 確保したコンポーネントストアのメモリを解放します
      */
