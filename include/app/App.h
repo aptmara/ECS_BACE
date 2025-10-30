@@ -105,7 +105,7 @@ struct App {
      * @param[in] height ウィンドウの高さ
      * @return bool 初期化が成功した場合は true, それ以外は false
      */
-    bool Init(HINSTANCE hInst, int width = 1280, int height = 720) {
+    bool Init(HINSTANCE hInst, int width = 1080, int height = 720) {
         DEBUGLOG("========================================");
         DEBUGLOG("App::Init() 開始");
         DEBUGLOG("ウィンドウサイズ: " + std::to_string(width) + "x" + std::to_string(height));
@@ -459,7 +459,7 @@ private:
             aspectRatio,
             0.1f,
             100.0f,
-            DirectX::XMFLOAT3{ 0, 0, -20 },  // カメラを引いて全体が見えるように
+            DirectX::XMFLOAT3{ 0, 20, -20 },  // カメラを引いて全体が見えるように
             DirectX::XMFLOAT3{ 0, 0, 0 },
             DirectX::XMFLOAT3{ 0, 1, 0 }
         );

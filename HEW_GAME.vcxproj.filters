@@ -74,6 +74,12 @@
     <ClInclude Include="include\components\Component.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
+    <ClInclude Include="include\components\GameTags.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\GameComponents.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
     <ClInclude Include="include\components\MeshRenderer.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
@@ -81,6 +87,9 @@
       <Filter>Header Files\components</Filter>
     </ClInclude>
     <ClInclude Include="include\components\Transform.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\PlayerComponents.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
     <ClInclude Include="include\ecs\Entity.h">
@@ -113,9 +122,6 @@
     <ClInclude Include="include\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\samples\ComponentSamples.h">
-      <Filter>Header Files\samples</Filter>
-    </ClInclude>
     <ClInclude Include="include\samples\WorldImprovementDemo.h">
       <Filter>Header Files\samples</Filter>
     </ClInclude>
@@ -138,12 +144,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\samples\GamepadSample.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\samples\ChargeSystemSample.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\samples\RealtimeChargeSamples.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
