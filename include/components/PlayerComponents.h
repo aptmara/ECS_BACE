@@ -1,13 +1,13 @@
-/**
+﻿/**
  * @file PlayerComponents.h
- * @brief �v���C���[��p�R���|�[�l���g�W
- * @author �R���z
+ * @brief プレイヤー専用コンポーネント集
+ * @author 山内陽
  * @date 2025
  * @version 1.0
  *
  * @details
- * ���̃t�@�C���̓v���C���[�L�����N�^�[�Ɋ֘A����R���|�[�l���g���`���܂��B
- * �ړ��A�ˌ��A�X�e�[�^�X�Ǘ��Ȃǂ̃v���C���[��p�@�\��񋟂��܂��B
+ * このファイルはプレイヤーキャラクターに関連するコンポーネントを定義します。
+ * 移動、射撃、ステータス管理などのプレイヤー専用機能を提供します。
  */
 #pragma once
 
@@ -20,19 +20,19 @@
 #include <DirectXMath.h>
 
 // ========================================================
-// �v���C���[�ړ��R���|�[�l���g
+// プレイヤー移動コンポーネント
 // ========================================================
 
 /**
  * @struct PlayerMovement
- * @brief �v���C���[�̈ړ����Ǘ�����Behaviour
+ * @brief プレイヤーの移動を管理するBehaviour
  *
  * @details
- * �X�e�B�b�N���͂Ɋ�Â��ăv���C���[�̈ړ��𐧌䂵�܂��B
- * �X�e�B�b�N��|���Ă���Ԃ͂��̕����Ɉړ����A�j���[�g�����ɖ߂����ۂɂ͍Ō�ɓ��͂��ꂽ�����Ɋ�Â��Ċ����i�x���V�e�B�j��^���܂��B
- * �܂��A��ʊO�ɏo�Ȃ��悤�Ɏ����I�ɋ��E�������s���܂��B
+ * スティック入力に基づいてプレイヤーの移動を制御します。
+ * スティックを倒している間はその方向に移動し、ニュートラルに戻った際には最後に入力された方向に基づいて慣性（ベロシティ）を与えます。
+ * また、画面外に出ないように自動的に境界制限を行います。
  *
- * @par �g�p��
+ * @par 使用例
  * @code
  * Entity player = world.Create()
  * .With<Transform>()
@@ -45,24 +45,24 @@
  * movement.speed =8.0f;
  * @endcode
  *
- * @note InputSystem�ւ̎Q�Ƃ�ݒ肷��K�v������܂�
+ * @note InputSystemへの参照を設定する必要があります
  * @see InputSystem
  */
 struct PlayerMovement : Behaviour {
-    InputSystem *input_ = nullptr;             ///< ���̓V�X�e���ւ̃|�C���^
-    GamepadSystem *gamepad_ = nullptr;         ///< �Q�[���p�b�h�V�X�e���ւ̃|�C���^
-    float speed = 5.0f;                        ///< �ړ����x(�P��/�b)
-    DirectX::XMFLOAT2 velocity = {0.0f, 0.0f}; ///< ���݂̈ړ��x���V�e�B
+    InputSystem *input_ = nullptr;             ///< 入力システムへのポインタ
+    GamepadSystem *gamepad_ = nullptr;         ///< ゲームパッドシステムへのポインタ
+    float speed = 5.0f;                        ///< 移動速度(単位/秒)
+    DirectX::XMFLOAT2 velocity = {0.0f, 0.0f}; ///< 現在の移動ベロシティ
 
     /**
- * @brief ���t���[���X�V����
- * @param[in,out] w ���[���h�Q��
- * @param[in] self ���̃R���|�[�l���g���t���Ă���G���e�B�e�B
- * @param[in] dt �f���^�^�C��(�O�t���[������̌o�ߎ���)
+ * @brief 毎フレーム更新処理
+ * @param[in,out] w ワールド参照
+ * @param[in] self このコンポーネントが付いているエンティティ
+ * @param[in] dt デルタタイム(前フレームからの経過時間)
  *
  * @details
- * �X�e�B�b�N���͂�ǂݎ��A�v���C���[�̈ʒu�ƃx���V�e�B���X�V���܂��B
- * ���͂��Ȃ��ꍇ�͍Ō�̃x���V�e�B�Ɋ�Â��Ĉړ��𑱂��܂��B
+ * スティック入力を読み取り、プレイヤーの位置とベロシティを更新します。
+ * 入力がない場合は最後のベロシティに基づいて移動を続けます。
  */
     void OnUpdate(World &w, Entity self, float dt) override {
         auto *t = w.TryGet<Transform>(self);
@@ -71,7 +71,7 @@ struct PlayerMovement : Behaviour {
 
         DirectX::XMFLOAT2 inputDir = {0.0f, 0.0f};
 
-        // �L�[�{�[�h���͂̏���
+        // キーボード入力の処理
         if (input_) {
             if (input_->GetKey('W') || input_->GetKey(VK_UP)) {
                 inputDir.y += 1.0f;
@@ -87,26 +87,26 @@ struct PlayerMovement : Behaviour {
             }
         }
 
-        // �Q�[���p�b�h���͂̏���
+        // ゲームパッド入力の処理
         if (gamepad_ && gamepad_->IsConnected(0)) {
             float leftStickX = gamepad_->GetLeftStickX(0);
             float leftStickY = gamepad_->GetLeftStickY(0);
 
-            // �f�b�h�]�[�������ς݂̒l���g�p
+            // デッドゾーン処理済みの値を使用
             inputDir.x += leftStickX;
             inputDir.y += leftStickY;
         }
 
-        // ���͂�����ꍇ�̓x���V�e�B���X�V
+        // 入力がある場合はベロシティを更新
         if (inputDir.x != 0.0f || inputDir.y != 0.0f) {
             velocity = {inputDir.x * speed, inputDir.y * speed};
         }
 
-        // �x���V�e�B�Ɋ�Â��Ĉʒu���X�V
+        // ベロシティに基づいて位置を更新
         t->position.x += velocity.x * dt;
         t->position.y += velocity.y * dt;
 
-        // ��ʊO�ɏo�Ȃ��悤�ɐ���
+        // 画面外に出ないように制限
         const float limitX = 8.0f;
         const float limitY = 10.0f;
         if (t->position.x < -limitX)

@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * @file GamepadSystem.cpp
- * @brief ƒQ[ƒ€ƒpƒbƒh“ü—ÍŠÇ—ƒVƒXƒeƒ€‚ÌÀ‘•
- * @author R“à—z
+ * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰å…¥åŠ›ç®¡ç†ã‚·ã‚¹ãƒ†ãƒ ã®å®Ÿè£…
+ * @author å±±å†…é™½
  * @date 2025
  * @version 6.0
  */
@@ -21,7 +21,7 @@
 #endif
 
 // ========================================================
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 // ========================================================
 
 GamepadSystem::GamepadSystem()
@@ -37,16 +37,16 @@ GamepadSystem::~GamepadSystem()
 }
 
 // ========================================================
-// ‰Šú‰» / ƒVƒƒƒbƒgƒ_ƒEƒ“
+// åˆæœŸåŒ– / ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³
 // ========================================================
 
 bool GamepadSystem::Init()
 {
 #ifdef _DEBUG
-    DEBUGLOG_CATEGORY(DebugLog::Category::Input, "GamepadSystem::Init() - ‰Šú‰»ŠJn");
+    DEBUGLOG_CATEGORY(DebugLog::Category::Input, "GamepadSystem::Init() - åˆæœŸåŒ–é–‹å§‹");
 #endif
 
-    // DirectInput8‚Ìì¬
+    // DirectInput8ã®ä½œæˆ
   HRESULT hr = DirectInput8Create(
   GetModuleHandle(nullptr),
     DIRECTINPUT_VERSION,
@@ -57,12 +57,12 @@ bool GamepadSystem::Init()
 
     if (FAILED(hr)) {
   std::ostringstream oss;
-    oss << "GamepadSystem::Init() - DirectInput8‚Ìì¬‚É¸”s: HRESULT=0x" << std::hex << hr;
+    oss << "GamepadSystem::Init() - DirectInput8ã®ä½œæˆã«å¤±æ•—: HRESULT=0x" << std::hex << hr;
         DEBUGLOG_ERROR(oss.str());
   return false;
     }
 
-    // DirectInputƒfƒoƒCƒX‚ğ—ñ‹“
+    // DirectInputãƒ‡ãƒã‚¤ã‚¹ã‚’åˆ—æŒ™
     hr = dinput_->EnumDevices(
     DI8DEVCLASS_GAMECTRL,
         EnumDevicesCallback,
@@ -72,13 +72,13 @@ bool GamepadSystem::Init()
 
     if (FAILED(hr)) {
     std::ostringstream oss;
-        oss << "GamepadSystem::Init() - ƒfƒoƒCƒX—ñ‹“‚É¸”s: HRESULT=0x" << std::hex << hr;
+        oss << "GamepadSystem::Init() - ãƒ‡ãƒã‚¤ã‚¹åˆ—æŒ™ã«å¤±æ•—: HRESULT=0x" << std::hex << hr;
         DEBUGLOG_ERROR(oss.str());
         return false;
     }
 
 #ifdef _DEBUG
-  DEBUGLOG_CATEGORY(DebugLog::Category::Input, "GamepadSystem::Init() - ‰Šú‰»Š®—¹");
+  DEBUGLOG_CATEGORY(DebugLog::Category::Input, "GamepadSystem::Init() - åˆæœŸåŒ–å®Œäº†");
 #endif
 
     return true;
@@ -87,10 +87,10 @@ bool GamepadSystem::Init()
 void GamepadSystem::Shutdown()
 {
 #ifdef _DEBUG
-    DEBUGLOG_CATEGORY(DebugLog::Category::Input, "GamepadSystem::Shutdown() - ƒVƒƒƒbƒgƒ_ƒEƒ“ŠJn");
+    DEBUGLOG_CATEGORY(DebugLog::Category::Input, "GamepadSystem::Shutdown() - ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³é–‹å§‹");
 #endif
 
-    // ‚·‚×‚Ä‚ÌDirectInputƒfƒoƒCƒX‚ğ‰ğ•ú
+    // ã™ã¹ã¦ã®DirectInputãƒ‡ãƒã‚¤ã‚¹ã‚’è§£æ”¾
     for (int i = 0; i < MAX_GAMEPADS; ++i) {
   if (gamepads_[i].dinputDevice) {
     gamepads_[i].dinputDevice->Unacquire();
@@ -99,29 +99,29 @@ void GamepadSystem::Shutdown()
         gamepads_[i] = GamepadState();
     }
 
-    // DirectInput‚ğ‰ğ•ú
+    // DirectInputã‚’è§£æ”¾
     SAFE_RELEASE(dinput_);
     nextDInputSlot_ = 0;
 
 #ifdef _DEBUG
-    DEBUGLOG_CATEGORY(DebugLog::Category::Input, "GamepadSystem::Shutdown() - ƒVƒƒƒbƒgƒ_ƒEƒ“Š®—¹");
+    DEBUGLOG_CATEGORY(DebugLog::Category::Input, "GamepadSystem::Shutdown() - ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³å®Œäº†");
 #endif
 }
 
 // ========================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 // ========================================================
 
 void GamepadSystem::Update()
 {
- // ƒfƒ‹ƒ^ƒ^ƒCƒ€‚ğŒvZ(ŠÈˆÕ”Å: 60FPS‘z’è)
+ // ãƒ‡ãƒ«ã‚¿ã‚¿ã‚¤ãƒ ã‚’è¨ˆç®—(ç°¡æ˜“ç‰ˆ: 60FPSæƒ³å®š)
     static auto lastTime = std::chrono::high_resolution_clock::now();
     auto currentTime = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> elapsed = currentTime - lastTime;
     deltaTime_ = elapsed.count();
     lastTime = currentTime;
 
-    // XInputƒfƒoƒCƒX‚ğÅ‰‚Éƒ`ƒFƒbƒN(0-3‚ÌƒXƒƒbƒg)
+    // XInputãƒ‡ãƒã‚¤ã‚¹ã‚’æœ€åˆã«ãƒã‚§ãƒƒã‚¯(0-3ã®ã‚¹ãƒ­ãƒƒãƒˆ)
     for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i) {
         XINPUT_STATE state;
    ZeroMemory(&state, sizeof(XINPUT_STATE));
@@ -129,36 +129,36 @@ void GamepadSystem::Update()
         DWORD result = XInputGetState(i, &state);
 
       if (result == ERROR_SUCCESS) {
-   // XInputƒfƒoƒCƒX‚ªÚ‘±‚³‚ê‚Ä‚¢‚é
+   // XInputãƒ‡ãƒã‚¤ã‚¹ãŒæ¥ç¶šã•ã‚Œã¦ã„ã‚‹
    if (gamepads_[i].type != Type_XInput) {
          gamepads_[i].type = Type_XInput;
    gamepads_[i].connected = true;
             gamepads_[i].xinputIndex = i;
 #ifdef _DEBUG
     std::ostringstream oss;
-    oss << "GamepadSystem::Update() - XInputƒfƒoƒCƒXÚ‘±: Index=" << i;
+    oss << "GamepadSystem::Update() - XInputãƒ‡ãƒã‚¤ã‚¹æ¥ç¶š: Index=" << i;
      DEBUGLOG_CATEGORY(DebugLog::Category::Input, oss.str());
 #endif
       }
             UpdateXInput(static_cast<int>(i));
    }
   else {
-          // XInputƒfƒoƒCƒX‚ªØ’f‚³‚ê‚½
+          // XInputãƒ‡ãƒã‚¤ã‚¹ãŒåˆ‡æ–­ã•ã‚ŒãŸ
         if (gamepads_[i].type == Type_XInput) {
         gamepads_[i].connected = false;
 #ifdef _DEBUG
   std::ostringstream oss;
-    oss << "GamepadSystem::Update() - XInputƒfƒoƒCƒXØ’f: Index=" << i;
+    oss << "GamepadSystem::Update() - XInputãƒ‡ãƒã‚¤ã‚¹åˆ‡æ–­: Index=" << i;
       DEBUGLOG_CATEGORY(DebugLog::Category::Input, oss.str());
 #endif
        }
         }
         
-        // ƒ`ƒƒ[ƒWƒVƒXƒeƒ€‚ğXV
+        // ãƒãƒ£ãƒ¼ã‚¸ã‚·ã‚¹ãƒ†ãƒ ã‚’æ›´æ–°
      UpdateChargeSystem(static_cast<int>(i), deltaTime_);
     }
 
-    // DirectInputƒfƒoƒCƒX‚ğXV
+    // DirectInputãƒ‡ãƒã‚¤ã‚¹ã‚’æ›´æ–°
   for (int i = 0; i < MAX_GAMEPADS; ++i) {
      if (gamepads_[i].type == Type_DInput && gamepads_[i].dinputDevice) {
    UpdateDInput(i);
@@ -183,10 +183,10 @@ void GamepadSystem::UpdateXInput(int index)
 
     pad.connected = true;
 
- // ‘OƒtƒŒ[ƒ€‚Ìó‘Ô‚ğ•Û‘¶
+ // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®çŠ¶æ…‹ã‚’ä¿å­˜
     memcpy(pad.prevButtons, pad.buttons, sizeof(pad.buttons));
 
-    // ƒ{ƒ^ƒ“ó‘Ô‚ğXV
+    // ãƒœã‚¿ãƒ³çŠ¶æ…‹ã‚’æ›´æ–°
     const WORD buttons = state.Gamepad.wButtons;
 
     auto updateButton = [&](GamepadButton btn, WORD xinputBtn) {
@@ -216,7 +216,7 @@ void GamepadSystem::UpdateXInput(int index)
     updateButton(Button_DPad_Left, XINPUT_GAMEPAD_DPAD_LEFT);
   updateButton(Button_DPad_Right, XINPUT_GAMEPAD_DPAD_RIGHT);
 
-    // ƒXƒeƒBƒbƒN’l‚ğ³‹K‰»‚µ‚Äƒfƒbƒhƒ][ƒ““K—p
+    // ã‚¹ãƒ†ã‚£ãƒƒã‚¯å€¤ã‚’æ­£è¦åŒ–ã—ã¦ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³é©ç”¨
     float rawLeftX = static_cast<float>(state.Gamepad.sThumbLX) / 32767.0f;
     float rawLeftY = static_cast<float>(state.Gamepad.sThumbLY) / 32767.0f;
     float rawRightX = static_cast<float>(state.Gamepad.sThumbRX) / 32767.0f;
@@ -225,11 +225,11 @@ void GamepadSystem::UpdateXInput(int index)
     ApplyDeadzone(rawLeftX, rawLeftY, pad.leftStickX, pad.leftStickY, XINPUT_LEFT_DEADZONE);
     ApplyDeadzone(rawRightX, rawRightY, pad.rightStickX, pad.rightStickY, XINPUT_RIGHT_DEADZONE);
 
-    // ƒgƒŠƒK[’l‚ğ³‹K‰»
+    // ãƒˆãƒªã‚¬ãƒ¼å€¤ã‚’æ­£è¦åŒ–
     pad.leftTrigger = static_cast<float>(state.Gamepad.bLeftTrigger) / 255.0f;
   pad.rightTrigger = static_cast<float>(state.Gamepad.bRightTrigger) / 255.0f;
 
-    // ƒgƒŠƒK[è‡’l“K—p
+    // ãƒˆãƒªã‚¬ãƒ¼é–¾å€¤é©ç”¨
   if (pad.leftTrigger < XINPUT_TRIGGER_THRESHOLD) pad.leftTrigger = 0.0f;
     if (pad.rightTrigger < XINPUT_TRIGGER_THRESHOLD) pad.rightTrigger = 0.0f;
 }
@@ -241,7 +241,7 @@ void GamepadSystem::UpdateDInput(int index)
     GamepadState& pad = gamepads_[index];
     if (!pad.dinputDevice) return;
 
-    // ƒfƒoƒCƒX‚ğæ“¾
+    // ãƒ‡ãƒã‚¤ã‚¹ã‚’å–å¾—
     HRESULT hr = pad.dinputDevice->Poll();
     if (FAILED(hr)) {
         hr = pad.dinputDevice->Acquire();
@@ -261,12 +261,12 @@ return;
 
     pad.connected = true;
 
-  // ‘OƒtƒŒ[ƒ€‚Ìó‘Ô‚ğ•Û‘¶
+  // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®çŠ¶æ…‹ã‚’ä¿å­˜
     memcpy(pad.prevButtons, pad.buttons, sizeof(pad.buttons));
 
-    // ƒ{ƒ^ƒ“ó‘Ô‚ğXV(Å‘å14ƒ{ƒ^ƒ“‚ğƒTƒ|[ƒg)
+    // ãƒœã‚¿ãƒ³çŠ¶æ…‹ã‚’æ›´æ–°(æœ€å¤§14ãƒœã‚¿ãƒ³ã‚’ã‚µãƒãƒ¼ãƒˆ)
     auto updateButton = [&](GamepadButton btn, int dinputBtn) {
-        if (dinputBtn >= 128) return; // ”ÍˆÍŠO
+        if (dinputBtn >= 128) return; // ç¯„å›²å¤–
 
         bool isDown = (js.rgbButtons[dinputBtn] & 0x80) != 0;
         ButtonState prevState = static_cast<ButtonState>(pad.prevButtons[btn]);
@@ -279,7 +279,7 @@ return;
         }
     };
 
-    // ˆê”Ê“I‚Èƒ{ƒ^ƒ“ƒ}ƒbƒsƒ“ƒO(Xbox”z’u‚ğ‘z’è)
+    // ä¸€èˆ¬çš„ãªãƒœã‚¿ãƒ³ãƒãƒƒãƒ”ãƒ³ã‚°(Xboxé…ç½®ã‚’æƒ³å®š)
     updateButton(Button_A, 0);
     updateButton(Button_B, 1);
     updateButton(Button_X, 2);
@@ -291,7 +291,7 @@ updateButton(Button_Back, 6);
     updateButton(Button_LS, 8);
     updateButton(Button_RS, 9);
 
-  // POV(\šƒL[)‚Ìˆ—
+  // POV(åå­—ã‚­ãƒ¼)ã®å‡¦ç†
     bool dpadUp = false, dpadDown = false, dpadLeft = false, dpadRight = false;
     if (js.rgdwPOV[0] != 0xFFFFFFFF) {
         DWORD pov = js.rgdwPOV[0];
@@ -317,16 +317,16 @@ updateButton(Button_Back, 6);
     updateDPad(Button_DPad_Left, dpadLeft);
     updateDPad(Button_DPad_Right, dpadRight);
 
-  // ƒXƒeƒBƒbƒN’l‚ğ³‹K‰»(-1.0 ` +1.0)
+  // ã‚¹ãƒ†ã‚£ãƒƒã‚¯å€¤ã‚’æ­£è¦åŒ–(-1.0 ï½ +1.0)
     float rawLeftX = (static_cast<float>(js.lX) - 32767.0f) / 32767.0f;
-    float rawLeftY = -(static_cast<float>(js.lY) - 32767.0f) / 32767.0f; // Y²”½“]
+    float rawLeftY = -(static_cast<float>(js.lY) - 32767.0f) / 32767.0f; // Yè»¸åè»¢
   float rawRightX = (static_cast<float>(js.lRx) - 32767.0f) / 32767.0f;
-    float rawRightY = -(static_cast<float>(js.lRy) - 32767.0f) / 32767.0f; // Y²”½“]
+    float rawRightY = -(static_cast<float>(js.lRy) - 32767.0f) / 32767.0f; // Yè»¸åè»¢
 
     ApplyDeadzone(rawLeftX, rawLeftY, pad.leftStickX, pad.leftStickY, XINPUT_LEFT_DEADZONE);
     ApplyDeadzone(rawRightX, rawRightY, pad.rightStickX, pad.rightStickY, XINPUT_RIGHT_DEADZONE);
 
-    // ƒgƒŠƒK[’l(Z²‚ÆZ‰ñ“]²‚ğg—p)
+    // ãƒˆãƒªã‚¬ãƒ¼å€¤(Zè»¸ã¨Zå›è»¢è»¸ã‚’ä½¿ç”¨)
     pad.leftTrigger = (static_cast<float>(js.lZ) / 65535.0f);
     pad.rightTrigger = (static_cast<float>(js.lRz) / 65535.0f);
 
@@ -335,7 +335,7 @@ updateButton(Button_Back, 6);
 }
 
 // ========================================================
-// “ü—Íæ“¾
+// å…¥åŠ›å–å¾—
 // ========================================================
 
 bool GamepadSystem::IsConnected(int index) const
@@ -412,7 +412,7 @@ void GamepadSystem::SetVibration(int index, float leftMotor, float rightMotor)
     const GamepadState& pad = gamepads_[index];
     if (pad.type != Type_XInput || !pad.connected) return;
 
-    // ’l‚ğ0.0-1.0‚ÉƒNƒ‰ƒ“ƒv
+    // å€¤ã‚’0.0-1.0ã«ã‚¯ãƒ©ãƒ³ãƒ—
     leftMotor = (leftMotor < 0.0f) ? 0.0f : (leftMotor > 1.0f) ? 1.0f : leftMotor;
     rightMotor = (rightMotor < 0.0f) ? 0.0f : (rightMotor > 1.0f) ? 1.0f : rightMotor;
 
@@ -425,7 +425,7 @@ void GamepadSystem::SetVibration(int index, float leftMotor, float rightMotor)
 }
 
 // ========================================================
-// ƒ`ƒƒ[ƒW&ƒŠƒŠ[ƒXƒVƒXƒeƒ€
+// ãƒãƒ£ãƒ¼ã‚¸&ãƒªãƒªãƒ¼ã‚¹ã‚·ã‚¹ãƒ†ãƒ 
 // ========================================================
 
 void GamepadSystem::UpdateChargeSystem(int index, float dt)
@@ -435,24 +435,24 @@ void GamepadSystem::UpdateChargeSystem(int index, float dt)
 
     GamepadState& pad = gamepads_[index];
 
-    // ¶ƒXƒeƒBƒbƒN‚Ìƒ`ƒƒ[ƒW”»’è
+    // å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒãƒ£ãƒ¼ã‚¸åˆ¤å®š
     float leftMagnitude = sqrtf(pad.leftStickX * pad.leftStickX + pad.leftStickY * pad.leftStickY);
     bool leftCharging = leftMagnitude > CHARGE_DETECTION_THRESHOLD;
 
     if (leftCharging) {
-        // ƒ`ƒƒ[ƒW’†
+        // ãƒãƒ£ãƒ¼ã‚¸ä¸­
         pad.leftStickChargeTime += dt;
         pad.leftStickIntensitySum += leftMagnitude;
         pad.leftStickChargeSamples++;
         pad.leftStickWasCharging = true;
     }
     else {
-        // ƒjƒ…[ƒgƒ‰ƒ‹
+        // ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«
    if (pad.leftStickWasCharging) {
-            // ƒŠƒŠ[ƒX‚³‚ê‚½uŠÔ(Ÿ‚ÌƒtƒŒ[ƒ€‚ÅƒŠƒZƒbƒg)
+            // ãƒªãƒªãƒ¼ã‚¹ã•ã‚ŒãŸç¬é–“(æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ãƒªã‚»ãƒƒãƒˆ)
       }
         else {
-         // ƒ`ƒƒ[ƒWƒf[ƒ^‚ğƒŠƒZƒbƒg
+         // ãƒãƒ£ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆ
          pad.leftStickChargeTime = 0.0f;
      pad.leftStickIntensitySum = 0.0f;
             pad.leftStickChargeSamples = 0;
@@ -460,24 +460,24 @@ void GamepadSystem::UpdateChargeSystem(int index, float dt)
       pad.leftStickWasCharging = false;
 }
 
-    // ‰EƒXƒeƒBƒbƒN‚Ìƒ`ƒƒ[ƒW”»’è
+    // å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒãƒ£ãƒ¼ã‚¸åˆ¤å®š
     float rightMagnitude = sqrtf(pad.rightStickX * pad.rightStickX + pad.rightStickY * pad.rightStickY);
     bool rightCharging = rightMagnitude > CHARGE_DETECTION_THRESHOLD;
 
     if (rightCharging) {
-        // ƒ`ƒƒ[ƒW’†
+        // ãƒãƒ£ãƒ¼ã‚¸ä¸­
         pad.rightStickChargeTime += dt;
         pad.rightStickIntensitySum += rightMagnitude;
         pad.rightStickChargeSamples++;
         pad.rightStickWasCharging = true;
     }
     else {
-        // ƒjƒ…[ƒgƒ‰ƒ‹
+        // ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«
   if (pad.rightStickWasCharging) {
-      // ƒŠƒŠ[ƒX‚³‚ê‚½uŠÔ(Ÿ‚ÌƒtƒŒ[ƒ€‚ÅƒŠƒZƒbƒg)
+      // ãƒªãƒªãƒ¼ã‚¹ã•ã‚ŒãŸç¬é–“(æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ãƒªã‚»ãƒƒãƒˆ)
         }
     else {
-            // ƒ`ƒƒ[ƒWƒf[ƒ^‚ğƒŠƒZƒbƒg
+            // ãƒãƒ£ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆ
  pad.rightStickChargeTime = 0.0f;
    pad.rightStickIntensitySum = 0.0f;
             pad.rightStickChargeSamples = 0;
@@ -521,7 +521,7 @@ bool GamepadSystem::IsLeftStickReleased(int index) const
     if (index < 0 || index >= MAX_GAMEPADS) return false;
     const GamepadState& pad = gamepads_[index];
     
-    // ‘OƒtƒŒ[ƒ€‚Åƒ`ƒƒ[ƒW’†A‚±‚ÌƒtƒŒ[ƒ€‚Åƒjƒ…[ƒgƒ‰ƒ‹
+    // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã§ãƒãƒ£ãƒ¼ã‚¸ä¸­ã€ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«
     float magnitude = sqrtf(pad.leftStickX * pad.leftStickX + pad.leftStickY * pad.leftStickY);
     bool isNowCharging = magnitude > CHARGE_DETECTION_THRESHOLD;
     
@@ -533,7 +533,7 @@ bool GamepadSystem::IsRightStickReleased(int index) const
     if (index < 0 || index >= MAX_GAMEPADS) return false;
     const GamepadState& pad = gamepads_[index];
     
-    // ‘OƒtƒŒ[ƒ€‚Åƒ`ƒƒ[ƒW’†A‚±‚ÌƒtƒŒ[ƒ€‚Åƒjƒ…[ƒgƒ‰ƒ‹
+    // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã§ãƒãƒ£ãƒ¼ã‚¸ä¸­ã€ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«
     float magnitude = sqrtf(pad.rightStickX * pad.rightStickX + pad.rightStickY * pad.rightStickY);
     bool isNowCharging = magnitude > CHARGE_DETECTION_THRESHOLD;
     
@@ -548,7 +548,7 @@ float GamepadSystem::GetLeftStickChargeAmount(int index, float maxChargeTime) co
     float chargeTime = gamepads_[index].leftStickChargeTime;
     float amount = chargeTime / maxChargeTime;
     
-    // 0.0 ` 1.0 ‚ÉƒNƒ‰ƒ“ƒv
+    // 0.0 ï½ 1.0 ã«ã‚¯ãƒ©ãƒ³ãƒ—
     if (amount < 0.0f) amount = 0.0f;
     if (amount > 1.0f) amount = 1.0f;
     
@@ -563,7 +563,7 @@ float GamepadSystem::GetRightStickChargeAmount(int index, float maxChargeTime) c
     float chargeTime = gamepads_[index].rightStickChargeTime;
     float amount = chargeTime / maxChargeTime;
     
-    // 0.0 ` 1.0 ‚ÉƒNƒ‰ƒ“ƒv
+    // 0.0 ï½ 1.0 ã«ã‚¯ãƒ©ãƒ³ãƒ—
     if (amount < 0.0f) amount = 0.0f;
     if (amount > 1.0f) amount = 1.0f;
     
@@ -591,28 +591,28 @@ float GamepadSystem::GetRightStickAverageIntensity(int index) const
 }
 
 // ========================================================
-// ƒ†[ƒeƒBƒŠƒeƒB
+// ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
 // ========================================================
 
 void GamepadSystem::ApplyDeadzone(float x, float y, float& outX, float& outY, float deadzone) const
 {
-    // ‰~Œ`ƒfƒbƒhƒ][ƒ“‚Ì“K—p
+    // å††å½¢ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã®é©ç”¨
     float magnitude = sqrtf(x * x + y * y);
 
     if (magnitude < deadzone) {
-        // ƒfƒbƒhƒ][ƒ““à
+        // ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å†…
         outX = 0.0f;
     outY = 0.0f;
     }
     else {
-        // ƒfƒbƒhƒ][ƒ“ŠO - ³‹K‰»‚µ‚ÄÄƒXƒP[ƒ‹
+        // ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å¤– - æ­£è¦åŒ–ã—ã¦å†ã‚¹ã‚±ãƒ¼ãƒ«
         float normalizedX = x / magnitude;
       float normalizedY = y / magnitude;
 
-        // Å‘å’l‚ÅƒNƒŠƒbƒv
+        // æœ€å¤§å€¤ã§ã‚¯ãƒªãƒƒãƒ—
         if (magnitude > 1.0f) magnitude = 1.0f;
 
-        // ƒfƒbƒhƒ][ƒ“‚©‚ç‚Ì‘Š‘Î’l‚É’²®
+        // ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã‹ã‚‰ã®ç›¸å¯¾å€¤ã«èª¿æ•´
  magnitude = (magnitude - deadzone) / (1.0f - deadzone);
 
         outX = normalizedX * magnitude;
@@ -621,7 +621,7 @@ void GamepadSystem::ApplyDeadzone(float x, float y, float& outX, float& outY, fl
 }
 
 // ========================================================
-// DirectInput ƒfƒoƒCƒX—ñ‹“
+// DirectInput ãƒ‡ãƒã‚¤ã‚¹åˆ—æŒ™
 // ========================================================
 
 BOOL CALLBACK GamepadSystem::EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef)
@@ -629,12 +629,12 @@ BOOL CALLBACK GamepadSystem::EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVO
     GamepadSystem* pThis = static_cast<GamepadSystem*>(pvRef);
     if (!pThis) return DIENUM_STOP;
 
- // XInputƒfƒoƒCƒX‚ÍƒXƒLƒbƒv
+ // XInputãƒ‡ãƒã‚¤ã‚¹ã¯ã‚¹ã‚­ãƒƒãƒ—
 if (IsXInputDevice(&lpddi->guidProduct)) {
         return DIENUM_CONTINUE;
   }
 
- // ‹ó‚«ƒXƒƒbƒg‚ğ’T‚·
+ // ç©ºãã‚¹ãƒ­ãƒƒãƒˆã‚’æ¢ã™
     int slot = -1;
     for (int i = 0; i < MAX_GAMEPADS; ++i) {
   if (pThis->gamepads_[i].type == Type_None) {
@@ -644,54 +644,54 @@ if (IsXInputDevice(&lpddi->guidProduct)) {
   }
 
     if (slot == -1) {
-     // ‹ó‚«ƒXƒƒbƒg‚È‚µ
+     // ç©ºãã‚¹ãƒ­ãƒƒãƒˆãªã—
         return DIENUM_CONTINUE;
     }
 
-    // DirectInputƒfƒoƒCƒX‚ğì¬
+    // DirectInputãƒ‡ãƒã‚¤ã‚¹ã‚’ä½œæˆ
     LPDIRECTINPUTDEVICE8 device = nullptr;
   HRESULT hr = pThis->dinput_->CreateDevice(lpddi->guidInstance, &device, nullptr);
     if (FAILED(hr)) {
     std::ostringstream oss;
- oss << "GamepadSystem::EnumDevicesCallback() - ƒfƒoƒCƒXì¬¸”s: HRESULT=0x" << std::hex << hr;
+ oss << "GamepadSystem::EnumDevicesCallback() - ãƒ‡ãƒã‚¤ã‚¹ä½œæˆå¤±æ•—: HRESULT=0x" << std::hex << hr;
       DEBUGLOG_ERROR(oss.str());
         return DIENUM_CONTINUE;
     }
 
-    // ƒf[ƒ^ƒtƒH[ƒ}ƒbƒg‚ğİ’è
+    // ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’è¨­å®š
     hr = device->SetDataFormat(&c_dfDIJoystick2);
  if (FAILED(hr)) {
    std::ostringstream oss;
-        oss << "GamepadSystem::EnumDevicesCallback() - ƒf[ƒ^ƒtƒH[ƒ}ƒbƒgİ’è¸”s: HRESULT=0x" << std::hex << hr;
+        oss << "GamepadSystem::EnumDevicesCallback() - ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆè¨­å®šå¤±æ•—: HRESULT=0x" << std::hex << hr;
      DEBUGLOG_ERROR(oss.str());
     SAFE_RELEASE(device);
         return DIENUM_CONTINUE;
     }
 
-  // ‹¦’²ƒŒƒxƒ‹‚ğİ’è(ƒoƒbƒNƒOƒ‰ƒEƒ“ƒh‚Å‚à“®ìA”r‘¼“I‚Å‚È‚¢)
+  // å”èª¿ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®š(ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ã§ã‚‚å‹•ä½œã€æ’ä»–çš„ã§ãªã„)
   hr = device->SetCooperativeLevel(GetActiveWindow(), DISCL_BACKGROUND | DISCL_NONEXCLUSIVE);
     if (FAILED(hr)) {
       std::ostringstream oss;
-        oss << "GamepadSystem::EnumDevicesCallback() - ‹¦’²ƒŒƒxƒ‹İ’è¸”s: HRESULT=0x" << std::hex << hr;
+        oss << "GamepadSystem::EnumDevicesCallback() - å”èª¿ãƒ¬ãƒ™ãƒ«è¨­å®šå¤±æ•—: HRESULT=0x" << std::hex << hr;
         DEBUGLOG_ERROR(oss.str());
   SAFE_RELEASE(device);
  return DIENUM_CONTINUE;
     }
 
-    // ƒfƒoƒCƒX‚ğæ“¾
+    // ãƒ‡ãƒã‚¤ã‚¹ã‚’å–å¾—
     hr = device->Acquire();
     if (FAILED(hr)) {
-        // æ“¾¸”s‚Í’v–½“I‚Å‚Í‚È‚¢(Œã‚ÅÄæ“¾‰Â”\)
+        // å–å¾—å¤±æ•—ã¯è‡´å‘½çš„ã§ã¯ãªã„(å¾Œã§å†å–å¾—å¯èƒ½)
   }
 
-    // ƒQ[ƒ€ƒpƒbƒhó‘Ô‚Éİ’è
+    // ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰çŠ¶æ…‹ã«è¨­å®š
     pThis->gamepads_[slot].type = Type_DInput;
     pThis->gamepads_[slot].connected = true;
     pThis->gamepads_[slot].dinputDevice = device;
 
 #ifdef _DEBUG
   std::ostringstream oss;
-    oss << "GamepadSystem::EnumDevicesCallback() - DirectInputƒfƒoƒCƒX“o˜^: Slot=" << slot 
+    oss << "GamepadSystem::EnumDevicesCallback() - DirectInputãƒ‡ãƒã‚¤ã‚¹ç™»éŒ²: Slot=" << slot 
       << ", Name=" << lpddi->tszProductName;
     DEBUGLOG_CATEGORY(DebugLog::Category::Input, oss.str());
 #endif
@@ -717,7 +717,7 @@ bool GamepadSystem::IsXInputDevice(const GUID* pGuidProductFromDirectInput)
     VARIANT var = {};
     VariantInit(&var);
 
-    // WMIì¬
+    // WMIä½œæˆ
     hr = CoCreateInstance(__uuidof(WbemLocator),
         nullptr,
         CLSCTX_INPROC_SERVER,
@@ -730,13 +730,13 @@ goto LCleanup;
     bstrClassName = SysAllocString(L"Win32_PNPEntity");     if (bstrClassName == nullptr) goto LCleanup;
     bstrDeviceID = SysAllocString(L"DeviceID");     if (bstrDeviceID == nullptr)  goto LCleanup;
 
-    // WMIÚ‘±
+    // WMIæ¥ç¶š
     hr = pIWbemLocator->ConnectServer(bstrNamespace, nullptr, nullptr, 0L,
   0L, nullptr, nullptr, &pIWbemServices);
     if (FAILED(hr) || pIWbemServices == nullptr)
         goto LCleanup;
 
-    // ƒZƒLƒ…ƒŠƒeƒBƒŒƒxƒ‹İ’è
+    // ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ãƒ¬ãƒ™ãƒ«è¨­å®š
     hr = CoSetProxyBlanket(pIWbemServices,
      RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
         RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE,
@@ -748,7 +748,7 @@ goto LCleanup;
     if (FAILED(hr) || pEnumDevices == nullptr)
         goto LCleanup;
 
-    // ƒfƒoƒCƒX‚ğƒ‹[ƒv
+    // ãƒ‡ãƒã‚¤ã‚¹ã‚’ãƒ«ãƒ¼ãƒ—
     for (;;)
     {
     ULONG uReturned = 0;
@@ -760,14 +760,14 @@ goto LCleanup;
 
         for (size_t iDevice = 0; iDevice < uReturned; ++iDevice)
         {
-            // ƒfƒoƒCƒXID‚ğæ“¾
+            // ãƒ‡ãƒã‚¤ã‚¹IDã‚’å–å¾—
             hr = pDevices[iDevice]->Get(bstrDeviceID, 0L, &var, nullptr, nullptr);
      if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
     {
-         // "IG_"‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN(XInputƒfƒoƒCƒX‚Ìˆó)
+         // "IG_"ãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯(XInputãƒ‡ãƒã‚¤ã‚¹ã®å°)
   if (wcsstr(var.bstrVal, L"IG_"))
           {
-     // VID/PID‚ğæ“¾
+     // VID/PIDã‚’å–å¾—
      DWORD dwPid = 0, dwVid = 0;
           WCHAR* strVid = wcsstr(var.bstrVal, L"VID_");
           if (strVid && swscanf_s(strVid, L"VID_%4X", &dwVid) != 1)
@@ -776,7 +776,7 @@ goto LCleanup;
              if (strPid && swscanf_s(strPid, L"PID_%4X", &dwPid) != 1)
 dwPid = 0;
 
-      // DInputƒfƒoƒCƒX‚ÌGUID‚Æ”äŠr
+      // DInputãƒ‡ãƒã‚¤ã‚¹ã®GUIDã¨æ¯”è¼ƒ
      DWORD dwVidPid = MAKELONG(dwVid, dwPid);
           if (dwVidPid == pGuidProductFromDirectInput->Data1)
         {

@@ -1,12 +1,12 @@
-/**
+ï»¿/**
  * @file GamepadSample.h
- * @brief ƒQ[ƒ€ƒpƒbƒh“ü—ÍƒVƒXƒeƒ€‚Ìg—p—á
- * @author R“à—z
+ * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰å…¥åŠ›ã‚·ã‚¹ãƒ†ãƒ ã®ä½¿ç”¨ä¾‹
+ * @author å±±å†…é™½
  * @date 2025
  * @version 6.0
  * 
  * @details
- * GamepadSystem‚Ìg—p•û–@‚ğ¦‚·ƒTƒ“ƒvƒ‹ƒR[ƒh‚Å‚·B
+ * GamepadSystemã®ä½¿ç”¨æ–¹æ³•ã‚’ç¤ºã™ã‚µãƒ³ãƒ—ãƒ«ã‚³ãƒ¼ãƒ‰ã§ã™ã€‚
  */
 
 #pragma once
@@ -18,63 +18,63 @@
 #include <cmath>
 
 /**
- * @brief ƒQ[ƒ€ƒpƒbƒh‚ÅƒvƒŒƒCƒ„[‚ğ‘€ì‚·‚éBehaviour
+ * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã§ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æ“ä½œã™ã‚‹Behaviour
  * 
  * @details
- * ƒQ[ƒ€ƒpƒbƒh‚Ì¶ƒXƒeƒBƒbƒN‚ÅˆÚ“®AAƒ{ƒ^ƒ“‚ÅƒWƒƒƒ“ƒvA
- * ‰EƒgƒŠƒK[‚Åƒ_ƒbƒVƒ…‚ğs‚¢‚Ü‚·B
+ * ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã§ç§»å‹•ã€Aãƒœã‚¿ãƒ³ã§ã‚¸ãƒ£ãƒ³ãƒ—ã€
+ * å³ãƒˆãƒªã‚¬ãƒ¼ã§ãƒ€ãƒƒã‚·ãƒ¥ã‚’è¡Œã„ã¾ã™ã€‚
  * 
- * @par g—p—á
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * Entity player = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0,0,0})
- *     .With<GamepadPlayerController>(0) // ƒvƒŒƒCƒ„[0
+ *     .With<GamepadPlayerController>(0) // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼0
  *     .Build();
  * @endcode
  */
 DEFINE_BEHAVIOUR(GamepadPlayerController,
-    int playerIndex = 0;    ///< ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-    float moveSpeed = 5.0f;     ///< ˆÚ“®‘¬“x
-    float dashSpeed = 10.0f;    ///< ƒ_ƒbƒVƒ…‘¬“x
-    float rotateSpeed = 180.0f; ///< ‰ñ“]‘¬“x(“x/•b)
-    bool isJumping = false;     ///< ƒWƒƒƒ“ƒv’†ƒtƒ‰ƒO
+    int playerIndex = 0;    ///< ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+    float moveSpeed = 5.0f;     ///< ç§»å‹•é€Ÿåº¦
+    float dashSpeed = 10.0f;    ///< ãƒ€ãƒƒã‚·ãƒ¥é€Ÿåº¦
+    float rotateSpeed = 180.0f; ///< å›è»¢é€Ÿåº¦(åº¦/ç§’)
+    bool isJumping = false;     ///< ã‚¸ãƒ£ãƒ³ãƒ—ä¸­ãƒ•ãƒ©ã‚°
 ,
-  // Transform‚ğæ“¾
+  // Transformã‚’å–å¾—
     auto* transform = w.TryGet<Transform>(self);
     if (!transform) return;
 
-    // ƒQ[ƒ€ƒpƒbƒhÚ‘±Šm”F
+    // ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰æ¥ç¶šç¢ºèª
     if (!GetGamepad().IsConnected(playerIndex)) {
-        // Ø’f’†
+        // åˆ‡æ–­ä¸­
         return;
     }
 
-    // ¶ƒXƒeƒBƒbƒN‚ÅˆÚ“®
+    // å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã§ç§»å‹•
     float leftX = GetGamepad().GetLeftStickX(playerIndex);
     float leftY = GetGamepad().GetLeftStickY(playerIndex);
 
-    // ˆÚ“®‘¬“x‚ğŒˆ’è(‰EƒgƒŠƒK[‚Åƒ_ƒbƒVƒ…)
+    // ç§»å‹•é€Ÿåº¦ã‚’æ±ºå®š(å³ãƒˆãƒªã‚¬ãƒ¼ã§ãƒ€ãƒƒã‚·ãƒ¥)
   float currentSpeed = moveSpeed;
     float rightTrigger = GetGamepad().GetRightTrigger(playerIndex);
     if (rightTrigger > 0.5f) {
         currentSpeed = dashSpeed;
     }
 
-    // ˆÚ“®‚ğ“K—p
+    // ç§»å‹•ã‚’é©ç”¨
     transform->position.x += leftX * currentSpeed * dt;
     transform->position.z += leftY * currentSpeed * dt;
 
-    // ˆÚ“®•ûŒü‚É‰ñ“]
+    // ç§»å‹•æ–¹å‘ã«å›è»¢
     if (leftX != 0.0f || leftY != 0.0f) {
       float targetAngle = atan2f(leftX, leftY);
         float currentAngle = transform->rotation.y;
         
-        // Šp“x·‚ğŒvZ(-ƒÎ ` +ƒÎ)
+        // è§’åº¦å·®ã‚’è¨ˆç®—(-Ï€ ï½ +Ï€)
         float diff = targetAngle - currentAngle;
      while (diff > DirectX::XM_PI) diff -= DirectX::XM_2PI;
         while (diff < -DirectX::XM_PI) diff += DirectX::XM_2PI;
 
-        // ŠŠ‚ç‚©‚É‰ñ“]
+        // æ»‘ã‚‰ã‹ã«å›è»¢
     float maxRotate = rotateSpeed * dt * DirectX::XM_PI / 180.0f;
         if (fabsf(diff) < maxRotate) {
       transform->rotation.y = targetAngle;
@@ -83,24 +83,24 @@ DEFINE_BEHAVIOUR(GamepadPlayerController,
     }
     }
 
-    // Aƒ{ƒ^ƒ“‚ÅƒWƒƒƒ“ƒv
+    // Aãƒœã‚¿ãƒ³ã§ã‚¸ãƒ£ãƒ³ãƒ—
  if (GetGamepad().GetButtonDown(playerIndex, GamepadSystem::Button_A)) {
    if (!isJumping) {
-       transform->position.y += 2.0f; // ŠÈˆÕƒWƒƒƒ“ƒv
+       transform->position.y += 2.0f; // ç°¡æ˜“ã‚¸ãƒ£ãƒ³ãƒ—
 isJumping = true;
   }
     }
 
-    // ’n–Ê‚É’…’n‚µ‚½‚çƒWƒƒƒ“ƒvƒtƒ‰ƒOƒŠƒZƒbƒg(ŠÈˆÕÀ‘•)
+    // åœ°é¢ã«ç€åœ°ã—ãŸã‚‰ã‚¸ãƒ£ãƒ³ãƒ—ãƒ•ãƒ©ã‚°ãƒªã‚»ãƒƒãƒˆ(ç°¡æ˜“å®Ÿè£…)
     if (transform->position.y <= 0.0f) {
   transform->position.y = 0.0f;
       isJumping = false;
     } else if (isJumping) {
- // d—Í“K—p
+ // é‡åŠ›é©ç”¨
     transform->position.y -= 9.8f * dt;
     }
 
-    // Bƒ{ƒ^ƒ“‚ÅƒoƒCƒuƒŒ[ƒVƒ‡ƒ“
+    // Bãƒœã‚¿ãƒ³ã§ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
     if (GetGamepad().GetButton(playerIndex, GamepadSystem::Button_B)) {
    GetGamepad().SetVibration(playerIndex, 0.5f, 0.5f);
     } else {
@@ -109,12 +109,12 @@ isJumping = true;
 );
 
 /**
- * @brief ƒQ[ƒ€ƒpƒbƒh‚Å‹“_‚ğ‘€ì‚·‚éBehaviour
+ * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã§è¦–ç‚¹ã‚’æ“ä½œã™ã‚‹Behaviour
  * 
  * @details
- * ƒQ[ƒ€ƒpƒbƒh‚Ì‰EƒXƒeƒBƒbƒN‚ÅƒJƒƒ‰‚Ì‰ñ“]‚ğ§Œä‚µ‚Ü‚·B
+ * ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã§ã‚«ãƒ¡ãƒ©ã®å›è»¢ã‚’åˆ¶å¾¡ã—ã¾ã™ã€‚
  * 
- * @par g—p—á
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * Entity camera = world.Create()
  *   .With<Transform>(DirectX::XMFLOAT3{0,2,-5})
@@ -123,24 +123,24 @@ isJumping = true;
  * @endcode
  */
 DEFINE_BEHAVIOUR(GamepadCameraController,
-    int playerIndex = 0;     ///< ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX
-    float sensitivity = 2.0f;       ///< Š´“x
-    float minPitch = -80.0f;        ///< Å¬ƒsƒbƒ`Šp(“x)
-    float maxPitch = 80.0f;         ///< Å‘åƒsƒbƒ`Šp(“x)
+    int playerIndex = 0;     ///< ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+    float sensitivity = 2.0f;       ///< æ„Ÿåº¦
+    float minPitch = -80.0f;        ///< æœ€å°ãƒ”ãƒƒãƒè§’(åº¦)
+    float maxPitch = 80.0f;         ///< æœ€å¤§ãƒ”ãƒƒãƒè§’(åº¦)
 ,
     auto* transform = w.TryGet<Transform>(self);
     if (!transform) return;
 
     if (!GetGamepad().IsConnected(playerIndex)) return;
 
-    // ‰EƒXƒeƒBƒbƒN‚Å‹“_‰ñ“]
+    // å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã§è¦–ç‚¹å›è»¢
     float rightX = GetGamepad().GetRightStickX(playerIndex);
     float rightY = GetGamepad().GetRightStickY(playerIndex);
 
-    // ƒˆ[(Y²‰ñ“])
+    // ãƒ¨ãƒ¼(Yè»¸å›è»¢)
     transform->rotation.y += rightX * sensitivity * dt;
 
-    // ƒsƒbƒ`(X²‰ñ“])‚ğ§ŒÀ•t‚«‚ÅXV
+    // ãƒ”ãƒƒãƒ(Xè»¸å›è»¢)ã‚’åˆ¶é™ä»˜ãã§æ›´æ–°
     float pitchDelta = rightY * sensitivity * dt;
     float newPitch = transform->rotation.x + pitchDelta;
     
@@ -154,14 +154,14 @@ DEFINE_BEHAVIOUR(GamepadCameraController,
 );
 
 /**
- * @brief ƒQ[ƒ€ƒpƒbƒh‚Ì“ü—Íó‘Ô‚ğ•\¦‚·‚éBehaviour
+ * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®å…¥åŠ›çŠ¶æ…‹ã‚’è¡¨ç¤ºã™ã‚‹Behaviour
  * 
  * @details
- * ƒfƒoƒbƒO—p:ƒQ[ƒ€ƒpƒbƒh‚Ì‘Sƒ{ƒ^ƒ“‚ÆƒXƒeƒBƒbƒN‚Ìó‘Ô‚ğƒƒOo—Í‚µ‚Ü‚·B
+ * ãƒ‡ãƒãƒƒã‚°ç”¨:ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®å…¨ãƒœã‚¿ãƒ³ã¨ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®çŠ¶æ…‹ã‚’ãƒ­ã‚°å‡ºåŠ›ã—ã¾ã™ã€‚
  */
 DEFINE_BEHAVIOUR(GamepadDebugDisplay,
     int playerIndex = 0;
-    float logInterval = 1.0f;  ///< ƒƒOo—ÍŠÔŠu(•b)
+    float logInterval = 1.0f;  ///< ãƒ­ã‚°å‡ºåŠ›é–“éš”(ç§’)
     float timer = 0.0f;
 ,
     timer += dt;
@@ -170,44 +170,44 @@ DEFINE_BEHAVIOUR(GamepadDebugDisplay,
      timer = 0.0f;
 
         if (!GetGamepad().IsConnected(playerIndex)) {
-     DEBUGLOG("ƒQ[ƒ€ƒpƒbƒh–¢Ú‘±");
+     DEBUGLOG("ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰æœªæ¥ç¶š");
          return;
         }
 
- // ƒ{ƒ^ƒ“ó‘Ô‚ğƒƒOo—Í
+ // ãƒœã‚¿ãƒ³çŠ¶æ…‹ã‚’ãƒ­ã‚°å‡ºåŠ›
         if (GetGamepad().GetButton(playerIndex, GamepadSystem::Button_A)) {
-          DEBUGLOG("Aƒ{ƒ^ƒ“‰Ÿ‰º’†");
+          DEBUGLOG("Aãƒœã‚¿ãƒ³æŠ¼ä¸‹ä¸­");
         }
   if (GetGamepad().GetButtonDown(playerIndex, GamepadSystem::Button_B)) {
-     DEBUGLOG("Bƒ{ƒ^ƒ“‰Ÿ‚³‚ê‚½");
+     DEBUGLOG("Bãƒœã‚¿ãƒ³æŠ¼ã•ã‚ŒãŸ");
   }
 
-        // ƒXƒeƒBƒbƒN’l‚ğƒƒOo—Í
+        // ã‚¹ãƒ†ã‚£ãƒƒã‚¯å€¤ã‚’ãƒ­ã‚°å‡ºåŠ›
         float lx = GetGamepad().GetLeftStickX(playerIndex);
         float ly = GetGamepad().GetLeftStickY(playerIndex);
         if (lx != 0.0f || ly != 0.0f) {
        std::ostringstream oss;
-oss << "¶ƒXƒeƒBƒbƒN: X=" << lx << ", Y=" << ly;
+oss << "å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯: X=" << lx << ", Y=" << ly;
 DEBUGLOG(oss.str());
         }
 
-      // ƒgƒŠƒK[’l‚ğƒƒOo—Í
+      // ãƒˆãƒªã‚¬ãƒ¼å€¤ã‚’ãƒ­ã‚°å‡ºåŠ›
         float lt = GetGamepad().GetLeftTrigger(playerIndex);
         float rt = GetGamepad().GetRightTrigger(playerIndex);
       if (lt > 0.0f || rt > 0.0f) {
         std::ostringstream oss;
-         oss << "ƒgƒŠƒK[: L=" << lt << ", R=" << rt;
+         oss << "ãƒˆãƒªã‚¬ãƒ¼: L=" << lt << ", R=" << rt;
       DEBUGLOG(oss.str());
         }
     }
 );
 
 /**
- * @brief •¡”ƒvƒŒƒCƒ„[—p‚ÌƒQ[ƒ€ƒpƒbƒhÚ‘±ŠÄ‹
+ * @brief è¤‡æ•°ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç”¨ã®ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰æ¥ç¶šç›£è¦–
  * 
  * @details
- * 4l‚Ü‚Å‚ÌƒvƒŒƒCƒ„[‚ÌƒQ[ƒ€ƒpƒbƒhÚ‘±ó‘Ô‚ğŠÄ‹‚µA
- * Ú‘±/Ø’f‚ÉƒƒO‚ğo—Í‚µ‚Ü‚·B
+ * 4äººã¾ã§ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰æ¥ç¶šçŠ¶æ…‹ã‚’ç›£è¦–ã—ã€
+ * æ¥ç¶š/åˆ‡æ–­æ™‚ã«ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚
  */
 DEFINE_DATA_COMPONENT(GamepadConnectionMonitor,
     bool wasConnected[4] = {false, false, false, false};
@@ -217,16 +217,16 @@ DEFINE_DATA_COMPONENT(GamepadConnectionMonitor,
          bool isNowConnected = GetGamepad().IsConnected(i);
        
      if (isNowConnected && !wasConnected[i]) {
-     // Ú‘±‚³‚ê‚½
+     // æ¥ç¶šã•ã‚ŒãŸ
         std::ostringstream oss;
-oss << "ƒvƒŒƒCƒ„[" << i << "‚ÌƒQ[ƒ€ƒpƒbƒhÚ‘±";
+oss << "ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼" << i << "ã®ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰æ¥ç¶š";
                 DEBUGLOG(oss.str());
   wasConnected[i] = true;
    }
        else if (!isNowConnected && wasConnected[i]) {
-         // Ø’f‚³‚ê‚½
+         // åˆ‡æ–­ã•ã‚ŒãŸ
        std::ostringstream oss;
-         oss << "ƒvƒŒƒCƒ„[" << i << "‚ÌƒQ[ƒ€ƒpƒbƒhØ’f";
+         oss << "ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼" << i << "ã®ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰åˆ‡æ–­";
    DEBUGLOG(oss.str());
                 wasConnected[i] = false;
         }

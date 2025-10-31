@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 /**
  * @file GamepadSystem.h
- * @brief XInput ‚Æ DirectInput ‚ğ’ŠÛ‰»‚µ‚½ƒQ[ƒ€ƒpƒbƒh“ü—ÍŠÇ—ƒVƒXƒeƒ€
- * @author R“à—z
+ * @brief XInput ã¨ DirectInput ã‚’æŠ½è±¡åŒ–ã—ãŸã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰å…¥åŠ›ç®¡ç†ã‚·ã‚¹ãƒ†ãƒ 
+ * @author å±±å†…é™½
  * @date 2025
  * @version 6.0
  * 
  * @details
- * XInput ‚Æ DirectInput ‚ğ“‡‚µAÅ‘å4‚Â‚ÌƒQ[ƒ€ƒpƒbƒh‚Ì“ü—Í‚ğŠÇ—‚µ‚Ü‚·B
- * XInputƒfƒoƒCƒX‚ğ—Dæ“I‚Ég—p‚µAXInput‚Å”F¯‚³‚ê‚È‚¢ƒfƒoƒCƒX‚ÍDirectInput‚Åˆ—‚µ‚Ü‚·B
+ * XInput ã¨ DirectInput ã‚’çµ±åˆã—ã€æœ€å¤§4ã¤ã®ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®å…¥åŠ›ã‚’ç®¡ç†ã—ã¾ã™ã€‚
+ * XInputãƒ‡ãƒã‚¤ã‚¹ã‚’å„ªå…ˆçš„ã«ä½¿ç”¨ã—ã€XInputã§èªè­˜ã•ã‚Œãªã„ãƒ‡ãƒã‚¤ã‚¹ã¯DirectInputã§å‡¦ç†ã—ã¾ã™ã€‚
  */
 
 #define WIN32_LEAN_AND_MEAN
@@ -26,13 +26,13 @@
 
 /**
  * @class GamepadSystem
- * @brief ƒQ[ƒ€ƒpƒbƒh“ü—Í‚ğ“‡ŠÇ—‚·‚éƒNƒ‰ƒX
+ * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰å…¥åŠ›ã‚’çµ±åˆç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * 
  * @details
- * XInput ‚Æ DirectInput ‚Ì—¼•û‚ğƒTƒ|[ƒg‚µAÚ‘±‚³‚ê‚½ƒQ[ƒ€ƒpƒbƒh‚ğ©“®ŒŸo‚µ‚Ü‚·B
- * Å‘å4‚Â‚ÌƒQ[ƒ€ƒpƒbƒh‚ğ“¯‚ÉƒTƒ|[ƒg‚µ‚Ü‚·B
+ * XInput ã¨ DirectInput ã®ä¸¡æ–¹ã‚’ã‚µãƒãƒ¼ãƒˆã—ã€æ¥ç¶šã•ã‚ŒãŸã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚’è‡ªå‹•æ¤œå‡ºã—ã¾ã™ã€‚
+ * æœ€å¤§4ã¤ã®ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚’åŒæ™‚ã«ã‚µãƒãƒ¼ãƒˆã—ã¾ã™ã€‚
  * 
- * @par g—p—á
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * GamepadSystem gamepad;
  * gamepad.Init();
@@ -41,7 +41,7 @@
  *  gamepad.Update();
  *     
  *     if (gamepad.GetButtonDown(0, GamepadSystem::Button_A)) {
- *       // ƒvƒŒƒCƒ„[0‚ÌAƒ{ƒ^ƒ“‰Ÿ‰º
+ *       // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼0ã®Aãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚
  *     }
  *     
  *   float leftX = gamepad.GetLeftStickX(0);
@@ -51,228 +51,228 @@
  * gamepad.Shutdown();
  * @endcode
  * 
- * @author R“à—z
+ * @author å±±å†…é™½
  */
 class GamepadSystem {
 public:
     /**
-     * @brief ƒTƒ|[ƒg‚·‚éÅ‘åƒQ[ƒ€ƒpƒbƒh”
+     * @brief ã‚µãƒãƒ¼ãƒˆã™ã‚‹æœ€å¤§ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰æ•°
      */
     static const int MAX_GAMEPADS = 4;
 
     /**
      * @enum GamepadButton
-     * @brief ƒQ[ƒ€ƒpƒbƒhƒ{ƒ^ƒ“‚Ì¯•Êq(Xbox”z’u)
+     * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ãƒœã‚¿ãƒ³ã®è­˜åˆ¥å­(Xboxé…ç½®)
      */
     enum GamepadButton {
-        Button_A = 0,     ///< Aƒ{ƒ^ƒ“(‰º)
-        Button_B = 1,      ///< Bƒ{ƒ^ƒ“(‰E)
-        Button_X = 2,           ///< Xƒ{ƒ^ƒ“(¶)
-        Button_Y = 3,        ///< Yƒ{ƒ^ƒ“(ã)
-        Button_LB = 4,          ///< ¶ƒoƒ“ƒp[
-        Button_RB = 5, ///< ‰Eƒoƒ“ƒp[
-        Button_Back = 6,        ///< Backƒ{ƒ^ƒ“
-        Button_Start = 7,     ///< Startƒ{ƒ^ƒ“
-        Button_LS = 8,          ///< ¶ƒXƒeƒBƒbƒN‰Ÿ‚µ‚İ
-        Button_RS = 9,          ///< ‰EƒXƒeƒBƒbƒN‰Ÿ‚µ‚İ
-        Button_DPad_Up = 10,    ///< \šƒL[ã
-        Button_DPad_Down = 11,  ///< \šƒL[‰º
-      Button_DPad_Left = 12,  ///< \šƒL[¶
-        Button_DPad_Right = 13, ///< \šƒL[‰E
-        Button_Count = 14 ///< ƒ{ƒ^ƒ“‘”
+        Button_A = 0,     ///< Aãƒœã‚¿ãƒ³(ä¸‹)
+        Button_B = 1,      ///< Bãƒœã‚¿ãƒ³(å³)
+        Button_X = 2,           ///< Xãƒœã‚¿ãƒ³(å·¦)
+        Button_Y = 3,        ///< Yãƒœã‚¿ãƒ³(ä¸Š)
+        Button_LB = 4,          ///< å·¦ãƒãƒ³ãƒ‘ãƒ¼
+        Button_RB = 5, ///< å³ãƒãƒ³ãƒ‘ãƒ¼
+        Button_Back = 6,        ///< Backãƒœã‚¿ãƒ³
+        Button_Start = 7,     ///< Startãƒœã‚¿ãƒ³
+        Button_LS = 8,          ///< å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯æŠ¼ã—è¾¼ã¿
+        Button_RS = 9,          ///< å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯æŠ¼ã—è¾¼ã¿
+        Button_DPad_Up = 10,    ///< åå­—ã‚­ãƒ¼ä¸Š
+        Button_DPad_Down = 11,  ///< åå­—ã‚­ãƒ¼ä¸‹
+      Button_DPad_Left = 12,  ///< åå­—ã‚­ãƒ¼å·¦
+        Button_DPad_Right = 13, ///< åå­—ã‚­ãƒ¼å³
+        Button_Count = 14 ///< ãƒœã‚¿ãƒ³ç·æ•°
     };
 
     /**
-     * @brief ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @brief ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     GamepadSystem();
 
     /**
-     * @brief ƒfƒXƒgƒ‰ƒNƒ^
+     * @brief ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     ~GamepadSystem();
 
     /**
-   * @brief ƒQ[ƒ€ƒpƒbƒhƒVƒXƒeƒ€‚Ì‰Šú‰»
-   * @return true ‰Šú‰»¬Œ÷, false ‰Šú‰»¸”s
+   * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚·ã‚¹ãƒ†ãƒ ã®åˆæœŸåŒ–
+   * @return true åˆæœŸåŒ–æˆåŠŸ, false åˆæœŸåŒ–å¤±æ•—
      * 
      * @details
-     * DirectInput‚Ì‰Šú‰»‚ÆƒQ[ƒ€ƒpƒbƒh‚Ì—ñ‹“‚ğs‚¢‚Ü‚·B
+     * DirectInputã®åˆæœŸåŒ–ã¨ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®åˆ—æŒ™ã‚’è¡Œã„ã¾ã™ã€‚
      */
   bool Init();
 
     /**
-     * @brief ƒQ[ƒ€ƒpƒbƒhƒVƒXƒeƒ€‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“
+     * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚·ã‚¹ãƒ†ãƒ ã®ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³
      * 
    * @details
-     * DirectInput‚Æ‚·‚×‚Ä‚ÌƒfƒoƒCƒXƒŠƒ\[ƒX‚ğ‰ğ•ú‚µ‚Ü‚·B
+     * DirectInputã¨ã™ã¹ã¦ã®ãƒ‡ãƒã‚¤ã‚¹ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã—ã¾ã™ã€‚
      */
     void Shutdown();
 
     /**
-     * @brief “ü—Íó‘Ô‚ÌXV(–ˆƒtƒŒ[ƒ€ŒÄ‚Ô)
+     * @brief å…¥åŠ›çŠ¶æ…‹ã®æ›´æ–°(æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã¶)
      * 
      * @details
-     * XInput‚ÆDirectInput‚Ìó‘Ô‚ğæ“¾‚µA“à•”ó‘Ô‚ğXV‚µ‚Ü‚·B
-     * ƒ{ƒ^ƒ“‚Ì‰Ÿ‰ºE—£‚³‚ê‚½uŠÔ‚Ì”»’è‚Í‚±‚ÌXVˆ—‚É‚æ‚Á‚Äs‚í‚ê‚Ü‚·B
+     * XInputã¨DirectInputã®çŠ¶æ…‹ã‚’å–å¾—ã—ã€å†…éƒ¨çŠ¶æ…‹ã‚’æ›´æ–°ã—ã¾ã™ã€‚
+     * ãƒœã‚¿ãƒ³ã®æŠ¼ä¸‹ãƒ»é›¢ã•ã‚ŒãŸç¬é–“ã®åˆ¤å®šã¯ã“ã®æ›´æ–°å‡¦ç†ã«ã‚ˆã£ã¦è¡Œã‚ã‚Œã¾ã™ã€‚
      */
     void Update();
 
     /**
-     * @brief ƒQ[ƒ€ƒpƒbƒh‚ªÚ‘±‚³‚ê‚Ä‚¢‚é‚©
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return true Ú‘±’†, false –¢Ú‘±
+     * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ãŒæ¥ç¶šã•ã‚Œã¦ã„ã‚‹ã‹
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return true æ¥ç¶šä¸­, false æœªæ¥ç¶š
 */
     bool IsConnected(int index) const;
 
   /**
-     * @brief ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @param[in] button ƒ{ƒ^ƒ“¯•Êq
-     * @return true ‰Ÿ‚³‚ê‚Ä‚¢‚é, false ‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢
+     * @brief ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @param[in] button ãƒœã‚¿ãƒ³è­˜åˆ¥å­
+     * @return true æŠ¼ã•ã‚Œã¦ã„ã‚‹, false æŠ¼ã•ã‚Œã¦ã„ãªã„
      * 
      * @details
-     * ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚éŠÔA‚Ü‚½‚Í‚±‚ÌƒtƒŒ[ƒ€‚Å‰Ÿ‚³‚ê‚½uŠÔ‚Étrue‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹é–“ã€ã¾ãŸã¯ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§æŠ¼ã•ã‚ŒãŸç¬é–“ã«trueã‚’è¿”ã—ã¾ã™ã€‚
      */
     bool GetButton(int index, GamepadButton button) const;
 
     /**
-   * @brief ƒ{ƒ^ƒ“‚ª‚±‚ÌƒtƒŒ[ƒ€‚Å‰Ÿ‚³‚ê‚½uŠÔ‚©
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @param[in] button ƒ{ƒ^ƒ“¯•Êq
-     * @return true ‰Ÿ‚³‚ê‚½uŠÔ, false ‚»‚êˆÈŠO
+   * @brief ãƒœã‚¿ãƒ³ãŒã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§æŠ¼ã•ã‚ŒãŸç¬é–“ã‹
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @param[in] button ãƒœã‚¿ãƒ³è­˜åˆ¥å­
+     * @return true æŠ¼ã•ã‚ŒãŸç¬é–“, false ãã‚Œä»¥å¤–
      * 
      * @details
-  * ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½Å‰‚ÌƒtƒŒ[ƒ€‚Ì‚İtrue‚ğ•Ô‚µ‚Ü‚·B
+  * ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸæœ€åˆã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã¿trueã‚’è¿”ã—ã¾ã™ã€‚
      */
     bool GetButtonDown(int index, GamepadButton button) const;
 
     /**
-* @brief ƒ{ƒ^ƒ“‚ª‚±‚ÌƒtƒŒ[ƒ€‚Å—£‚³‚ê‚½uŠÔ‚©
-  * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @param[in] button ƒ{ƒ^ƒ“¯•Êq
-* @return true —£‚³‚ê‚½uŠÔ, false ‚»‚êˆÈŠO
+* @brief ãƒœã‚¿ãƒ³ãŒã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§é›¢ã•ã‚ŒãŸç¬é–“ã‹
+  * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @param[in] button ãƒœã‚¿ãƒ³è­˜åˆ¥å­
+* @return true é›¢ã•ã‚ŒãŸç¬é–“, false ãã‚Œä»¥å¤–
      */
     bool GetButtonUp(int index, GamepadButton button) const;
 
     /**
-     * @brief ¶ƒXƒeƒBƒbƒN‚ÌX²’l‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
- * @return float X²’l(-1.0 ` +1.0)
+     * @brief å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸å€¤ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+ * @return float Xè»¸å€¤(-1.0 ï½ +1.0)
      * 
      * @details
-     * ƒfƒbƒhƒ][ƒ“ˆ—Ï‚İ‚Ì’l‚ğ•Ô‚µ‚Ü‚·B
-     * -1.0‚ª¶A+1.0‚ª‰E‚ğ•\‚µ‚Ü‚·B
+     * ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å‡¦ç†æ¸ˆã¿ã®å€¤ã‚’è¿”ã—ã¾ã™ã€‚
+     * -1.0ãŒå·¦ã€+1.0ãŒå³ã‚’è¡¨ã—ã¾ã™ã€‚
   */
     float GetLeftStickX(int index) const;
 
     /**
-     * @brief ¶ƒXƒeƒBƒbƒN‚ÌY²’l‚ğæ“¾
-  * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-   * @return float Y²’l(-1.0 ` +1.0)
+     * @brief å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Yè»¸å€¤ã‚’å–å¾—
+  * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+   * @return float Yè»¸å€¤(-1.0 ï½ +1.0)
      * 
      * @details
-     * ƒfƒbƒhƒ][ƒ“ˆ—Ï‚İ‚Ì’l‚ğ•Ô‚µ‚Ü‚·B
-     * -1.0‚ª‰ºA+1.0‚ªã‚ğ•\‚µ‚Ü‚·B
+     * ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å‡¦ç†æ¸ˆã¿ã®å€¤ã‚’è¿”ã—ã¾ã™ã€‚
+     * -1.0ãŒä¸‹ã€+1.0ãŒä¸Šã‚’è¡¨ã—ã¾ã™ã€‚
   */
     float GetLeftStickY(int index) const;
 
     /**
-     * @brief ‰EƒXƒeƒBƒbƒN‚ÌX²’l‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return float X²’l(-1.0 ` +1.0)
+     * @brief å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸å€¤ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return float Xè»¸å€¤(-1.0 ï½ +1.0)
      */
     float GetRightStickX(int index) const;
 
     /**
-     * @brief ‰EƒXƒeƒBƒbƒN‚ÌY²’l‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return float Y²’l(-1.0 ` +1.0)
+     * @brief å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Yè»¸å€¤ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return float Yè»¸å€¤(-1.0 ï½ +1.0)
      */
     float GetRightStickY(int index) const;
 
     /**
-     * @brief ¶ƒgƒŠƒK[‚Ì’l‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return float ƒgƒŠƒK[’l(0.0 ` 1.0)
+     * @brief å·¦ãƒˆãƒªã‚¬ãƒ¼ã®å€¤ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return float ãƒˆãƒªã‚¬ãƒ¼å€¤(0.0 ï½ 1.0)
      * 
      * @details
-     * 0.0‚ª–¢‰Ÿ‰ºA1.0‚ªÅ‘å‰Ÿ‰º‚ğ•\‚µ‚Ü‚·B
+     * 0.0ãŒæœªæŠ¼ä¸‹ã€1.0ãŒæœ€å¤§æŠ¼ä¸‹ã‚’è¡¨ã—ã¾ã™ã€‚
      */
     float GetLeftTrigger(int index) const;
 
     /**
-     * @brief ‰EƒgƒŠƒK[‚Ì’l‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return float ƒgƒŠƒK[’l(0.0 ` 1.0)
+     * @brief å³ãƒˆãƒªã‚¬ãƒ¼ã®å€¤ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return float ãƒˆãƒªã‚¬ãƒ¼å€¤(0.0 ï½ 1.0)
      */
     float GetRightTrigger(int index) const;
 
     /**
-     * @brief ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“(U“®)‚ğİ’è
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @param[in] leftMotor ¶ƒ‚[ƒ^[‹­“x(0.0 ` 1.0)
-     * @param[in] rightMotor ‰Eƒ‚[ƒ^[‹­“x(0.0 ` 1.0)
+     * @brief ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³(æŒ¯å‹•)ã‚’è¨­å®š
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @param[in] leftMotor å·¦ãƒ¢ãƒ¼ã‚¿ãƒ¼å¼·åº¦(0.0 ï½ 1.0)
+     * @param[in] rightMotor å³ãƒ¢ãƒ¼ã‚¿ãƒ¼å¼·åº¦(0.0 ï½ 1.0)
      * 
      * @details
-     * XInputƒfƒoƒCƒX‚Ì‚İƒTƒ|[ƒg‚µ‚Ü‚·BDirectInputƒfƒoƒCƒX‚Å‚Í‰½‚à‹N‚«‚Ü‚¹‚ñB
-     * ¶ƒ‚[ƒ^[‚Í’áü”gA‰Eƒ‚[ƒ^[‚Í‚ü”g‚ÌU“®‚ğ¶¬‚µ‚Ü‚·B
+     * XInputãƒ‡ãƒã‚¤ã‚¹ã®ã¿ã‚µãƒãƒ¼ãƒˆã—ã¾ã™ã€‚DirectInputãƒ‡ãƒã‚¤ã‚¹ã§ã¯ä½•ã‚‚èµ·ãã¾ã›ã‚“ã€‚
+     * å·¦ãƒ¢ãƒ¼ã‚¿ãƒ¼ã¯ä½å‘¨æ³¢ã€å³ãƒ¢ãƒ¼ã‚¿ãƒ¼ã¯é«˜å‘¨æ³¢ã®æŒ¯å‹•ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
      */
     void SetVibration(int index, float leftMotor, float rightMotor);
 
     // ========================================================
-    // ƒ`ƒƒ[ƒW&ƒŠƒŠ[ƒXƒVƒXƒeƒ€(ƒQ[ƒ€ƒƒCƒ“ƒVƒXƒeƒ€)
+    // ãƒãƒ£ãƒ¼ã‚¸&ãƒªãƒªãƒ¼ã‚¹ã‚·ã‚¹ãƒ†ãƒ (ã‚²ãƒ¼ãƒ ãƒ¡ã‚¤ãƒ³ã‚·ã‚¹ãƒ†ãƒ )
 // ========================================================
 
     /**
- * @brief ¶ƒXƒeƒBƒbƒN‚ªƒ`ƒƒ[ƒW’†‚©‚Ç‚¤‚©
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return true ƒ`ƒƒ[ƒW’†, false ƒjƒ…[ƒgƒ‰ƒ‹
+ * @brief å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒãƒãƒ£ãƒ¼ã‚¸ä¸­ã‹ã©ã†ã‹
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return true ãƒãƒ£ãƒ¼ã‚¸ä¸­, false ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«
      * 
      * @details
-   * ƒXƒeƒBƒbƒN‚ªŒX‚¯‚ç‚ê‚Ä‚¢‚éó‘Ô‚ğ•Ô‚µ‚Ü‚·B
+   * ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒå‚¾ã‘ã‚‰ã‚Œã¦ã„ã‚‹çŠ¶æ…‹ã‚’è¿”ã—ã¾ã™ã€‚
      */
     bool IsLeftStickCharging(int index) const;
 
     /**
-     * @brief ‰EƒXƒeƒBƒbƒN‚ªƒ`ƒƒ[ƒW’†‚©‚Ç‚¤‚©
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return true ƒ`ƒƒ[ƒW’†, false ƒjƒ…[ƒgƒ‰ƒ‹
+     * @brief å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒãƒãƒ£ãƒ¼ã‚¸ä¸­ã‹ã©ã†ã‹
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return true ãƒãƒ£ãƒ¼ã‚¸ä¸­, false ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«
   */
     bool IsRightStickCharging(int index) const;
 
     /**
-     * @brief ¶ƒXƒeƒBƒbƒN‚Ìƒ`ƒƒ[ƒWŠÔ‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-   * @return float ƒ`ƒƒ[ƒWŠÔ(•b)
+     * @brief å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+   * @return float ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“(ç§’)
  * 
      * @details
-     * ƒXƒeƒBƒbƒN‚ğŒX‚¯‘±‚¯‚Ä‚¢‚éŠÔ‚ğ•Ô‚µ‚Ü‚·B
-     * ƒjƒ…[ƒgƒ‰ƒ‹‚É–ß‚é‚ÆƒŠƒZƒbƒg‚³‚ê‚Ü‚·B
+     * ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’å‚¾ã‘ç¶šã‘ã¦ã„ã‚‹æ™‚é–“ã‚’è¿”ã—ã¾ã™ã€‚
+     * ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«ã«æˆ»ã‚‹ã¨ãƒªã‚»ãƒƒãƒˆã•ã‚Œã¾ã™ã€‚
      */
     float GetLeftStickChargeTime(int index) const;
 
     /**
-     * @brief ‰EƒXƒeƒBƒbƒN‚Ìƒ`ƒƒ[ƒWŠÔ‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return float ƒ`ƒƒ[ƒWŠÔ(•b)
+     * @brief å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return float ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“(ç§’)
      */
     float GetRightStickChargeTime(int index) const;
 
     /**
-   * @brief ¶ƒXƒeƒBƒbƒN‚ª‚±‚ÌƒtƒŒ[ƒ€‚ÅƒŠƒŠ[ƒX‚³‚ê‚½‚©
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return true ƒŠƒŠ[ƒX‚³‚ê‚½, false ƒŠƒŠ[ƒX‚³‚ê‚Ä‚¢‚È‚¢
+   * @brief å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ãƒªãƒªãƒ¼ã‚¹ã•ã‚ŒãŸã‹
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return true ãƒªãƒªãƒ¼ã‚¹ã•ã‚ŒãŸ, false ãƒªãƒªãƒ¼ã‚¹ã•ã‚Œã¦ã„ãªã„
      * 
      * @details
-     * ƒXƒeƒBƒbƒN‚ªƒ`ƒƒ[ƒWó‘Ô‚©‚çƒjƒ…[ƒgƒ‰ƒ‹‚É–ß‚Á‚½uŠÔ‚Étrue‚ğ•Ô‚µ‚Ü‚·B
-     * ‚±‚ÌƒtƒŒ[ƒ€‚Ì‚İtrue‚ÅAŸ‚ÌƒtƒŒ[ƒ€‚©‚çfalse‚É‚È‚è‚Ü‚·B
+     * ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒãƒãƒ£ãƒ¼ã‚¸çŠ¶æ…‹ã‹ã‚‰ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«ã«æˆ»ã£ãŸç¬é–“ã«trueã‚’è¿”ã—ã¾ã™ã€‚
+     * ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã¿trueã§ã€æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰falseã«ãªã‚Šã¾ã™ã€‚
      * 
-     * @par ƒQ[ƒ€ƒƒCƒ“ƒVƒXƒeƒ€‚Å‚Ìg—p—á
+     * @par ã‚²ãƒ¼ãƒ ãƒ¡ã‚¤ãƒ³ã‚·ã‚¹ãƒ†ãƒ ã§ã®ä½¿ç”¨ä¾‹
 * @code
      * if (GetGamepad().IsLeftStickReleased(0)) {
      *     float chargeTime = GetGamepad().GetLeftStickChargeTime(0);
-  *     float power = min(chargeTime * 2.0f, 10.0f); // Å‘å10.0
+  *     float power = min(chargeTime * 2.0f, 10.0f); // æœ€å¤§10.0
      *  ShootProjectile(power);
      * }
      * @endcode
@@ -280,31 +280,31 @@ public:
     bool IsLeftStickReleased(int index) const;
 
     /**
-     * @brief ‰EƒXƒeƒBƒbƒN‚ª‚±‚ÌƒtƒŒ[ƒ€‚ÅƒŠƒŠ[ƒX‚³‚ê‚½‚©
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return true ƒŠƒŠ[ƒX‚³‚ê‚½, false ƒŠƒŠ[ƒX‚³‚ê‚Ä‚¢‚È‚¢
+     * @brief å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ãƒªãƒªãƒ¼ã‚¹ã•ã‚ŒãŸã‹
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return true ãƒªãƒªãƒ¼ã‚¹ã•ã‚ŒãŸ, false ãƒªãƒªãƒ¼ã‚¹ã•ã‚Œã¦ã„ãªã„
      */
     bool IsRightStickReleased(int index) const;
 
     /**
-     * @brief ¶ƒXƒeƒBƒbƒN‚Ìƒ`ƒƒ[ƒW—Ê‚ğæ“¾(0.0 ` 1.0)
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @param[in] maxChargeTime Å‘åƒ`ƒƒ[ƒWŠÔ(•bAƒfƒtƒHƒ‹ƒg3.0•b)
-     * @return float ƒ`ƒƒ[ƒW—Ê(0.0 ` 1.0)
+     * @brief å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒãƒ£ãƒ¼ã‚¸é‡ã‚’å–å¾—(0.0 ï½ 1.0)
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @param[in] maxChargeTime æœ€å¤§ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“(ç§’ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ3.0ç§’)
+     * @return float ãƒãƒ£ãƒ¼ã‚¸é‡(0.0 ï½ 1.0)
      * 
      * @details
-     * ƒ`ƒƒ[ƒWŠÔ‚ğ0.0`1.0‚Ì”ÍˆÍ‚É³‹K‰»‚µ‚Ä•Ô‚µ‚Ü‚·B
-     * maxChargeTime•b‚Å1.0(100%)‚É’B‚µ‚Ü‚·B
+     * ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“ã‚’0.0ï½1.0ã®ç¯„å›²ã«æ­£è¦åŒ–ã—ã¦è¿”ã—ã¾ã™ã€‚
+     * maxChargeTimeç§’ã§1.0(100%)ã«é”ã—ã¾ã™ã€‚
  * 
-     * @par ƒQ[ƒ€ƒƒCƒ“ƒVƒXƒeƒ€‚Å‚Ìg—p—á
+     * @par ã‚²ãƒ¼ãƒ ãƒ¡ã‚¤ãƒ³ã‚·ã‚¹ãƒ†ãƒ ã§ã®ä½¿ç”¨ä¾‹
      * @code
-     * // ƒŠƒAƒ‹ƒ^ƒCƒ€‚Åƒ`ƒƒ[ƒW—Ê‚ğ•\¦
+     * // ãƒªã‚¢ãƒ«ã‚¿ã‚¤ãƒ ã§ãƒãƒ£ãƒ¼ã‚¸é‡ã‚’è¡¨ç¤º
      * if (GetGamepad().IsLeftStickCharging(0)) {
      *     float charge = GetGamepad().GetLeftStickChargeAmount(0, 2.0f);
      *     DrawChargeGauge(charge);
      * }
      * 
-     * // ƒŠƒŠ[ƒX‚É”­Ë
+     * // ãƒªãƒªãƒ¼ã‚¹æ™‚ã«ç™ºå°„
      * if (GetGamepad().IsLeftStickReleased(0)) {
      *     float charge = GetGamepad().GetLeftStickChargeAmount(0, 2.0f);
      *     ShootWithPower(charge);
@@ -314,81 +314,81 @@ public:
     float GetLeftStickChargeAmount(int index, float maxChargeTime = 3.0f) const;
 
     /**
-     * @brief ‰EƒXƒeƒBƒbƒN‚Ìƒ`ƒƒ[ƒW—Ê‚ğæ“¾(0.0 ` 1.0)
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @param[in] maxChargeTime Å‘åƒ`ƒƒ[ƒWŠÔ(•bAƒfƒtƒHƒ‹ƒg3.0•b)
-     * @return float ƒ`ƒƒ[ƒW—Ê(0.0 ` 1.0)
+     * @brief å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒãƒ£ãƒ¼ã‚¸é‡ã‚’å–å¾—(0.0 ï½ 1.0)
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @param[in] maxChargeTime æœ€å¤§ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“(ç§’ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ3.0ç§’)
+     * @return float ãƒãƒ£ãƒ¼ã‚¸é‡(0.0 ï½ 1.0)
      */
     float GetRightStickChargeAmount(int index, float maxChargeTime = 3.0f) const;
 
     /**
-     * @brief ¶ƒXƒeƒBƒbƒN‚Ì•½‹Ï“ü—Í‹­“x‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return float •½‹Ï“ü—Í‹­“x(0.0 ` 1.0)
+     * @brief å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å¹³å‡å…¥åŠ›å¼·åº¦ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return float å¹³å‡å…¥åŠ›å¼·åº¦(0.0 ï½ 1.0)
      * 
      * @details
-     * ƒ`ƒƒ[ƒW’†‚ÌƒXƒeƒBƒbƒN‚Ì•½‹Ï“I‚ÈŒX‚«‹ï‡‚ğ•Ô‚µ‚Ü‚·B
-     * ‹­‚­ŒX‚¯‚é‚Ù‚Ç’l‚ª‘å‚«‚­‚È‚è‚Ü‚·B
-     * ƒjƒ…[ƒgƒ‰ƒ‹‚Ü‚½‚Íƒ`ƒƒ[ƒW‚µ‚Ä‚¢‚È‚¢ê‡‚Í0.0‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒãƒ£ãƒ¼ã‚¸ä¸­ã®ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å¹³å‡çš„ãªå‚¾ãå…·åˆã‚’è¿”ã—ã¾ã™ã€‚
+     * å¼·ãå‚¾ã‘ã‚‹ã»ã©å€¤ãŒå¤§ãããªã‚Šã¾ã™ã€‚
+     * ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«ã¾ãŸã¯ãƒãƒ£ãƒ¼ã‚¸ã—ã¦ã„ãªã„å ´åˆã¯0.0ã‚’è¿”ã—ã¾ã™ã€‚
      */
     float GetLeftStickAverageIntensity(int index) const;
 
     /**
-     * @brief ‰EƒXƒeƒBƒbƒN‚Ì•½‹Ï“ü—Í‹­“x‚ğæ“¾
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX(0-3)
-     * @return float •½‹Ï“ü—Í‹­“x(0.0 ` 1.0)
+     * @brief å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å¹³å‡å…¥åŠ›å¼·åº¦ã‚’å–å¾—
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(0-3)
+     * @return float å¹³å‡å…¥åŠ›å¼·åº¦(0.0 ï½ 1.0)
      */
     float GetRightStickAverageIntensity(int index) const;
 
 private:
     /**
      * @enum ButtonState
-     * @brief ƒ{ƒ^ƒ“‚Ìó‘Ô
+     * @brief ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹
      */
     enum ButtonState : uint8_t {
-        None = 0,      ///< ‰½‚à‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢
-      Down = 1,      ///< ‚±‚ÌƒtƒŒ[ƒ€‚Å‰Ÿ‚³‚ê‚½
-        Pressed = 2,   ///< ‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚é
-        Up = 3         ///< ‚±‚ÌƒtƒŒ[ƒ€‚Å—£‚³‚ê‚½
+        None = 0,      ///< ä½•ã‚‚æŠ¼ã•ã‚Œã¦ã„ãªã„
+      Down = 1,      ///< ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§æŠ¼ã•ã‚ŒãŸ
+        Pressed = 2,   ///< æŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹
+        Up = 3         ///< ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§é›¢ã•ã‚ŒãŸ
     };
 
     /**
      * @enum DeviceType
-     * @brief ƒfƒoƒCƒXƒ^ƒCƒv
+     * @brief ãƒ‡ãƒã‚¤ã‚¹ã‚¿ã‚¤ãƒ—
      */
     enum DeviceType {
-        Type_None,      ///< –¢Ú‘±
-    Type_XInput,    ///< XInputƒfƒoƒCƒX
-        Type_DInput     ///< DirectInputƒfƒoƒCƒX
+        Type_None,      ///< æœªæ¥ç¶š
+    Type_XInput,    ///< XInputãƒ‡ãƒã‚¤ã‚¹
+        Type_DInput     ///< DirectInputãƒ‡ãƒã‚¤ã‚¹
     };
 
     /**
      * @struct GamepadState
-     * @brief ƒQ[ƒ€ƒpƒbƒh‚Ìó‘Ô
+     * @brief ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®çŠ¶æ…‹
      */
     struct GamepadState {
-        DeviceType type;   ///< ƒfƒoƒCƒXƒ^ƒCƒv
-        bool connected; ///< Ú‘±ó‘Ô
-    uint8_t buttons[Button_Count];  ///< ƒ{ƒ^ƒ“ó‘Ô
-   uint8_t prevButtons[Button_Count];///< ‘OƒtƒŒ[ƒ€‚Ìƒ{ƒ^ƒ“ó‘Ô
-        float leftStickX;     ///< ¶ƒXƒeƒBƒbƒNX
-     float leftStickY;   ///< ¶ƒXƒeƒBƒbƒNY
-        float rightStickX;        ///< ‰EƒXƒeƒBƒbƒNX
-        float rightStickY;    ///< ‰EƒXƒeƒBƒbƒNY
-        float leftTrigger; ///< ¶ƒgƒŠƒK[
-      float rightTrigger;          ///< ‰EƒgƒŠƒK[
-    LPDIRECTINPUTDEVICE8 dinputDevice;      ///< DirectInputƒfƒoƒCƒX
-   DWORD xinputIndex; ///< XInputƒCƒ“ƒfƒbƒNƒX
+        DeviceType type;   ///< ãƒ‡ãƒã‚¤ã‚¹ã‚¿ã‚¤ãƒ—
+        bool connected; ///< æ¥ç¶šçŠ¶æ…‹
+    uint8_t buttons[Button_Count];  ///< ãƒœã‚¿ãƒ³çŠ¶æ…‹
+   uint8_t prevButtons[Button_Count];///< å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒœã‚¿ãƒ³çŠ¶æ…‹
+        float leftStickX;     ///< å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯X
+     float leftStickY;   ///< å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯Y
+        float rightStickX;        ///< å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯X
+        float rightStickY;    ///< å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯Y
+        float leftTrigger; ///< å·¦ãƒˆãƒªã‚¬ãƒ¼
+      float rightTrigger;          ///< å³ãƒˆãƒªã‚¬ãƒ¼
+    LPDIRECTINPUTDEVICE8 dinputDevice;      ///< DirectInputãƒ‡ãƒã‚¤ã‚¹
+   DWORD xinputIndex; ///< XInputã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 
-        // ƒ`ƒƒ[ƒW&ƒŠƒŠ[ƒXƒVƒXƒeƒ€—p
-        bool leftStickWasCharging;   ///< ‘OƒtƒŒ[ƒ€‚Å¶ƒXƒeƒBƒbƒN‚ªƒ`ƒƒ[ƒW’†‚¾‚Á‚½‚©
-        bool rightStickWasCharging;  ///< ‘OƒtƒŒ[ƒ€‚Å‰EƒXƒeƒBƒbƒN‚ªƒ`ƒƒ[ƒW’†‚¾‚Á‚½‚©
-     float leftStickChargeTime;   ///< ¶ƒXƒeƒBƒbƒNƒ`ƒƒ[ƒWŠÔ
-        float rightStickChargeTime;  ///< ‰EƒXƒeƒBƒbƒNƒ`ƒƒ[ƒWŠÔ
-        float leftStickIntensitySum; ///< ¶ƒXƒeƒBƒbƒN‹­“x—İÏ’l
-        float rightStickIntensitySum;///< ‰EƒXƒeƒBƒbƒN‹­“x—İÏ’l
-        int leftStickChargeSamples;  ///< ¶ƒXƒeƒBƒbƒNƒ`ƒƒ[ƒWƒTƒ“ƒvƒ‹”
-        int rightStickChargeSamples; ///< ‰EƒXƒeƒBƒbƒNƒ`ƒƒ[ƒWƒTƒ“ƒvƒ‹”
+        // ãƒãƒ£ãƒ¼ã‚¸&ãƒªãƒªãƒ¼ã‚¹ã‚·ã‚¹ãƒ†ãƒ ç”¨
+        bool leftStickWasCharging;   ///< å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã§å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒãƒãƒ£ãƒ¼ã‚¸ä¸­ã ã£ãŸã‹
+        bool rightStickWasCharging;  ///< å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã§å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒãƒãƒ£ãƒ¼ã‚¸ä¸­ã ã£ãŸã‹
+     float leftStickChargeTime;   ///< å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“
+        float rightStickChargeTime;  ///< å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“
+        float leftStickIntensitySum; ///< å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯å¼·åº¦ç´¯ç©å€¤
+        float rightStickIntensitySum;///< å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯å¼·åº¦ç´¯ç©å€¤
+        int leftStickChargeSamples;  ///< å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãƒãƒ£ãƒ¼ã‚¸ã‚µãƒ³ãƒ—ãƒ«æ•°
+        int rightStickChargeSamples; ///< å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãƒãƒ£ãƒ¼ã‚¸ã‚µãƒ³ãƒ—ãƒ«æ•°
 
      GamepadState() {
             type = Type_None;
@@ -401,7 +401,7 @@ private:
    dinputDevice = nullptr;
         xinputIndex = 0;
             
-          // ƒ`ƒƒ[ƒWƒVƒXƒeƒ€‰Šú‰»
+          // ãƒãƒ£ãƒ¼ã‚¸ã‚·ã‚¹ãƒ†ãƒ åˆæœŸåŒ–
             leftStickWasCharging = false;
     rightStickWasCharging = false;
           leftStickChargeTime = 0.0f;
@@ -414,83 +414,83 @@ leftStickChargeSamples = 0;
     };
 
     /**
-     * @brief XInputƒfƒoƒCƒX‚Ìó‘Ô‚ğXV
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX
+     * @brief XInputãƒ‡ãƒã‚¤ã‚¹ã®çŠ¶æ…‹ã‚’æ›´æ–°
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
      */
     void UpdateXInput(int index);
 
     /**
-     * @brief DirectInputƒfƒoƒCƒX‚Ìó‘Ô‚ğXV
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX
+     * @brief DirectInputãƒ‡ãƒã‚¤ã‚¹ã®çŠ¶æ…‹ã‚’æ›´æ–°
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
      */
     void UpdateDInput(int index);
 
     /**
-     * @brief ƒ`ƒƒ[ƒW&ƒŠƒŠ[ƒXƒVƒXƒeƒ€‚ÌXV
-     * @param[in] index ƒQ[ƒ€ƒpƒbƒhƒCƒ“ƒfƒbƒNƒX
-     * @param[in] dt ƒfƒ‹ƒ^ƒ^ƒCƒ€(•b)
+     * @brief ãƒãƒ£ãƒ¼ã‚¸&ãƒªãƒªãƒ¼ã‚¹ã‚·ã‚¹ãƒ†ãƒ ã®æ›´æ–°
+     * @param[in] index ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+     * @param[in] dt ãƒ‡ãƒ«ã‚¿ã‚¿ã‚¤ãƒ (ç§’)
      * 
      * @details
-     * ƒXƒeƒBƒbƒN‚Ìƒ`ƒƒ[ƒWŠÔ‚Æ‹­“x‚ğŒv‘ª‚µ‚Ü‚·B
+     * ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒãƒ£ãƒ¼ã‚¸æ™‚é–“ã¨å¼·åº¦ã‚’è¨ˆæ¸¬ã—ã¾ã™ã€‚
      */
     void UpdateChargeSystem(int index, float dt);
 
     /**
-     * @brief ƒXƒeƒBƒbƒN’l‚Éƒfƒbƒhƒ][ƒ“‚ğ“K—p
-     * @param[in] x X²¶’l
-     * @param[in] y Y²¶’l
-   * @param[out] outX ˆ—Ï‚İX²’l
- * @param[out] outY ˆ—Ï‚İY²’l
-     * @param[in] deadzone ƒfƒbƒhƒ][ƒ“”¼Œa
+     * @brief ã‚¹ãƒ†ã‚£ãƒƒã‚¯å€¤ã«ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã‚’é©ç”¨
+     * @param[in] x Xè»¸ç”Ÿå€¤
+     * @param[in] y Yè»¸ç”Ÿå€¤
+   * @param[out] outX å‡¦ç†æ¸ˆã¿Xè»¸å€¤
+ * @param[out] outY å‡¦ç†æ¸ˆã¿Yè»¸å€¤
+     * @param[in] deadzone ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³åŠå¾„
      * 
      * @details
-     * ‰~Œ`ƒfƒbƒhƒ][ƒ“‚ğ“K—p‚µA³‹K‰»‚µ‚Ü‚·B
+     * å††å½¢ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã‚’é©ç”¨ã—ã€æ­£è¦åŒ–ã—ã¾ã™ã€‚
  */
     void ApplyDeadzone(float x, float y, float& outX, float& outY, float deadzone) const;
 
     /**
-     * @brief DirectInputƒfƒoƒCƒX‚Ì—ñ‹“ƒR[ƒ‹ƒoƒbƒN
+     * @brief DirectInputãƒ‡ãƒã‚¤ã‚¹ã®åˆ—æŒ™ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
      */
     static BOOL CALLBACK EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
 
     /**
-     * @brief XInputƒfƒoƒCƒX‚©‚Ç‚¤‚©‚ğ”»’è
-   * @param[in] pGuidProductFromDirectInput DirectInputƒfƒoƒCƒX‚ÌGUID
-     * @return true XInputƒfƒoƒCƒX, false DirectInputƒfƒoƒCƒX
+     * @brief XInputãƒ‡ãƒã‚¤ã‚¹ã‹ã©ã†ã‹ã‚’åˆ¤å®š
+   * @param[in] pGuidProductFromDirectInput DirectInputãƒ‡ãƒã‚¤ã‚¹ã®GUID
+     * @return true XInputãƒ‡ãƒã‚¤ã‚¹, false DirectInputãƒ‡ãƒã‚¤ã‚¹
    * 
      * @details
-     * WMI‚ğg—p‚µ‚ÄƒfƒoƒCƒXID‚ğŠm”F‚µAXInputƒfƒoƒCƒX‚ğ¯•Ê‚µ‚Ü‚·B
-     * XInputƒfƒoƒCƒX‚Ìê‡‚ÍDirectInput‚Å—ñ‹“‚µ‚È‚¢‚æ‚¤‚É‚µ‚Ü‚·B
+     * WMIã‚’ä½¿ç”¨ã—ã¦ãƒ‡ãƒã‚¤ã‚¹IDã‚’ç¢ºèªã—ã€XInputãƒ‡ãƒã‚¤ã‚¹ã‚’è­˜åˆ¥ã—ã¾ã™ã€‚
+     * XInputãƒ‡ãƒã‚¤ã‚¹ã®å ´åˆã¯DirectInputã§åˆ—æŒ™ã—ãªã„ã‚ˆã†ã«ã—ã¾ã™ã€‚
      */
   static bool IsXInputDevice(const GUID* pGuidProductFromDirectInput);
 
-    GamepadState gamepads_[MAX_GAMEPADS];  ///< ƒQ[ƒ€ƒpƒbƒhó‘Ô
-    LPDIRECTINPUT8 dinput_;        ///< DirectInput8ƒCƒ“ƒ^[ƒtƒF[ƒX
-    int nextDInputSlot_;       ///< Ÿ‚Ég—p‚·‚éDirectInputƒXƒƒbƒg
-    float deltaTime_;    ///< ‘OƒtƒŒ[ƒ€‚Ìƒfƒ‹ƒ^ƒ^ƒCƒ€
+    GamepadState gamepads_[MAX_GAMEPADS];  ///< ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰çŠ¶æ…‹
+    LPDIRECTINPUT8 dinput_;        ///< DirectInput8ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
+    int nextDInputSlot_;       ///< æ¬¡ã«ä½¿ç”¨ã™ã‚‹DirectInputã‚¹ãƒ­ãƒƒãƒˆ
+    float deltaTime_;    ///< å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒ‡ãƒ«ã‚¿ã‚¿ã‚¤ãƒ 
 
-    // ƒfƒbƒhƒ][ƒ“’è”
-    static constexpr float XINPUT_LEFT_DEADZONE = 7849.0f / 32767.0f;   ///< ¶ƒXƒeƒBƒbƒNƒfƒbƒhƒ][ƒ“
-  static constexpr float XINPUT_RIGHT_DEADZONE = 8689.0f / 32767.0f;  ///< ‰EƒXƒeƒBƒbƒNƒfƒbƒhƒ][ƒ“
-    static constexpr float XINPUT_TRIGGER_THRESHOLD = 30.0f / 255.0f;   ///< ƒgƒŠƒK[è‡’l
-    static constexpr float CHARGE_DETECTION_THRESHOLD = 0.1f; ///< ƒ`ƒƒ[ƒWŒŸoè‡’l
+    // ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å®šæ•°
+    static constexpr float XINPUT_LEFT_DEADZONE = 7849.0f / 32767.0f;   ///< å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³
+  static constexpr float XINPUT_RIGHT_DEADZONE = 8689.0f / 32767.0f;  ///< å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³
+    static constexpr float XINPUT_TRIGGER_THRESHOLD = 30.0f / 255.0f;   ///< ãƒˆãƒªã‚¬ãƒ¼é–¾å€¤
+    static constexpr float CHARGE_DETECTION_THRESHOLD = 0.1f; ///< ãƒãƒ£ãƒ¼ã‚¸æ¤œå‡ºé–¾å€¤
 };
 
 /**
- * @brief ƒOƒ[ƒoƒ‹‚ÈƒQ[ƒ€ƒpƒbƒhƒVƒXƒeƒ€ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
- * @return GamepadSystem& ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+ * @brief ã‚°ãƒ­ãƒ¼ãƒãƒ«ãªã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚·ã‚¹ãƒ†ãƒ ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
+ * @return GamepadSystem& ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
  * 
  * @details
- * ‚Ç‚±‚©‚ç‚Å‚àƒAƒNƒZƒX‰Â”\‚ÈƒQ[ƒ€ƒpƒbƒhƒVƒXƒeƒ€‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B
+ * ã©ã“ã‹ã‚‰ã§ã‚‚ã‚¢ã‚¯ã‚»ã‚¹å¯èƒ½ãªã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã‚·ã‚¹ãƒ†ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
  * 
- * @par g—p—á
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * if (GetGamepad().GetButtonDown(0, GamepadSystem::Button_A)) {
- *  // ƒvƒŒƒCƒ„[0‚ÌAƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½
+ *  // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼0ã®Aãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
  * }
  * @endcode
  * 
- * @author R“à—z
+ * @author å±±å†…é™½
  */
 inline GamepadSystem& GetGamepad() {
     static GamepadSystem instance;
