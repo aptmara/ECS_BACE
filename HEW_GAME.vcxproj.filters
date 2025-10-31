@@ -34,9 +34,6 @@
     <Filter Include="Header Files\samples">
       <UniqueIdentifier>{A2C2B9AF-7070-4A6C-B3F7-93546F5667F8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\scenes">
-      <UniqueIdentifier>{FE71C870-7A55-44D0-A1F1-0A5C6F41A8F0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Textures">
       <UniqueIdentifier>{8F3F15E1-AB94-46AE-A8AB-A98379591942}</UniqueIdentifier>
     </Filter>
@@ -49,6 +46,9 @@
     <Filter Include="yml">
       <UniqueIdentifier>{baa0ee2b-b277-4f5f-a364-a9c9fffb415f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\samples\scenes">
+      <UniqueIdentifier>{FE71C870-7A55-44D0-A1F1-0A5C6F41A8F0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -58,6 +58,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\input\GamepadSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\app\ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\ModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,12 +81,6 @@
       <Filter>Header Files\app</Filter>
     </ClInclude>
     <ClInclude Include="include\components\Component.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="include\components\GameTags.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="include\components\GameComponents.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
     <ClInclude Include="include\components\MeshRenderer.h">
@@ -126,10 +129,10 @@
       <Filter>Header Files\samples</Filter>
     </ClInclude>
     <ClInclude Include="include\scenes\MainGame.h">
-      <Filter>Header Files\scenes</Filter>
+      <Filter>Header Files\samples\scenes</Filter>
     </ClInclude>
     <ClInclude Include="include\scenes\SceneManager.h">
-      <Filter>Header Files\scenes</Filter>
+      <Filter>Header Files\samples\scenes</Filter>
     </ClInclude>
     <ClInclude Include="include\gameplay\EnemySpawner.h">
       <Filter>Header Files\components</Filter>
@@ -138,12 +141,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\scenes\Tags.h">
-      <Filter>Header Files\scenes</Filter>
+      <Filter>Header Files\samples\scenes</Filter>
     </ClInclude>
     <ClInclude Include="include\input\GamepadSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\samples\GamepadSample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\app\ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\app\ServiceLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\samples\ComponentSamples.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\ModelComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graphics\ModelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\systems\ModelLoadingSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

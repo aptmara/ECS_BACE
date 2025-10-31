@@ -10,43 +10,46 @@
 #include "components/GameTags.h"
 #include "components/PlayerComponents.h"
 #include "input/InputSystem.h"
-#include "input/GamepadSystem.h" // GamepadSystem ヘッダーをインクルード
+#include "input/GamepadSystem.h"
+#include "components/Model.h"
+#include "components/ModelComponent.h"
+#include "components/Rotator.h"
+#include "components/Light.h"
+#include "systems/ModelLoadingSystem.h"
+#include "app/ServiceLocator.h"
+#include "app/ResourceManager.h"
 
 // ========================================================
 // ゲームシーン
 // ========================================================
 
-/**
- * @class GameScene
- * @brief ゲームのメインシーン
- *
- * @author 山内陽
- */
 class GameScene : public IScene {
 public:
-    /**
-     * @brief シーン開始時の初期化
-     * @param[in,out] world ワールド参照
-     */
     void OnEnter(World& world) override {
-    DEBUGLOG("GameScene::OnEnter() - ゲーム開始");
+        DEBUGLOG("GameScene::OnEnter() - ゲーム開始");
 
-    // プレイヤー作成
+        // システムエンティティを作成
+        world.Create().With<ModelLoadingSystem>();
+
+        // ライト作成
+        world.Create().With<DirectionalLight>();
+
+        // プレイヤー作成
         CreatePlayer(world);
 
-    DEBUGLOG("GameScene::OnEnter() - 初期化完了");
+        // モデルを持つエンティティを作成
+        Entity modelEntity = world.Create()
+            .With<Transform>(DirectX::XMFLOAT3{0, 1, 0}, DirectX::XMFLOAT3{0, 0, 0}, DirectX::XMFLOAT3{1, 1, 1})
+            .With<Model>(Model{"Assets/Models/test.fbx"}) // 修正: Model オブジェクトを明示的に構築
+            .With<Rotator>(Rotator{45.0f}) // 修正: Rotator のコンストラクタ呼び出しを明示
+            .Build();
+        ownedEntities_.push_back(modelEntity);
+
+        DEBUGLOG("GameScene::OnEnter() - 初期化完了");
     }
 
-    /**
-     * @brief 毎フレーム更新処理
-     * @param[in,out] world ワールド参照
-     * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム(秒単位)
-     */
     void OnUpdate(World& world, InputSystem& input, float deltaTime) override {
-    // ECSシステム更新（Behaviourコンポーネントが自動実行される）
         world.Tick(deltaTime);
-
     }
 
     /**

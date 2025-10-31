@@ -68,11 +68,6 @@ public:
      * @param[in,out] world ワールド参照（コンポーネント取得などに使用）
      * @param[in] input 入力システム参照
      * @param[in] deltaTime デルタタイム（秒単位）
-     *
-     * 毎フレーム呼ばれます。
-     * 入力処理、移動、衝突判定などのゲームロジックを実装します。
-     *
-     * @see OnEnter(), OnExit()
      */
     virtual void OnUpdate(World& world, InputSystem& input, float deltaTime) = 0;
 

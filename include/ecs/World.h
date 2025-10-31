@@ -2,6 +2,7 @@
 #include "ecs/Entity.h"
 #include "components/Component.h"
 #include "app/DebugLog.h" // デバッグビルド/リリースビルド両方で必要
+#include "components/Model.h"
 #include <unordered_map>
 #include <typeindex>
 #include <vector>
