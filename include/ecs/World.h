@@ -90,14 +90,14 @@ public:
 
     /**
      * @brief メソッドチェーンでコンポーネントを追加（原因付き、int版）
-     * 
+     *
      * @tparam T 追加するコンポーネントの型
      * @tparam CauseType 原因の型（enum class World::Causeまたはint）
      * @tparam Args コンストラクタ引数の型(可変長)
      * @param[in] cause 事象の原因タグ
      * @param[in] args コンポーネントのコンストラクタに転送する引数
      * @return EntityBuilder& メソッドチェーン用の自身への参照
-     * 
+     *
      * @note この宣言はWorldクラス定義後に実装されます
      */
     template<typename T, typename CauseType, typename... Args>
@@ -176,12 +176,12 @@ private:
 class World {
 public:
     // 起因タグ（ログ解析用）
-    enum class Cause { 
-        Unknown = 0, 
-        Spawner = 1, 
-        WaveTimer = 2, 
-        Collision = 3, 
-        LifetimeExpired = 4, 
+    enum class Cause {
+        Unknown = 0,
+        Spawner = 1,
+        WaveTimer = 2,
+        Collision = 3,
+        LifetimeExpired = 4,
         SceneInit = 5,
         SceneTeardown = 6,   // シーン終了時
         SceneUnload = 7,     // シーン切り替え時
@@ -229,24 +229,24 @@ public:
 
         // 未処理の破棄キューを先に処理
         FlushDestroyEndOfFrame();
-        
+
         // ⚠️ 残存エンティティを強制削除（原因をAppShutdownに明確化）
         if (!alive_.empty()) {
             DEBUGLOG_WARNING(std::to_string(alive_.size()) + " 個の残存エンティティを強制破棄 (原因=AppShutdown)");
-            
+
             // イテレータ無効化を避けるためコピー
             std::vector<uint32_t> aliveIds(alive_.begin(), alive_.end());
             for (uint32_t id : aliveIds) {
                 DestroyEntityInternal(id, Cause::AppShutdown);
             }
-            
+
             DEBUGLOG("すべてのエンティティを破棄 (最終生存数: " + std::to_string(alive_.size()) + ")");
         }
-        
+
         for (auto& pair : stores_) {
             delete pair.second;
         }
-        
+
         DEBUGLOG("World破棄完了");
     }
 
@@ -287,12 +287,12 @@ public:
             DEBUGLOG("エンティティ作成 (新規ID: " + std::to_string(id) + ")");
         }
         alive_.insert(id); // live setへコミット
-        
+
         // メトリクス更新
         totalCreated_++;
         if (trackFrameAccounting_) { createdThisFrame_++; }
         if (alive_.size() > maxAlive_) maxAlive_ = alive_.size();
-        
+
         return Entity{ id, generations_[id] };
     }
 
@@ -426,9 +426,9 @@ public:
         T& ref = *obj;
         s.map[e.id] = std::move(obj);
         registerBehaviourWithCause<T>(e, &ref, cause);
-        
+
         DEBUGLOG("コンポーネント " + std::string(typeid(T).name()) + " をエンティティ " + std::to_string(e.id) + " に追加");
-        
+
         return ref;
     }
 
@@ -458,9 +458,9 @@ public:
 
         // コンポーネントを削除
         s->map.erase(it);
-        
+
         DEBUGLOG("コンポーネント " + std::string(typeid(T).name()) + " をエンティティ " + std::to_string(e.id) + " から削除");
-        
+
         return true;
     }
 
@@ -577,7 +577,7 @@ public:
             DEBUGLOG_WARNING("World::Tickで負のdeltaTimeを検出: " + std::to_string(dt));
             dt = 0.0f;
         }
-        
+
         if (dt > 1.0f) {
             DEBUGLOG_WARNING("World::Tickで非常に大きいdeltaTimeを検出: " + std::to_string(dt) + "s");
         }
@@ -609,7 +609,7 @@ public:
         for (size_t i = 0; i < behaviours_.size(); ) {
             if (i >= behaviours_.size()) break;
             auto& entry = behaviours_[i];
-            
+
             if (!entry.started && IsAlive(entry.e)) {
                 try {
                     entry.b->OnStart(*this, entry.e);
@@ -624,12 +624,12 @@ public:
                     DEBUGLOG_ERROR("エンティティ " + std::to_string(entry.e.id) + " のBehaviour::OnStartで例外発生: " + ex.what());
                 }
             }
-            
+
             if (i < behaviours_.size() && behaviours_[i].e == entry.e) {
                 i++;
             }
         }
-        
+
         if (startedCount > 0) {
             DEBUGLOG(std::to_string(startedCount) + " 個の新しいビヘイビアを開始");
         }
@@ -637,11 +637,11 @@ public:
         // OnUpdateの実行（より安全なイテレーション）
         for (size_t i = 0; i < behaviours_.size(); ) {
             if (i >= behaviours_.size()) break;
-            
+
             auto& entry = behaviours_[i];
             Entity currentEntity = entry.e;
             Behaviour* currentBehaviour = entry.b;
-            
+
             if (!IsAlive(currentEntity)) {
                 // 死んだエンティティはスキップ
                 i++;
@@ -657,7 +657,7 @@ public:
             if (i >= behaviours_.size()) {
                 break;
             }
-            
+
             if (i < behaviours_.size()) {
                 if (behaviours_[i].e == currentEntity && behaviours_[i].b == currentBehaviour) {
                     i++;
@@ -679,7 +679,7 @@ public:
                 }),
             behaviours_.end()
         );
-        
+
         if (behaviours_.size() != beforeCleanup) {
             DEBUGLOG(std::to_string(beforeCleanup - behaviours_.size()) + " 個の死んだビヘイビアをクリーンアップ");
         }
@@ -718,7 +718,7 @@ public:
             recentCreated_ = 0;
             recentDestroyed_ = 0;
         }
-        
+
         // フレーム単位のカウンタを集計に反映
         recentCreated_ += createdThisFrame_;
         recentDestroyed_ += destroyedThisFrame_;
@@ -740,7 +740,7 @@ public:
             if (pendingDestroy_.empty()) return;
             toDestroy.swap(pendingDestroy_);
         }
-        
+
         // 重複除去（最後の原因を優先)
         std::unordered_map<uint32_t, Cause> lastCause;
         lastCause.reserve(toDestroy.size());
@@ -769,7 +769,7 @@ public:
             }
             return;
         }
-        
+
         std::vector<std::pair<Cause, std::function<void(Entity)>>> toSpawn;
         {
             std::lock_guard<std::mutex> lock(spawnMutex_);
@@ -800,7 +800,7 @@ public:
         if (systemsStopped_) return; // 冪等性
         DEBUGLOG_CATEGORY(DebugLog::Category::ECS, "World::StopAllSystems() - すべてのシステムを停止");
         systemsStopped_ = true;
-        
+
         // 保留中のスポーンキューをクリア
         {
             std::lock_guard<std::mutex> lock(spawnMutex_);
@@ -809,8 +809,35 @@ public:
                 pendingSpawn_.clear();
             }
         }
-        
+
         DEBUGLOG_CATEGORY(DebugLog::Category::ECS, "新規Spawnが無効化されました");
+    }
+
+    /**
+     * @brief エンティティの事前予約
+     * @param count予約するエンティティの数
+     * @details
+     * エンティティの事前予約を行うことで、
+     * メモリの再割り当てを減らし、パフォーマンスを向上させます。
+     */
+    void Reserve(size_t count) {
+        freeIdsReady_.reserve(count);
+        generations_.reserve(count);
+    }
+
+    /**
+     * @brief 指定されたコンポーネントを持つエンティティの数を取得
+     * @tparam T コンポーネントの型
+     * @return size_t 指定されたコンポーネントを持つエンティティの数
+     */
+    template<class T>
+    size_t GetComponentCount() const {
+        auto it = stores_.find(std::type_index(typeid(T)));
+        if (it == stores_.end()) {
+            return 0;
+        }
+        auto* store = static_cast<const Store<T>*>(it->second);
+        return store->map.size();
     }
 
 private:
