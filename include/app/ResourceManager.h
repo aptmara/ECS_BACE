@@ -16,7 +16,7 @@
 class ResourceManager {
 public:
     // モデルをファイルパスで取得（キャッシュ対応）
-    std::vector<ModelComponent> GetModel(const std::string& filePath);
+    const std::vector<ModelComponent>& GetModel(const std::string& filePath);
 
     // キャッシュをクリア
     void Clear();

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file App.h
  * @brief ミニゲームのメインアプリケーションクラス
  * @author 山内 陽
@@ -18,6 +18,7 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <memory>
 #include <vector>
 #include <algorithm>
 #include <cmath>
@@ -69,11 +70,25 @@ struct App {
 
     // シーン管理
     SceneManager sceneManager_; ///< シーンマネージャー
-    GameScene* gameScene_ = nullptr; ///< 現在のゲームシーン
 
 #ifdef _DEBUG
     DebugDraw debugDraw_; ///< デバッグ描画用
 #endif
+
+    void InitializeGame() {
+        DEBUGLOG("InitializeGame() begin");
+
+        auto gameScene = std::make_unique<GameScene>();
+        DEBUGLOG("GameScene instance created");
+
+        sceneManager_.RegisterScene("Game", std::move(gameScene));
+        DEBUGLOG("GameScene registered to SceneManager");
+
+        sceneManager_.Init("Game", world_);
+        DEBUGLOG("SceneManager initialised with Game scene");
+
+        DEBUGLOG("InitializeGame() complete");
+    }
 
     // ========================================================
     // パフォーマンス計測
@@ -376,7 +391,6 @@ private:
         // Phase 1: シーンマネージャーの終了（シーンのOnExitを呼び出し）
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 1: SceneManagerのシャットダウン");
         sceneManager_.Shutdown(world_);
-        gameScene_ = nullptr;  // SceneManagerが所有しているのでnullptrに設定するだけ
 
         // Phase 2: WorldのDestroyキュー/Spawnキューを明示的にフラッシュ
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 2: Worldキューをフラッシュ (エンティティ数: " + std::to_string(world_.GetAliveCount()) + ")");
@@ -474,6 +488,7 @@ private:
 
         DEBUGLOG("ウィンドウ作成成功 (HWND: 0x" + std::to_string(reinterpret_cast<uintptr_t>(hwnd_)) + ")");
 
+        input_.SetWindowHandle(hwnd_);
         ShowWindow(hwnd_, SW_SHOW);
         DEBUGLOG("ウィンドウを表示");
         DEBUGLOG("CreateAppWindow() 正常に完了");
@@ -560,22 +575,6 @@ private:
     /**
      * @brief ゲーム関連の初期化
      */
-    void InitializeGame() {
-        DEBUGLOG("InitializeGame() 開始");
-
-        // ゲームシーンを作成
-        gameScene_ = new GameScene();
-        DEBUGLOG("GameSceneインスタンスを作成");
-
-        // シーンマネージャーに登録
-        sceneManager_.RegisterScene("Game", gameScene_);
-        DEBUGLOG("GameSceneをSceneManagerに登録");
-
-        sceneManager_.Init(gameScene_, world_);
-        DEBUGLOG("SceneManagerをGameSceneで初期化");
-
-        DEBUGLOG("InitializeGame() 正常に完了");
-    }
 
     // ========================================================
     // メインループのヘルパー
@@ -611,7 +610,7 @@ private:
      * @brief ウィンドウタイトルを更新する
      */
     void UpdateWindowTitle() {
-        if (gameScene_) {
+        if (sceneManager_.GetCurrentScene()) {
             std::wstringstream ss;
             ss << L"はじく！" ;
             SetWindowTextW(hwnd_, ss.str().c_str());
@@ -622,7 +621,7 @@ private:
      * @brief ウィンドウタイトルにメトリクスを含めて更新する
      */
     void UpdateWindowTitleWithMetrics() {
-        if (gameScene_ && metricsFrameCount_ > 0) {
+        if (sceneManager_.GetCurrentScene() && metricsFrameCount_ > 0) {
             float avgUpdate = avgMetrics_.updateTime / metricsFrameCount_ * 1000.0f; // ms
             float avgRender = avgMetrics_.renderTime / metricsFrameCount_ * 1000.0f; // ms
             float avgPresent = avgMetrics_.presentTime / metricsFrameCount_ * 1000.0f; // ms

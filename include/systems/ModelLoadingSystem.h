@@ -1,45 +1,43 @@
-#pragma once
-#include "ecs/World.h"
-#include "components/Model.h"
-#include "components/ModelComponent.h"
-#include "app/ServiceLocator.h"
-#include "app/ResourceManager.h"
-
 /**
  * @file ModelLoadingSystem.h
- * @brief Modelコンポーネントを持つエンティティのモデルをロードするシステム
- * @author 山内陽
- * @date 2025
- * @version 6.0
+ * @brief Loads Model components into renderable data.
  */
+#pragma once
+
+#include "ecs/World.h"
+#include "components/Model.h"
+#include "components/Component.h"
+#include "components/ModelComponent.h"
+#include "components/Transform.h"
+#include "app/ServiceLocator.h"
+#include "app/ResourceManager.h"
 
 struct ModelLoadingSystem : public Behaviour {
     void OnUpdate(World& world, Entity self, float dt) override {
         auto& resMgr = ServiceLocator::Get<ResourceManager>();
 
-        // Modelコンポーネントを持つが、ModelComponentを持たないエンティティを検索
-        world.ForEach<Model>([&](Entity e, Model& model) {
-            if (!world.Has<ModelComponent>(e)) {
-                // モデルをロード（またはキャッシュから取得）
-                std::vector<ModelComponent> loadedComponents = resMgr.GetModel(model.filePath);
+        world.ForEach<Model>([&](Entity entity, Model& model) {
+            if (world.Has<ModelComponent>(entity)) {
+                return;
+            }
 
-                if (!loadedComponents.empty()) {
-                    // 最初のメッシュをこのエンティティに追加
-                    world.Add<ModelComponent>(e, std::move(loadedComponents[0]));
+            const auto& components = resMgr.GetModel(model.filePath);
+            if (components.empty()) {
+                world.Remove<Model>(entity);
+                return;
+            }
 
-                    // (オプション) 複数のメッシュがある場合、子エンティティとして追加することも可能
-                    for (size_t i = 1; i < loadedComponents.size(); ++i) {
-                        Entity child = world.Create()
-                            .With<Transform>() // 子エンティティのTransformは親からの相対位置に設定する必要がある
-                            .With<ModelComponent>(std::move(loadedComponents[i]));
-                        // TODO: 親子関係をTransformに実装する
-                    }
-                }
-                 else {
-                    // ロード失敗時の処理（例えば、エラーを示すためにModelコンポーネントを削除）
-                    world.Remove<Model>(e);
-                }
+            world.Add<ModelComponent>(entity, components[0]);
+
+            for (size_t i = 1; i < components.size(); ++i) {
+                Entity child = world.Create()
+                    .With<Transform>()
+                    .With<ModelComponent>(components[i])
+                    .Build();
+                // TODO: Relate child transform to parent.
+                static_cast<void>(child);
             }
         });
     }
 };
+

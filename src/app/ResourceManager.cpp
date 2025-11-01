@@ -1,28 +1,28 @@
 #include "app/ResourceManager.h"
 #include "app/DebugLog.h"
 
-std::vector<ModelComponent> ResourceManager::GetModel(const std::string& filePath) {
-    // キャッシュを検索
+const std::vector<ModelComponent>& ResourceManager::GetModel(const std::string& filePath) {
+    static const std::vector<ModelComponent> kEmpty;
+
     auto it = modelCache_.find(filePath);
     if (it != modelCache_.end()) {
         DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "Model cache hit: " + filePath);
-        // キャッシュが見つかったら、そのコピーを返す
         return it->second;
     }
 
     DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "Model cache miss, loading: " + filePath);
-    // キャッシュになければロード
     std::vector<ModelComponent> loadedModel = ModelLoader::LoadModel(filePath);
 
-    // ロードに成功したらキャッシュに保存
-    if (!loadedModel.empty()) {
-        modelCache_[filePath] = loadedModel;
+    if (loadedModel.empty()) {
+        return kEmpty;
     }
 
-    return loadedModel;
+    auto result = modelCache_.emplace(filePath, std::move(loadedModel));
+    return result.first->second;
 }
 
 void ResourceManager::Clear() {
     DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "Clearing all cached resources.");
     modelCache_.clear();
 }
+
