@@ -560,16 +560,14 @@ private:
         DEBUGLOG("アスペクト比: " + std::to_string(aspectRatio));
 
         camera_ = Camera::LookAtLH(
-            DirectX::XM_PIDIV4,
-            aspectRatio,
-            0.1f,
-            100.0f,
-            DirectX::XMFLOAT3{ 0, 20, -20 },  // カメラを引いて全体が見えるように
-            DirectX::XMFLOAT3{ 0, 0, 0 },
-            DirectX::XMFLOAT3{ 0, 1, 0 }
+            DirectX::XM_PIDIV4,                 // 視野角（45度）
+            static_cast<float>(width) / height, // アスペクト比
+            0.1f,                               // ニアクリップ
+            100.0f,                             // ファークリップ
+            DirectX::XMFLOAT3{0, 20, 0},        // カメラ位置（上方向に移動）
+            DirectX::XMFLOAT3{0, 0, 0},         // 注視点（原点を見る）
+            DirectX::XMFLOAT3{0, 0, 1}         // 上方向ベクトル（Z軸を下方向に）
         );
-
-        DEBUGLOG("カメラ設定完了 (位置: 0, 0, -20 | ターゲット: 0, 0, 0)");
     }
 
     /**

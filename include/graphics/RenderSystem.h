@@ -1,13 +1,13 @@
-/**
+ï»¿/**
  * @file RenderSystem.h
- * @brief 3DƒŒƒ“ƒ_ƒŠƒ“ƒOƒVƒXƒeƒ€
- * @author R“à—z
+ * @brief 3Dãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚·ã‚¹ãƒ†ãƒ 
+ * @author å±±å†…é™½
  * @date 2025
  * @version 7.0
- * 
+ *
  * @details
- * DirectX11‚ğg—p‚µ‚½3DƒŒƒ“ƒ_ƒŠƒ“ƒOƒVƒXƒeƒ€‚Å‚·B
- * ModelComponent‚ÆMeshRenderer‚Ì—¼•û‚ğƒTƒ|[ƒg‚µ‚Ü‚·B
+ * DirectX11ã‚’ä½¿ç”¨ã—ãŸ3Dãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚·ã‚¹ãƒ†ãƒ ã§ã™ã€‚
+ * ModelComponentã¨MeshRendererã®ä¸¡æ–¹ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¾ã™ã€‚
  */
 #pragma once
 #include "graphics/GfxDevice.h"
@@ -34,75 +34,75 @@
 
 /**
  * @struct RenderSystem
- * @brief 3DƒŒƒ“ƒ_ƒŠƒ“ƒOƒVƒXƒeƒ€
- * 
+ * @brief 3Dãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚·ã‚¹ãƒ†ãƒ 
+ *
  * @details
- * DirectX11‚ğg—p‚µ‚ÄModelComponent‚ÆMeshRenderer‚ğ•`‰æ‚µ‚Ü‚·B
- * 
- * ### å‚È‹@”\:
- * - Blinn-Phongƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹
- * - ƒm[ƒ}ƒ‹ƒ}ƒbƒsƒ“ƒO‘Î‰
- * - ƒeƒNƒXƒ`ƒƒƒTƒ|[ƒg
- * - Šî–{Œ`ó(Cube, Sphere, Cylinder, Plane)‚Ì•`‰æ
- * 
- * @par g—p—á
+ * DirectX11ã‚’ä½¿ç”¨ã—ã¦ModelComponentã¨MeshRendererã‚’æç”»ã—ã¾ã™ã€‚
+ *
+ * ### ä¸»ãªæ©Ÿèƒ½:
+ * - Blinn-Phongãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ãƒ¢ãƒ‡ãƒ«
+ * - ãƒãƒ¼ãƒãƒ«ãƒãƒƒãƒ”ãƒ³ã‚°å¯¾å¿œ
+ * - ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µãƒãƒ¼ãƒˆ
+ * - åŸºæœ¬å½¢çŠ¶(Cube, Sphere, Cylinder, Plane)ã®æç”»
+ *
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * RenderSystem renderer;
  * if (!renderer.Init()) {
  *  return false;
  * }
- * 
- * // ƒƒCƒ“ƒ‹[ƒv
+ *
+ * // ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
  * renderer.Render(world, camera);
- * 
- * // ƒVƒƒƒbƒgƒ_ƒEƒ“
+ *
+ * // ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³
  * renderer.Shutdown();
  * @endcode
  */
 struct RenderSystem {
     /**
      * @struct VSConstants
-     * @brief ’¸“_ƒVƒF[ƒ_[—p’è”ƒoƒbƒtƒ@
+     * @brief é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ç”¨å®šæ•°ãƒãƒƒãƒ•ã‚¡
      */
     struct VSConstants {
-        DirectX::XMMATRIX World;      ///< ƒ[ƒ‹ƒhs—ñ
-        DirectX::XMMATRIX WVP;        ///< ƒ[ƒ‹ƒhEƒrƒ…[EƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
-        DirectX::XMFLOAT4 uvTransform; ///< UVƒIƒtƒZƒbƒg‚ÆƒXƒP[ƒ‹
+        DirectX::XMMATRIX World;      ///< ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
+        DirectX::XMMATRIX WVP;        ///< ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒ»ãƒ“ãƒ¥ãƒ¼ãƒ»ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
+        DirectX::XMFLOAT4 uvTransform; ///< UVã‚ªãƒ•ã‚»ãƒƒãƒˆã¨ã‚¹ã‚±ãƒ¼ãƒ«
     };
 
   /**
      * @struct PSConstants
-     * @brief ƒsƒNƒZƒ‹ƒVƒF[ƒ_[—pƒIƒuƒWƒFƒNƒg’è”ƒoƒbƒtƒ@
+     * @brief ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå®šæ•°ãƒãƒƒãƒ•ã‚¡
      */
     struct PSConstants {
-        DirectX::XMFLOAT4 color;///< ƒ}ƒeƒŠƒAƒ‹ƒJƒ‰[
-        float useTexture;     ///< ƒeƒNƒXƒ`ƒƒg—pƒtƒ‰ƒO
-        float useNormalMap;     ///< ƒm[ƒ}ƒ‹ƒ}ƒbƒvg—pƒtƒ‰ƒO
-        float specularPower;     ///< ƒXƒyƒLƒ…ƒ‰‹­“x
-        float padding;       ///< ƒpƒfƒBƒ“ƒO
+        DirectX::XMFLOAT4 color;///< ãƒãƒ†ãƒªã‚¢ãƒ«ã‚«ãƒ©ãƒ¼
+        float useTexture;     ///< ãƒ†ã‚¯ã‚¹ãƒãƒ£ä½¿ç”¨ãƒ•ãƒ©ã‚°
+        float useNormalMap;     ///< ãƒãƒ¼ãƒãƒ«ãƒãƒƒãƒ—ä½¿ç”¨ãƒ•ãƒ©ã‚°
+        float specularPower;     ///< ã‚¹ãƒšã‚­ãƒ¥ãƒ©å¼·åº¦
+        float padding;       ///< ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
     };
 
     /**
      * @struct PSLightConstants
-     * @brief ƒsƒNƒZƒ‹ƒVƒF[ƒ_[—pƒ‰ƒCƒg’è”ƒoƒbƒtƒ@
+     * @brief ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ç”¨ãƒ©ã‚¤ãƒˆå®šæ•°ãƒãƒƒãƒ•ã‚¡
      */
     struct PSLightConstants {
-        DirectionalLight light; ///< ƒfƒBƒŒƒNƒVƒ‡ƒiƒ‹ƒ‰ƒCƒg
-        DirectX::XMFLOAT3 ambientColor{ 0.2f, 0.2f, 0.2f };  ///< ƒAƒ“ƒrƒGƒ“ƒgƒJƒ‰[
-float padding2;         ///< ƒpƒfƒBƒ“ƒO
-        DirectX::XMFLOAT3 eyePos;                 ///< ƒJƒƒ‰ˆÊ’u
-   float padding3;      ///< ƒpƒfƒBƒ“ƒO
+        DirectionalLight light; ///< ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒŠãƒ«ãƒ©ã‚¤ãƒˆ
+        DirectX::XMFLOAT3 ambientColor{ 0.2f, 0.2f, 0.2f };  ///< ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆã‚«ãƒ©ãƒ¼
+float padding2;         ///< ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+        DirectX::XMFLOAT3 eyePos;                 ///< ã‚«ãƒ¡ãƒ©ä½ç½®
+   float padding3;      ///< ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
  };
 
     /**
      * @struct Statistics
-     * @brief ƒŒƒ“ƒ_ƒŠƒ“ƒO“Œvî•ñ
+     * @brief ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°çµ±è¨ˆæƒ…å ±
      */
     struct Statistics {
-        size_t modelsRendered = 0;     ///< •`‰æ‚³‚ê‚½ModelComponent‚Ì”
-      size_t meshesRendered = 0;  ///< •`‰æ‚³‚ê‚½MeshRenderer‚Ì”
-        size_t totalDrawCalls = 0;     ///< ‘•`‰æƒR[ƒ‹”
-        
+        size_t modelsRendered = 0;     ///< æç”»ã•ã‚ŒãŸModelComponentã®æ•°
+      size_t meshesRendered = 0;  ///< æç”»ã•ã‚ŒãŸMeshRendererã®æ•°
+        size_t totalDrawCalls = 0;     ///< ç·æç”»ã‚³ãƒ¼ãƒ«æ•°
+
     void Reset() {
  modelsRendered = 0;
        meshesRendered = 0;
@@ -111,90 +111,90 @@ float padding2;         ///< ƒpƒfƒBƒ“ƒO
     };
 
     /**
-   * @brief ƒfƒXƒgƒ‰ƒNƒ^
+   * @brief ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
-    ~RenderSystem() { 
-        Shutdown(); 
+    ~RenderSystem() {
+        Shutdown();
     }
 
     /**
-     * @brief ƒRƒs[‹Ö~
+     * @brief ã‚³ãƒ”ãƒ¼ç¦æ­¢
      */
     RenderSystem(const RenderSystem&) = delete;
     RenderSystem& operator=(const RenderSystem&) = delete;
 
     /**
-     * @brief ƒ€[ƒu‹–‰Â
+     * @brief ãƒ ãƒ¼ãƒ–è¨±å¯
      */
     RenderSystem(RenderSystem&&) noexcept = default;
     RenderSystem& operator=(RenderSystem&&) noexcept = default;
 
     /**
-     * @brief ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @brief ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     RenderSystem() = default;
 
     /**
-     * @brief ‰Šú‰»
-     * @return bool ‰Šú‰»‚ª¬Œ÷‚µ‚½ê‡‚Í true
-  * 
+     * @brief åˆæœŸåŒ–
+     * @return bool åˆæœŸåŒ–ãŒæˆåŠŸã—ãŸå ´åˆã¯ true
+  *
      * @details
-     * ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹AƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg‚Ìì¬A
-     * Šî–{Œ`óƒƒbƒVƒ…‚Ì¶¬‚ğs‚¢‚Ü‚·B
+     * ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã€ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã®ä½œæˆã€
+     * åŸºæœ¬å½¢çŠ¶ãƒ¡ãƒƒã‚·ãƒ¥ã®ç”Ÿæˆã‚’è¡Œã„ã¾ã™ã€‚
      */
     bool Init() {
   if (initialized_) {
-   DEBUGLOG_WARNING("[RenderSystem] Šù‚É‰Šú‰»‚³‚ê‚Ä‚¢‚Ü‚·");
+   DEBUGLOG_WARNING("[RenderSystem] æ—¢ã«åˆæœŸåŒ–ã•ã‚Œã¦ã„ã¾ã™");
    return true;
         }
 
-        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ‰Šú‰»ŠJn");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] åˆæœŸåŒ–é–‹å§‹");
 
       auto& gfx = ServiceLocator::Get<GfxDevice>();
 
         if (!CompileShaders(gfx)) {
-        DEBUGLOG_ERROR("[RenderSystem] ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹‚É¸”s");
+        DEBUGLOG_ERROR("[RenderSystem] ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«å¤±æ•—");
         return false;
         }
 
         if (!CreateInputLayout(gfx)) {
-       DEBUGLOG_ERROR("[RenderSystem] “ü—ÍƒŒƒCƒAƒEƒg‚Ìì¬‚É¸”s");
+       DEBUGLOG_ERROR("[RenderSystem] å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®ä½œæˆã«å¤±æ•—");
             return false;
         }
 
         if (!CreateConstantBuffers(gfx)) {
-         DEBUGLOG_ERROR("[RenderSystem] ’è”ƒoƒbƒtƒ@‚Ìì¬‚É¸”s");
+         DEBUGLOG_ERROR("[RenderSystem] å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±æ•—");
      return false;
         }
 
  if (!CreateStates(gfx)) {
-    DEBUGLOG_ERROR("[RenderSystem] ƒXƒe[ƒg‚Ìì¬‚É¸”s");
+    DEBUGLOG_ERROR("[RenderSystem] ã‚¹ãƒ†ãƒ¼ãƒˆã®ä½œæˆã«å¤±æ•—");
             return false;
         }
 
  if (!CreatePrimitiveMeshes(gfx)) {
-   DEBUGLOG_ERROR("[RenderSystem] Šî–{Œ`óƒƒbƒVƒ…‚Ìì¬‚É¸”s");
+   DEBUGLOG_ERROR("[RenderSystem] åŸºæœ¬å½¢çŠ¶ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆã«å¤±æ•—");
     return false;
         }
 
         initialized_ = true;
         stats_.Reset();
 
-        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ‰Šú‰»Š®—¹");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] åˆæœŸåŒ–å®Œäº†");
         return true;
     }
 
     /**
-     * @brief ƒŒƒ“ƒ_ƒŠƒ“ƒO
-     * @param[in] w ƒ[ƒ‹ƒh
-     * @param[in] cam ƒJƒƒ‰
-     * 
+     * @brief ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°
+     * @param[in] w ãƒ¯ãƒ¼ãƒ«ãƒ‰
+     * @param[in] cam ã‚«ãƒ¡ãƒ©
+     *
      * @details
-     * ‚·‚×‚Ä‚ÌModelComponent‚ÆMeshRenderer‚ğ•`‰æ‚µ‚Ü‚·B
+     * ã™ã¹ã¦ã®ModelComponentã¨MeshRendererã‚’æç”»ã—ã¾ã™ã€‚
      */
     void Render(World& w, const Camera& cam) {
         if (!initialized_) {
-            DEBUGLOG_WARNING("[RenderSystem] ‰Šú‰»‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+            DEBUGLOG_WARNING("[RenderSystem] åˆæœŸåŒ–ã•ã‚Œã¦ã„ã¾ã›ã‚“");
          return;
  }
 
@@ -203,39 +203,39 @@ float padding2;         ///< ƒpƒfƒBƒ“ƒO
 
  stats_.Reset();
 
-  // ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg‚Ìİ’è
+  // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
       SetupPipeline(gfx);
 
-        // ƒ‰ƒCƒgî•ñ‚ÌXV
+        // ãƒ©ã‚¤ãƒˆæƒ…å ±ã®æ›´æ–°
         UpdateLightConstants(w, cam, gfx);
 
-    // ModelComponent‚Ì•`‰æ
+    // ModelComponentã®æç”»
         RenderModelComponents(w, gfx, cam, texMgr);
 
-        // MeshRenderer‚Ì•`‰æ
+        // MeshRendererã®æç”»
         RenderMeshRenderers(w, gfx, cam, texMgr);
     }
 
     /**
-     * @brief ƒVƒƒƒbƒgƒ_ƒEƒ“
-     * 
+     * @brief ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³
+     *
  * @details
-     * ‚·‚×‚Ä‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚µ‚Ü‚·B
+     * ã™ã¹ã¦ã®ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã—ã¾ã™ã€‚
      */
     void Shutdown() {
         if (!initialized_) return;
 
- DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ƒVƒƒƒbƒgƒ_ƒEƒ“ŠJn");
+ DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³é–‹å§‹");
 
-        // “Œvî•ñ‚ÌƒƒOo—Í
+        // çµ±è¨ˆæƒ…å ±ã®ãƒ­ã‚°å‡ºåŠ›
      if (stats_.totalDrawCalls > 0) {
             DEBUGLOG_CATEGORY(DebugLog::Category::Graphics,
-     "RenderSystem“Œv: Models=" + std::to_string(stats_.modelsRendered) +
+     "RenderSystemçµ±è¨ˆ: Models=" + std::to_string(stats_.modelsRendered) +
          ", Meshes=" + std::to_string(stats_.meshesRendered) +
            ", DrawCalls=" + std::to_string(stats_.totalDrawCalls));
         }
 
-        // ƒŠƒ\[ƒX‰ğ•ú
+        // ãƒªã‚½ãƒ¼ã‚¹è§£æ”¾
     vs_.Reset();
         ps_.Reset();
         layout_.Reset();
@@ -244,25 +244,25 @@ float padding2;         ///< ƒpƒfƒBƒ“ƒO
         psLightCb_.Reset();
         rasterState_.Reset();
  samplerState_.Reset();
-        
+
         meshCache_.clear();
 
       initialized_ = false;
 
-   DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ƒVƒƒƒbƒgƒ_ƒEƒ“Š®—¹");
+   DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³å®Œäº†");
     }
 
     /**
-     * @brief “Œvî•ñ‚Ìæ“¾
- * @return const Statistics& “Œvî•ñ‚Ö‚ÌQÆ
+     * @brief çµ±è¨ˆæƒ…å ±ã®å–å¾—
+ * @return const Statistics& çµ±è¨ˆæƒ…å ±ã¸ã®å‚ç…§
      */
     const Statistics& GetStatistics() const {
         return stats_;
     }
 
     /**
-  * @brief ‰Šú‰»ó‘Ô‚ÌŠm”F
-     * @return bool ‰Šú‰»Ï‚İ‚Ìê‡‚Í true
+  * @brief åˆæœŸåŒ–çŠ¶æ…‹ã®ç¢ºèª
+     * @return bool åˆæœŸåŒ–æ¸ˆã¿ã®å ´åˆã¯ true
   */
     bool IsInitialized() const {
         return initialized_;
@@ -271,7 +271,7 @@ float padding2;         ///< ƒpƒfƒBƒ“ƒO
 private:
     /**
      * @struct MeshData
-   * @brief ƒƒbƒVƒ…ƒf[ƒ^
+   * @brief ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿
      */
     struct MeshData {
         Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
@@ -281,7 +281,7 @@ private:
 
     /**
      * @struct Vertex
-     * @brief ’¸“_ƒf[ƒ^
+     * @brief é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
      */
     struct Vertex {
         DirectX::XMFLOAT3 pos;
@@ -291,7 +291,7 @@ private:
         DirectX::XMFLOAT3 bitan;
     };
 
-    // DirectX11ƒŠƒ\[ƒX
+    // DirectX11ãƒªã‚½ãƒ¼ã‚¹
     Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;
   Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;
     Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;
@@ -301,15 +301,15 @@ private:
     Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterState_;
     Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState_;
 
-    // ƒƒbƒVƒ…ƒLƒƒƒbƒVƒ…
+    // ãƒ¡ãƒƒã‚·ãƒ¥ã‚­ãƒ£ãƒƒã‚·ãƒ¥
     std::unordered_map<int, std::unique_ptr<MeshData>> meshCache_;
 
-    // ó‘ÔŠÇ—
+    // çŠ¶æ…‹ç®¡ç†
     bool initialized_ = false;
     Statistics stats_;
 
     /**
-     * @brief ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹
+     * @brief ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
      */
     bool CompileShaders(GfxDevice& gfx) {
         const char* VS = R"(
@@ -417,56 +417,56 @@ Microsoft::WRL::ComPtr<ID3DBlob> vsb, psb, err;
         compileFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
-        // ’¸“_ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹
+        // é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
         HRESULT hr = D3DCompile(VS, strlen(VS), nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags, 0, vsb.GetAddressOf(), err.GetAddressOf());
   if (FAILED(hr)) {
    if (err) {
         std::string errorMsg(static_cast<const char*>(err->GetBufferPointer()), err->GetBufferSize());
-     DEBUGLOG_ERROR("[RenderSystem] ’¸“_ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹¸”s: " + errorMsg);
+     DEBUGLOG_ERROR("[RenderSystem] é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¤±æ•—: " + errorMsg);
             } else {
-        DEBUGLOG_ERROR("[RenderSystem] ’¸“_ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+        DEBUGLOG_ERROR("[RenderSystem] é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
             }
             return false;
         }
 
-// ƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹
+// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
   err.Reset();
         hr = D3DCompile(PS, strlen(PS), nullptr, nullptr, nullptr, "main", "ps_5_0", compileFlags, 0, psb.GetAddressOf(), err.GetAddressOf());
         if (FAILED(hr)) {
             if (err) {
          std::string errorMsg(static_cast<const char*>(err->GetBufferPointer()), err->GetBufferSize());
-     DEBUGLOG_ERROR("[RenderSystem] ƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹¸”s: " + errorMsg);
+     DEBUGLOG_ERROR("[RenderSystem] ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¤±æ•—: " + errorMsg);
   } else {
-      DEBUGLOG_ERROR("[RenderSystem] ƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+      DEBUGLOG_ERROR("[RenderSystem] ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
             }
 return false;
         }
 
-// ’¸“_ƒVƒF[ƒ_[‚Ìì¬
+// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ä½œæˆ
         hr = gfx.Dev()->CreateVertexShader(vsb->GetBufferPointer(), vsb->GetBufferSize(), nullptr, vs_.GetAddressOf());
 if (FAILED(hr)) {
-       DEBUGLOG_ERROR("[RenderSystem] ’¸“_ƒVƒF[ƒ_[‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+       DEBUGLOG_ERROR("[RenderSystem] é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
         return false;
      }
 
-     // ƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚Ìì¬
+     // ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ä½œæˆ
         hr = gfx.Dev()->CreatePixelShader(psb->GetBufferPointer(), psb->GetBufferSize(), nullptr, ps_.GetAddressOf());
       if (FAILED(hr)) {
-            DEBUGLOG_ERROR("[RenderSystem] ƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[RenderSystem] ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
           return false;
   }
 
-        // “ü—ÍƒŒƒCƒAƒEƒg‚Ìì¬‚Ì‚½‚ß‚Évsb_‚ğ•Û‘¶
+        // å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®ä½œæˆã®ãŸã‚ã«vsb_ã‚’ä¿å­˜
         vsBlob_ = vsb;
 
-        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ƒVƒF[ƒ_[‚ÌƒRƒ“ƒpƒCƒ‹Š®—¹");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å®Œäº†");
         return true;
     }
 
-    Microsoft::WRL::ComPtr<ID3DBlob> vsBlob_; // “ü—ÍƒŒƒCƒAƒEƒgì¬—p‚É•Û
+    Microsoft::WRL::ComPtr<ID3DBlob> vsBlob_; // å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆä½œæˆç”¨ã«ä¿æŒ
 
     /**
-     * @brief “ü—ÍƒŒƒCƒAƒEƒg‚Ìì¬
+     * @brief å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®ä½œæˆ
      */
     bool CreateInputLayout(GfxDevice& gfx) {
   D3D11_INPUT_ELEMENT_DESC il[] = {
@@ -479,16 +479,16 @@ if (FAILED(hr)) {
 
         HRESULT hr = gfx.Dev()->CreateInputLayout(il, 5, vsBlob_->GetBufferPointer(), vsBlob_->GetBufferSize(), layout_.GetAddressOf());
       if (FAILED(hr)) {
-            DEBUGLOG_ERROR("[RenderSystem] “ü—ÍƒŒƒCƒAƒEƒg‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[RenderSystem] å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
 return false;
         }
 
-     DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] “ü—ÍƒŒƒCƒAƒEƒg‚Ìì¬Š®—¹");
+     DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®ä½œæˆå®Œäº†");
     return true;
     }
 
     /**
-     * @brief ’è”ƒoƒbƒtƒ@‚Ìì¬
+     * @brief å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
      */
     bool CreateConstantBuffers(GfxDevice& gfx) {
         D3D11_BUFFER_DESC cbd{};
@@ -498,39 +498,39 @@ return false;
 cbd.MiscFlags = 0;
         cbd.StructureByteStride = 0;
 
-        // VS’è”ƒoƒbƒtƒ@
+        // VSå®šæ•°ãƒãƒƒãƒ•ã‚¡
    cbd.ByteWidth = sizeof(VSConstants);
         HRESULT hr = gfx.Dev()->CreateBuffer(&cbd, nullptr, vsCb_.GetAddressOf());
         if (FAILED(hr)) {
-  DEBUGLOG_ERROR("[RenderSystem] VS’è”ƒoƒbƒtƒ@‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+  DEBUGLOG_ERROR("[RenderSystem] VSå®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
             return false;
         }
 
-        // PS’è”ƒoƒbƒtƒ@
+        // PSå®šæ•°ãƒãƒƒãƒ•ã‚¡
         cbd.ByteWidth = sizeof(PSConstants);
   hr = gfx.Dev()->CreateBuffer(&cbd, nullptr, psCb_.GetAddressOf());
     if (FAILED(hr)) {
-            DEBUGLOG_ERROR("[RenderSystem] PS’è”ƒoƒbƒtƒ@‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[RenderSystem] PSå®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
   return false;
         }
 
-        // PSƒ‰ƒCƒg’è”ƒoƒbƒtƒ@
+        // PSãƒ©ã‚¤ãƒˆå®šæ•°ãƒãƒƒãƒ•ã‚¡
         cbd.ByteWidth = sizeof(PSLightConstants);
         hr = gfx.Dev()->CreateBuffer(&cbd, nullptr, psLightCb_.GetAddressOf());
         if (FAILED(hr)) {
-     DEBUGLOG_ERROR("[RenderSystem] PSƒ‰ƒCƒg’è”ƒoƒbƒtƒ@‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+     DEBUGLOG_ERROR("[RenderSystem] PSãƒ©ã‚¤ãƒˆå®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
             return false;
         }
 
-        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ’è”ƒoƒbƒtƒ@‚Ìì¬Š®—¹");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆå®Œäº†");
         return true;
     }
 
     /**
-     * @brief ƒXƒe[ƒg‚Ìì¬
+     * @brief ã‚¹ãƒ†ãƒ¼ãƒˆã®ä½œæˆ
      */
     bool CreateStates(GfxDevice& gfx) {
-     // ƒTƒ“ƒvƒ‰[ƒXƒe[ƒg
+     // ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆ
         D3D11_SAMPLER_DESC sampDesc{};
         sampDesc.Filter = D3D11_FILTER_ANISOTROPIC;
         sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -543,11 +543,11 @@ cbd.MiscFlags = 0;
 
         HRESULT hr = gfx.Dev()->CreateSamplerState(&sampDesc, &samplerState_);
         if (FAILED(hr)) {
-     DEBUGLOG_ERROR("[RenderSystem] ƒTƒ“ƒvƒ‰[ƒXƒe[ƒg‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+     DEBUGLOG_ERROR("[RenderSystem] ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
      return false;
         }
 
-        // ƒ‰ƒXƒ^ƒ‰ƒCƒU[ƒXƒe[ƒg
+        // ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆ
  D3D11_RASTERIZER_DESC rsd{};
         rsd.FillMode = D3D11_FILL_SOLID;
    rsd.CullMode = D3D11_CULL_BACK;
@@ -559,84 +559,84 @@ cbd.MiscFlags = 0;
 
         hr = gfx.Dev()->CreateRasterizerState(&rsd, rasterState_.GetAddressOf());
    if (FAILED(hr)) {
-      DEBUGLOG_ERROR("[RenderSystem] ƒ‰ƒXƒ^ƒ‰ƒCƒU[ƒXƒe[ƒg‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+      DEBUGLOG_ERROR("[RenderSystem] ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
   return false;
         }
 
- DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ƒXƒe[ƒg‚Ìì¬Š®—¹");
+ DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ã‚¹ãƒ†ãƒ¼ãƒˆã®ä½œæˆå®Œäº†");
         return true;
     }
 
     /**
-     * @brief Šî–{Œ`óƒƒbƒVƒ…‚Ìì¬
+     * @brief åŸºæœ¬å½¢çŠ¶ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆ
      */
     bool CreatePrimitiveMeshes(GfxDevice& gfx) {
         // Cube
         if (!CreateCubeMesh(gfx)) {
-  DEBUGLOG_ERROR("[RenderSystem] ƒLƒ…[ƒuƒƒbƒVƒ…‚Ìì¬¸”s");
+  DEBUGLOG_ERROR("[RenderSystem] ã‚­ãƒ¥ãƒ¼ãƒ–ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆå¤±æ•—");
             return false;
         }
 
         // Sphere
   if (!CreateSphereMesh(gfx)) {
-    DEBUGLOG_ERROR("[RenderSystem] ‹…‘ÌƒƒbƒVƒ…‚Ìì¬¸”s");
+    DEBUGLOG_ERROR("[RenderSystem] çƒä½“ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆå¤±æ•—");
             return false;
         }
 
      // Cylinder
     if (!CreateCylinderMesh(gfx)) {
-            DEBUGLOG_ERROR("[RenderSystem] ‰~’ŒƒƒbƒVƒ…‚Ìì¬¸”s");
+            DEBUGLOG_ERROR("[RenderSystem] å††æŸ±ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆå¤±æ•—");
             return false;
     }
 
       // Plane
         if (!CreatePlaneMesh(gfx)) {
-            DEBUGLOG_ERROR("[RenderSystem] •½–ÊƒƒbƒVƒ…‚Ìì¬¸”s");
+            DEBUGLOG_ERROR("[RenderSystem] å¹³é¢ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆå¤±æ•—");
   return false;
         }
 
-        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] Šî–{Œ`óƒƒbƒVƒ…‚Ìì¬Š®—¹");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] åŸºæœ¬å½¢çŠ¶ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆå®Œäº†");
         return true;
     }
 
     /**
-     * @brief ƒLƒ…[ƒuƒƒbƒVƒ…‚Ìì¬
+     * @brief ã‚­ãƒ¥ãƒ¼ãƒ–ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆ
      */
     bool CreateCubeMesh(GfxDevice& gfx) {
         const float size = 0.5f;
-    
-        // ’¸“_ƒf[ƒ^iŠe–Ê‚É4’¸“_j
+
+        // é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ï¼ˆå„é¢ã«4é ‚ç‚¹ï¼‰
         Vertex vertices[] = {
             // Front face (Z+)
     {{-size, -size, size}, {0, 1}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
   {{size, -size, size}, {1, 1}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
             {{size, size, size}, {1, 0}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
      {{-size, size, size}, {0, 0}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
-         
+
      // Back face (Z-)
          {{size, -size, -size}, {0, 1}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
        {{-size, -size, -size}, {1, 1}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
           {{-size, size, -size}, {1, 0}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
             {{size, size, -size}, {0, 0}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
-      
+
         // Left face (X-)
       {{-size, -size, -size}, {0, 1}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
       {{-size, -size, size}, {1, 1}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
        {{-size, size, size}, {1, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
         {{-size, size, -size}, {0, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
-    
+
         // Right face (X+)
             {{size, -size, size}, {0, 1}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
   {{size, -size, -size}, {1, 1}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
       {{size, size, -size}, {1, 0}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
             {{size, size, size}, {0, 0}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
-            
+
    // Top face (Y+)
             {{-size, size, size}, {0, 1}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
           {{size, size, size}, {1, 1}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
    {{size, size, -size}, {1, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
     {{-size, size, -size}, {0, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
-   
+
         // Bottom face (Y-)
             {{-size, -size, -size}, {0, 1}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
    {{size, -size, -size}, {1, 1}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
@@ -644,7 +644,7 @@ cbd.MiscFlags = 0;
     {{-size, -size, size}, {0, 0}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
         };
 
-        // ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^iŠe–Ê‚É2OŠpŒ` = 6ƒCƒ“ƒfƒbƒNƒXj
+        // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ï¼ˆå„é¢ã«2ä¸‰è§’å½¢ = 6ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼‰
  uint16_t indices[] = {
      0, 1, 2, 0, 2, 3,       // Front
             4, 5, 6, 4, 6, 7,     // Back
@@ -658,7 +658,7 @@ cbd.MiscFlags = 0;
     }
 
     /**
-   * @brief ‹…‘ÌƒƒbƒVƒ…‚Ìì¬
+   * @brief çƒä½“ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆ
      */
     bool CreateSphereMesh(GfxDevice& gfx) {
         const int segments = 32;
@@ -668,7 +668,7 @@ cbd.MiscFlags = 0;
      std::vector<Vertex> vertices;
         std::vector<uint16_t> indices;
 
-        // ’¸“_¶¬
+        // é ‚ç‚¹ç”Ÿæˆ
         for (int ring = 0; ring <= rings; ++ring) {
    float phi = DirectX::XM_PI * ring / rings;
     float sinPhi = sinf(phi);
@@ -687,23 +687,23 @@ cbd.MiscFlags = 0;
            v.nrm.x = sinPhi * cosTheta;
       v.nrm.y = cosPhi;
          v.nrm.z = sinPhi * sinTheta;
-       
+
 v.tex.x = static_cast<float>(seg) / segments;
   v.tex.y = static_cast<float>(ring) / rings;
-       
+
     v.tan.x = -sinTheta;
      v.tan.y = 0;
                 v.tan.z = cosTheta;
-   
+
      v.bitan.x = cosPhi * cosTheta;
       v.bitan.y = -sinPhi;
    v.bitan.z = cosPhi * sinTheta;
-    
+
           vertices.push_back(v);
         }
         }
 
-        // ƒCƒ“ƒfƒbƒNƒX¶¬
+        // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç”Ÿæˆ
         for (int ring = 0; ring < rings; ++ring) {
             for (int seg = 0; seg < segments; ++seg) {
             int a = ring * (segments + 1) + seg;
@@ -714,7 +714,7 @@ v.tex.x = static_cast<float>(seg) / segments;
    indices.push_back(a);
      indices.push_back(c);
           indices.push_back(b);
-        
+
       indices.push_back(b);
        indices.push_back(c);
            indices.push_back(d);
@@ -725,7 +725,7 @@ v.tex.x = static_cast<float>(seg) / segments;
     }
 
     /**
-     * @brief ‰~’ŒƒƒbƒVƒ…‚Ìì¬
+     * @brief å††æŸ±ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆ
      */
     bool CreateCylinderMesh(GfxDevice& gfx) {
       const int segments = 32;
@@ -735,13 +735,13 @@ v.tex.x = static_cast<float>(seg) / segments;
         std::vector<Vertex> vertices;
         std::vector<uint16_t> indices;
 
-        // ‘¤–Ê‚Ì’¸“_
+        // å´é¢ã®é ‚ç‚¹
         for (int i = 0; i <= segments; ++i) {
             float theta = 2.0f * DirectX::XM_PI * i / segments;
         float cosTheta = cosf(theta);
          float sinTheta = sinf(theta);
 
-            // ƒgƒbƒv‚Ì’¸“_
+            // ãƒˆãƒƒãƒ—ã®é ‚ç‚¹
             Vertex vTop;
     vTop.pos = {radius * cosTheta, height / 2, radius * sinTheta};
      vTop.tex = {static_cast<float>(i) / segments, 0.0f};
@@ -750,7 +750,7 @@ v.tex.x = static_cast<float>(seg) / segments;
    vTop.bitan = {0, 1, 0};
             vertices.push_back(vTop);
 
-         // ƒ{ƒgƒ€‚Ì’¸“_
+         // ãƒœãƒˆãƒ ã®é ‚ç‚¹
     Vertex vBottom;
       vBottom.pos = {radius * cosTheta, -height / 2, radius * sinTheta};
        vBottom.tex = {static_cast<float>(i) / segments, 1.0f};
@@ -760,7 +760,7 @@ v.tex.x = static_cast<float>(seg) / segments;
             vertices.push_back(vBottom);
     }
 
-     // ‘¤–Ê‚ÌƒCƒ“ƒfƒbƒNƒX
+     // å´é¢ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
     for (int i = 0; i < segments; ++i) {
             int top1 = i * 2;
   int bot1 = i * 2 + 1;
@@ -776,13 +776,13 @@ v.tex.x = static_cast<float>(seg) / segments;
    indices.push_back(bot2);
      }
 
-        // ƒLƒƒƒbƒv‚Ì’Ç‰Á‚ÍÈ—ªiÀ‘•‚ğŠÈ—ª‰»j
+        // ã‚­ãƒ£ãƒƒãƒ—ã®è¿½åŠ ã¯çœç•¥ï¼ˆå®Ÿè£…ã‚’ç°¡ç•¥åŒ–ï¼‰
 
         return CreateMeshBuffers(gfx, vertices.data(), vertices.size(), indices.data(), indices.size(), static_cast<int>(MeshType::Cylinder));
     }
 
     /**
-     * @brief •½–ÊƒƒbƒVƒ…‚Ìì¬
+     * @brief å¹³é¢ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆ
      */
  bool CreatePlaneMesh(GfxDevice& gfx) {
         const float size = 0.5f;
@@ -800,12 +800,12 @@ v.tex.x = static_cast<float>(seg) / segments;
     }
 
     /**
-     * @brief ƒƒbƒVƒ…ƒoƒbƒtƒ@‚Ìì¬
+     * @brief ãƒ¡ãƒƒã‚·ãƒ¥ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
      */
     bool CreateMeshBuffers(GfxDevice& gfx, const Vertex* vertices, size_t vertexCount, const uint16_t* indices, size_t indexCount, int meshTypeKey) {
         auto meshData = std::make_unique<MeshData>();
 
-        // ’¸“_ƒoƒbƒtƒ@‚Ìì¬
+        // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
         D3D11_BUFFER_DESC vbd{};
         vbd.Usage = D3D11_USAGE_IMMUTABLE;
         vbd.ByteWidth = static_cast<UINT>(vertexCount * sizeof(Vertex));
@@ -819,11 +819,11 @@ vbd.MiscFlags = 0;
 
         HRESULT hr = gfx.Dev()->CreateBuffer(&vbd, &vData, meshData->vertexBuffer.GetAddressOf());
         if (FAILED(hr)) {
-            DEBUGLOG_ERROR("[RenderSystem] ’¸“_ƒoƒbƒtƒ@‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[RenderSystem] é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
             return false;
         }
 
-        // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìì¬
+        // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
         D3D11_BUFFER_DESC ibd{};
 ibd.Usage = D3D11_USAGE_IMMUTABLE;
         ibd.ByteWidth = static_cast<UINT>(indexCount * sizeof(uint16_t));
@@ -837,7 +837,7 @@ ibd.Usage = D3D11_USAGE_IMMUTABLE;
 
      hr = gfx.Dev()->CreateBuffer(&ibd, &iData, meshData->indexBuffer.GetAddressOf());
      if (FAILED(hr)) {
-            DEBUGLOG_ERROR("[RenderSystem] ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìì¬¸”s (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[RenderSystem] ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆå¤±æ•— (HRESULT: 0x" + std::to_string(hr) + ")");
    return false;
         }
 
@@ -848,7 +848,7 @@ ibd.Usage = D3D11_USAGE_IMMUTABLE;
     }
 
     /**
-   * @brief ƒpƒCƒvƒ‰ƒCƒ“‚Ìİ’è
+   * @brief ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®è¨­å®š
      */
     void SetupPipeline(GfxDevice& gfx) {
         gfx.Ctx()->IASetInputLayout(layout_.Get());
@@ -863,21 +863,21 @@ ibd.Usage = D3D11_USAGE_IMMUTABLE;
     }
 
     /**
-* @brief ƒ‰ƒCƒg’è”‚ÌXV
+* @brief ãƒ©ã‚¤ãƒˆå®šæ•°ã®æ›´æ–°
      */
     void UpdateLightConstants(World& w, const Camera& cam, GfxDevice& gfx) {
       PSLightConstants lightCbuf;
         lightCbuf.eyePos = cam.position;
-      
+
         w.ForEach<DirectionalLight>([&](Entity e, DirectionalLight& l) {
             lightCbuf.light = l;
         });
-   
+
         gfx.Ctx()->UpdateSubresource(psLightCb_.Get(), 0, nullptr, &lightCbuf, 0, 0);
     }
 
     /**
-     * @brief ModelComponent‚Ì•`‰æ
+     * @brief ModelComponentã®æç”»
      */
     void RenderModelComponents(World& w, GfxDevice& gfx, const Camera& cam, TextureManager& texMgr) {
         w.ForEach<ModelComponent>([&](Entity e, ModelComponent& mc) {
@@ -885,17 +885,17 @@ ibd.Usage = D3D11_USAGE_IMMUTABLE;
        if (!t) return;
     if (!mc.vertexBuffer || !mc.indexBuffer) return;
 
-     // ƒ[ƒ‹ƒhs—ñ‚ÌŒvZ
+     // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
           DirectX::XMMATRIX worldMatrix = CalculateWorldMatrix(*t);
 
-            // ’è”ƒoƒbƒtƒ@‚ÌXV
+            // å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®æ›´æ–°
    UpdateVSConstants(gfx, worldMatrix, cam, mc.uvOffset, mc.uvScale);
             UpdatePSConstants(gfx, mc.color, mc.texture, mc.normalTexture, 32.0f);
 
-  // ƒeƒNƒXƒ`ƒƒ‚Ìİ’è
+  // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è¨­å®š
          SetTextures(gfx, texMgr, mc.texture, mc.normalTexture);
 
-// •`‰æ
+// æç”»
    UINT stride = sizeof(Vertex);
      UINT offset = 0;
             gfx.Ctx()->IASetVertexBuffers(0, 1, mc.vertexBuffer.GetAddressOf(), &stride, &offset);
@@ -908,11 +908,11 @@ stats_.modelsRendered++;
     }
 
     /**
-     * @brief MeshRenderer‚Ì•`‰æ
+     * @brief MeshRendererã®æç”»
    */
     void RenderMeshRenderers(World& w, GfxDevice& gfx, const Camera& cam, TextureManager& texMgr) {
         w.ForEach<Transform, MeshRenderer>([&](Entity e, Transform& t, MeshRenderer& mr) {
-          // ƒƒbƒVƒ…ƒf[ƒ^‚Ìæ“¾
+          // ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
   auto it = meshCache_.find(static_cast<int>(mr.meshType));
             if (it == meshCache_.end() || !it->second) {
   DEBUGLOG_WARNING("[RenderSystem] MeshType not found: " + std::to_string(static_cast<int>(mr.meshType)));
@@ -922,17 +922,17 @@ stats_.modelsRendered++;
    auto* meshData = it->second.get();
         if (!meshData->vertexBuffer || !meshData->indexBuffer) return;
 
-      // ƒ[ƒ‹ƒhs—ñ‚ÌŒvZ
+      // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
      DirectX::XMMATRIX worldMatrix = CalculateWorldMatrix(t);
 
-  // ’è”ƒoƒbƒtƒ@‚ÌXV
+  // å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®æ›´æ–°
      UpdateVSConstants(gfx, worldMatrix, cam, mr.uvOffset, mr.uvScale);
 UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32.0f);
 
-            // ƒeƒNƒXƒ`ƒƒ‚Ìİ’è
+            // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è¨­å®š
    SetTextures(gfx, texMgr, mr.texture, TextureManager::INVALID_TEXTURE);
 
- // •`‰æ
+ // æç”»
             UINT stride = sizeof(Vertex);
             UINT offset = 0;
             gfx.Ctx()->IASetVertexBuffers(0, 1, meshData->vertexBuffer.GetAddressOf(), &stride, &offset);
@@ -945,7 +945,7 @@ UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32
     }
 
     /**
-     * @brief ƒ[ƒ‹ƒhs—ñ‚ÌŒvZ
+     * @brief ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
      */
     DirectX::XMMATRIX CalculateWorldMatrix(const Transform& t) const {
         DirectX::XMMATRIX S = DirectX::XMMatrixScaling(t.scale.x, t.scale.y, t.scale.z);
@@ -954,24 +954,24 @@ UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32
             DirectX::XMConvertToRadians(t.rotation.y),
  DirectX::XMConvertToRadians(t.rotation.z));
   DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(t.position.x, t.position.y, t.position.z);
-        
+
         return S * R * T;
     }
 
     /**
-     * @brief VS’è”ƒoƒbƒtƒ@‚ÌXV
+     * @brief VSå®šæ•°ãƒãƒƒãƒ•ã‚¡ã®æ›´æ–°
      */
     void UpdateVSConstants(GfxDevice& gfx, const DirectX::XMMATRIX& worldMatrix, const Camera& cam, const DirectX::XMFLOAT2& uvOffset, const DirectX::XMFLOAT2& uvScale) {
       VSConstants vsCbuf;
         vsCbuf.World = DirectX::XMMatrixTranspose(worldMatrix);
     vsCbuf.WVP = DirectX::XMMatrixTranspose(worldMatrix * cam.View * cam.Proj);
      vsCbuf.uvTransform = DirectX::XMFLOAT4{uvOffset.x, uvOffset.y, uvScale.x, uvScale.y};
-        
+
         gfx.Ctx()->UpdateSubresource(vsCb_.Get(), 0, nullptr, &vsCbuf, 0, 0);
     }
 
     /**
-     * @brief PS’è”ƒoƒbƒtƒ@‚ÌXV
+     * @brief PSå®šæ•°ãƒãƒƒãƒ•ã‚¡ã®æ›´æ–°
      */
     void UpdatePSConstants(GfxDevice& gfx, const DirectX::XMFLOAT3& color, TextureManager::TextureHandle texture, TextureManager::TextureHandle normalTexture, float specularPower) {
         PSConstants psCbuf;
@@ -979,16 +979,16 @@ UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32
       psCbuf.useTexture = (texture != TextureManager::INVALID_TEXTURE) ? 1.0f : 0.0f;
     psCbuf.useNormalMap = (normalTexture != TextureManager::INVALID_TEXTURE) ? 1.0f : 0.0f;
         psCbuf.specularPower = specularPower;
-        
+
         gfx.Ctx()->UpdateSubresource(psCb_.Get(), 0, nullptr, &psCbuf, 0, 0);
     }
 
     /**
-     * @brief ƒeƒNƒXƒ`ƒƒ‚Ìİ’è
+     * @brief ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è¨­å®š
      */
     void SetTextures(GfxDevice& gfx, TextureManager& texMgr, TextureManager::TextureHandle texture, TextureManager::TextureHandle normalTexture) {
    ID3D11ShaderResourceView* srvs[2] = {nullptr, nullptr};
-        
+
         if (texture != TextureManager::INVALID_TEXTURE) {
             srvs[0] = texMgr.GetSRV(texture);
         }
@@ -996,7 +996,7 @@ UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32
         if (normalTexture != TextureManager::INVALID_TEXTURE) {
     srvs[1] = texMgr.GetSRV(normalTexture);
         }
-    
+
         gfx.Ctx()->PSSetShaderResources(0, 2, srvs);
     }
 };
