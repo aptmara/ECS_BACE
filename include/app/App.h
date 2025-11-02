@@ -650,6 +650,68 @@ private:
 
         // 座標軸を後から描画して見やすくする
         debugDraw_.DrawAxes(500.0f);
+
+        // プレイヤーの位置を可視化（デバッグ用）
+        world_.ForEach<Transform, PlayerTag>([&](Entity e, Transform& t, PlayerTag&) {
+            // プレイヤーの位置を中心に立方体のアウトラインを描画
+            float size = 0.5f;
+            DirectX::XMFLOAT3 pos = t.position;
+            DirectX::XMFLOAT3 color{ 1.0f, 1.0f, 0.0f }; // 黄色
+
+            // キューブのエッジを描画
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y - size, pos.z - size},
+                {pos.x + size, pos.y - size, pos.z - size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y - size, pos.z - size},
+                {pos.x + size, pos.y + size, pos.z - size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y + size, pos.z - size},
+                {pos.x - size, pos.y + size, pos.z - size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y + size, pos.z - size},
+                {pos.x - size, pos.y - size, pos.z - size},
+                color);
+
+            // Back face
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y - size, pos.z + size},
+                {pos.x + size, pos.y - size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y - size, pos.z + size},
+                {pos.x + size, pos.y + size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y + size, pos.z + size},
+                {pos.x - size, pos.y + size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y + size, pos.z + size},
+                {pos.x - size, pos.y - size, pos.z + size},
+                color);
+
+            // Connections between front and back
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y - size, pos.z - size},
+                {pos.x - size, pos.y - size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y - size, pos.z - size},
+                {pos.x + size, pos.y - size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y + size, pos.z - size},
+                {pos.x + size, pos.y + size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y + size, pos.z - size},
+                {pos.x - size, pos.y + size, pos.z + size},
+                color);
+        });
     }
 #endif
 

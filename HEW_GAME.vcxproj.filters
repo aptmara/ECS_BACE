@@ -110,9 +110,6 @@
     <ClInclude Include="include\graphics\GfxDevice.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\RenderSystem.h">
-      <Filter>Header Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="include\graphics\TextureManager.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
     <ClInclude Include="include\systems\ModelLoadingSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\graphics\RenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -221,6 +221,8 @@
     <None Include="docs\ChargeSystem_Guide.md" />
     <None Include="docs\RealtimeCharge_Guide.md" />
     <None Include="docs\ChargeSystem_QuickRef.md" />
+    <None Include="docs\DebugDraw_Improvements.md" />
+    <None Include="docs\RenderSystem_Improvements.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">

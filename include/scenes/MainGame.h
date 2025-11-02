@@ -9,6 +9,7 @@
 #include "pch.h"
 #include "components/GameTags.h"
 #include "components/PlayerComponents.h"
+#include "components/MeshRenderer.h"
 #include "input/InputSystem.h"
 #include "input/GamepadSystem.h"
 #include "components/Model.h"
@@ -37,18 +38,17 @@ public:
         // プレイヤー作成
         CreatePlayer(world);
 
-        // モデルを持つエンティティを作成
-        Entity modelEntity = world.Create()
-            .With<Transform>(DirectX::XMFLOAT3{0, 1, 0}, DirectX::XMFLOAT3{0, 0, 0}, DirectX::XMFLOAT3{1, 1, 1})
-            .With<Model>(Model{"Assets/Models/test.fbx"}) // 修正: Model オブジェクトを明示的に構築
-            .With<Rotator>(Rotator{45.0f}) // 修正: Rotator のコンストラクタ呼び出しを明示
-            .Build();
-        ownedEntities_.push_back(modelEntity);
-
         DEBUGLOG("GameScene::OnEnter() - 初期化完了");
     }
 
     void OnUpdate(World& world, InputSystem& input, float deltaTime) override {
+        // PlayerMovementコンポーネントにInputSystemの参照を設定
+        world.ForEach<PlayerMovement>([&](Entity e, PlayerMovement& pm) {
+            if (!pm.input_) {
+                pm.input_ = &input;
+            }
+        });
+
         world.Tick(deltaTime);
     }
 
@@ -63,7 +63,7 @@ public:
         for (const auto& entity : ownedEntities_) {
             if (world.IsAlive(entity)) {
                 world.DestroyEntityWithCause(entity, World::Cause::SceneUnload);
-        }
+            }
         }
         ownedEntities_.clear();
 
@@ -77,14 +77,37 @@ private:
      */
     void CreatePlayer(World& world) {
         // エンティティ作成
+        // カメラは{0, 20, -20}から{0, 0, 0}を見ているため、
+        // プレイヤーをZ=5付近に配置してカメラの視野内に表示
+        Transform transform{
+            {0.0f, 0.0f, 5.0f},
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 1.0f, 1.0f},
+        };
+        
+        // MeshRendererを使ってキューブとして描画
+        MeshRenderer renderer;
+        renderer.meshType = MeshType::Cube;
+        renderer.color = DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f};  // 緑色
+        
+        // プレイヤーエンティティを作成
         Entity player = world.Create()
-        .With<Transform>()
-        .With<MeshRenderer>()
-        .With<PlayerTag>()
-        .With<PlayerMovement>()
-        .Build();
+            .With<Transform>(transform)
+            .With<MeshRenderer>(renderer)
+            .With<PlayerTag>()
+            .With<PlayerMovement>()
+            .With<Rotator>(45.0f)  // 回転速度を45度/秒に修正
+            .Build();
 
-        ownedEntities_.push_back(player);
+   DEBUGLOG("CreatePlayer: Player entity created - ID: " + std::to_string(player.id) + ", Gen: " + std::to_string(player.gen));
+        DEBUGLOG("CreatePlayer: Position: (" + std::to_string(transform.position.x) + ", " + 
+     std::to_string(transform.position.y) + ", " + 
+   std::to_string(transform.position.z) + ")");
+        DEBUGLOG("CreatePlayer: Has Transform: " + std::string(world.Has<Transform>(player) ? "YES" : "NO"));
+    DEBUGLOG("CreatePlayer: Has PlayerTag: " + std::string(world.Has<PlayerTag>(player) ? "YES" : "NO"));
+        DEBUGLOG("CreatePlayer: Has MeshRenderer: " + std::string(world.Has<MeshRenderer>(player) ? "YES" : "NO"));
+
+     ownedEntities_.push_back(player);
         playerEntity_ = player;
     }
     Entity playerEntity_;          ///< プレイヤーエンティティ
