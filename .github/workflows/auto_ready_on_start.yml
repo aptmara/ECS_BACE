@@ -1,0 +1,168 @@
+name: Auto Ready on Start Date
+
+on:
+  schedule:
+    # Every hour at minute 5
+    - cron: '5 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (true/false)'
+        required: false
+        default: 'false'
+
+jobs:
+  move-to-ready:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move items to Ready when Start date reached
+        uses: actions/github-script@v7
+        env:
+          ORG: aptma-sHEWTeam
+          PROJECT_NUMBER: '3'
+          # Names considered as Ready in your Status field
+          READY_NAMES: 'Ready,準備完了'
+          # Names considered NOT ready (will be moved)
+          NOT_READY_NAMES: 'No status,Backlog,未着手'
+          # Local time offset minutes (e.g., JST = +540)
+          TZ_OFFSET_MINUTES: '540'
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          GITHUB_TOKEN: ${{ secrets.ORG_PROJECTS_TOKEN }}
+        with:
+          github-token: ${{ secrets.ORG_PROJECTS_TOKEN }}
+          script: |
+            const org = process.env.ORG;
+            const projectNumber = parseInt(process.env.PROJECT_NUMBER, 10);
+            const readyNames = (process.env.READY_NAMES || '').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+            const notReadyNames = (process.env.NOT_READY_NAMES || '').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+            const tzOffsetMin = parseInt(process.env.TZ_OFFSET_MINUTES || '0', 10);
+            const dryRun = (process.env.DRY_RUN || 'false').toLowerCase() === 'true';
+
+            function todayLocalKey(offsetMin){
+              const t = new Date(Date.now() + offsetMin*60000);
+              const y = t.getUTCFullYear();
+              const m = String(t.getUTCMonth()+1).padStart(2,'0');
+              const d = String(t.getUTCDate()).padStart(2,'0');
+              return `${y}-${m}-${d}`;
+            }
+            const today = todayLocalKey(tzOffsetMin);
+            console.log('Today (local key):', today, 'offset(min):', tzOffsetMin);
+
+            const fieldsQuery = `
+              query($org: String!, $number: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 50) {
+                      nodes {
+                        ... on ProjectV2Field { id name dataType }
+                        ... on ProjectV2SingleSelectField { id name dataType options { id name } }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const pageQuery = `
+              query($org: String!, $number: Int!, $first: Int!, $after: String) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    items(first: $first, after: $after) {
+                      nodes {
+                        id
+                        fieldValues(first: 20) {
+                          nodes {
+                            __typename
+                            ... on ProjectV2ItemFieldDateValue {
+                              date
+                              field { ... on ProjectV2Field { id name } }
+                            }
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                              name
+                              optionId
+                              field { ... on ProjectV2Field { id name } }
+                            }
+                          }
+                        }
+                      }
+                      pageInfo { hasNextPage endCursor }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const updateMutation = `
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId,
+                  itemId: $itemId,
+                  fieldId: $fieldId,
+                  value: { singleSelectOptionId: $optionId }
+                }) { projectV2Item { id } }
+              }
+            `;
+
+            // 1) Get project fields and option IDs
+            const fieldsRes = await github.graphql(fieldsQuery, { org, number: projectNumber });
+            const project = fieldsRes.organization.projectV2;
+            const projectId = project.id;
+            const fields = project.fields.nodes;
+
+            function findFieldByName(names) {
+              const set = new Set(names.map(n=>n.trim().toLowerCase()));
+              return fields.find(f => set.has(f.name.trim().toLowerCase()));
+            }
+
+            const statusField = findFieldByName(['Status', 'ステータス']);
+            const startDateField = findFieldByName(['Start date', 'Start Date', '開始日']);
+            if (!statusField) throw new Error('Status field not found in project');
+            if (!startDateField) throw new Error('Start date field not found in project');
+
+            const statusOptions = (statusField.options || []).map(o=>({ name:o.name, id:o.id }));
+            const optIdByName = new Map(statusOptions.map(o=>[o.name.trim().toLowerCase(), o.id]));
+            console.log('Status options:', statusOptions.map(o=>o.name));
+
+            let readyOptionId = null;
+            for (const n of readyNames) { if (optIdByName.has(n)) { readyOptionId = optIdByName.get(n); break; } }
+            if (!readyOptionId) throw new Error('Ready option not found. Configure READY_NAMES env to match your project.');
+
+            const notReadyNameSet = new Set(notReadyNames);
+
+            // 2) Iterate items pages
+            let after = null; let processed = 0; let changed = 0; let candidates = 0;
+            while (true) {
+              const pageRes = await github.graphql(pageQuery, { org, number: projectNumber, first: 100, after });
+              const items = pageRes.organization.projectV2.items;
+              for (const node of items.nodes) {
+                processed++;
+                // Extract Start date and Status
+                let startDate = null; let statusName = null; let statusOptionId = null;
+                for (const fv of node.fieldValues.nodes) {
+                  if (fv.__typename === 'ProjectV2ItemFieldDateValue' && fv.field && fv.field.name === startDateField.name) {
+                    startDate = fv.date; // YYYY-MM-DD
+                  } else if (fv.__typename === 'ProjectV2ItemFieldSingleSelectValue' && fv.field && fv.field.name === statusField.name) {
+                    statusName = fv.name; statusOptionId = fv.optionId;
+                  }
+                }
+                const statusNameLc = (statusName || '').trim().toLowerCase();
+                if (!startDate) continue; // nothing to do
+                if (startDate <= today && (notReadyNameSet.has(statusNameLc) || !statusName)) {
+                  candidates++;
+                  console.log(`Candidate -> item:${node.id} start:${startDate} status:${statusName || '(empty)'} -> Ready`);
+                  if (!dryRun) {
+                    try {
+                      await github.graphql(updateMutation, { projectId, itemId: node.id, fieldId: statusField.id, optionId: readyOptionId });
+                      changed++;
+                    } catch (e) {
+                      console.log('Update failed for item', node.id, e.message);
+                    }
+                  }
+                }
+              }
+              if (!items.pageInfo.hasNextPage) break;
+              after = items.pageInfo.endCursor;
+            }
+
+            console.log(`Done. Processed=${processed}, Eligible=${candidates}, Changed=${changed}, DryRun=${dryRun}`);

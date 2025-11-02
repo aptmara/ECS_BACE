@@ -1,0 +1,49 @@
+name: Build and Compile Check
+
+on:
+  pull_request:
+    branches: [ master, main, develop ]
+  push:
+    branches: [ master, main, develop ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        config: [Debug, Release]
+        platform: [x64]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+    
+    - name: Restore NuGet packages
+      run: nuget restore HEW_GAME.sln
+    
+    - name: Build solution
+      run: msbuild HEW_GAME.sln /p:Configuration=${{ matrix.config }} /p:Platform=${{ matrix.platform }} /m
+    
+    - name: Check for build errors
+      if: failure()
+      run: |
+        echo "Build failed for config=${{ matrix.config }}, platform=${{ matrix.platform }}"
+        exit 1
+
+  compile-check:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+    
+    - name: Compile check (Debug/x64)
+      run: msbuild HEW_GAME.sln /p:Configuration=Debug /p:Platform=x64 /m /v:quiet
+      continue-on-error: false

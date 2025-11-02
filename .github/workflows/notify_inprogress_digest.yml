@@ -1,0 +1,115 @@
+name: Digest - In Progress Tasks to Discord
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    - cron: '10 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (true/false)'
+        required: false
+        default: 'false'
+      statuses:
+        description: 'Comma separated status names to include (case-insensitive)'
+        required: false
+        default: 'Ready,準備完了,No status,Nostats,NoStatus'
+
+jobs:
+  digest-inprogress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post digest to Discord
+        uses: actions/github-script@v7
+        env:
+          ORG: aptma-sHEWTeam
+          PROJECT_NUMBER: '3'
+          DISCORD_WEBHOOK_INPROGRESS: ${{ secrets.DISCORD_WEBHOOK_INPROGRESS }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          IN_PROGRESS_STATUS_NAMES: ${{ inputs.statuses || 'Ready,準備完了,No status,Nostats,NoStatus' }}
+          CATEGORY_FIELD_NAMES: 'Category,カテゴリ'
+          IMPORTANCE_FIELD_NAMES: 'Importance,重要度,Priority,優先度'
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        with:
+          github-token: ${{ secrets.ORG_PROJECTS_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const webhook = process.env.DISCORD_WEBHOOK_INPROGRESS || process.env.DISCORD_WEBHOOK;
+            if (!webhook) { core.warning('No Discord webhook found'); return; }
+            const org = process.env.ORG;
+            const projectNumber = parseInt(process.env.PROJECT_NUMBER, 10);
+            const dryRun = (process.env.DRY_RUN || 'false').toLowerCase() === 'true';
+            const statusNames = (process.env.IN_PROGRESS_STATUS_NAMES || '').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+            const categoryFieldNames = (process.env.CATEGORY_FIELD_NAMES || '').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+            const importanceFieldNames = (process.env.IMPORTANCE_FIELD_NAMES || '').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+            const fieldsQuery = `query($org: String!, $number: Int!) { organization(login: $org) { projectV2(number: $number) { id title number fields(first: 50) { nodes { __typename ... on ProjectV2Field { id name dataType } ... on ProjectV2SingleSelectField { id name dataType options { id name } } } } } } }`;
+            const pageQuery = `query($org: String!, $number: Int!, $first: Int!, $after: String) { organization(login: $org) { projectV2(number: $number) { items(first: $first, after: $after) { nodes { id content { __typename ... on Issue { id number title url repository { nameWithOwner } } ... on PullRequest { id number title url repository { nameWithOwner } } } fieldValues(first: 50) { nodes { __typename ... on ProjectV2ItemFieldSingleSelectValue { name optionId field { ... on ProjectV2Field { id name } } } ... on ProjectV2ItemFieldTextValue { text field { ... on ProjectV2Field { id name } } } } } } pageInfo { hasNextPage endCursor } } } } }`;
+            function findFieldByNames(fields, names, pred) { const set = new Set(names); return fields.find(f => f.name && set.has(f.name.trim().toLowerCase()) && (pred ? pred(f) : true)); }
+            const fRes = await github.graphql(fieldsQuery, { org, number: projectNumber });
+            const project = fRes.organization.projectV2;
+            const fields = project.fields.nodes;
+            const statusField = findFieldByNames(fields, new Set(['status','ステータス']), f => f.dataType === 'SINGLE_SELECT');
+            if (!statusField) throw new Error('Status field (single-select) not found');
+            const categoryField = findFieldByNames(fields, new Set(categoryFieldNames));
+            const importanceField = findFieldByNames(fields, new Set(importanceFieldNames));
+            const groups = new Map();
+            let after = null; let scanned = 0; let kept = 0;
+            while (true) {
+              const pRes = await github.graphql(pageQuery, { org, number: projectNumber, first: 100, after });
+              const items = pRes.organization.projectV2.items;
+              for (const node of items.nodes) {
+                scanned++;
+                if (!node.content || (node.content.__typename !== 'Issue' && node.content.__typename !== 'PullRequest')) continue;
+                let status = null, category = 'Uncategorized', importance = 'Normal';
+                for (const fv of node.fieldValues.nodes) {
+                  if (fv.__typename === 'ProjectV2ItemFieldSingleSelectValue') {
+                    const fname = fv.field?.name || '';
+                    if (fname === statusField.name) status = (fv.name || '').trim();
+                    else if (categoryField && fname === categoryField.name) category = (fv.name || '').trim() || category;
+                    else if (importanceField && fname === importanceField.name) importance = (fv.name || '').trim() || importance;
+                  } else if (fv.__typename === 'ProjectV2ItemFieldTextValue') {
+                    const fname = fv.field?.name || '';
+                    if (categoryField && fname === categoryField.name) category = (fv.text || '').trim() || category;
+                    if (importanceField && fname === importanceField.name) importance = (fv.text || '').trim() || importance;
+                  }
+                }
+                const stLc = (status || '').toLowerCase();
+                if (!statusNames.includes(stLc)) continue;
+                const repo = node.content.repository?.nameWithOwner || '';
+                const num = node.content.number ? `#${node.content.number}` : '';
+                const title = node.content.title || '';
+                const url = node.content.url || '';
+                const line = `- [${repo}${num}] ${title} \n  ${url}`;
+                if (!groups.has(category)) groups.set(category, new Map());
+                const g = groups.get(category);
+                if (!g.has(importance)) g.set(importance, []);
+                g.get(importance).push(line);
+                kept++;
+              }
+              if (!items.pageInfo.hasNextPage) break;
+              after = items.pageInfo.endCursor;
+            }
+            const header = `??? In-Progress Digest ? ${project.title} #${project.number} (Statuses: ${statusNames.join(', ')})`;
+            const catNames = Array.from(groups.keys()).sort((a,b)=>a.localeCompare(b));
+            let body = header + "\n";
+            for (const cat of catNames) {
+              body += `\n■ ${cat}\n`;
+              const imp = groups.get(cat);
+              const impNames = Array.from(imp.keys()).sort((a,b)=>a.localeCompare(b));
+              for (const im of impNames) {
+                body += `  - ${im}\n`;
+                for (const line of imp.get(im)) body += `    ${line}\n`;
+              }
+            }
+            if (kept === 0) body += '\n(該当なし)';
+            const chunks = [];
+            const max = 1800;
+            for (let i=0; i<body.length; i+=max) chunks.push(body.slice(i, i+max));
+            if (dryRun) { core.info(`Dry-run. Scanned=${scanned}, Kept=${kept}. Would send ${chunks.length} message(s).`); return; }
+            for (const part of chunks) {
+              const resp = await fetch(webhook, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ content: part }) });
+              if (!resp.ok) { const t = await resp.text(); core.warning(`Discord responded ${resp.status}: ${t}`); }
+              await new Promise(r => setTimeout(r, 400));
+            }
+            core.info(`Sent digest. Scanned=${scanned}, Kept=${kept}, Categories=${catNames.length}`);

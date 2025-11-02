@@ -5,14 +5,13 @@
  * @date 2025
  * @version 4.0
  *
- * @details
- * ### 役割: ゲームの画面(シーン)を切り替える
- * ### 例: タイトル画面 → ゲーム画面 → リザルト画面
+ * ゲームシーンの切り替えを管理するシステムです。
+ * タイトル画面 → ゲーム画面 → リザルト画面など、複数のシーンを動的に切り替えることができます。
  *
- * シーン管理の流れ:
- * 1. ISceneを継承してシーンを作成
- * 2. SceneManagerに登録
- * 3. ChangeScene()で切り替え
+ * シーン管理の流れ：
+ * -# ISceneを継承してシーンを作成
+ * -# SceneManagerに登録
+ * -# ChangeScene()で切り替え
  */
 #pragma once
 
@@ -29,155 +28,83 @@
  * @class IScene
  * @brief すべてのシーンの基底クラス
  *
- * @details
  * ゲームの各画面(シーン)はこのクラスを継承して作成します。
+ * シーンのライフサイクル（開始、更新、終了）を管理します。
  *
- * ### 実装が必要なメソッド:
- * - OnEnter(): シーンが始まるときに1度だけ呼ばれる
- * - OnUpdate(): 毎フレーム呼ばれる(ゲームロジック)
- * - OnExit(): シーンが終わるときに1度だけ呼ばれる
+ * 実装が必要な仮想メソッド：
+ * - OnEnter() : シーン開始時に1度だけ呼ばれる
+ * - OnUpdate() : 毎フレーム呼ばれる（ゲームロジック）
+ * - OnExit() : シーン終了時に1度だけ呼ばれる
  *
- * ### オプションのメソッド:
- * - ShouldChangeScene(): 次のシーンへ移行するか判定
- * - GetNextScene(): 次のシーン名を返す
+ * オプションのメソッド：
+ * - ShouldChangeScene() : 次のシーンへ移行するかどうかを判定
+ * - GetNextScene() : 次のシーン名を返す
  *
- * @par 使用例
- * @code
- * class TitleScene : public IScene {
- * public:
- *     void OnEnter(World& world) override {
- *         // タイトル画面の初期化
- *     }
- *
- *     void OnUpdate(World& world, InputSystem& input, float dt) override {
- *         // スペースキーでゲーム開始
- *         if (input.GetKeyDown(VK_SPACE)) {
- *             changeScene_ = true;
- *         }
- *     }
- *
- *     void OnExit(World& world) override {
- *         // クリーンアップ
- *     }
- *
- *     bool ShouldChangeScene() const override { return changeScene_; }
- *     const char* GetNextScene() const override { return "GameScene"; }
- *
- * private:
- *     bool changeScene_ = false;
- * };
- * @endcode
+ * ShouldChangeScene()がtrueを返すと、自動的にGetNextScene()で指定されたシーンに遷移します。
  *
  * @author 山内陽
+ * @see SceneManager
  */
 class IScene {
 public:
     /**
      * @brief 仮想デストラクタ
-     * @details 派生クラスで正しくデストラクタが呼ばれることを保証します
      */
     virtual ~IScene() = default;
 
     /**
      * @brief シーン開始時の初期化処理
-     *
      * @param[in,out] world ワールド参照
      *
-     * @details
      * シーンが開始されるときに1度だけ呼ばれます。
-     * エンティティの生成、変数の初期化などを行います。
+     * エンティティの生成や変数の初期化などを実装します。
      *
-     * @par 使用例
-     * @code
-     * void OnEnter(World& world) override {
-     *     // プレイヤーを生成
-     *     player_ = world.Create()
-     *         .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-     *         .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
-     *         .Build();
-     * }
-     * @endcode
+     * @see OnUpdate(), OnExit()
      */
     virtual void OnEnter(World& world) = 0;
 
     /**
      * @brief 毎フレームの更新処理
-     *
-     * @param[in,out] world ワールド参照(コンポーネント取得などに使用)
+     * @param[in,out] world ワールド参照（コンポーネント取得などに使用）
      * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム(秒単位)
+     * @param[in] deltaTime デルタタイム（秒単位）
      *
-     * @details
      * 毎フレーム呼ばれます。
      * 入力処理、移動、衝突判定などのゲームロジックを実装します。
      *
-     * @par 使用例
-     * @code
-     * void OnUpdate(World& world, InputSystem& input, float dt) override {
-     *     // 入力処理
-     *     if (input.GetKey('W')) {
-     *         // プレイヤーを移動
-     *     }
-     *
-     *     // ゲームロジック更新
-     *     world.Tick(dt);
-     * }
-     * @endcode
+     * @see OnEnter(), OnExit()
      */
     virtual void OnUpdate(World& world, InputSystem& input, float deltaTime) = 0;
 
     /**
      * @brief シーン終了時のクリーンアップ処理
-     *
      * @param[in,out] world ワールド参照
      *
-     * @details
      * シーンが終了するときに1度だけ呼ばれます。
-     * エンティティの削除、リソースの解放などを行います。
+     * エンティティの削除やリソースの解放などを実装します。
      *
-     * @par 使用例
-     * @code
-     * void OnExit(World& world) override {
-     *     // すべてのエンティティを削除
-     *     world.DestroyEntity(player_);
-     *     world.DestroyEntity(enemy_);
-     * }
-     * @endcode
+     * @see OnEnter(), OnUpdate()
      */
     virtual void OnExit(World& world) = 0;
 
     /**
-     * @brief 次のシーンへ移行するか判定
+     * @brief 次のシーンへ移行するかどうかを判定
+     * @return true: 移行する、false: 移行しない
      *
-     * @return true 移行する, false 移行しない
+     * SceneManagerが毎フレーム呼び出し、trueを返すとシーンを切り替えます。
      *
-     * @details
-     * SceneManagerが毎フレーム呼び出しtrueならシーンを切り替えます。
-     *
-     * @par 使用例
-     * @code
-     * bool ShouldChangeScene() const override {
-     *     return gameOver_;  // ゲームオーバーなら移行
-     * }
-     * @endcode
+     * @see GetNextScene()
      */
     virtual bool ShouldChangeScene() const { return false; }
 
     /**
      * @brief 次のシーン名を取得
-     *
      * @return const char* 次のシーン名
      *
-     * @details
      * ShouldChangeScene()がtrueのときに呼ばれます。
      * RegisterScene()で登録した名前を返してください。
      *
-     * @par 使用例
-     * @code
-     * const char* GetNextScene() const override {
-     *     return "ResultScene";
-     * }
-     * @endcode
+     * @see ShouldChangeScene()
      */
     virtual const char* GetNextScene() const { return nullptr; }
 };
@@ -190,48 +117,30 @@ public:
  * @class SceneManager
  * @brief ゲームシーンの切り替えを管理するクラス
  *
- * @details
- * 複数のシーンを登録し、動的で切り替えを行います。
+ * 複数のシーンを登録し、動的にシーンを切り替えます。
+ * シーンのライフサイクル管理とシーン間の遷移を担当します。
  *
- * ### 基本的な使い方:
- * 1. シーンを作成
- * 2. RegisterScene()で登録
- * 3. Init()で開始シーンを設定
- * 4. 毎フレームUpdate()を呼ぶ
- * 5. 必要に応じてChangeScene()で切り替え
- *
- * @par 使用例
- * @code
- * SceneManager sceneManager;
- * World world;
- *
- * // シーンを登録
- * sceneManager.RegisterScene("Title", new TitleScene());
- * sceneManager.RegisterScene("Game", new GameScene());
- * sceneManager.RegisterScene("Result", new ResultScene());
- *
- * // タイトルシーンから開始
- * sceneManager.Init(sceneManager.GetScene("Title"), world);
- *
- * // ゲームループ
- * while (running) {
- *     sceneManager.Update(world, input, deltaTime);
- * }
- * @endcode
+ * 基本的な使い方：
+ * -# シーンを作成（ISceneを継承）
+ * -# RegisterScene()で登録
+ * -# Init()で開始シーンを設定
+ * -# 毎フレームUpdate()を呼ぶ
+ * -# 必要に応じてChangeScene()で切り替え
  *
  * @author 山内陽
+ * @see IScene
  */
 class SceneManager {
 public:
     /**
-     * @brief 初期化(最初のシーンを設定)
-     *
-     * @param[in] startScene 開始シーン
+     * @brief SceneManagerの初期化（最初のシーンを設定）
+     * @param[in] startScene 開始シーンのポインタ
      * @param[in,out] world ワールド参照
      *
-     * @details
-     * SceneManagerを初期化し最初のシーンを開始します。
-     * startSceneのOnEnter()が自動的に呼ばれます。
+     * SceneManagerを初期化し、最初のシーンを開始します。
+     * 指定されたシーンのOnEnter()が自動的に呼ばれます。
+     *
+     * @see RegisterScene(), Shutdown()
      */
     void Init(IScene* startScene, World& world) {
         // シャットダウン後の再初期化に備えてフラグを戻す
@@ -243,20 +152,13 @@ public:
     }
 
     /**
-     * @brief シーンを登録(動的でシーンを切り替えられるようにする)
-     *
+     * @brief シーンを登録
      * @param[in] name シーンの名前
      * @param[in] scene シーンのポインタ
      *
-     * @details
-     * シーンを動的で登録します。
-     * ChangeScene()で名前を指定してシーンを切り替えられます。
+     * シーンを登録します。RegisterされたシーンはChangeScene()で名前を指定して遷移できます。
      *
-     * @par 使用例
-     * @code
-     * sceneManager.RegisterScene("Title", new TitleScene());
-     * sceneManager.RegisterScene("Game", new GameScene());
-     * @endcode
+     * @see ChangeScene()
      */
     void RegisterScene(const char* name, IScene* scene) {
         scenes_[name] = scene;
@@ -264,14 +166,14 @@ public:
 
     /**
      * @brief 毎フレームの更新
-     *
      * @param[in,out] world ワールド参照
      * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム(秒単位)
+     * @param[in] deltaTime デルタタイム（秒単位）
      *
-     * @details
      * 現在のシーンを更新し、シーン移行をチェックします。
-     * ShouldChangeScene()がtrueなら自動的にシーンを切り替えます。
+     * 現在のシーンのOnUpdate()を呼び、ShouldChangeScene()がtrueなら自動的にシーンを切り替えます。
+     *
+     * @see ChangeScene(), IScene::OnUpdate()
      */
     void Update(World& world, InputSystem& input, float deltaTime) {
         if (!currentScene_) return;
@@ -288,22 +190,19 @@ public:
 
     /**
      * @brief シーンを切り替え
-     *
      * @param[in] sceneName 次のシーン名
      * @param[in,out] world ワールド参照
      *
-     * @details
      * 現在のシーンを終了し、新しいシーンを開始します。
      *
-     * ### 処理の流れ:
-     * 1. 現在のシーンのOnExit()を呼ぶ
-     * 2. 新しいシーンのOnEnter()を呼ぶ
+     * 処理の流れ：
+     * -# 現在のシーンのOnExit()を呼ぶ
+     * -# world.FlushDestroyEndOfFrame()でエンティティを破棄
+     * -# 新しいシーンのOnEnter()を呼ぶ
      *
-     * @par 使用例
-     * @code
-     * // ゲームシーンに切り替え
-     * sceneManager.ChangeScene("Game", world);
-     * @endcode
+     * sceneName が nullptr またはRegisteredされていない場合は何も行いません。
+     *
+     * @see Update(), IScene::OnExit(), IScene::OnEnter()
      */
     void ChangeScene(const char* sceneName, World& world) {
         if (!sceneName) return;
@@ -330,7 +229,9 @@ public:
 
     /**
      * @brief 現在のシーンを取得
-     * @return IScene* 現在のシーン（nullptrの可能性あり）
+     * @return IScene* 現在のシーン（nullptr の可能性あり）
+     *
+     * @see ChangeScene()
      */
     IScene* GetCurrentScene() const {
         return currentScene_;
@@ -338,7 +239,11 @@ public:
 
     /**
      * @brief デストラクタ
-     * @details 登録されたすべてのシーンを削除します
+     *
+     * 登録されたすべてのシーンを削除します。
+     * Shutdown()が明示的に呼ばれていない場合は自動クリーンアップします。
+     *
+     * @see Shutdown()
      */
     ~SceneManager() {
         DEBUGLOG("SceneManager::~SceneManager() - クリーンアップ中");
@@ -373,7 +278,12 @@ public:
 
     /**
      * @brief 明示的なシャットダウン
-     * @details デストラクタ前にリソースを解放したい場合に使用
+     * @param[in,out] world ワールド参照
+     *
+     * デストラクタが呼ばれる前に明示的にリソースを解放したい場合に使用します。
+     * 現在のシーンを終了し、登録済みシーンをすべて削除します。
+     *
+     * @see Init()
      */
     void Shutdown(World& world) {
         if (isShutdown_) {
