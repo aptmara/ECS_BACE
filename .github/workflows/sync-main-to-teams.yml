@@ -1,0 +1,77 @@
+name: Sync master to team branches
+
+on:
+  push:
+    branches: [ master ]               # master更新時に即同期
+  schedule:
+    - cron: "0 11 * * *"               # 毎日 JST 20:00（＝UTC 11:00）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-master-to-teams
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        team_branch: [ "Team_A", "Team_B", "Team_C" ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # 現在チェックアウト中のmasterに書き込まない。リモート追跡だけ更新。
+      - name: Fetch remote tracking branches
+        run: |
+          git fetch --prune origin
+
+      - name: Prepare local team branch from origin
+        run: |
+          # リモートが存在しない場合は失敗させる（設定ミス検知）
+          git show-ref --verify --quiet refs/remotes/origin/${{ matrix.team_branch }}
+          # ローカルの team ブランチを origin/<team> から作成/更新（強制）
+          git checkout -B ${{ matrix.team_branch }} origin/${{ matrix.team_branch }}
+
+      - name: Merge origin/master into team branch (no-ff)
+        id: merge
+        run: |
+          set -e
+          # 競合なし→0、競合あり→非0で失敗させる
+          if git merge --no-ff --no-edit origin/master ; then
+            echo "merged=true" >> $GITHUB_OUTPUT
+          else
+            echo "merged=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Push if merged
+        if: steps.merge.outputs.merged == 'true'
+        run: |
+          git push origin HEAD:${{ matrix.team_branch }}
+
+      - name: Create PR on conflict
+        if: failure()
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(sync): merge master into ${{ matrix.team_branch }}"
+          title: "Sync master → ${{ matrix.team_branch }}（競合解消が必要）"
+          body: |
+            `origin/master` の最新を `${{ matrix.team_branch }}` に取り込む際に競合が発生しました。
+            このPRで競合を解消してください。
+          branch: "automation/sync-master-into-${{ matrix.team_branch }}"
+          base: "${{ matrix.team_branch }}"
+          labels: "sync, needs-conflict-resolution"

@@ -1,12 +1,12 @@
-/**
+ï»¿/**
  * @file EnemySpawner.h
- * @brief “GƒXƒ|[ƒ“ƒVƒXƒeƒ€
- * @author R“à—z
+ * @brief æ•µã‚¹ãƒãƒ¼ãƒ³ã‚·ã‚¹ãƒ†ãƒ 
+ * @author å±±å†…é™½
  * @date 2025
  * @version 1.0
  * 
  * @details
- * ƒ‰ƒ“ƒ_ƒ€‚ÈŒ`ó‚ÆF‚Ì“G‚ğ©“®“I‚ÉƒXƒ|[ƒ“‚·‚éƒVƒXƒeƒ€‚Å‚·B
+ * ãƒ©ãƒ³ãƒ€ãƒ ãªå½¢çŠ¶ã¨è‰²ã®æ•µã‚’è‡ªå‹•çš„ã«ã‚¹ãƒãƒ¼ãƒ³ã™ã‚‹ã‚·ã‚¹ãƒ†ãƒ ã§ã™ã€‚
  */
 #pragma once
 
@@ -21,24 +21,24 @@
 
 /**
  * @struct EnemyTag
- * @brief “G‚ğ¯•Ê‚·‚éƒ^ƒOƒRƒ“ƒ|[ƒlƒ“ƒg
+ * @brief æ•µã‚’è­˜åˆ¥ã™ã‚‹ã‚¿ã‚°ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
  * 
  * @details
- * ƒGƒ“ƒeƒBƒeƒB‚ª“G‚Å‚ ‚é‚±‚Æ‚ğ¦‚·ƒ}[ƒJ[‚Å‚·B
- * Õ“Ë”»’è‚âForEachˆ—‚Å“G‚ği‚è‚Ş‚½‚ß‚Ég—p‚µ‚Ü‚·B
+ * ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒæ•µã§ã‚ã‚‹ã“ã¨ã‚’ç¤ºã™ãƒãƒ¼ã‚«ãƒ¼ã§ã™ã€‚
+ * è¡çªåˆ¤å®šã‚„ForEachå‡¦ç†ã§æ•µã‚’çµã‚Šè¾¼ã‚€ãŸã‚ã«ä½¿ç”¨ã—ã¾ã™ã€‚
  * 
- * @author R“à—z
+ * @author å±±å†…é™½
  */
 struct EnemyTag : IComponent {};
 
 /**
  * @struct EnemyMovement
- * @brief “G‚ÌˆÚ“®Behaviour
+ * @brief æ•µã®ç§»å‹•Behaviour
  * 
  * @details
- * “G‚ğ‰º•ûŒü‚ÉˆÚ“®‚³‚¹A‰æ–ÊŠO‚Éo‚½‚ç©“®“I‚Éíœ‚µ‚Ü‚·B
+ * æ•µã‚’ä¸‹æ–¹å‘ã«ç§»å‹•ã•ã›ã€ç”»é¢å¤–ã«å‡ºãŸã‚‰è‡ªå‹•çš„ã«å‰Šé™¤ã—ã¾ã™ã€‚
  * 
- * @par g—p—á
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * Entity enemy = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 5, 0})
@@ -48,26 +48,26 @@ struct EnemyTag : IComponent {};
  *     .Build();
  * @endcode
  * 
- * @author R“à—z
+ * @author å±±å†…é™½
  */
 struct EnemyMovement : Behaviour {
-    float speed = 2.0f;  ///< ‰º•ûŒü‚Ö‚ÌˆÚ“®‘¬“x
-    float destroyY = -10.0f;  ///< ‚±‚Ì‚‚³ˆÈ‰º‚É‚È‚Á‚½‚çíœ
+    float speed = 2.0f;  ///< ä¸‹æ–¹å‘ã¸ã®ç§»å‹•é€Ÿåº¦
+    float destroyY = -10.0f;  ///< ã“ã®é«˜ã•ä»¥ä¸‹ã«ãªã£ãŸã‚‰å‰Šé™¤
     
     /**
-     * @brief –ˆƒtƒŒ[ƒ€XVˆ—
-     * @param[in,out] w ƒ[ƒ‹ƒhQÆ
-     * @param[in] self ©g‚ÌƒGƒ“ƒeƒBƒeƒB
-     * @param[in] dt ƒfƒ‹ƒ^ƒ^ƒCƒ€(•b’PˆÊ)
+     * @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°å‡¦ç†
+     * @param[in,out] w ãƒ¯ãƒ¼ãƒ«ãƒ‰å‚ç…§
+     * @param[in] self è‡ªèº«ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @param[in] dt ãƒ‡ãƒ«ã‚¿ã‚¿ã‚¤ãƒ (ç§’å˜ä½)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         auto* t = w.TryGet<Transform>(self);
         if (!t) return;
         
-        // ‰º•ûŒü‚ÉˆÚ“®
+        // ä¸‹æ–¹å‘ã«ç§»å‹•
         t->position.y -= speed * dt;
         
-        // ‰æ–Ê‰º‚Éo‚½‚çíœ
+        // ç”»é¢ä¸‹ã«å‡ºãŸã‚‰å‰Šé™¤
         if (t->position.y < destroyY) {
             w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
         }
@@ -76,56 +76,56 @@ struct EnemyMovement : Behaviour {
 
 /**
  * @struct EnemySpawner
- * @brief “G‚ğ’èŠú“I‚ÉƒXƒ|[ƒ“‚·‚éBehaviour
+ * @brief æ•µã‚’å®šæœŸçš„ã«ã‚¹ãƒãƒ¼ãƒ³ã™ã‚‹Behaviour
  * 
  * @details
- * w’è‚³‚ê‚½ŠÔŠu‚Åƒ‰ƒ“ƒ_ƒ€‚ÈŒ`óEFEˆÊ’u‚Ì“G‚ğ¶¬‚µ‚Ü‚·B
+ * æŒ‡å®šã•ã‚ŒãŸé–“éš”ã§ãƒ©ãƒ³ãƒ€ãƒ ãªå½¢çŠ¶ãƒ»è‰²ãƒ»ä½ç½®ã®æ•µã‚’ç”Ÿæˆã—ã¾ã™ã€‚
  * 
- * ### ƒXƒ|[ƒ“‚³‚ê‚é“G‚Ì“Á’¥:
- * - ƒ‰ƒ“ƒ_ƒ€‚ÈŒ`ó(Cube, Sphere, Cylinder, Cone, Capsule)
- * - ƒ‰ƒ“ƒ_ƒ€‚ÈF
- * - ƒ‰ƒ“ƒ_ƒ€‚ÈXÀ•W
- * - ƒ‰ƒ“ƒ_ƒ€‚È‰ñ“]‘¬“x
+ * ### ã‚¹ãƒãƒ¼ãƒ³ã•ã‚Œã‚‹æ•µã®ç‰¹å¾´:
+ * - ãƒ©ãƒ³ãƒ€ãƒ ãªå½¢çŠ¶(Cube, Sphere, Cylinder, Cone, Capsule)
+ * - ãƒ©ãƒ³ãƒ€ãƒ ãªè‰²
+ * - ãƒ©ãƒ³ãƒ€ãƒ ãªXåº§æ¨™
+ * - ãƒ©ãƒ³ãƒ€ãƒ ãªå›è»¢é€Ÿåº¦
  * 
- * @par g—p—á
+ * @par ä½¿ç”¨ä¾‹
  * @code
- * // ƒV[ƒ“‰Šú‰»‚É1‚Â‚¾‚¯ƒXƒ|[ƒi[‚ğ”z’u
+ * // ã‚·ãƒ¼ãƒ³åˆæœŸåŒ–æ™‚ã«1ã¤ã ã‘ã‚¹ãƒãƒ¼ãƒŠãƒ¼ã‚’é…ç½®
  * Entity spawner = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
  *     .With<EnemySpawner>()
  *     .Build();
  * @endcode
  * 
- * @note ‚±‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Í1‚Â‚ÌƒGƒ“ƒeƒBƒeƒB‚É1‚Â‚¾‚¯•t‚¯‚é‚±‚Æ‚ğ„§
+ * @note ã“ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¯1ã¤ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«1ã¤ã ã‘ä»˜ã‘ã‚‹ã“ã¨ã‚’æ¨å¥¨
  * 
- * @author R“à—z
+ * @author å±±å†…é™½
  */
 struct EnemySpawner : Behaviour {
-    float spawnInterval = 1.5f;  ///< ƒXƒ|[ƒ“ŠÔŠu(•b)
-    float timer = 0.0f;          ///< “à•”ƒ^ƒCƒ}[
-    float spawnY = 10.0f;        ///< ƒXƒ|[ƒ“ˆÊ’u‚ÌYÀ•W
-    float spawnRangeX = 8.0f;    ///< ƒXƒ|[ƒ“”ÍˆÍ‚Ì•(-spawnRangeX ~ +spawnRangeX)
+    float spawnInterval = 1.5f;  ///< ã‚¹ãƒãƒ¼ãƒ³é–“éš”(ç§’)
+    float timer = 0.0f;          ///< å†…éƒ¨ã‚¿ã‚¤ãƒãƒ¼
+    float spawnY = 10.0f;        ///< ã‚¹ãƒãƒ¼ãƒ³ä½ç½®ã®Yåº§æ¨™
+    float spawnRangeX = 8.0f;    ///< ã‚¹ãƒãƒ¼ãƒ³ç¯„å›²ã®å¹…(-spawnRangeX ~ +spawnRangeX)
     
     /**
-     * @brief ‰‰ñ‹N“®‚Ìˆ—
-     * @param[in,out] w ƒ[ƒ‹ƒhQÆ
-     * @param[in] self ©g‚ÌƒGƒ“ƒeƒBƒeƒB
+     * @brief åˆå›èµ·å‹•æ™‚ã®å‡¦ç†
+     * @param[in,out] w ãƒ¯ãƒ¼ãƒ«ãƒ‰å‚ç…§
+     * @param[in] self è‡ªèº«ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
      */
     void OnStart(World& w, Entity self) override {
-        // ‚•i¿—”‚ğ‚ÅƒV[ƒhi‰‰ñ‚Ì‚İj
+        // é«˜å“è³ªä¹±æ•°ã‚’æ™‚åˆ»ã§ã‚·ãƒ¼ãƒ‰ï¼ˆåˆå›ã®ã¿ï¼‰
         util::Random::SeedTime();
     }
     
     /**
-     * @brief –ˆƒtƒŒ[ƒ€XVˆ—
-     * @param[in,out] w ƒ[ƒ‹ƒhQÆ
-     * @param[in] self ©g‚ÌƒGƒ“ƒeƒBƒeƒB
-     * @param[in] dt ƒfƒ‹ƒ^ƒ^ƒCƒ€(•b’PˆÊ)
+     * @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°å‡¦ç†
+     * @param[in,out] w ãƒ¯ãƒ¼ãƒ«ãƒ‰å‚ç…§
+     * @param[in] self è‡ªèº«ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @param[in] dt ãƒ‡ãƒ«ã‚¿ã‚¿ã‚¤ãƒ (ç§’å˜ä½)
      */
     void OnUpdate(World& w, Entity self, float dt) override {
         timer += dt;
         
-        // ƒXƒ|[ƒ“ŠÔŠu‚É’B‚µ‚½‚ç“G‚ğ¶¬
+        // ã‚¹ãƒãƒ¼ãƒ³é–“éš”ã«é”ã—ãŸã‚‰æ•µã‚’ç”Ÿæˆ
         if (timer >= spawnInterval) {
             timer = 0.0f;
             SpawnEnemy(w);
@@ -134,41 +134,41 @@ struct EnemySpawner : Behaviour {
     
 private:
     /**
-     * @brief ƒ‰ƒ“ƒ_ƒ€‚È“G‚ğ¶¬
-     * @param[in,out] w ƒ[ƒ‹ƒhQÆ
+     * @brief ãƒ©ãƒ³ãƒ€ãƒ ãªæ•µã‚’ç”Ÿæˆ
+     * @param[in,out] w ãƒ¯ãƒ¼ãƒ«ãƒ‰å‚ç…§
      */
     void SpawnEnemy(World& w) {
-        // ƒ‰ƒ“ƒ_ƒ€‚ÈXÀ•W
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªXåº§æ¨™
         float randomX = util::Random::Float(-spawnRangeX, spawnRangeX);
         
-        // ƒ‰ƒ“ƒ_ƒ€‚ÈŒ`ó(0-4: Cube, Sphere, Cylinder, Cone, Capsule)
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªå½¢çŠ¶(0-4: Cube, Sphere, Cylinder, Cone, Capsule)
         int shapeIndex = util::Random::Int(0, 4);
         if (shapeIndex >= static_cast<int>(MeshType::Plane)) {
-            shapeIndex++;  // Plane‚ğƒXƒLƒbƒv
+            shapeIndex++;  // Planeã‚’ã‚¹ã‚­ãƒƒãƒ—
         }
         MeshType randomShape = static_cast<MeshType>(shapeIndex);
         
-        // ƒ‰ƒ“ƒ_ƒ€‚ÈF(–¾‚é‚ß‚ÌF)
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªè‰²(æ˜ã‚‹ã‚ã®è‰²)
         DirectX::XMFLOAT3 randomColor = util::Random::ColorBright();
         
-        // ƒ‰ƒ“ƒ_ƒ€‚È‰ñ“]‘¬“x
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªå›è»¢é€Ÿåº¦
         float randomRotSpeed = util::Random::Float(30.0f, 130.0f) * (util::Random::Bool() ? 1.0f : -1.0f);
         
-        // ƒ‰ƒ“ƒ_ƒ€‚ÈƒXƒP[ƒ‹(0.8`1.5”{)
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªã‚¹ã‚±ãƒ¼ãƒ«(0.8ï½1.5å€)
         float randomScale = util::Random::Float(0.8f, 1.5f);
         
-        // Transformİ’è
+        // Transformè¨­å®š
         Transform enemyTransform;
         enemyTransform.position = DirectX::XMFLOAT3{randomX, spawnY, 0.0f};
         enemyTransform.rotation = DirectX::XMFLOAT3{0.0f, 0.0f, 0.0f};
         enemyTransform.scale = DirectX::XMFLOAT3{randomScale, randomScale, randomScale};
         
-        // MeshRendererİ’è
+        // MeshRendererè¨­å®š
         MeshRenderer enemyRenderer;
         enemyRenderer.meshType = randomShape;
         enemyRenderer.color = randomColor;
         
-        // “GƒGƒ“ƒeƒBƒeƒB‚ğì¬
+        // æ•µã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½œæˆ
         Entity enemy = w.Create()
             .With<Transform>(enemyTransform)
             .With<MeshRenderer>(enemyRenderer)
@@ -181,13 +181,13 @@ private:
 
 /**
  * @struct WaveSpawner
- * @brief ƒEƒF[ƒuŒ`®‚Å“G‚ğƒXƒ|[ƒ“‚·‚éBehaviour
+ * @brief ã‚¦ã‚§ãƒ¼ãƒ–å½¢å¼ã§æ•µã‚’ã‚¹ãƒãƒ¼ãƒ³ã™ã‚‹Behaviour
  * 
  * @details
- * ˆê’èŠÔ‚²‚Æ‚É•¡”‚Ì“G‚ğˆê“x‚ÉƒXƒ|[ƒ“‚µ‚Ü‚·B
- * ƒEƒF[ƒuƒQ[ƒ€‚È‚Ç‚Ég—p‚Å‚«‚Ü‚·B
+ * ä¸€å®šæ™‚é–“ã”ã¨ã«è¤‡æ•°ã®æ•µã‚’ä¸€åº¦ã«ã‚¹ãƒãƒ¼ãƒ³ã—ã¾ã™ã€‚
+ * ã‚¦ã‚§ãƒ¼ãƒ–ã‚²ãƒ¼ãƒ ãªã©ã«ä½¿ç”¨ã§ãã¾ã™ã€‚
  * 
- * @par g—p—á
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * Entity spawner = world.Create()
  *     .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
@@ -195,13 +195,13 @@ private:
  *     .Build();
  * @endcode
  * 
- * @author R“à—z
+ * @author å±±å†…é™½
  */
 struct WaveSpawner : Behaviour {
-    float waveInterval = 5.0f;   ///< ƒEƒF[ƒuŠÔŠu(•b)
-    int enemiesPerWave = 5;      ///< 1ƒEƒF[ƒu‚ ‚½‚è‚Ì“G”
-    float timer = 0.0f;          ///< “à•”ƒ^ƒCƒ}[
-    int currentWave = 0;         ///< Œ»İ‚ÌƒEƒF[ƒu”Ô†
+    float waveInterval = 5.0f;   ///< ã‚¦ã‚§ãƒ¼ãƒ–é–“éš”(ç§’)
+    int enemiesPerWave = 5;      ///< 1ã‚¦ã‚§ãƒ¼ãƒ–ã‚ãŸã‚Šã®æ•µæ•°
+    float timer = 0.0f;          ///< å†…éƒ¨ã‚¿ã‚¤ãƒãƒ¼
+    int currentWave = 0;         ///< ç¾åœ¨ã®ã‚¦ã‚§ãƒ¼ãƒ–ç•ªå·
     
     void OnStart(World& w, Entity self) override {
         util::Random::SeedTime();
@@ -220,28 +220,28 @@ struct WaveSpawner : Behaviour {
 private:
     void SpawnWave(World& w) {
         for (int i = 0; i < enemiesPerWave; ++i) {
-            // ‰¡•À‚Ñ‚É”z’u
+            // æ¨ªä¸¦ã³ã«é…ç½®
             float spacing = 2.5f;
             float startX = -(enemiesPerWave - 1) * spacing * 0.5f;
             float x = startX + i * spacing;
             
-            // ƒ‰ƒ“ƒ_ƒ€‚ÈŒ`ó
+            // ãƒ©ãƒ³ãƒ€ãƒ ãªå½¢çŠ¶
             int shapeIndex = util::Random::Int(0, 4);
             if (shapeIndex >= static_cast<int>(MeshType::Plane)) {
                 shapeIndex++;
             }
             MeshType shape = static_cast<MeshType>(shapeIndex);
             
-            // ƒEƒF[ƒu‚²‚Æ‚ÉF‚Ìƒe[ƒ}‚ğ•Ï‚¦‚é
+            // ã‚¦ã‚§ãƒ¼ãƒ–ã”ã¨ã«è‰²ã®ãƒ†ãƒ¼ãƒã‚’å¤‰ãˆã‚‹
             DirectX::XMFLOAT3 color;
             switch (currentWave % 3) {
-                case 0: // ÔŒn
+                case 0: // èµ¤ç³»
                     color = DirectX::XMFLOAT3{1.0f, 0.3f, 0.3f};
                     break;
-                case 1: // —ÎŒn
+                case 1: // ç·‘ç³»
                     color = DirectX::XMFLOAT3{0.3f, 1.0f, 0.3f};
                     break;
-                default: // ÂŒn
+                default: // é’ç³»
                     color = DirectX::XMFLOAT3{0.3f, 0.3f, 1.0f};
                     break;
             }

@@ -14,7 +14,7 @@ struct Rotator : Behaviour {
      */
     Rotator() = default;
 
-    explicit Rotator(float s) : speedDegY(s) {}
+    Rotator(float s) : speedDegY(s) {}
 
     void OnUpdate(World& w, Entity self, float dt) override {
         // このエンティティのTransformを取得
