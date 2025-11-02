@@ -114,231 +114,178 @@ public:
      * 
      * @details
      * XInputとDirectInputの状態を取得し、内部状態を更新します。
-     * ボタンの押下・離された瞬間の判定はこの更新処理によって行われます。
+   * ボタンの押下・離された瞬間の判定はこの更新処理によって行われます。
      */
     void Update();
 
-    /**
-     * @brief ゲームパッドが接続されているか
-     * @param[in] index ゲームパッドインデックス(0-3)
-     * @return true 接続中, false 未接続
-*/
-    bool IsConnected(int index) const;
+    // ========================================================
+    // 統合入力取得（全コントローラー対応）
+    // ========================================================
 
-  /**
-     * @brief ボタンが押されているか
-     * @param[in] index ゲームパッドインデックス(0-3)
+    /**
+     * @brief すべての接続されているゲームパッドの左スティックX軸値を統合
+     * @return float 統合されたX軸値(-1.0 ～ +1.0)
+     * 
+     * @details
+     * すべてのゲームパッド（XInput + DirectInput）の左スティックX軸値を合算します。
+     * 複数のコントローラーの入力を統合して1つの値として返します。
+     */
+    float GetLeftStickX() const;
+
+    /**
+     * @brief すべての接続されているゲームパッドの左スティックY軸値を統合
+     * @return float 統合されたY軸値(-1.0 ～ +1.0)
+     */
+    float GetLeftStickY() const;
+
+    /**
+     * @brief すべての接続されているゲームパッドの右スティックX軸値を統合
+     * @return float 統合されたX軸値(-1.0 ～ +1.0)
+     */
+    float GetRightStickX() const;
+
+    /**
+     * @brief すべての接続されているゲームパッドの右スティックY軸値を統合
+     * @return float 統合されたY軸値(-1.0 ～ +1.0)
+ */
+    float GetRightStickY() const;
+
+    /**
+     * @brief すべての接続されているゲームパッドの左トリガー値を統合
+     * @return float 統合されたトリガー値(0.0 ～ 1.0)
+     */
+    float GetLeftTrigger() const;
+
+    /**
+   * @brief すべての接続されているゲームパッドの右トリガー値を統合
+     * @return float 統合されたトリガー値(0.0 ～ 1.0)
+ */
+    float GetRightTrigger() const;
+
+    /**
+     * @brief すべての接続されているゲームパッドでボタンが押されているか
      * @param[in] button ボタン識別子
-     * @return true 押されている, false 押されていない
-     * 
-     * @details
-     * ボタンが押され続けている間、またはこのフレームで押された瞬間にtrueを返します。
+     * @return true いずれかのゲームパッドで押されている, false すべて押されていない
      */
-    bool GetButton(int index, GamepadButton button) const;
+    bool GetButton(GamepadButton button) const;
 
     /**
-   * @brief ボタンがこのフレームで押された瞬間か
-     * @param[in] index ゲームパッドインデックス(0-3)
+   * @brief すべての接続されているゲームパッドでボタンが押された瞬間か
+ * @param[in] button ボタン識別子
+   * @return true いずれかのゲームパッドで押された, false すべて押されていない
+     */
+    bool GetButtonDown(GamepadButton button) const;
+
+    /**
+     * @brief すべての接続されているゲームパッドでボタンが離された瞬間か
      * @param[in] button ボタン識別子
-     * @return true 押された瞬間, false それ以外
-     * 
-     * @details
-  * ボタンが押された最初のフレームのみtrueを返します。
+     * @return true いずれかのゲームパッドで離された, false すべて離されていない
      */
-    bool GetButtonDown(int index, GamepadButton button) const;
-
-    /**
-* @brief ボタンがこのフレームで離された瞬間か
-  * @param[in] index ゲームパッドインデックス(0-3)
-     * @param[in] button ボタン識別子
-* @return true 離された瞬間, false それ以外
-     */
-    bool GetButtonUp(int index, GamepadButton button) const;
-
-    /**
-     * @brief 左スティックのX軸値を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
- * @return float X軸値(-1.0 ～ +1.0)
-     * 
-     * @details
-     * デッドゾーン処理済みの値を返します。
-     * -1.0が左、+1.0が右を表します。
-  */
-    float GetLeftStickX(int index) const;
-
-    /**
-     * @brief 左スティックのY軸値を取得
-  * @param[in] index ゲームパッドインデックス(0-3)
-   * @return float Y軸値(-1.0 ～ +1.0)
-     * 
-     * @details
-     * デッドゾーン処理済みの値を返します。
-     * -1.0が下、+1.0が上を表します。
-  */
-    float GetLeftStickY(int index) const;
-
-    /**
-     * @brief 右スティックのX軸値を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
-     * @return float X軸値(-1.0 ～ +1.0)
-     */
-    float GetRightStickX(int index) const;
-
-    /**
-     * @brief 右スティックのY軸値を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
-     * @return float Y軸値(-1.0 ～ +1.0)
-     */
-    float GetRightStickY(int index) const;
-
-    /**
-     * @brief 左トリガーの値を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
-     * @return float トリガー値(0.0 ～ 1.0)
-     * 
-     * @details
-     * 0.0が未押下、1.0が最大押下を表します。
-     */
-    float GetLeftTrigger(int index) const;
-
-    /**
-     * @brief 右トリガーの値を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
-     * @return float トリガー値(0.0 ～ 1.0)
-     */
-    float GetRightTrigger(int index) const;
-
-    /**
-     * @brief バイブレーション(振動)を設定
-     * @param[in] index ゲームパッドインデックス(0-3)
-     * @param[in] leftMotor 左モーター強度(0.0 ～ 1.0)
-     * @param[in] rightMotor 右モーター強度(0.0 ～ 1.0)
-     * 
-     * @details
-     * XInputデバイスのみサポートします。DirectInputデバイスでは何も起きません。
-     * 左モーターは低周波、右モーターは高周波の振動を生成します。
-     */
-    void SetVibration(int index, float leftMotor, float rightMotor);
+    bool GetButtonUp(GamepadButton button) const;
 
     // ========================================================
-    // チャージ&リリースシステム(ゲームメインシステム)
-// ========================================================
+    // チャージ&リリースシステム（統合版）
+    // ========================================================
 
     /**
- * @brief 左スティックがチャージ中かどうか
-     * @param[in] index ゲームパッドインデックス(0-3)
+   * @brief 左スティックがチャージ中かどうか
      * @return true チャージ中, false ニュートラル
      * 
      * @details
-   * スティックが傾けられている状態を返します。
+     * いずれかのゲームパッドの左スティックが傾けられている状態を返します。
      */
-    bool IsLeftStickCharging(int index) const;
+    bool IsLeftStickCharging() const;
 
     /**
      * @brief 右スティックがチャージ中かどうか
-     * @param[in] index ゲームパッドインデックス(0-3)
      * @return true チャージ中, false ニュートラル
-  */
-    bool IsRightStickCharging(int index) const;
-
-    /**
-     * @brief 左スティックのチャージ時間を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
-   * @return float チャージ時間(秒)
- * 
-     * @details
-     * スティックを傾け続けている時間を返します。
-     * ニュートラルに戻るとリセットされます。
      */
-    float GetLeftStickChargeTime(int index) const;
+    bool IsRightStickCharging() const;
 
     /**
-     * @brief 右スティックのチャージ時間を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
+     * @brief 左スティックの最大チャージ時間を取得
+     * @return float チャージ時間(秒)
+     * 
+     * @details
+     * すべての接続されているゲームパッドの中で最も長いチャージ時間を返します。
+     */
+    float GetLeftStickChargeTime() const;
+
+    /**
+     * @brief 右スティックの最大チャージ時間を取得
      * @return float チャージ時間(秒)
      */
-    float GetRightStickChargeTime(int index) const;
+  float GetRightStickChargeTime() const;
 
     /**
-   * @brief 左スティックがこのフレームでリリースされたか
-     * @param[in] index ゲームパッドインデックス(0-3)
+     * @brief 左スティックがこのフレームでリリースされたか
      * @return true リリースされた, false リリースされていない
      * 
-     * @details
-     * スティックがチャージ状態からニュートラルに戻った瞬間にtrueを返します。
-     * このフレームのみtrueで、次のフレームからfalseになります。
-     * 
-     * @par ゲームメインシステムでの使用例
-* @code
-     * if (GetGamepad().IsLeftStickReleased(0)) {
-     *     float chargeTime = GetGamepad().GetLeftStickChargeTime(0);
-  *     float power = min(chargeTime * 2.0f, 10.0f); // 最大10.0
-     *  ShootProjectile(power);
-     * }
-     * @endcode
+ * @details
+     * いずれかのゲームパッドの左スティックがチャージ状態からニュートラルに戻った瞬間にtrueを返します。
      */
-    bool IsLeftStickReleased(int index) const;
+    bool IsLeftStickReleased() const;
 
     /**
      * @brief 右スティックがこのフレームでリリースされたか
-     * @param[in] index ゲームパッドインデックス(0-3)
      * @return true リリースされた, false リリースされていない
-     */
-    bool IsRightStickReleased(int index) const;
+  */
+    bool IsRightStickReleased() const;
 
     /**
      * @brief 左スティックのチャージ量を取得(0.0 ～ 1.0)
-     * @param[in] index ゲームパッドインデックス(0-3)
      * @param[in] maxChargeTime 最大チャージ時間(秒、デフォルト3.0秒)
      * @return float チャージ量(0.0 ～ 1.0)
      * 
      * @details
-     * チャージ時間を0.0～1.0の範囲に正規化して返します。
-     * maxChargeTime秒で1.0(100%)に達します。
- * 
-     * @par ゲームメインシステムでの使用例
-     * @code
-     * // リアルタイムでチャージ量を表示
-     * if (GetGamepad().IsLeftStickCharging(0)) {
-     *     float charge = GetGamepad().GetLeftStickChargeAmount(0, 2.0f);
-     *     DrawChargeGauge(charge);
-     * }
+* すべてのゲームパッドの中で最も長いチャージ時間を0.0～1.0の範囲に正規化して返します。
      * 
-     * // リリース時に発射
-     * if (GetGamepad().IsLeftStickReleased(0)) {
-     *     float charge = GetGamepad().GetLeftStickChargeAmount(0, 2.0f);
+     * @par 使用例
+     * @code
+     * if (GetGamepad().IsLeftStickCharging()) {
+     *     float charge = GetGamepad().GetLeftStickChargeAmount(2.0f);
+     *     DrawChargeGauge(charge);
+  * }
+     * 
+     * if (GetGamepad().IsLeftStickReleased()) {
+     *     float charge = GetGamepad().GetLeftStickChargeAmount(2.0f);
      *     ShootWithPower(charge);
      * }
      * @endcode
      */
-    float GetLeftStickChargeAmount(int index, float maxChargeTime = 3.0f) const;
+    float GetLeftStickChargeAmount(float maxChargeTime = 3.0f) const;
 
     /**
      * @brief 右スティックのチャージ量を取得(0.0 ～ 1.0)
-     * @param[in] index ゲームパッドインデックス(0-3)
      * @param[in] maxChargeTime 最大チャージ時間(秒、デフォルト3.0秒)
      * @return float チャージ量(0.0 ～ 1.0)
      */
-    float GetRightStickChargeAmount(int index, float maxChargeTime = 3.0f) const;
+    float GetRightStickChargeAmount(float maxChargeTime = 3.0f) const;
 
     /**
-     * @brief 左スティックの平均入力強度を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
-     * @return float 平均入力強度(0.0 ～ 1.0)
+     * @brief 左スティックの最大入力強度を取得
+     * @return float 最大入力強度(0.0 ～ 1.0)
      * 
      * @details
-     * チャージ中のスティックの平均的な傾き具合を返します。
-     * 強く傾けるほど値が大きくなります。
-     * ニュートラルまたはチャージしていない場合は0.0を返します。
+     * すべてのゲームパッドの中で最も強い左スティックの平均入力強度を返します。
      */
-    float GetLeftStickAverageIntensity(int index) const;
+    float GetLeftStickAverageIntensity() const;
 
     /**
-     * @brief 右スティックの平均入力強度を取得
-     * @param[in] index ゲームパッドインデックス(0-3)
-     * @return float 平均入力強度(0.0 ～ 1.0)
+     * @brief 右スティックの最大入力強度を取得
+     * @return float 最大入力強度(0.0 ～ 1.0)
      */
-    float GetRightStickAverageIntensity(int index) const;
+    float GetRightStickAverageIntensity() const;
+
+    /**
+     * @brief バイブレーション(振動)を全コントローラーに設定
+   * @param[in] leftMotor 左モーター強度(0.0 ～ 1.0)
+     * @param[in] rightMotor 右モーター強度(0.0 ～ 1.0)
+   * 
+     * @details
+     * すべての接続されているXInputデバイスに振動を設定します。
+     */
+    void SetVibration(float leftMotor, float rightMotor);
 
 private:
     /**
@@ -369,21 +316,21 @@ private:
     struct GamepadState {
         DeviceType type;   ///< デバイスタイプ
         bool connected; ///< 接続状態
-    uint8_t buttons[Button_Count];  ///< ボタン状態
-   uint8_t prevButtons[Button_Count];///< 前フレームのボタン状態
+        uint8_t buttons[Button_Count];  ///< ボタン状態
+        uint8_t prevButtons[Button_Count];///< 前フレームのボタン状態
         float leftStickX;     ///< 左スティックX
-     float leftStickY;   ///< 左スティックY
+        float leftStickY;   ///< 左スティックY
         float rightStickX;        ///< 右スティックX
         float rightStickY;    ///< 右スティックY
         float leftTrigger; ///< 左トリガー
-      float rightTrigger;          ///< 右トリガー
-    LPDIRECTINPUTDEVICE8 dinputDevice;      ///< DirectInputデバイス
-   DWORD xinputIndex; ///< XInputインデックス
+        float rightTrigger;          ///< 右トリガー
+        LPDIRECTINPUTDEVICE8 dinputDevice;      ///< DirectInputデバイス
+        DWORD xinputIndex; ///< XInputインデックス
 
         // チャージ&リリースシステム用
         bool leftStickWasCharging;   ///< 前フレームで左スティックがチャージ中だったか
         bool rightStickWasCharging;  ///< 前フレームで右スティックがチャージ中だったか
-     float leftStickChargeTime;   ///< 左スティックチャージ時間
+        float leftStickChargeTime;   ///< 左スティックチャージ時間
         float rightStickChargeTime;  ///< 右スティックチャージ時間
         float leftStickIntensitySum; ///< 左スティック強度累積値
         float rightStickIntensitySum;///< 右スティック強度累積値
@@ -392,16 +339,16 @@ private:
         float leftStickReleaseTimer; ///< 左スティックリリースタイマー
         float rightStickReleaseTimer; ///<右スティックリリースタイマー
 
-     GamepadState() {
+        GamepadState() {
             type = Type_None;
- connected = false;
-   memset(buttons, 0, sizeof(buttons));
-        memset(prevButtons, 0, sizeof(prevButtons));
-  leftStickX = leftStickY = 0.0f;
- rightStickX = rightStickY = 0.0f;
-      leftTrigger = rightTrigger = 0.0f;
-   dinputDevice = nullptr;
-        xinputIndex = 0;
+            connected = false;
+            memset(buttons, 0, sizeof(buttons));
+            memset(prevButtons, 0, sizeof(prevButtons));
+            leftStickX = leftStickY = 0.0f;
+            rightStickX = rightStickY = 0.0f;
+            leftTrigger = rightTrigger = 0.0f;
+            dinputDevice = nullptr;
+            xinputIndex = 0;
             
           // チャージシステム初期化
             leftStickWasCharging = false;
@@ -496,7 +443,5 @@ private:
  * 
  * @author 山内陽
  */
-inline GamepadSystem& GetGamepad() {
-    static GamepadSystem instance;
-    return instance;
-}
+GamepadSystem& GetGamepad();
+

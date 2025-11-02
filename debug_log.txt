@@ -1,172 +1,1101 @@
 ﻿========================================
 デバッグログ開始
 ========================================
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ========================================
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] App::Init() 開始
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウサイズ: 1080x720
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] COMライブラリを初期化 (モード: COINIT_MULTITHREADED, HRESULT: 0x0)
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreateAppWindow() 開始
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウクラスを正常に登録
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウサイズを調整: 1096x759
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] WM_NCCREATE: Appインスタンスをウィンドウに関連付け
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウ作成成功 (HWND: 0x1507842)
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウを表示
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreateAppWindow() 正常に完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InitializeGraphics() 開始
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] アダプタ: NVIDIA GeForce RTX 4070 Laptop GPU
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] 機能レベル: 11.0
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] スワップ効果: FLIP_DISCARD (推奨)
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] バックバッファフォーマット: RGBA8_UNORM_sRGB (sRGB対応 - ガンマ補正有効)
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] 垂直同期: ON (Present(1)) - ディスプレイのリフレッシュレートに同期
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GfxDeviceを正常に初期化
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class GfxDevice
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] TextureManagerを正常に初期化
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class TextureManager
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 初期化開始
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] シェーダーのコンパイル完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 入力レイアウトの作成完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 定数バッファの作成完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] ステートの作成完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 基本形状メッシュの作成完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 初期化完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] RenderSystemを正常に初期化
-2025-11-02 11:50:40 [F#0] [TID:70464] [Input] [INFO] InputSystem::Init() - 初期化開始
-2025-11-02 11:50:40 [F#0] [TID:70464] [Input] [INFO] InputSystem::Init() - 初期化完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InputSystemを初期化
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] DebugDrawを初期化中 (DEBUGビルド)
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw::Init() 開始 (最大線数: 10000)
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw: シェーダーとレイアウトを作成
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw: 定数バッファを作成
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw: 頂点バッファを作成 (最大線数: 10000)
-2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw::Init() 正常に完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] DebugDrawを正常に初期化
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InitializeGraphics() 正常に完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class InputSystem
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class World
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: struct RenderSystem
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class ResourceManager
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] SetupCamera() 開始
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] アスペクト比: 1.500000
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InitializeGame() begin
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GameScene instance created
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GameScene registered to SceneManager
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GameScene::OnEnter() - ゲーム開始
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] エンティティ作成 (新規ID: 1)
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct ModelLoadingSystem をエンティティ 1 に追加
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] エンティティ作成 (新規ID: 2)
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct DirectionalLight をエンティティ 2 に追加
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] エンティティ作成 (新規ID: 3)
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct Transform をエンティティ 3 に追加
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct MeshRenderer をエンティティ 3 に追加
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct PlayerTag をエンティティ 3 に追加
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct PlayerMovement をエンティティ 3 に追加
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct Rotator をエンティティ 3 に追加
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Player entity created - ID: 3, Gen: 1
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Position: (0.000000, 0.000000, 5.000000)
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Has Transform: YES
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Has PlayerTag: YES
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Has MeshRenderer: YES
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GameScene::OnEnter() - 初期化完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] SceneManager initialised with Game scene
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InitializeGame() complete
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] App::Init() 正常に完了
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ========================================
-2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] App::Run() - メインループ開始
-2025-11-02 11:50:40 [F#1] [TID:70464] [General] [INFO] ビヘイビア開始: struct ModelLoadingSystem on Entity 1 (gen 1) 原因=Unknown
-2025-11-02 11:50:40 [F#1] [TID:70464] [General] [INFO] ビヘイビア開始: struct PlayerMovement on Entity 3 (gen 1) 原因=Unknown
-2025-11-02 11:50:40 [F#1] [TID:70464] [General] [INFO] ビヘイビア開始: struct Rotator on Entity 3 (gen 1) 原因=Unknown
-2025-11-02 11:50:40 [F#1] [TID:70464] [General] [INFO] 3 個の新しいビヘイビアを開始
-2025-11-02 11:50:57 [F#1000] [TID:70464] [General] [INFO] メトリクス: frames=1000, dt(avg/min/max)=0.017180/0.000429/0.521277, created=0, destroyed=0, maxAlive=3, aliveNow=3
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] WM_CLOSEを受信 - ユーザーによるウィンドウ閉じる操作
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] WM_DESTROYを受信 - 終了メッセージを投稿
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] App::Run() - メインループ終了 (総フレーム数: 1571)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] App::~App() - デストラクタ呼び出し
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] ========================================
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] フレーム統計サマリ (サンプル数: 1000)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] ========================================
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] フレーム合計時間 (外れ値除外後サンプル数: 980): 平均=16.45ms, 最小=10.97ms, 1%タイル=12.42ms, 中央値=16.64ms, 99%タイル=16.87ms, 最大=20.74ms
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Update時間 (外れ値除外後サンプル数: 980): 平均=1.13ms, 最小=0.31ms, 1%タイル=0.31ms, 中央値=0.44ms, 99%タイル=7.44ms, 最大=9.11ms
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Render時間 (外れ値除外後サンプル数: 980): 平均=0.14ms, 最小=0.10ms, 1%タイル=0.10ms, 中央値=0.14ms, 99%タイル=0.20ms, 最大=0.23ms
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Present時間 (外れ値除外後サンプル数: 980): 平均=15.09ms, 最小=1.94ms, 1%タイル=6.05ms, 中央値=16.01ms, 99%タイル=16.36ms, 最大=19.97ms
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] FPS (外れ値除外後サンプル数: 980): 平均=60.97, 最小=48.21, 1%タイル=59.26, 中央値=60.10, 99%タイル=80.50, 最大=91.17
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] ========================================
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] App::Shutdown() - クリーンアップ開始
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 0: すべてのシステムを停止（新規Spawn無効化）
-2025-11-02 11:51:07 [F#1571] [TID:70464] [ECS] [INFO] World::StopAllSystems() - すべてのシステムを停止
-2025-11-02 11:51:07 [F#1571] [TID:70464] [ECS] [INFO] 新規Spawnが無効化されました
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 1: SceneManagerのシャットダウン
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Scene] [INFO] SceneManager::Shutdown()
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] GameScene::OnExit() - ゲーム終了
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] 破棄をキューに追加 (ID: 3, 原因=SceneUnload)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] GameScene::OnExit() - クリーンアップ完了
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 2: Worldキューをフラッシュ (エンティティ数: 3)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄中 (ID: 3, 原因=SceneUnload)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ 3 から 2 個のビヘイビアを削除
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄成功 (ID: 3, 総生存数: 2)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] 破棄キューをフラッシュ: 1 個のエンティティ
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 3: World破棄前の残存エンティティチェック
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [WARNING] World破棄前に 2 個の生存エンティティが残っています
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 4: DebugDrawを解放
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DebugDraw::Shutdown() - リソースを解放中
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DebugDraw統計: 総追加線数=89547, ピーク線数=57, 破棄線数=0
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 頂点シェーダーを解放 (DebugDraw)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ピクセルシェーダーを解放 (DebugDraw)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 入力レイアウトを解放 (DebugDraw)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 定数バッファを解放 (DebugDraw)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 頂点バッファを解放 (DebugDraw, 最大線数: 10000)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DebugDraw::Shutdown() 完了 (解放リソース数: 5)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 5: RenderSystemを解放
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] [RenderSystem] シャットダウン開始
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] RenderSystem統計: Models=0, Meshes=1, DrawCalls=1
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] [RenderSystem] シャットダウン完了
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 6: TextureManagerを解放
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] TextureManager::Shutdown() - 1 個のテクスチャを解放中
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] テクスチャ2D: 1 個
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] シェーダーリソースビュー: 1 個
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] TextureManager::Shutdown() 完了
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] Clearing all cached resources.
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 7: InputSystemを解放
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Input] [INFO] InputSystem::Shutdown() - シャットダウン中
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Input] [INFO] InputSystem::Shutdown() - 完了
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 8: GfxDeviceを解放
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] GfxDevice::Shutdown() - リソースを解放中
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ID3D11DeviceContext::ClearState() を呼び出し
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ID3D11DeviceContext::Flush() を呼び出し
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 深度ステンシルビューを解放 (ULONG RefCount: 1)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] レンダーターゲットビューを解放 (ULONG RefCount: 1)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] スワップチェインを解放 (ULONG RefCount: 1)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] デバイスコンテキストを解放 (ULONG RefCount: 1)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ========================================
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] D3D11デバッグレイヤー: Live Objectsレポート(アプリログ)開始
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ========================================
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] --- Live Objects要約 (参照カウント) ---
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DSV RefCount: 1
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] RTV RefCount: 1
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] SwapChain RefCount: 1
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DeviceContext RefCount: 1
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] Device RefCount: 1
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ========================================
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] デバイスの参照カウント: 1 (正常)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] デバイスを解放 (ULONG RefCount: 1)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] GfxDevice::Shutdown() 完了 (解放リソース数: 5)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 9: COMを終了
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] ServiceLocator shutting down.
-2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] App::Shutdown() 正常に完了
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] App 正常に破棄
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] SceneManager::~SceneManager()
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] World::~World() - World破棄中
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] アクティブエンティティ: 2
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] アクティブビヘイビア: 1
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [WARNING] 2 個の残存エンティティを強制破棄 (原因=AppShutdown)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄中 (ID: 1, 原因=AppShutdown)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ 1 から 1 個のビヘイビアを削除
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄成功 (ID: 1, 総生存数: 1)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄中 (ID: 2, 原因=AppShutdown)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄成功 (ID: 2, 総生存数: 0)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] すべてのエンティティを破棄 (最終生存数: 0)
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] World破棄完了
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] TextureManager::~TextureManager() - デストラクタ呼び出し
-2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] GfxDevice::~GfxDevice() - デストラクタ呼び出し
+2025-11-03 05:34:33 [F#0] [TID:23336] [General] [INFO] ========================================
+2025-11-03 05:34:33 [F#0] [TID:23336] [General] [INFO] App::Init() 開始
+2025-11-03 05:34:33 [F#0] [TID:23336] [General] [INFO] ウィンドウサイズ: 1080x720
+2025-11-03 05:34:33 [F#0] [TID:23336] [General] [INFO] COMライブラリを初期化 (モード: COINIT_MULTITHREADED, HRESULT: 0x0)
+2025-11-03 05:34:33 [F#0] [TID:23336] [General] [INFO] CreateAppWindow() 開始
+2025-11-03 05:34:33 [F#0] [TID:23336] [General] [INFO] ウィンドウクラスを正常に登録
+2025-11-03 05:34:33 [F#0] [TID:23336] [General] [INFO] ウィンドウサイズを調整: 1096x759
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] WM_NCCREATE: Appインスタンスをウィンドウに関連付け
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] ウィンドウ作成成功 (HWND: 0x462802)
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] ウィンドウを表示
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] CreateAppWindow() 正常に完了
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] InitializeGraphics() 開始
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] アダプタ: NVIDIA GeForce RTX 4070 Laptop GPU
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] 機能レベル: 11.0
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] スワップ効果: FLIP_DISCARD (推奨)
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] バックバッファフォーマット: RGBA8_UNORM_sRGB (sRGB対応 - ガンマ補正有効)
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] 垂直同期: ON (Present(1)) - ディスプレイのリフレッシュレートに同期
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] GfxDeviceを正常に初期化
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] Service registered: class GfxDevice
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] TextureManagerを正常に初期化
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] Service registered: class TextureManager
+2025-11-03 05:34:34 [F#0] [TID:23336] [Graphics] [INFO] [RenderSystem] 初期化開始
+2025-11-03 05:34:34 [F#0] [TID:23336] [Graphics] [INFO] [RenderSystem] シェーダーのコンパイル完了
+2025-11-03 05:34:34 [F#0] [TID:23336] [Graphics] [INFO] [RenderSystem] 入力レイアウトの作成完了
+2025-11-03 05:34:34 [F#0] [TID:23336] [Graphics] [INFO] [RenderSystem] 定数バッファの作成完了
+2025-11-03 05:34:34 [F#0] [TID:23336] [Graphics] [INFO] [RenderSystem] ステートの作成完了
+2025-11-03 05:34:34 [F#0] [TID:23336] [Graphics] [INFO] [RenderSystem] 基本形状メッシュの作成完了
+2025-11-03 05:34:34 [F#0] [TID:23336] [Graphics] [INFO] [RenderSystem] 初期化完了
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] RenderSystemを正常に初期化
+2025-11-03 05:34:34 [F#0] [TID:23336] [Input] [INFO] InputSystem::Init() - 初期化開始
+2025-11-03 05:34:34 [F#0] [TID:23336] [Input] [INFO] InputSystem::Init() - 初期化完了
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] InputSystemを初期化
+2025-11-03 05:34:34 [F#0] [TID:23336] [General] [INFO] GamepadSystemを初期化中
+2025-11-03 05:34:34 [F#0] [TID:23336] [Input] [INFO] GamepadSystem::Init() - 初期化開始
+2025-11-03 05:34:34 [F#0] [TID:23336] [Input] [INFO] GamepadSystem::Init - XInput slot reserved: Index=0
+2025-11-03 05:34:35 [F#0] [TID:23336] [Input] [INFO] GamepadSystem::EnumDevicesCallback() - DirectInputデバイス登録: Slot=1, Name=0000003B58CFD030
+2025-11-03 05:34:35 [F#0] [TID:23336] [Input] [INFO] GamepadSystem::Init() - 初期化完了
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] GamepadSystemを正常に初期化
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] DebugDrawを初期化中 (DEBUGビルド)
+2025-11-03 05:34:35 [F#0] [TID:23336] [Graphics] [INFO] DebugDraw::Init() 開始 (最大線数: 10000)
+2025-11-03 05:34:35 [F#0] [TID:23336] [Graphics] [INFO] DebugDraw: シェーダーとレイアウトを作成
+2025-11-03 05:34:35 [F#0] [TID:23336] [Graphics] [INFO] DebugDraw: 定数バッファを作成
+2025-11-03 05:34:35 [F#0] [TID:23336] [Graphics] [INFO] DebugDraw: 頂点バッファを作成 (最大線数: 10000)
+2025-11-03 05:34:35 [F#0] [TID:23336] [Graphics] [INFO] DebugDraw::Init() 正常に完了
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] DebugDrawを正常に初期化
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] InitializeGraphics() 正常に完了
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] Service registered: class InputSystem
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] Service registered: class GamepadSystem
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] Service registered: class World
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] Service registered: struct RenderSystem
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] Service registered: class ResourceManager
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] SetupCamera() 開始
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] アスペクト比: 1.500000
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] InitializeGame() begin
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] GameScene instance created
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] GameScene registered to SceneManager
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] GameScene::OnEnter() - ゲーム開始
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] エンティティ作成 (新規ID: 1)
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] コンポーネント struct ModelLoadingSystem をエンティティ 1 に追加
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] エンティティ作成 (新規ID: 2)
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] コンポーネント struct DirectionalLight をエンティティ 2 に追加
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] エンティティ作成 (新規ID: 3)
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] コンポーネント struct Transform をエンティティ 3 に追加
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] コンポーネント struct MeshRenderer をエンティティ 3 に追加
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] コンポーネント struct PlayerTag をエンティティ 3 に追加
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] コンポーネント struct PlayerMovement をエンティティ 3 に追加
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] コンポーネント struct Rotator をエンティティ 3 に追加
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] CreatePlayer: Player entity created - ID: 3, Gen: 1
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] CreatePlayer: Position: (0.000000, 0.000000, 5.000000)
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] CreatePlayer: Has Transform: YES
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] CreatePlayer: Has PlayerTag: YES
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] CreatePlayer: Has MeshRenderer: YES
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] GameScene::OnEnter() - 初期化完了
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] SceneManager initialised with Game scene
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] InitializeGame() complete
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] App::Init() 正常に完了
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] ========================================
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] App::Run() - メインループ開始
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO] GamepadSystem::Update - Detailed Status Check
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO]  XInput Slot 0: CONNECTED (PacketNumber=14)
+2025-11-03 05:34:35 [F#0] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=14, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO]  XInput Slot 1: NOT_CONNECTED
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO]  XInput Slot 2: NOT_CONNECTED
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO]  XInput Slot 3: NOT_CONNECTED
+2025-11-03 05:34:35 [F#0] [TID:23336] [General] [INFO]  DInput Slot 1: CONNECTED (LX=0 LY=0 RX=0 RY=0)
+2025-11-03 05:34:35 [F#0] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32256, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:35 [F#0] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:35 [F#1] [TID:23336] [General] [INFO] ビヘイビア開始: struct ModelLoadingSystem on Entity 1 (gen 1) 原因=Unknown
+2025-11-03 05:34:35 [F#1] [TID:23336] [General] [INFO] ビヘイビア開始: struct PlayerMovement on Entity 3 (gen 1) 原因=Unknown
+2025-11-03 05:34:35 [F#1] [TID:23336] [General] [INFO] ビヘイビア開始: struct Rotator on Entity 3 (gen 1) 原因=Unknown
+2025-11-03 05:34:35 [F#1] [TID:23336] [General] [INFO] 3 個の新しいビヘイビアを開始
+2025-11-03 05:34:35 [F#1] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:35 [F#2] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:35 [F#3] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:35 [F#4] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:35 [F#5] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#6] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#7] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#8] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#9] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#10] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=14, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:36 [F#10] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#11] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#12] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#13] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#14] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#15] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#16] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#17] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#18] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#19] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#20] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=14, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:36 [F#20] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#21] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#22] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#23] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#24] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#25] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#26] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#27] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#28] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#29] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#30] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=35, Buttons=0x0, LX=-32768, LY=-26343, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:36 [F#30] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#31] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=-0.779375, LY=-0.626558
+2025-11-03 05:34:36 [F#31] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#32] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#33] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#34] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#35] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#36] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#37] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#38] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#39] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#40] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=50, Buttons=0x0, LX=-32768, LY=-12722, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:36 [F#40] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#41] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#42] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#43] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#44] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#45] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#46] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#47] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#48] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#49] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#50] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:36 [F#50] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#51] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#52] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#53] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#54] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#55] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#56] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#57] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#58] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#59] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#60] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:36 [F#60] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32256, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:36 [F#60] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#61] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#62] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#63] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#64] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:36 [F#65] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#66] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#67] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#68] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#69] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#70] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:37 [F#70] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#71] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#72] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#73] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#74] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#75] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#76] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#77] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#78] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#79] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#80] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:37 [F#80] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#81] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#82] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#83] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#84] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#85] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#86] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#87] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#88] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8821, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#89] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8a29, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#90] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:37 [F#90] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#91] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8000, LY=7e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#92] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=7600, LY=8411, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#93] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=5200, LY=a493, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#94] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1800, LY=df7d, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#95] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1000, LY=e38e, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#96] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1000, LY=e38e, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#97] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1000, LY=e596, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#98] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1000, LY=e596, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#99] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1000, LY=e596, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#100] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:37 [F#100] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1000, LY=e492, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#101] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=f00, LY=e38e, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#102] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=e00, LY=e28a, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#103] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=b00, LY=df7d, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#104] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=900, LY=dc71, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#105] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=900, LY=d75d, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#106] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=a00, LY=d249, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#107] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1500, LY=ca28, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#108] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=3900, LY=9b6e, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#109] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#110] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:37 [F#110] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8515, LY=8000, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#111] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=871d, LY=8001, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#112] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8925, LY=8105, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#113] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8b2e, LY=8105, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#114] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=9452, LY=830d, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#115] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=a083, LY=8e3a, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#116] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=c924, LY=a083, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#117] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=eeba, LY=c208, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#118] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=c618, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#119] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=c820, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#120] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:37 [F#120] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=65535, LY=51492, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:37 [F#120] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=c924, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#121] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.868241, LY=-0.496143
+2025-11-03 05:34:37 [F#121] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ca28, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#122] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ca28, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#123] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ca28, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#124] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ca28, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:37 [F#125] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ca28, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#126] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ca28, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#127] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ca28, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#128] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=cd35, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#129] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ce39, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#130] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:38 [F#130] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=cf3d, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#131] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=d041, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#132] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=d041, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#133] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=d041, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#134] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=ffff, LY=ce39, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#135] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=fefb, LY=b5d8, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#136] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=f0c2, LY=9862, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#137] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=d659, LY=7300, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#138] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=c30c, LY=5d00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#139] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=aebb, LY=4a00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#140] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:38 [F#140] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=a493, LY=3500, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#141] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=9f7e, LY=1e00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#142] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=9b6e, LY=c00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#143] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=934e, LY=300, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#144] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8d36, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#145] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8b2e, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#146] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8b2e, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#147] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8b2e, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#148] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8a29, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#149] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8515, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#150] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:38 [F#150] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=7a00, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#151] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=-0.046809, LY=0.998904
+2025-11-03 05:34:38 [F#151] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=7a00, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#152] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=7a00, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#153] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8000, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#154] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8515, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#155] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8515, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#156] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8619, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#157] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8b2e, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#158] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8b2e, LY=0, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#159] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8f3e, LY=1500, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#160] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:38 [F#160] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=975e, LY=3400, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#161] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8821, LY=7c00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#162] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=871d, LY=7d00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#163] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8619, LY=7d00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#164] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8619, LY=7d00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#165] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8619, LY=7d00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#166] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8619, LY=7d00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#167] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8619, LY=7d00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#168] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8515, LY=7d00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#169] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=8000, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#170] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:38 [F#170] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=7d00, LY=8000, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#171] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=6000, LY=8d36, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#172] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=1000, LY=baec, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#173] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=0, LY=c208, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#174] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=0, LY=c30c, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#175] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=0, LY=c30c, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#176] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=0, LY=c410, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#177] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=0, LY=c618, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#178] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=0, LY=c924, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#179] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=0, LY=cd35, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#180] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:38 [F#180] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=0, LY=52533, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:38 [F#180] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=0, LY=cd35, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#181] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=-0.856280, LY=-0.516512
+2025-11-03 05:34:38 [F#181] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=2800, LY=8f3e, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#182] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8a29, LY=7600, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#183] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8209, LY=8209, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#184] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:38 [F#185] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#186] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#187] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#188] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#189] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#190] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:39 [F#190] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#191] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#192] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#193] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#194] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#195] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#196] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#197] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#198] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#199] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#200] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:39 [F#200] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#201] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#202] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#203] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#204] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#205] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#206] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#207] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#208] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#209] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#210] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:39 [F#210] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#211] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#212] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#213] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#214] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#215] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#216] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#217] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#218] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#219] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#220] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:39 [F#220] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#221] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#222] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#223] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#224] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#225] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#226] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#227] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#228] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#229] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#230] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=71, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:39 [F#230] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#231] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#232] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#233] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#234] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#235] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#236] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#237] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#238] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#239] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#240] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=91, Buttons=0x0, LX=-23002, LY=-32768, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:39 [F#240] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:39 [F#240] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#241] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=-0.574541, LY=-0.818475
+2025-11-03 05:34:39 [F#241] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#242] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#243] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#244] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:39 [F#245] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#246] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#247] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#248] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#249] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#250] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=112, Buttons=0x0, LX=128, LY=642, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:40 [F#250] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#251] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#252] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#253] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#254] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#255] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#256] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#257] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#258] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#259] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#260] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=112, Buttons=0x0, LX=128, LY=642, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:40 [F#260] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#261] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#262] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#263] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#264] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#265] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#266] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#267] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#268] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#269] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#270] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=128, Buttons=0x0, LX=32767, LY=-3213, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:40 [F#270] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#271] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.995227, LY=-0.097588
+2025-11-03 05:34:40 [F#271] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#272] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#273] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#274] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#275] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#276] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#277] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#278] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#279] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#280] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=130, Buttons=0x0, LX=32767, LY=-3984, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:40 [F#280] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#281] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#282] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#283] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#284] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#285] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#286] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#287] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#288] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#289] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#290] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=146, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:40 [F#290] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#291] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#292] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#293] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#294] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#295] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#296] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#297] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#298] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#299] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#300] [TID:23336] [General] [INFO] GamepadSystem::Update - Detailed Status Check
+2025-11-03 05:34:40 [F#300] [TID:23336] [General] [INFO]  XInput Slot 0: CONNECTED (PacketNumber=154)
+2025-11-03 05:34:40 [F#300] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=154, Buttons=0x0, LX=-20175, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:40 [F#300] [TID:23336] [General] [INFO]  XInput Slot 1: NOT_CONNECTED
+2025-11-03 05:34:40 [F#300] [TID:23336] [General] [INFO]  XInput Slot 2: NOT_CONNECTED
+2025-11-03 05:34:40 [F#300] [TID:23336] [General] [INFO]  XInput Slot 3: NOT_CONNECTED
+2025-11-03 05:34:40 [F#300] [TID:23336] [General] [INFO]  DInput Slot 1: CONNECTED (LX=0 LY=0 RX=-0.707107 RY=0.707107)
+2025-11-03 05:34:40 [F#300] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:40 [F#300] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#301] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=-0.494669, LY=0.003138
+2025-11-03 05:34:40 [F#301] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#302] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#303] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#304] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:40 [F#305] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#306] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#307] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#308] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#309] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#310] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=165, Buttons=0x0, LX=-8353, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:41 [F#310] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#311] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#312] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#313] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#314] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#315] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#316] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#317] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#318] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#319] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#320] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=177, Buttons=0x0, LX=-5526, LY=-22231, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:41 [F#320] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#321] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#322] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#323] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#324] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#325] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#326] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#327] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#328] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#329] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#330] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=185, Buttons=0x0, LX=-9895, LY=-32768, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:41 [F#330] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#331] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=-0.289079, LY=-0.957305
+2025-11-03 05:34:41 [F#331] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#332] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#333] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#334] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#335] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#336] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#337] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#338] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#339] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#340] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=185, Buttons=0x0, LX=-9895, LY=-32768, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:41 [F#340] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#341] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#342] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#343] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#344] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#345] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#346] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#347] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#348] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#349] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#350] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=191, Buttons=0x0, LX=-4241, LY=-32768, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:41 [F#350] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#351] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#352] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#353] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#354] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#355] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#356] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#357] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#358] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#359] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#360] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=199, Buttons=0x0, LX=128, LY=-32768, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:41 [F#360] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:41 [F#360] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#361] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.003906, LY=-0.999992
+2025-11-03 05:34:41 [F#361] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#362] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#363] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#364] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:41 [F#365] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#366] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#367] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#368] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#369] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#370] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=199, Buttons=0x0, LX=128, LY=-32768, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:42 [F#370] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#371] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#372] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#373] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#374] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#375] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#376] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#377] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#378] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#379] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#380] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=202, Buttons=0x0, LX=128, LY=-25829, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:42 [F#380] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#381] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#382] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#383] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#384] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#385] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#386] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#387] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#388] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#389] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#390] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=214, Buttons=0x0, LX=128, LY=8095, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:42 [F#390] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#391] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.000157, LY=0.009912
+2025-11-03 05:34:42 [F#391] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#392] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#393] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#394] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#395] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#396] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#397] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#398] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#399] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#400] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=236, Buttons=0x0, LX=14006, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:42 [F#400] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#401] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#402] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#403] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#404] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#405] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#406] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#407] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#408] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#409] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#410] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=256, Buttons=0x0, LX=19146, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:42 [F#410] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#411] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#412] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#413] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#414] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#415] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#416] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#417] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#418] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#419] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#420] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=269, Buttons=0x0, LX=19146, LY=10151, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:42 [F#420] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:42 [F#420] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#421] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.490063, LY=0.259826
+2025-11-03 05:34:42 [F#421] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#422] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#423] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#424] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:42 [F#425] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#426] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#427] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#428] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#429] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#430] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=295, Buttons=0x0, LX=15548, LY=23258, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:43 [F#430] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#431] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#432] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#433] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#434] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#435] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#436] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#437] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#438] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#439] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#440] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=322, Buttons=0x0, LX=25057, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:43 [F#440] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#441] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#442] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#443] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#444] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#445] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#446] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#447] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#448] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#449] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#450] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=324, Buttons=0x0, LX=22744, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:43 [F#450] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#451] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.570212, LY=0.821498
+2025-11-03 05:34:43 [F#451] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#452] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#453] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#454] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#455] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#456] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#457] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#458] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#459] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#460] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=345, Buttons=0x0, LX=14006, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:43 [F#460] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#461] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#462] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#463] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#464] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#465] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#466] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#467] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#468] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#469] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#470] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=366, Buttons=0x0, LX=2184, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:43 [F#470] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#471] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#472] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#473] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#474] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#475] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#476] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#477] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#478] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#479] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#480] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=373, Buttons=0x0, LX=128, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:43 [F#480] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:43 [F#480] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#481] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.003906, LY=0.999992
+2025-11-03 05:34:43 [F#481] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#482] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#483] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#484] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:43 [F#485] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#486] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#487] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#488] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#489] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#490] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=373, Buttons=0x0, LX=128, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:44 [F#490] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#491] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#492] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#493] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#494] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#495] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#496] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#497] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#498] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#499] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#500] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=373, Buttons=0x0, LX=128, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:44 [F#500] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#501] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#502] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#503] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#504] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#505] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#506] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#507] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#508] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#509] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#510] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=373, Buttons=0x0, LX=128, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:44 [F#510] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#511] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.003906, LY=0.999992
+2025-11-03 05:34:44 [F#511] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#512] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#513] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#514] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#515] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#516] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#517] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#518] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#519] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#520] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=373, Buttons=0x0, LX=128, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:44 [F#520] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#521] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#522] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#523] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#524] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#525] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#526] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#527] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#528] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#529] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#530] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=373, Buttons=0x0, LX=128, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:44 [F#530] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#531] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#532] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#533] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#534] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#535] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#536] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#537] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#538] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#539] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#540] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=373, Buttons=0x0, LX=128, LY=32767, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:44 [F#540] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:44 [F#540] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#541] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.003906, LY=0.999992
+2025-11-03 05:34:44 [F#541] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#542] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#543] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#544] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:44 [F#545] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#546] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#547] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#548] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#549] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#550] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=385, Buttons=0x0, LX=-2699, LY=4497, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:45 [F#550] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#551] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#552] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#553] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#554] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#555] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#556] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#557] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#558] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#559] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#560] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=419, Buttons=0x0, LX=-28913, LY=-26600, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:45 [F#560] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#561] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#562] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#563] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#564] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#565] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#566] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#567] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#568] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#569] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#570] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=438, Buttons=0x0, LX=-24801, LY=-29427, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:45 [F#570] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#571] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=-0.644445, LY=-0.764650
+2025-11-03 05:34:45 [F#571] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#572] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#573] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#574] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#575] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#576] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#577] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#578] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#579] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#580] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=440, Buttons=0x0, LX=-24544, LY=-29684, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:45 [F#580] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#581] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#582] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#583] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#584] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#585] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#586] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#587] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#588] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#589] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#590] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=477, Buttons=0x0, LX=10151, LY=-26086, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:45 [F#590] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#591] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#592] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#593] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#594] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#595] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#596] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#597] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#598] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#599] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#600] [TID:23336] [General] [INFO] GamepadSystem::Update - Detailed Status Check
+2025-11-03 05:34:45 [F#600] [TID:23336] [General] [INFO]  XInput Slot 0: CONNECTED (PacketNumber=502)
+2025-11-03 05:34:45 [F#600] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=502, Buttons=0x0, LX=32767, LY=-15549, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:45 [F#600] [TID:23336] [General] [INFO]  XInput Slot 1: NOT_CONNECTED
+2025-11-03 05:34:45 [F#600] [TID:23336] [General] [INFO]  XInput Slot 2: NOT_CONNECTED
+2025-11-03 05:34:45 [F#600] [TID:23336] [General] [INFO]  XInput Slot 3: NOT_CONNECTED
+2025-11-03 05:34:45 [F#600] [TID:23336] [General] [INFO]  DInput Slot 1: CONNECTED (LX=0 LY=0 RX=-0.707107 RY=0.707107)
+2025-11-03 05:34:45 [F#600] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:45 [F#600] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#601] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.903441, LY=-0.428712
+2025-11-03 05:34:45 [F#601] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#602] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#603] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#604] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:45 [F#605] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#606] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#607] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#608] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#609] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#610] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=502, Buttons=0x0, LX=32767, LY=-15549, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:46 [F#610] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#611] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#612] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#613] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#614] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#615] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#616] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#617] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#618] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#619] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#620] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=502, Buttons=0x0, LX=32767, LY=-15549, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:46 [F#620] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#621] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#622] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#623] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#624] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#625] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#626] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#627] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#628] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#629] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#630] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=502, Buttons=0x0, LX=32767, LY=-15549, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:46 [F#630] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#631] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.903441, LY=-0.428712
+2025-11-03 05:34:46 [F#631] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#632] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#633] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#634] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#635] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#636] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#637] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#638] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#639] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#640] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=518, Buttons=0x0, LX=29426, LY=-21974, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:46 [F#640] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#641] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#642] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#643] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#644] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#645] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#646] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#647] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#648] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#649] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#650] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=542, Buttons=0x0, LX=24800, LY=-14778, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:46 [F#650] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#651] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#652] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#653] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#654] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#655] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#656] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#657] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#658] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#659] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#660] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=547, Buttons=0x0, LX=24543, LY=-13750, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:46 [F#660] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:46 [F#660] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#661] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.710145, LY=-0.397853
+2025-11-03 05:34:46 [F#661] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#662] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#663] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#664] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:46 [F#665] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#666] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#667] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#668] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#669] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#670] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=564, Buttons=0x0, LX=27627, LY=-23002, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:47 [F#670] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#671] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#672] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#673] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#674] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#675] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#676] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#677] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#678] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#679] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#680] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=571, Buttons=0x0, LX=27627, LY=-15292, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:47 [F#680] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#681] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#682] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#683] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#684] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#685] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#686] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#687] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#688] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#689] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#690] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=594, Buttons=0x0, LX=31482, LY=-17091, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:47 [F#690] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#691] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.878844, LY=-0.477109
+2025-11-03 05:34:47 [F#691] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#692] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#693] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#694] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#695] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#696] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#697] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#698] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#699] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#700] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=603, Buttons=0x0, LX=32510, LY=-11180, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:47 [F#700] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#701] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#702] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#703] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#704] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#705] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#706] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#707] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#708] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#709] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#710] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=619, Buttons=0x0, LX=29683, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:47 [F#710] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#711] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#712] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#713] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#714] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#715] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#716] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#717] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#718] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#719] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#720] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=659, Buttons=0x0, LX=15034, LY=8609, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:47 [F#720] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:47 [F#720] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#721] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=0.329990, LY=0.188964
+2025-11-03 05:34:47 [F#721] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#722] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#723] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#724] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:47 [F#725] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#726] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#727] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#728] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#729] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#730] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=698, Buttons=0x0, LX=128, LY=17347, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:48 [F#730] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#731] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#732] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#733] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#734] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#735] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#736] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#737] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#738] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#739] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#740] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=726, Buttons=0x0, LX=-8867, LY=24029, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:48 [F#740] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#741] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#742] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#743] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#744] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#745] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=830d, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#746] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#747] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#748] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#749] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#750] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=753, Buttons=0x0, LX=-32768, LY=21973, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:48 [F#750] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#751] [TID:23336] [General] [INFO] PlayerMovement: Gamepad input - LX=-0.830554, LY=0.556938
+2025-11-03 05:34:48 [F#751] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#752] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#753] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#754] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#755] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#756] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#757] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#758] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#759] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#760] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=754, Buttons=0x0, LX=-32768, LY=21716, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:48 [F#760] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#761] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#762] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#763] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#764] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#765] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#766] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#767] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#768] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#769] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#770] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=756, Buttons=0x0, LX=-32768, LY=20688, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:48 [F#770] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#771] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#772] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#773] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#774] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#775] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#776] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#777] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#778] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#779] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#780] [TID:23336] [Input] [INFO] XInput[0] RAW INPUT: PacketNum=779, Buttons=0x0, LX=128, LY=128, RX=128, RY=128, LT=0, RT=0
+2025-11-03 05:34:48 [F#780] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: LX=33809, LY=32512, RX=0, RY=0, Z=33029, Rz=33809, Buttons[0]=0, POV[0]=4294967295
+2025-11-03 05:34:48 [F#780] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#781] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#782] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#783] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:48 [F#784] [TID:23336] [Input] [INFO] DInput[1] RAW INPUT: Buttons=0x00000000000000000000000000000000, LX=8411, LY=7f00, RX=0, RY=0, LT=8105, RT=8411
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] WM_CLOSEを受信 - ユーザーによるウィンドウ閉じる操作
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] WM_DESTROYを受信 - 終了メッセージを投稿
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] App::Run() - メインループ終了 (総フレーム数: 785)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] App::~App() - デストラクタ呼び出し
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] ========================================
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] フレーム統計サマリ (サンプル数: 785)
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] ========================================
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] フレーム合計時間 (外れ値除外後サンプル数: 771): 平均=16.33ms, 最小=10.00ms, 1%タイル=12.96ms, 中央値=16.63ms, 99%タイル=16.76ms, 最大=16.77ms
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Update時間 (外れ値除外後サンプル数: 771): 平均=1.30ms, 最小=0.81ms, 1%タイル=0.82ms, 中央値=1.04ms, 99%タイル=4.24ms, 最大=4.94ms
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Render時間 (外れ値除外後サンプル数: 771): 平均=0.13ms, 最小=0.11ms, 1%タイル=0.11ms, 中央値=0.13ms, 99%タイル=0.19ms, 最大=0.23ms
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Present時間 (外れ値除外後サンプル数: 771): 平均=14.86ms, 最小=7.85ms, 1%タイル=10.47ms, 中央値=15.35ms, 99%タイル=15.75ms, 最大=15.77ms
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] FPS (外れ値除外後サンプル数: 771): 平均=61.40, 最小=59.62, 1%タイル=59.68, 中央値=60.14, 99%タイル=77.18, 最大=100.03
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] ========================================
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] App::Shutdown() - クリーンアップ開始
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 0: すべてのシステムを停止（新規Spawn無効化）
+2025-11-03 05:34:49 [F#785] [TID:23336] [ECS] [INFO] World::StopAllSystems() - すべてのシステムを停止
+2025-11-03 05:34:49 [F#785] [TID:23336] [ECS] [INFO] 新規Spawnが無効化されました
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 1: SceneManagerのシャットダウン
+2025-11-03 05:34:49 [F#785] [TID:23336] [Scene] [INFO] SceneManager::Shutdown()
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] GameScene::OnExit() - ゲーム終了
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] 破棄をキューに追加 (ID: 3, 原因=SceneUnload)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] GameScene::OnExit() - クリーンアップ完了
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 2: Worldキューをフラッシュ (エンティティ数: 3)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] エンティティ破棄中 (ID: 3, 原因=SceneUnload)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] エンティティ 3 から 2 個のビヘイビアを削除
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] エンティティ破棄成功 (ID: 3, 総生存数: 2)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] 破棄キューをフラッシュ: 1 個のエンティティ
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 3: World破棄前の残存エンティティチェック
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [WARNING] World破棄前に 2 個の生存エンティティが残っています
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 4: DebugDrawを解放
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] DebugDraw::Shutdown() - リソースを解放中
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] DebugDraw統計: 総追加線数=44745, ピーク線数=57, 破棄線数=0
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] 頂点シェーダーを解放 (DebugDraw)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] ピクセルシェーダーを解放 (DebugDraw)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] 入力レイアウトを解放 (DebugDraw)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] 定数バッファを解放 (DebugDraw)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] 頂点バッファを解放 (DebugDraw, 最大線数: 10000)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] DebugDraw::Shutdown() 完了 (解放リソース数: 5)
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 5: RenderSystemを解放
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] [RenderSystem] シャットダウン開始
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] RenderSystem統計: Models=0, Meshes=1, DrawCalls=1
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] [RenderSystem] シャットダウン完了
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 6: TextureManagerを解放
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] TextureManager::Shutdown() - 1 個のテクスチャを解放中
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] テクスチャ2D: 1 個
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] シェーダーリソースビュー: 1 個
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] TextureManager::Shutdown() 完了
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] Clearing all cached resources.
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 7: InputSystemを解放
+2025-11-03 05:34:49 [F#785] [TID:23336] [Input] [INFO] InputSystem::Shutdown() - シャットダウン中
+2025-11-03 05:34:49 [F#785] [TID:23336] [Input] [INFO] InputSystem::Shutdown() - 完了
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 7.5: GamepadSystemを解放
+2025-11-03 05:34:49 [F#785] [TID:23336] [Input] [INFO] GamepadSystem::Shutdown() - シャットダウン開始
+2025-11-03 05:34:49 [F#785] [TID:23336] [Input] [INFO] GamepadSystem::Shutdown() - シャットダウン完了
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 8: GfxDeviceを解放
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] GfxDevice::Shutdown() - リソースを解放中
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] ID3D11DeviceContext::ClearState() を呼び出し
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] ID3D11DeviceContext::Flush() を呼び出し
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] 深度ステンシルビューを解放 (ULONG RefCount: 1)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] レンダーターゲットビューを解放 (ULONG RefCount: 1)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] スワップチェインを解放 (ULONG RefCount: 1)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] デバイスコンテキストを解放 (ULONG RefCount: 1)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] ========================================
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] D3D11デバッグレイヤー: Live Objectsレポート(アプリログ)開始
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] ========================================
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] --- Live Objects要約 (参照カウント) ---
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] DSV RefCount: 1
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] RTV RefCount: 1
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] SwapChain RefCount: 1
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] DeviceContext RefCount: 1
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] Device RefCount: 1
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] ========================================
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] デバイスの参照カウント: 1 (正常)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] デバイスを解放 (ULONG RefCount: 1)
+2025-11-03 05:34:49 [F#785] [TID:23336] [Graphics] [INFO] GfxDevice::Shutdown() 完了 (解放リソース数: 5)
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] Phase 9: COMを終了
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] ServiceLocator shutting down.
+2025-11-03 05:34:49 [F#785] [TID:23336] [System] [INFO] App::Shutdown() 正常に完了
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] App 正常に破棄
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] SceneManager::~SceneManager()
+2025-11-03 05:34:49 [F#785] [TID:23336] [Input] [INFO] GamepadSystem::Shutdown() - シャットダウン開始
+2025-11-03 05:34:49 [F#785] [TID:23336] [Input] [INFO] GamepadSystem::Shutdown() - シャットダウン完了
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] World::~World() - World破棄中
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] アクティブエンティティ: 2
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] アクティブビヘイビア: 1
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [WARNING] 2 個の残存エンティティを強制破棄 (原因=AppShutdown)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] エンティティ破棄中 (ID: 1, 原因=AppShutdown)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] エンティティ 1 から 1 個のビヘイビアを削除
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] エンティティ破棄成功 (ID: 1, 総生存数: 1)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] エンティティ破棄中 (ID: 2, 原因=AppShutdown)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] エンティティ破棄成功 (ID: 2, 総生存数: 0)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] すべてのエンティティを破棄 (最終生存数: 0)
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] World破棄完了
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] TextureManager::~TextureManager() - デストラクタ呼び出し
+2025-11-03 05:34:49 [F#785] [TID:23336] [General] [INFO] GfxDevice::~GfxDevice() - デストラクタ呼び出し
 ========================================
 デバッグログ終了
 ========================================

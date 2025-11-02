@@ -67,6 +67,7 @@ struct App {
     World world_; ///< ECSワールド
     Camera camera_; ///< カメラ
     InputSystem input_; ///< 入力システム
+    GamepadSystem gamepad_; ///< ゲームパッド入力システム
 
     // シーン管理
     SceneManager sceneManager_; ///< シーンマネージャー
@@ -153,6 +154,7 @@ struct App {
 
         // サービスロケータに登録（GfxDeviceとTextureManagerはInitializeGraphics内で登録済み）
         ServiceLocator::Register(&input_);
+        ServiceLocator::Register(&gamepad_);
         ServiceLocator::Register(&world_);
         ServiceLocator::Register(&renderer_);
         ServiceLocator::Register(&resManager_);
@@ -207,7 +209,10 @@ struct App {
             auto updateStartTime = std::chrono::high_resolution_clock::now();
 
             // 入力の更新
-            input_.Update();
+         input_.Update();
+
+         // ゲームパッドの更新
+         gamepad_.Update();
 #ifdef _DEBUG
             UpdateDebugCamera(deltaTime);
 #endif
@@ -337,39 +342,14 @@ private:
             right = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
         }
 
-        float moveForward = 0.0f;
-        if (input_.GetKey('W')) moveForward += 1.0f;
-        if (input_.GetKey('S')) moveForward -= 1.0f;
-
-        float moveRight = 0.0f;
-        if (input_.GetKey('D')) moveRight += 1.0f;
-        if (input_.GetKey('A')) moveRight -= 1.0f;
 
         DirectX::XMVECTOR moveVec = DirectX::XMVectorZero();
-        if (moveForward != 0.0f) {
-            moveVec = DirectX::XMVectorAdd(moveVec, DirectX::XMVectorScale(forward, moveForward));
-        }
-        if (moveRight != 0.0f) {
-            moveVec = DirectX::XMVectorAdd(moveVec, DirectX::XMVectorScale(right, moveRight));
-        }
 
         if (DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(moveVec)) > 0.0f) {
             moveVec = DirectX::XMVector3Normalize(moveVec);
             moveVec = DirectX::XMVectorScale(moveVec, moveSpeed * deltaTime);
             pos = DirectX::XMVectorAdd(pos, moveVec);
             target = DirectX::XMVectorAdd(target, moveVec);
-        }
-
-        float yawInput = 0.0f;
-        if (input_.GetKey('E')) yawInput += 1.0f;
-        if (input_.GetKey('Q')) yawInput -= 1.0f;
-
-        if (yawInput != 0.0f) {
-            float yaw = yawInput * rotateSpeed * deltaTime;
-            DirectX::XMMATRIX rotation = DirectX::XMMatrixRotationAxis(up, yaw);
-            DirectX::XMVECTOR direction = DirectX::XMVectorSubtract(target, pos);
-            direction = DirectX::XMVector3TransformNormal(direction, rotation);
-            target = DirectX::XMVectorAdd(pos, direction);
         }
 
         DirectX::XMStoreFloat3(&camera_.position, pos);
@@ -425,6 +405,10 @@ private:
         // Phase 7: 入力システム解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 7: InputSystemを解放");
         input_.Shutdown();
+
+        // Phase 7.5: ゲームパッドシステム解放
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 7.5: GamepadSystemを解放");
+        gamepad_.Shutdown();
 
         // Phase 8: グラフィックスデバイス解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 8: GfxDeviceを解放");
@@ -533,6 +517,15 @@ private:
 
         input_.Init();
         DEBUGLOG("InputSystemを初期化");
+
+        // GamepadSystemを初期化
+     DEBUGLOG("GamepadSystemを初期化中");
+        if (!gamepad_.Init()) {
+            DEBUGLOG_WARNING("GamepadSystem::Init() 失敗 - ゲームパッドは利用できません");
+       // 致命的ではないため続行
+        } else {
+  DEBUGLOG("GamepadSystemを正常に初期化");
+     }
 
 #ifdef _DEBUG
         DEBUGLOG("DebugDrawを初期化中 (DEBUGビルド)");
