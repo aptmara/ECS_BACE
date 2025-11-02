@@ -518,26 +518,56 @@ float GamepadSystem::GetRightStickChargeTime(int index) const
 
 bool GamepadSystem::IsLeftStickReleased(int index) const
 {
-    if (index < 0 || index >= MAX_GAMEPADS) return false;
-    const GamepadState& pad = gamepads_[index];
-    
-    // 前フレームでチャージ中、このフレームでニュートラル
+    if (index <0 || index >= MAX_GAMEPADS) return false;
+    GamepadState& pad = const_cast<GamepadState&>(gamepads_[index]); // Use const_cast to modify pad
+
+ // 前フレームでチャージ中、このフレームでニュートラル
     float magnitude = sqrtf(pad.leftStickX * pad.leftStickX + pad.leftStickY * pad.leftStickY);
     bool isNowCharging = magnitude > CHARGE_DETECTION_THRESHOLD;
-    
-    return pad.leftStickWasCharging && !isNowCharging;
+
+    // 跳ね返りを無視するためのタイマー
+    static constexpr float BOUNCE_IGNORE_TIME =0.05f; //50ms
+    if (pad.leftStickWasCharging && !isNowCharging) {
+        if (pad.leftStickReleaseTimer >0.0f) {
+            return false; // 跳ね返りを無視
+        }
+        pad.leftStickReleaseTimer = BOUNCE_IGNORE_TIME; // タイマーをリセット
+        return true;
+    }
+
+    // タイマーを減少
+    if (pad.leftStickReleaseTimer >0.0f) {
+        pad.leftStickReleaseTimer -= deltaTime_;
+    }
+
+    return false;
 }
 
 bool GamepadSystem::IsRightStickReleased(int index) const
 {
-    if (index < 0 || index >= MAX_GAMEPADS) return false;
-    const GamepadState& pad = gamepads_[index];
-    
-    // 前フレームでチャージ中、このフレームでニュートラル
-    float magnitude = sqrtf(pad.rightStickX * pad.rightStickX + pad.rightStickY * pad.rightStickY);
-    bool isNowCharging = magnitude > CHARGE_DETECTION_THRESHOLD;
-    
-    return pad.rightStickWasCharging && !isNowCharging;
+ if (index <0 || index >= MAX_GAMEPADS) return false;
+ GamepadState& pad = const_cast<GamepadState&>(gamepads_[index]); // Use const_cast to modify pad
+
+ // 前フレームでチャージ中、このフレームでニュートラル
+ float magnitude = sqrtf(pad.rightStickX * pad.rightStickX + pad.rightStickY * pad.rightStickY);
+ bool isNowCharging = magnitude > CHARGE_DETECTION_THRESHOLD;
+
+ // 跳ね返りを無視するためのタイマー
+ static constexpr float BOUNCE_IGNORE_TIME =0.05f; //50ms
+ if (pad.rightStickWasCharging && !isNowCharging) {
+ if (pad.rightStickReleaseTimer >0.0f) {
+ return false; // 跳ね返りを無視
+ }
+ pad.rightStickReleaseTimer = BOUNCE_IGNORE_TIME; // タイマーをリセット
+ return true;
+ }
+
+ // タイマーを減少
+ if (pad.rightStickReleaseTimer >0.0f) {
+ pad.rightStickReleaseTimer -= deltaTime_;
+ }
+
+ return false;
 }
 
 float GamepadSystem::GetLeftStickChargeAmount(int index, float maxChargeTime) const

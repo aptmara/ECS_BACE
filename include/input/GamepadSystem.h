@@ -389,6 +389,8 @@ private:
         float rightStickIntensitySum;///< 右スティック強度累積値
         int leftStickChargeSamples;  ///< 左スティックチャージサンプル数
         int rightStickChargeSamples; ///< 右スティックチャージサンプル数
+        float leftStickReleaseTimer; ///< 左スティックリリースタイマー
+        float rightStickReleaseTimer; ///<右スティックリリースタイマー
 
      GamepadState() {
             type = Type_None;
@@ -403,13 +405,15 @@ private:
             
           // チャージシステム初期化
             leftStickWasCharging = false;
-    rightStickWasCharging = false;
-          leftStickChargeTime = 0.0f;
-   rightStickChargeTime = 0.0f;
-  leftStickIntensitySum = 0.0f;
-   rightStickIntensitySum = 0.0f;
-leftStickChargeSamples = 0;
+            rightStickWasCharging = false;
+            leftStickChargeTime = 0.0f;
+            rightStickChargeTime = 0.0f;
+            leftStickIntensitySum = 0.0f;
+            rightStickIntensitySum = 0.0f;
+            leftStickChargeSamples = 0;
             rightStickChargeSamples = 0;
+            leftStickReleaseTimer = 0.0f;
+            rightStickReleaseTimer = 0.0f;
         }
     };
 
@@ -439,13 +443,13 @@ leftStickChargeSamples = 0;
      * @brief スティック値にデッドゾーンを適用
      * @param[in] x X軸生値
      * @param[in] y Y軸生値
-   * @param[out] outX 処理済みX軸値
- * @param[out] outY 処理済みY軸値
+     * @param[out] outX 処理済みX軸値
+     * @param[out] outY 処理済みY軸値
      * @param[in] deadzone デッドゾーン半径
      * 
      * @details
      * 円形デッドゾーンを適用し、正規化します。
- */
+     */
     void ApplyDeadzone(float x, float y, float& outX, float& outY, float deadzone) const;
 
     /**
@@ -455,14 +459,14 @@ leftStickChargeSamples = 0;
 
     /**
      * @brief XInputデバイスかどうかを判定
-   * @param[in] pGuidProductFromDirectInput DirectInputデバイスのGUID
+     * @param[in] pGuidProductFromDirectInput DirectInputデバイスのGUID
      * @return true XInputデバイス, false DirectInputデバイス
-   * 
+     * 
      * @details
      * WMIを使用してデバイスIDを確認し、XInputデバイスを識別します。
      * XInputデバイスの場合はDirectInputで列挙しないようにします。
      */
-  static bool IsXInputDevice(const GUID* pGuidProductFromDirectInput);
+    static bool IsXInputDevice(const GUID* pGuidProductFromDirectInput);
 
     GamepadState gamepads_[MAX_GAMEPADS];  ///< ゲームパッド状態
     LPDIRECTINPUT8 dinput_;        ///< DirectInput8インターフェース
@@ -471,7 +475,7 @@ leftStickChargeSamples = 0;
 
     // デッドゾーン定数
     static constexpr float XINPUT_LEFT_DEADZONE = 7849.0f / 32767.0f;   ///< 左スティックデッドゾーン
-  static constexpr float XINPUT_RIGHT_DEADZONE = 8689.0f / 32767.0f;  ///< 右スティックデッドゾーン
+    static constexpr float XINPUT_RIGHT_DEADZONE = 8689.0f / 32767.0f;  ///< 右スティックデッドゾーン
     static constexpr float XINPUT_TRIGGER_THRESHOLD = 30.0f / 255.0f;   ///< トリガー閾値
     static constexpr float CHARGE_DETECTION_THRESHOLD = 0.1f; ///< チャージ検出閾値
 };
