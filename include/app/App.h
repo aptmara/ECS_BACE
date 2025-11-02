@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file App.h
  * @brief ミニゲームのメインアプリケーションクラス
  * @author 山内 陽
@@ -18,8 +18,10 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <memory>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 // DirectX11 & ECS システム
 #include "graphics/GfxDevice.h"
@@ -29,6 +31,8 @@
 #include "input/InputSystem.h"
 #include "graphics/TextureManager.h"
 #include "graphics/DebugDraw.h"
+#include "app/ResourceManager.h"
+#include "app/ServiceLocator.h"
 
 #ifdef _DEBUG
 #include "app/DebugLog.h"
@@ -57,19 +61,35 @@ struct App {
     GfxDevice gfx_; ///< グラフィックスデバイス
     RenderSystem renderer_; ///< 描画システム
     TextureManager texManager_; ///< テクスチャ管理
+    ResourceManager resManager_; ///< リソース管理
 
     // ECSシステム
     World world_; ///< ECSワールド
     Camera camera_; ///< カメラ
     InputSystem input_; ///< 入力システム
+    GamepadSystem gamepad_; ///< ゲームパッド入力システム
 
     // シーン管理
     SceneManager sceneManager_; ///< シーンマネージャー
-    GameScene* gameScene_ = nullptr; ///< 現在のゲームシーン
 
 #ifdef _DEBUG
     DebugDraw debugDraw_; ///< デバッグ描画用
 #endif
+
+    void InitializeGame() {
+        DEBUGLOG("InitializeGame() begin");
+
+        auto gameScene = std::make_unique<GameScene>();
+        DEBUGLOG("GameScene instance created");
+
+        sceneManager_.RegisterScene("Game", std::move(gameScene));
+        DEBUGLOG("GameScene registered to SceneManager");
+
+        sceneManager_.Init("Game", world_);
+        DEBUGLOG("SceneManager initialised with Game scene");
+
+        DEBUGLOG("InitializeGame() complete");
+    }
 
     // ========================================================
     // パフォーマンス計測
@@ -105,7 +125,7 @@ struct App {
      * @param[in] height ウィンドウの高さ
      * @return bool 初期化が成功した場合は true, それ以外は false
      */
-    bool Init(HINSTANCE hInst, int width = 1280, int height = 720) {
+    bool Init(HINSTANCE hInst, int width = 1080, int height = 720) {
         DEBUGLOG("========================================");
         DEBUGLOG("App::Init() 開始");
         DEBUGLOG("ウィンドウサイズ: " + std::to_string(width) + "x" + std::to_string(height));
@@ -131,6 +151,13 @@ struct App {
             DEBUGLOG("[ERROR] InitializeGraphics() 失敗");
             return false;
         }
+
+        // サービスロケータに登録（GfxDeviceとTextureManagerはInitializeGraphics内で登録済み）
+        ServiceLocator::Register(&input_);
+        ServiceLocator::Register(&gamepad_);
+        ServiceLocator::Register(&world_);
+        ServiceLocator::Register(&renderer_);
+        ServiceLocator::Register(&resManager_);
 
         SetupCamera(width, height);
 
@@ -182,7 +209,13 @@ struct App {
             auto updateStartTime = std::chrono::high_resolution_clock::now();
 
             // 入力の更新
-            input_.Update();
+         input_.Update();
+
+         // ゲームパッドの更新
+         gamepad_.Update();
+#ifdef _DEBUG
+            UpdateDebugCamera(deltaTime);
+#endif
 
             // ESCキーで終了
             if (input_.GetKeyDown(VK_ESCAPE)) {
@@ -212,7 +245,7 @@ struct App {
             DrawDebugInfo();
 #endif
 
-            renderer_.Render(gfx_, world_, camera_);
+            renderer_.Render(world_, camera_);
 
 #ifdef _DEBUG
             debugDraw_.Render(gfx_, camera_);
@@ -284,6 +317,46 @@ struct App {
     }
 
 private:
+#ifdef _DEBUG
+    void UpdateDebugCamera(float deltaTime) {
+        const float moveSpeed = 10.0f;
+        const float rotateSpeed = DirectX::XMConvertToRadians(90.0f);
+
+        DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&camera_.position);
+        DirectX::XMVECTOR target = DirectX::XMLoadFloat3(&camera_.target);
+        DirectX::XMVECTOR up = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&camera_.up));
+
+        DirectX::XMVECTOR forward = DirectX::XMVectorSubtract(target, pos);
+        float forwardLenSq = DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(forward));
+        if (forwardLenSq > 0.0f) {
+            forward = DirectX::XMVectorScale(forward, 1.0f / std::sqrt(forwardLenSq));
+        } else {
+            forward = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+        }
+
+        DirectX::XMVECTOR right = DirectX::XMVector3Cross(up, forward);
+        float rightLenSq = DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(right));
+        if (rightLenSq > 0.0f) {
+            right = DirectX::XMVectorScale(right, 1.0f / std::sqrt(rightLenSq));
+        } else {
+            right = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+        }
+
+
+        DirectX::XMVECTOR moveVec = DirectX::XMVectorZero();
+
+        if (DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(moveVec)) > 0.0f) {
+            moveVec = DirectX::XMVector3Normalize(moveVec);
+            moveVec = DirectX::XMVectorScale(moveVec, moveSpeed * deltaTime);
+            pos = DirectX::XMVectorAdd(pos, moveVec);
+            target = DirectX::XMVectorAdd(target, moveVec);
+        }
+
+        DirectX::XMStoreFloat3(&camera_.position, pos);
+        DirectX::XMStoreFloat3(&camera_.target, target);
+        camera_.Update();
+    }
+#endif
     /**
      * @brief アプリケーション終了時のクリーンアップ
      * @details 正しい順序でリソースを解放します
@@ -298,7 +371,6 @@ private:
         // Phase 1: シーンマネージャーの終了（シーンのOnExitを呼び出し）
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 1: SceneManagerのシャットダウン");
         sceneManager_.Shutdown(world_);
-        gameScene_ = nullptr;  // SceneManagerが所有しているのでnullptrに設定するだけ
 
         // Phase 2: WorldのDestroyキュー/Spawnキューを明示的にフラッシュ
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 2: Worldキューをフラッシュ (エンティティ数: " + std::to_string(world_.GetAliveCount()) + ")");
@@ -327,9 +399,16 @@ private:
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 6: TextureManagerを解放");
         texManager_.Shutdown();
 
+        // リソースマネージャーをクリア
+        resManager_.Clear();
+
         // Phase 7: 入力システム解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 7: InputSystemを解放");
         input_.Shutdown();
+
+        // Phase 7.5: ゲームパッドシステム解放
+        DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 7.5: GamepadSystemを解放");
+        gamepad_.Shutdown();
 
         // Phase 8: グラフィックスデバイス解放
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 8: GfxDeviceを解放");
@@ -338,6 +417,9 @@ private:
         // Phase 9: COM終了（最後）
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "Phase 9: COMを終了");
         CoUninitialize();
+
+        // サービスロケータをシャットダウン
+        ServiceLocator::Shutdown();
 
         DEBUGLOG_CATEGORY(DebugLog::Category::System, "App::Shutdown() 正常に完了");
     }
@@ -390,6 +472,7 @@ private:
 
         DEBUGLOG("ウィンドウ作成成功 (HWND: 0x" + std::to_string(reinterpret_cast<uintptr_t>(hwnd_)) + ")");
 
+        input_.SetWindowHandle(hwnd_);
         ShowWindow(hwnd_, SW_SHOW);
         DEBUGLOG("ウィンドウを表示");
         DEBUGLOG("CreateAppWindow() 正常に完了");
@@ -412,6 +495,9 @@ private:
         }
         DEBUGLOG("GfxDeviceを正常に初期化");
 
+        // Register GfxDevice early so other systems (e.g. RenderSystem::Init) can retrieve it
+        ServiceLocator::Register(&gfx_);
+
         if (!texManager_.Init(gfx_)) {
             DEBUGLOG("[ERROR] TextureManager::Init() 失敗");
             MessageBoxA(nullptr, "TextureManagerの初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
@@ -419,7 +505,10 @@ private:
         }
         DEBUGLOG("TextureManagerを正常に初期化");
 
-        if (!renderer_.Init(gfx_, texManager_)) {
+        // Register TextureManager before renderer init so RenderSystem can access textures if needed
+        ServiceLocator::Register(&texManager_);
+
+        if (!renderer_.Init()) {
             DEBUGLOG("[ERROR] RenderSystem::Init() 失敗");
             MessageBoxA(nullptr, "RenderSystemの初期化に失敗", "エラー", MB_OK | MB_ICONERROR);
             return false;
@@ -428,6 +517,15 @@ private:
 
         input_.Init();
         DEBUGLOG("InputSystemを初期化");
+
+        // GamepadSystemを初期化
+     DEBUGLOG("GamepadSystemを初期化中");
+        if (!gamepad_.Init()) {
+            DEBUGLOG_WARNING("GamepadSystem::Init() 失敗 - ゲームパッドは利用できません");
+       // 致命的ではないため続行
+        } else {
+  DEBUGLOG("GamepadSystemを正常に初期化");
+     }
 
 #ifdef _DEBUG
         DEBUGLOG("DebugDrawを初期化中 (DEBUGビルド)");
@@ -455,37 +553,19 @@ private:
         DEBUGLOG("アスペクト比: " + std::to_string(aspectRatio));
 
         camera_ = Camera::LookAtLH(
-            DirectX::XM_PIDIV4,
-            aspectRatio,
-            0.1f,
-            100.0f,
-            DirectX::XMFLOAT3{ 0, 0, -20 },  // カメラを引いて全体が見えるように
-            DirectX::XMFLOAT3{ 0, 0, 0 },
-            DirectX::XMFLOAT3{ 0, 1, 0 }
+            DirectX::XM_PIDIV4,                 // 視野角（45度）
+            static_cast<float>(width) / height, // アスペクト比
+            0.1f,                               // ニアクリップ
+            100.0f,                             // ファークリップ
+            DirectX::XMFLOAT3{0, 20, 0},        // カメラ位置（上方向に移動）
+            DirectX::XMFLOAT3{0, 0, 0},         // 注視点（原点を見る）
+            DirectX::XMFLOAT3{0, 0, 1}         // 上方向ベクトル（Z軸を下方向に）
         );
-
-        DEBUGLOG("カメラ設定完了 (位置: 0, 0, -20 | ターゲット: 0, 0, 0)");
     }
 
     /**
      * @brief ゲーム関連の初期化
      */
-    void InitializeGame() {
-        DEBUGLOG("InitializeGame() 開始");
-
-        // ゲームシーンを作成
-        gameScene_ = new GameScene();
-        DEBUGLOG("GameSceneインスタンスを作成");
-
-        // シーンマネージャーに登録
-        sceneManager_.RegisterScene("Game", gameScene_);
-        DEBUGLOG("GameSceneをSceneManagerに登録");
-
-        sceneManager_.Init(gameScene_, world_);
-        DEBUGLOG("SceneManagerをGameSceneで初期化");
-
-        DEBUGLOG("InitializeGame() 正常に完了");
-    }
 
     // ========================================================
     // メインループのヘルパー
@@ -521,7 +601,7 @@ private:
      * @brief ウィンドウタイトルを更新する
      */
     void UpdateWindowTitle() {
-        if (gameScene_) {
+        if (sceneManager_.GetCurrentScene()) {
             std::wstringstream ss;
             ss << L"はじく！" ;
             SetWindowTextW(hwnd_, ss.str().c_str());
@@ -532,7 +612,7 @@ private:
      * @brief ウィンドウタイトルにメトリクスを含めて更新する
      */
     void UpdateWindowTitleWithMetrics() {
-        if (gameScene_ && metricsFrameCount_ > 0) {
+        if (sceneManager_.GetCurrentScene() && metricsFrameCount_ > 0) {
             float avgUpdate = avgMetrics_.updateTime / metricsFrameCount_ * 1000.0f; // ms
             float avgRender = avgMetrics_.renderTime / metricsFrameCount_ * 1000.0f; // ms
             float avgPresent = avgMetrics_.presentTime / metricsFrameCount_ * 1000.0f; // ms
@@ -561,6 +641,68 @@ private:
 
         // 座標軸を後から描画して見やすくする
         debugDraw_.DrawAxes(500.0f);
+
+        // プレイヤーの位置を可視化（デバッグ用）
+        world_.ForEach<Transform, PlayerTag>([&](Entity e, Transform& t, PlayerTag&) {
+            // プレイヤーの位置を中心に立方体のアウトラインを描画
+            float size = 0.5f;
+            DirectX::XMFLOAT3 pos = t.position;
+            DirectX::XMFLOAT3 color{ 1.0f, 1.0f, 0.0f }; // 黄色
+
+            // キューブのエッジを描画
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y - size, pos.z - size},
+                {pos.x + size, pos.y - size, pos.z - size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y - size, pos.z - size},
+                {pos.x + size, pos.y + size, pos.z - size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y + size, pos.z - size},
+                {pos.x - size, pos.y + size, pos.z - size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y + size, pos.z - size},
+                {pos.x - size, pos.y - size, pos.z - size},
+                color);
+
+            // Back face
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y - size, pos.z + size},
+                {pos.x + size, pos.y - size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y - size, pos.z + size},
+                {pos.x + size, pos.y + size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y + size, pos.z + size},
+                {pos.x - size, pos.y + size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y + size, pos.z + size},
+                {pos.x - size, pos.y - size, pos.z + size},
+                color);
+
+            // Connections between front and back
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y - size, pos.z - size},
+                {pos.x - size, pos.y - size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y - size, pos.z - size},
+                {pos.x + size, pos.y - size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x + size, pos.y + size, pos.z - size},
+                {pos.x + size, pos.y + size, pos.z + size},
+                color);
+            debugDraw_.AddLine(
+                {pos.x - size, pos.y + size, pos.z - size},
+                {pos.x - size, pos.y + size, pos.z + size},
+                color);
+        });
     }
 #endif
 
