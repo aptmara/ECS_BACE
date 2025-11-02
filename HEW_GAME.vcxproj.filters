@@ -92,9 +92,6 @@
     <ClInclude Include="include\components\Transform.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\PlayerComponents.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
     <ClInclude Include="include\ecs\Entity.h">
       <Filter>Header Files\ecs</Filter>
     </ClInclude>
@@ -172,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="include\graphics\RenderSystem.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\PlayerComponents.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

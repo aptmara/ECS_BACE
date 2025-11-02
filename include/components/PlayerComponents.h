@@ -7,7 +7,7 @@
  *
  * @details
  * このファイルはプレイヤーキャラクターに関連するコンポーネントを定義します。
- * 移動、射撃、ステータス管理などのプレイヤー専用機能を提供します。
+ * 移動、ステータス管理などのプレイヤー専用機能を提供します。
  */
 #pragma once
 
@@ -51,19 +51,20 @@
 struct PlayerMovement : Behaviour {
     InputSystem *input_ = nullptr;             ///< 入力システムへのポインタ
     GamepadSystem *gamepad_ = nullptr;         ///< ゲームパッドシステムへのポインタ
-    float speed = 5.0f;                        ///< 移動速度(単位/秒)
+    float speed = 10.0f;                        ///< 移動速度(単位/秒) - 速度を上げて動きを明確に
     DirectX::XMFLOAT2 velocity = {0.0f, 0.0f}; ///< 現在の移動ベロシティ
 
     /**
- * @brief 毎フレーム更新処理
- * @param[in,out] w ワールド参照
- * @param[in] self このコンポーネントが付いているエンティティ
- * @param[in] dt デルタタイム(前フレームからの経過時間)
- *
- * @details
- * スティック入力を読み取り、プレイヤーの位置とベロシティを更新します。
- * 入力がない場合は最後のベロシティに基づいて移動を続けます。
- */
+     * @brief 毎フレーム更新処理
+     * @param[in,out] w ワールド参照
+     * @param[in] self このコンポーネントが付いているエンティティ
+     * @param[in] dt デルタタイム(前フレームからの経過時間)
+     *
+     * @details
+     * スティック入力を読み取り、プレイヤーの位置とベロシティを更新します。
+     * キーボード入力とすべての接続されているゲームパッド（XInput + DirectInput）の入力を統合します。
+     * 入力がない場合は最後のベロシティに基づいて移動を続けます。
+     */
     void OnUpdate(World &w, Entity self, float dt) override {
         auto *t = w.TryGet<Transform>(self);
         if (!t || (!input_ && !gamepad_))
@@ -87,14 +88,21 @@ struct PlayerMovement : Behaviour {
             }
         }
 
-        // ゲームパッド入力の処理
-        if (gamepad_ && gamepad_->IsConnected(0)) {
-            float leftStickX = gamepad_->GetLeftStickX(0);
-            float leftStickY = gamepad_->GetLeftStickY(0);
+        // すべての接続されているゲームパッドの入力を統合（XInput + DirectInput）
+        if (gamepad_) {
+            float gx = gamepad_->GetLeftStickX();
+            float gy = gamepad_->GetLeftStickY();
 
-            // デッドゾーン処理済みの値を使用
-            inputDir.x += leftStickX;
-            inputDir.y += leftStickY;
+#ifdef _DEBUG
+            static int debugCounter = 0;
+            if (debugCounter % 30 == 0 && (gx != 0.0f || gy != 0.0f)) {  // 入力があるときだけログ出力
+                DEBUGLOG("PlayerMovement: Gamepad input - LX=" + std::to_string(gx) + ", LY=" + std::to_string(gy));
+            }
+            debugCounter++;
+#endif
+
+            inputDir.x += gx;
+            inputDir.y += gy;
         }
 
         // 入力がある場合はベロシティを更新
@@ -104,7 +112,7 @@ struct PlayerMovement : Behaviour {
 
         // ベロシティに基づいて位置を更新
         t->position.x += velocity.x * dt;
-        t->position.y += velocity.y * dt;
+        t->position.z += velocity.y * dt;
 
         // 画面外に出ないように制限
         const float limitX = 8.0f;
@@ -113,9 +121,9 @@ struct PlayerMovement : Behaviour {
             t->position.x = -limitX;
         if (t->position.x > limitX)
             t->position.x = limitX;
-        if (t->position.y < -limitY)
-            t->position.y = -limitY;
-        if (t->position.y > limitY)
-            t->position.y = limitY;
+        if (t->position.z < -limitY)
+            t->position.z = -limitY;
+        if (t->position.z > limitY)
+            t->position.z = limitY;
     }
 };

@@ -4,7 +4,7 @@
 
 ### Entity Component System ゲーム開発フレームワーク
 
-[![C++14](https://img.shields.io/badge/C++-14-blue.svg?style=flat&logo=c%2B%2B)](https://isocpp.org/)
+[![C++17](https://img.shields.io/badge/C++-17-blue.svg?style=flat&logo=c%2B%2B)](https://isocpp.org/)
 [![DirectX](https://img.shields.io/badge/DirectX-11-green.svg?style=flat)](https://docs.microsoft.com/en-us/windows/win32/directx)
 [![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg?style=flat)](https://www.microsoft.com/windows)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](LICENSE)
@@ -12,7 +12,7 @@
 
 **ECS（Entity Component System）アーキテクチャ**を活用した柔軟で拡張性の高いゲーム開発プロジェクト
 
-[特徴](#-主な特徴) • [クイックスタート](#-クイックスタート) • [ドキュメント](#-目次) • [サンプル](#-実践例)
+[特徴](#-主な特徴) • [クイックスタート](#-クイックスタート) • [実装ガイド](#-実装ガイド) • [詳細ドキュメント](#-詳細ドキュメント)
 
 </div>
 
@@ -21,62 +21,27 @@
 ## 📋 目次
 
 <details open>
-<summary><b>クリックして展開/折りたたみ</b></summary>
+<summary><b>主要セクション（クリックして展開/折りたたみ）</b></summary>
 
-### 基本情報
 - [🎯 プロジェクト概要](#-プロジェクト概要)
 - [✨ 主な特徴](#-主な特徴)
 - [🚀 クイックスタート](#-クイックスタート)
 - [🛠 環境構築](#-環境構築)
-
-### ECS入門
+- [🔩 フレームワークの機能](#-フレームワークの機能)
 - [📚 ECSアーキテクチャ入門](#-ecsアーキテクチャ入門)
-  - [1️⃣ Entity（エンティティ）](#1️⃣-entityエンティティ)
-  - [2️⃣ Component（コンポーネント）](#2️⃣-componentコンポーネント)
-  - [3️⃣ System（システム）](#3️⃣-systemシステム)
-
-### 実装ガイド
-- [🔧 コンポーネントの作り方](#-コンポーネントの作り方)
-  - [方法1: 構造体で定義（基本）](#方法1-構造体で定義基本)
-  - [方法2: マクロで定義（簡潔）](#方法2-マクロで定義簡潔)
-  - [方法3: タグコンポーネント（マーカー）](#方法3-タグコンポーネントマーカー)
-- [🎮 エンティティの作成](#-エンティティの作成)
-  - [方法1: ビルダーパターン（推奨）](#方法1-ビルダーパターン推奨-)
-  - [方法2: 従来の方法](#方法2-従来の方法)
-  - [方法3: 遅延スポーン（並列処理対応）](#方法3-遅延スポーン並列処理対応-)
-
-### 実践
+- [🔧 実装ガイド](#-実装ガイド)
 - [💡 実践例](#-実践例)
-  - [例1: シンプルな回転キューブ](#例1-シンプルな回転キューブ-)
-  - [例2: プレイヤーキャラクター](#例2-プレイヤーキャラクター-)
-  - [例3: 時間経過で消える弾丸](#例3-時間経過で消える弾丸-)
-  - [例4: コンポーネントの取得と変更](#例4-コンポーネントの取得と変更-)
-  - [例5: ForEachでの一括処理](#例5-foreachでの一括処理-)
-  - [例6: エンティティの削除](#例6-エンティティの削除-)
-
-### コーディング規約
+- [🐞 デバッグ方法](#-デバッグ方法)
 - [📝 コーディング規約](#-コーディング規約)
-  - [🏷️ 命名規約](#-命名規約)
-  - [📚 C++14準拠](#-c14準拠)
-  - [🎨 DirectXMath の使用](#-directxmath-の使用)
-  - [📄 コメント規約（Doxygen形式）](#-コメント規約doxygen形式)
+- [📚 詳細ドキュメント](#-詳細ドキュメント)
 
-### チーム開発
+</details>
+
+<details>
+<summary><b>補足情報（クリックして展開/折りたたみ）</b></summary>
+
 - [👥 チーム開発ルール](#-チーム開発ルール)
-  - [📂 ファイル編集の優先順位](#-ファイル編集の優先順位)
-  - [🔀 Git/GitHubのルール](#-gitgithubのルール)
 - [🌟 GitHub初心者ガイド](#-github初心者ガイド)
-  - [🤔 GitHubって何？](#-githubって何)
-  - [📖 重要な用語集（初心者向け）](#-重要な用語集初心者向け)
-  - [🚀 完全ステップバイステップガイド](#-完全ステップバイステップガイド)
-    - [ステップ1️⃣: Gitのインストール](#ステップ1️⃣-gitのインストール)
-    - [ステップ2️⃣: GitHubアカウントの設定](#ステップ2️⃣-githubアカウントの設定)
-    - [ステップ3️⃣: リポジトリをクローン（初回のみ）](#ステップ3️⃣-リポジトリをクローン初回のみ)
-  - [🆘 トラブルシューティング](#-トラブルシューティング)
-  - [📋 コマンド一覧](#-コマンド一覧)
-  - [🎓 さらに学習するには](#-さらに学習するには)
-  - [✅ チェックリスト（作業前）](#-チェックリスト作業前)
-  - [✅ チェックリスト（作業後）](#-チェックリスト作業後)
 
 </details>
 
@@ -94,7 +59,7 @@
 |------|------|
 | **名称** | HEW_ECS (ECS_BACE) |
 | **目的** | ECSを活用したチームゲーム開発 |
-| **言語** | C++14 |
+| **言語** | C++17 |
 | **プラットフォーム** | Windows (DirectX 11) |
 | **アーキテクチャ** | Entity Component System |
 
@@ -164,6 +129,7 @@ world.Tick(deltaTime);
 ```
 
 > 💡 **たったこれだけ！** 回転する緑のキューブが画面に表示されます。
+> <!-- TODO: ここに実行結果のGIFアニメーションを挿入 -->
 
 ---
 
@@ -196,9 +162,9 @@ Windows SDK<br>(DirectX 11)
 </td>
 <td align="center" width="25%">
 
-**📚 C++**
+**C++**
 
-C++14
+C++17
 
 </td>
 </tr>
@@ -214,7 +180,7 @@ git clone https://github.com/aptma-sHEWTeam/HEW_ECS.git
 cd HEW_ECS
 
 # 3️⃣ Visual Studioでソリューションを開く
-start ECS_BACE.sln
+start HEW_GAME.sln
 ```
 
 ### ▶️ ビルド & 実行
@@ -224,6 +190,45 @@ start ECS_BACE.sln
 | ビルド | `F7` または `Ctrl+Shift+B` |
 | 実行（デバッグ） | `F5` |
 | 実行（非デバッグ） | `Ctrl+F5` |
+
+### 📦 依存ライブラリについて
+
+本プロジェクトで利用する主要なライブラリは、リポジトリに同梱されているか、ビルドプロセスで自動的に解決されます。
+
+- **Assimp (Open Asset Import Library)**
+  - 3Dモデルを読み込むためのライブラリです。
+  - `libs/assimp-6.0.2` に必要なファイルが同梱されており、プロジェクトに直接リンクされています。
+  - ユーザー側で個別のインストール作業は不要です。
+
+- **NuGet パッケージ**
+  - GitHub ActionsでのCI/CDパイプラインでは `nuget restore` コマンドが実行されます。
+  - 現時点では明示的な追加パッケージはありませんが、将来的にライブラリを追加した場合は、この仕組みによって自動的に依存関係が解決されます。
+
+---
+
+## 🔩 フレームワークの機能
+
+このフレームワークには、ゲーム開発をすぐに始められるように、基本的なコンポーネントとシステムが予め用意されています。
+
+### 主要コンポーネント一覧
+
+| 種類 | コンポーネント名 | 主要プロパティ / 使い方 |
+|:---|:---|:---|
+| 📦 **データ** | `Transform` | `XMFLOAT3 position`<br>`XMFLOAT3 rotation`<br>`XMFLOAT3 scale` |
+| | `MeshRenderer` | `MeshType meshType` (Cube, Sphere, ...)<br>`XMFLOAT3 color`<br>`TextureHandle texture` |
+| | `ModelComponent`| `ComPtr<ID3D11Buffer> vertexBuffer`<br>`UINT indexCount`<br>*(ModelLoadingSystemが自動で設定)* |
+| | `Health` | `float current`, `float max`<br>`TakeDamage(float)`, `IsDead()` |
+| | `Velocity` | `XMFLOAT3 velocity` |
+| | `DirectionalLight` | `XMFLOAT3 direction`<br>`XMFLOAT4 color` |
+| ⚙️ **Behaviour** | `Rotator` | `float speedDegY` (Y軸周りの回転速度) |
+| | `PlayerMovement` | `float speed`<br>*(入力は自動で処理)* |
+| 🏷️ **タグ** | `PlayerTag`<br>`EnemyTag`<br>`BulletTag` | *エンティティを識別するためのマーカー。プロパティは持たない。*<br>`world.ForEach<PlayerTag>(...)`のように使う。 |
+
+### 主要システム一覧
+
+| システム名 | 概要 |
+|:---|:---|
+| `ModelLoadingSystem` | `Model`コンポーネントを持つエンティティに対し、リソースマネージャーから3Dモデルデータを非同期的に読み込み、`ModelComponent`としてアタッチします。 |
 
 ---
 
@@ -286,29 +291,6 @@ struct Transform : IComponent {
 };
 ```
 
-<details>
-<summary>📦 その他のデータコンポーネント例</summary>
-
-```cpp
-// 体力管理
-struct Health : IComponent {
-    float current = 100.0f;
-    float max = 100.0f;
-};
-
-// 速度ベクトル
-struct Velocity : IComponent {
-    DirectX::XMFLOAT3 velocity{0, 0, 0};
-};
-
-// スコア
-DEFINE_DATA_COMPONENT(Score,
-    int points = 0;
-);
-```
-
-</details>
-
 #### ⚙️ Behaviourコンポーネント（Behaviour継承）
 
 毎フレーム更新されるロジックを持つ
@@ -325,39 +307,6 @@ struct Rotator : Behaviour {
     }
 };
 ```
-
-<details>
-<summary>⚙️ その他のBehaviour例</summary>
-
-```cpp
-// 上下に跳ねる動き
-struct Bouncer : Behaviour {
-    float speed = 2.0f;
-    float amplitude = 2.0f;
-    
-    void OnUpdate(World& w, Entity self, float dt) override {
-        time += dt * speed;
-        auto* t = w.TryGet<Transform>(self);
-        if (t) {
-            t->position.y = startY + sinf(time) * amplitude;
-        }
-    }
-};
-
-// 前進移動
-struct MoveForward : Behaviour {
-    float speed = 5.0f;
-    
-    void OnUpdate(World& w, Entity self, float dt) override {
-        auto* t = w.TryGet<Transform>(self);
-        if (t) {
-            t->position.z += speed * dt;
-        }
-    }
-};
-```
-
-</details>
 
 ---
 
@@ -393,9 +342,11 @@ void UpdateMovementSystem(World& world, float dt) {
 
 ---
 
-## 🔧 コンポーネントの作り方
+## 🔧 実装ガイド
 
-### 方法1: 構造体で定義（基本）
+ここでは、独自のコンポーネントやエンティティを作成する方法を解説します。
+
+### コンポーネントの作り方
 
 <table>
 <tr>
@@ -448,80 +399,9 @@ struct Bouncer : Behaviour {
 </tr>
 </table>
 
----
+### エンティティの作成
 
-### 方法2: マクロで定義（簡潔）
-
-#### 🎯 DEFINE_DATA_COMPONENT
-
-```cpp
-DEFINE_DATA_COMPONENT(Score,
-    int points = 0;
-    
-    void AddPoints(int p) {
-        points += p;
-    }
-    
-    void Reset() {
-        points = 0;
-    }
-);
-```
-
-#### 🎯 DEFINE_BEHAVIOUR
-
-```cpp
-DEFINE_BEHAVIOUR(SpinAndColor,
-    // 🔹 メンバ変数
-    float rotSpeed = 90.0f;
-    float colorSpeed = 1.0f;
-    float time = 0.0f;
-,
-    // 🔹 OnUpdate内の処理
-    time += dt * colorSpeed;
-    
-    auto* t = w.TryGet<Transform>(self);
-    if (t) {
-        t->rotation.y += rotSpeed * dt;
-    }
-    
-    auto* mr = w.TryGet<MeshRenderer>(self);
-    if (mr) {
-        float hue = fmodf(time, 1.0f);
-        mr->color.x = sinf(hue * 6.28f) * 0.5f + 0.5f;
-        mr->color.y = cosf(hue * 6.28f) * 0.5f + 0.5f;
-    }
-);
-```
-
----
-
-### 方法3: タグコンポーネント（マーカー）
-
-エンティティの種類を識別するための空のコンポーネント
-
-```cpp
-struct PlayerTag : IComponent {};
-struct EnemyTag : IComponent {};
-struct BulletTag : IComponent {};
-```
-
-**使用例：**
-
-```cpp
-// プレイヤーだけを処理
-world.ForEach<PlayerTag, Transform>([](Entity e, PlayerTag& tag, Transform& t) {
-    // プレイヤー限定の処理
-});
-```
-
----
-
-## 🎮 エンティティの作成
-
-### 方法1: ビルダーパターン（推奨） ⭐
-
-**メソッドチェーンで直感的にコンポーネントを追加**
+**メソッドチェーンで直感的にコンポーネントを追加できるビルダーパターンが推奨です。**
 
 ```cpp
 Entity player = world.Create()
@@ -529,42 +409,7 @@ Entity player = world.Create()
     .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})
     .With<Rotator>(45.0f)
     .With<PlayerTag>()
-    .Build();  // ← Build()は省略可能
-```
-
-> 💡 **Tip**: `.Build()`は省略可能（暗黙的にEntity型に変換）
-
-```cpp
-// これでもOK！
-Entity player = world.Create()
-    .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-    .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0});
-```
-
----
-
-### 方法2: 従来の方法
-
-```cpp
-// ステップ1: エンティティを作成
-Entity enemy = world.CreateEntity();
-
-// ステップ2: コンポーネントを個別に追加
-world.Add<Transform>(enemy, Transform{});
-world.Add<MeshRenderer>(enemy, MeshRenderer{DirectX::XMFLOAT3{1, 0, 0}});
-world.Add<EnemyTag>(enemy, EnemyTag{});
-```
-
----
-
-### 方法3: 遅延スポーン（並列処理対応） 🔒
-
-```cpp
-// スポーン要求をキューに追加（スレッドセーフ）
-world.EnqueueSpawn(World::Cause::Spawner, [](Entity e) {
-    // 生成後の初期化（メインスレッドで実行される）
-    // ここでコンポーネントを追加
-});
+    .Build();  // ← .Build()は省略可能
 ```
 
 ---
@@ -583,19 +428,10 @@ Entity CreateRotatingCube(World& world) {
 }
 ```
 
-<div align="center">
-
-**実行結果**
-
-🔴 ← 回転する赤いキューブ
-
-</div>
-
----
-
 ### 例2: プレイヤーキャラクター 🎮
 
 ```cpp
+// プレイヤーの移動を処理するBehaviour
 struct PlayerMovement : Behaviour {
     InputSystem* input_ = nullptr;
     float speed = 5.0f;
@@ -604,21 +440,22 @@ struct PlayerMovement : Behaviour {
         auto* t = w.TryGet<Transform>(self);
         if (!t || !input_) return;
         
-        if (input_->GetKey('W')) t->position.z += speed * dt;  // 前進
-        if (input_->GetKey('S')) t->position.z -= speed * dt;  // 後退
-        if (input_->GetKey('A')) t->position.x -= speed * dt;  // 左移動
-        if (input_->GetKey('D')) t->position.x += speed * dt;  // 右移動
-    }
+        if (input_->GetKey('W')) t->position.z += speed * dt;
+        if (input_->GetKey('S')) t->position.z -= speed * dt;
+        if (input_->GetKey('A')) t->position.x -= speed * dt;
+        if (input_->GetKey('D')) t->position.x += speed * dt;
+n    }
 };
 
+// プレイヤーを生成する関数
 Entity CreatePlayer(World& world, InputSystem* input) {
     Entity player = world.Create()
-        .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-        .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})  // 緑色
+        .With<Transform>()
+        .With<MeshRenderer>({0, 1, 0}) // 緑色
         .With<PlayerTag>()
         .Build();
     
-    // PlayerMovementは後から追加し、inputを設定
+    // Behaviourは後から追加して設定を渡すことも可能
     auto& movement = world.Add<PlayerMovement>(player);
     movement.input_ = input;
     
@@ -626,52 +463,7 @@ Entity CreatePlayer(World& world, InputSystem* input) {
 }
 ```
 
-<div align="center">
-
-**操作方法**
-
-`W` / `A` / `S` / `D` キーで移動
-
-</div>
-
----
-
-### 例3: 時間経過で消える弾丸 💥
-
-```cpp
-struct LifeTime : Behaviour {
-    float remainingTime = 3.0f;
-    
-    void OnUpdate(World& w, Entity self, float dt) override {
-        remainingTime -= dt;
-        if (remainingTime <= 0.0f) {
-            w.DestroyEntityWithCause(self, World::Cause::LifetimeExpired);
-        }
-    }
-};
-
-Entity CreateBullet(World& world, const DirectX::XMFLOAT3& pos) {
-    return world.Create()
-        .With<Transform>(pos)
-        .With<MeshRenderer>(DirectX::XMFLOAT3{1, 1, 0})  // 黄色
-        .With<MoveForward>(10.0f)  // 前進速度
-        .With<LifeTime>(3.0f)      // 3秒後に削除
-        .With<BulletTag>()
-        .Build();
-}
-```
-
-<div align="center">
-
-**動作**
-
-🟡 → → → 💨 (3秒後に消滅)
-
-</div>
-
----
-
-### 例4: コンポーネントの取得と変更 🔍
+### 例3: コンポーネントの取得と変更 🔍
 
 ```cpp
 // ✅ 安全な取得（TryGet推奨）
@@ -685,51 +477,61 @@ if (world.Has<Health>(entity)) {
     auto* health = world.TryGet<Health>(entity);
     health->TakeDamage(10.0f);
 }
+```
 
-// ✅ 複数コンポーネントの取得
-auto* t = world.TryGet<Transform>(entity);
-auto* mr = world.TryGet<MeshRenderer>(entity);
-if (t && mr) {
-    // 両方存在する場合の処理
+---
+
+## 🐞 デバッグ方法
+
+開発中に問題が発生した場合、以下のデバッグ機能が役立ちます。
+
+### ログ出力 (`debug_log.txt`)
+
+デバッグビルドでアプリケーションを実行すると、実行ファイルと同じ階層に `debug_log.txt` が生成されます。これには、システムの初期化、エンティティの生成/破棄、警告、エラーなど、アプリケーションの動作に関する詳細なログが記録されます。
+
+独自のログを出力するには、`DEBUGLOG()` マクロを使用します。
+
+```cpp
+#include "app/DebugLog.h"
+
+void MyFunction() {
+    DEBUGLOG("MyFunctionが呼び出されました");
+    
+    // カテゴリを指定して、ログをフィルタリングしやすくすることも可能
+    DEBUGLOG_CATEGORY(DebugLog::Category::Input, "入力処理を開始");
+}
+```
+
+### デバッグ描画 (`DebugDraw`)
+
+デバッグビルドでは、シーン内にグリッドと座標軸が自動的に描画されます。これに加えて、任意の線や図形をシーンに描画して、当たり判定の範囲やオブジェクトの進行方向などを視覚化できます。
+
+`DebugDraw` システムは `ServiceLocator` に登録されているため、どこからでもアクセス可能です。
+
+```cpp
+#include "graphics/DebugDraw.h"
+#include "app/ServiceLocator.h"
+
+void DrawCollisionBox(const BoundingBox& box) {
+    auto& dd = ServiceLocator::Get<DebugDraw>();
+    
+    // BoundingBoxをワイヤーフレームで描画
+    dd.AddBox(box.Center, box.Extents, DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f}); // 赤色
 }
 ```
 
 ---
 
-### 例5: ForEachでの一括処理 🔄
-
-```cpp
-// 単一コンポーネント
-world.ForEach<Transform>([](Entity e, Transform& t) {
-    t.position.y += 0.1f;  // 全エンティティを上に移動
-});
-
-// 複数コンポーネント
-world.ForEach<Transform, Velocity>([dt](Entity e, Transform& t, Velocity& v) {
-    t.position.x += v.velocity.x * dt;
-    t.position.y += v.velocity.y * dt;
-    t.position.z += v.velocity.z * dt;
-});
-```
-
----
-
-### 例6: エンティティの削除 🗑️
-
-```cpp
-// 即座に削除（フレーム終了時に実際に削除される）
-world.DestroyEntity(entity);
-
-// 原因付きで削除（デバッグログに記録される）
-world.DestroyEntityWithCause(entity, World::Cause::Collision);
-
-// コンポーネントのみ削除
-world.Remove<Health>(entity);
-```
-
----
-
 ## 📝 コーディング規約
+
+プロジェクトのコード品質と一貫性を保つため、以下の規約に従ってください。コードフォーマットは `.clang-format` ファイルによって定義されており、`tools/Run-ClangFormat.ps1` を実行することで自動的に整形できます。
+
+### 🎨 コードフォーマット (Clang-Format)
+
+- **ベーススタイル**: `Microsoft` スタイルを基本とします。
+- **インデント**: `スペース4つ` を使用します（タブは使用しません）。
+- **波括弧 `{}`**: `if` や `for` などの制御構文の直後で改行せず、同じ行に記述します (Attachスタイル)。
+- **ポインタ/参照の揃え**: `*` や `&` は、型名の左側ではなく、変数名の右側に配置します。
 
 ### 🏷️ 命名規約
 
@@ -745,61 +547,28 @@ world.Remove<Health>(entity);
 
 </div>
 
----
+### 📚 C++17準拠
 
-### 📚 C++14準拠
+本プロジェクトは **C++17** に準拠して開発されています。
+C++17で導入された機能（構造化束縛、`if constexpr`、`std::optional`など）を積極的に活用してください。
 
-```cpp
-// ✅ 正しい: C++14互換
-std::vector<Entity> entities;
-std::unique_ptr<Transform> transform;
-
-// ❌ 間違い: C++17機能は使用不可
-std::optional<Transform> GetTransform(Entity e);  // C++17
-if constexpr (condition) { }                      // C++17
-std::filesystem::path p;                          // C++17
-```
+> ⚠️ **注意**: `.clang-format`ファイルでは`Standard: c++14`と設定されていますが、これはフォーマッタのスタイル設定であり、**プロジェクトのビルド設定（C++17）が正**です。C++17の構文を使用しても問題ありません。
 
 ---
 
-### 🎨 DirectXMath の使用
+## 📚 詳細ドキュメント
 
-```cpp
-// ✅ 推奨: XMFLOAT3でデータ保持
-struct Transform : IComponent {
-    DirectX::XMFLOAT3 position{0, 0, 0};
-};
+特定の機能に関するより詳細なガイドやリファレンスは、`docs`フォルダに格納されています。
 
-// ✅ 計算時はXMVECTORを使用（SIMD最適化）
-DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&transform.position);
-DirectX::XMVECTOR dir = DirectX::XMLoadFloat3(&direction);
-DirectX::XMVECTOR result = DirectX::XMVectorAdd(pos, dir);
-DirectX::XMStoreFloat3(&transform.position, result);
-```
-
----
-
-### 📄 コメント規約（Doxygen形式）
-
-```cpp
-/**
- * @brief 関数の簡潔な説明
- * 
- * @param[in] input 入力パラメータ
- * @param[out] output 出力パラメータ
- * @param[in,out] inout 入出力パラメータ
- * @return 戻り値の説明
- * 
- * @details
- * より詳しい動作の説明。
- * 注意点や制限事項を記述します。
- * 
- * @note 補足情報
- * @warning 警告事項
- * @author 山内陽
- */
-ReturnType FunctionName(Type input, Type& output, Type& inout);
-```
+| ドキュメント | 概要 |
+|:---|:---|
+| [**Core_Architecture.md**](./docs/Core_Architecture.md) | **フレームワーク全体の設計思想と内部実装を解説した最重要ドキュメントです。** |
+| [ChargeSystem_Guide.md](./docs/ChargeSystem_Guide.md) | 「溜め」動作を実装するためのチャージシステムの詳細なガイドです。 |
+| [ChargeSystem_QuickRef.md](./docs/ChargeSystem_QuickRef.md) | チャージシステムのAPIや使い方をまとめたクイックリファレンスです。 |
+| [DebugDraw_Improvements.md](./docs/DebugDraw_Improvements.md) | デバッグ描画機能の改善に関する提案やアイデアが記載されています。 |
+| [GamepadSystem_README.md](./docs/GamepadSystem_README.md) | ゲームパッド入力システムのセットアップ方法や使用例を解説しています。 |
+| [RealtimeCharge_Guide.md](./docs/RealtimeCharge_Guide.md) | リアルタイムでのチャージ処理に関する実装ガイドです。 |
+| [RenderSystem_Improvements.md](./docs/RenderSystem_Improvements.md) | レンダリングシステムの改善に関する技術的な詳細や計画が記載されています。 |
 
 ---
 
@@ -837,6 +606,30 @@ include/app/       # アプリケーション基盤
 ---
 
 ### 🔀 Git/GitHubのルール
+
+本プロジェクトでは、Git-flowに基づいたシンプルなブランチモデルを採用します。
+
+- **`main` / `master` ブランチ**
+  - 常に安定し、リリース可能な状態を保ちます。
+  - このブランチへの直接のプッシュは禁止です。`develop`ブランチからのPull Requestによってのみマージされます。
+
+- **`develop` ブランチ**
+  - 開発のメインとなるブランチです。
+  - 新機能の追加やバグ修正が完了したら、このブランチにマージします。
+
+- **フィーチャー / バグ修正ブランチ**
+  - 新しい機能を追加する場合: `develop`から`feature/機能名`という名前でブランチを作成します。（例: `feature/player-jump`）
+  - バグを修正する場合: `develop`から`fix/修正内容`という名前でブランチを作成します。（例: `fix/collision-bug`）
+  - 作業が完了したら、`develop`ブランチへのPull Requestを作成してください。
+
+```mermaid
+graph TD
+    A[main] -- Merge --> B(develop)
+    B -- Branch --> C{feature/new-powerup}
+    B -- Branch --> D{fix/crash-on-start}
+    C -- Pull Request --> B
+    D -- Pull Request --> B
+```
 
 ---
 
@@ -1176,3 +969,4 @@ masterにプッシュする前に必ず確認:
 □ README更新が必要な場合は更新した
 □ ペアの人にレビューしてもらった
 □ プッシュ前に再度 git pull した
+```
