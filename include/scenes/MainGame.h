@@ -1,5 +1,5 @@
 /**
- * @file MiniGame.h
+ * @file MainGame.h
  * @brief シンプルなシューティングゲーム
  * @author 山内陽
  * @date 2025
@@ -7,70 +7,109 @@
 #pragma once
 
 #include "pch.h"
-#include <cstdlib>
-#include <ctime>
-#include "util/Random.h"
+#include "components/GameTags.h"
+#include "components/PlayerComponents.h"
+#include "components/MeshRenderer.h"
+#include "input/InputSystem.h"
+#include "input/GamepadSystem.h"
+#include "components/Model.h"
+#include "components/ModelComponent.h"
+#include "components/Rotator.h"
+#include "components/Light.h"
+#include "systems/ModelLoadingSystem.h"
+#include "app/ServiceLocator.h"
+#include "app/ResourceManager.h"
 
 // ========================================================
 // ゲームシーン
 // ========================================================
 
-/**
- * @class GameScene
- * @brief シューティングゲームのメインシーン
- *
- * @details
- * プレイヤー操作、敵の生成、弾の発射、衝突判定を管理します。
- *
- * ### ゲームルール:
- * - A/Dキーでプレイヤーを左右に移動
- * - スペースキーで弾を発射
- * - ランダムな形状・色の敵が上から降ってくる
- * - 弾が敵に当たると両方消滅し、スコア+10
- *
- * @author 山内陽
- */
 class GameScene : public IScene {
 public:
-    /**
-     * @brief シーン開始時の初期化
-     * @param[in,out] world ワールド参照
-     */
     void OnEnter(World& world) override {
+        DEBUGLOG("GameScene::OnEnter() - ゲーム開始");
 
+        // システムエンティティを作成
+        world.Create().With<ModelLoadingSystem>();
+
+        // ライト作成
+        world.Create().With<DirectionalLight>();
+
+        // プレイヤー作成
+        CreatePlayer(world);
+
+        DEBUGLOG("GameScene::OnEnter() - 初期化完了");
     }
 
-    /**
-     * @brief 毎フレーム更新処理
-     * @param[in,out] world ワールド参照
-     * @param[in] input 入力システム参照
-     * @param[in] deltaTime デルタタイム(秒単位)
-     */
     void OnUpdate(World& world, InputSystem& input, float deltaTime) override {
+        // PlayerMovementコンポーネントにInputSystemの参照を設定
+        world.ForEach<PlayerMovement>([&](Entity e, PlayerMovement& pm) {
+            if (!pm.input_) {
+                pm.input_ = &input;
+            }
+        });
 
-        // ゲームロジックの更新
         world.Tick(deltaTime);
     }
 
     /**
      * @brief シーン終了時のクリーンアップ
      * @param[in,out] world ワールド参照
-     *
-     * @details
-     * すべてのエンティティを削除します。
      */
     void OnExit(World& world) override {
+        DEBUGLOG("GameScene::OnExit() - ゲーム終了");
+
+        // シーンが管理するエンティティを削除
         for (const auto& entity : ownedEntities_) {
             if (world.IsAlive(entity)) {
                 world.DestroyEntityWithCause(entity, World::Cause::SceneUnload);
             }
         }
         ownedEntities_.clear();
+
+        DEBUGLOG("GameScene::OnExit() - クリーンアップ完了");
     }
+
 private:
+    /**
+     * @brief プレイヤーを作成
+     * @param[in,out] world ワールド参照
+     */
+    void CreatePlayer(World& world) {
+        // エンティティ作成
+        // カメラは{0, 20, -20}から{0, 0, 0}を見ているため、
+        // プレイヤーをZ=5付近に配置してカメラの視野内に表示
+        Transform transform{
+            {0.0f, 0.0f, 5.0f},
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 1.0f, 1.0f},
+        };
+        
+        // MeshRendererを使ってキューブとして描画
+        MeshRenderer renderer;
+        renderer.meshType = MeshType::Cube;
+        renderer.color = DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f};  // 緑色
+        
+        // プレイヤーエンティティを作成
+        Entity player = world.Create()
+            .With<Transform>(transform)
+            .With<MeshRenderer>(renderer)
+            .With<PlayerTag>()
+            .With<PlayerMovement>()
+            .With<Rotator>(45.0f)  // 回転速度を45度/秒に修正
+            .Build();
 
+   DEBUGLOG("CreatePlayer: Player entity created - ID: " + std::to_string(player.id) + ", Gen: " + std::to_string(player.gen));
+        DEBUGLOG("CreatePlayer: Position: (" + std::to_string(transform.position.x) + ", " + 
+     std::to_string(transform.position.y) + ", " + 
+   std::to_string(transform.position.z) + ")");
+        DEBUGLOG("CreatePlayer: Has Transform: " + std::string(world.Has<Transform>(player) ? "YES" : "NO"));
+    DEBUGLOG("CreatePlayer: Has PlayerTag: " + std::string(world.Has<PlayerTag>(player) ? "YES" : "NO"));
+        DEBUGLOG("CreatePlayer: Has MeshRenderer: " + std::string(world.Has<MeshRenderer>(player) ? "YES" : "NO"));
 
-    Entity playerEntity_;        ///< プレイヤーエンティティ
-    int score_;                  ///< 現在のスコア
-    std::vector<Entity> ownedEntities_; ///< シーンが生成したエンティティ
+     ownedEntities_.push_back(player);
+        playerEntity_ = player;
+    }
+    Entity playerEntity_;          ///< プレイヤーエンティティ
+    std::vector<Entity> ownedEntities_;     ///< シーンが管理するエンティティ
 };

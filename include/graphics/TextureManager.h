@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file TextureManager.h
  * @brief テクスチャ管理システム
  * @author 山内陽
@@ -18,6 +18,8 @@
 #include <DirectXMath.h>
 #include <string>
 #include <unordered_map>
+#include <sstream>
+#include <iomanip>
 #include <vector>
 #include <fstream>
 #include <cstdio>
@@ -85,14 +87,30 @@ public:
     bool Init(GfxDevice& gfx) {
         gfx_ = &gfx;
         isShutdown_ = false;
-        
-        // デフォルトの白テクスチャを作成
+
+        if (!wicFactory_) {
+            HRESULT hr = CoCreateInstance(
+                CLSID_WICImagingFactory,
+                nullptr,
+                CLSCTX_INPROC_SERVER,
+                IID_PPV_ARGS(&wicFactory_)
+            );
+
+            if (FAILED(hr)) {
+                std::ostringstream oss;
+                oss << "TextureManager::Init() - Failed to create WIC imaging factory (HRESULT=0x"
+                    << std::uppercase << std::hex << hr << ")";
+                DEBUGLOG_ERROR(oss.str());
+                return false;
+            }
+        }
+
         uint32_t whitePixel = 0xFFFFFFFF;
         defaultWhiteTexture_ = CreateTextureFromMemory(
             reinterpret_cast<const uint8_t*>(&whitePixel),
             1, 1, 4
         );
-        
+
         return defaultWhiteTexture_ != INVALID_TEXTURE;
     }
 
@@ -115,28 +133,19 @@ public:
      */
     TextureHandle LoadFromFile(const char* filepath) {
         // WICを使用して画像を読み込む
-        Microsoft::WRL::ComPtr<IWICImagingFactory> wicFactory;
-        HRESULT hr = CoCreateInstance(
-            CLSID_WICImagingFactory,
-            nullptr,
-            CLSCTX_INPROC_SERVER,
-            IID_PPV_ARGS(&wicFactory)
-        );
-        
-        if (FAILED(hr)) {
-            char msg[512];
-            sprintf_s(msg, "Failed to create WIC factory for: %s", filepath);
-            MessageBoxA(nullptr, msg, "Texture Load Error", MB_OK | MB_ICONERROR);
+        if (!wicFactory_) {
+            DEBUGLOG_ERROR("TextureManager::LoadFromFile() - WIC factory not initialised");
             return INVALID_TEXTURE;
         }
 
+        HRESULT hr = S_OK;
         // ワイド文字列に変換
         wchar_t wpath[MAX_PATH];
         MultiByteToWideChar(CP_ACP, 0, filepath, -1, wpath, MAX_PATH);
 
         // デコーダーを作成
         Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
-        hr = wicFactory->CreateDecoderFromFilename(
+        hr = wicFactory_->CreateDecoderFromFilename(
             wpath,
             nullptr,
             GENERIC_READ,
@@ -158,7 +167,7 @@ public:
 
         // RGBA32に変換
         Microsoft::WRL::ComPtr<IWICFormatConverter> converter;
-        hr = wicFactory->CreateFormatConverter(&converter);
+        hr = wicFactory_->CreateFormatConverter(&converter);
         if (FAILED(hr)) return INVALID_TEXTURE;
 
         hr = converter->Initialize(
@@ -343,6 +352,9 @@ public:
         DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "シェーダーリソースビュー: " + std::to_string(srvCount) + " 個");
         
         textures_.clear();
+        wicFactory_.Reset();
+        defaultWhiteTexture_ = INVALID_TEXTURE;
+        gfx_ = nullptr;
         isShutdown_ = true;
         DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "TextureManager::Shutdown() 完了");
     }
@@ -360,8 +372,10 @@ private:
     };
 
     GfxDevice* gfx_ = nullptr;                          ///< グラフィックスデバイスへのポインタ
+    Microsoft::WRL::ComPtr<IWICImagingFactory> wicFactory_; ///< Shared WIC factory instance
     TextureHandle nextHandle_ = 1;                      ///< 次に割り当てるハンドル
     TextureHandle defaultWhiteTexture_ = INVALID_TEXTURE; ///< デフォルト白テクスチャ
     std::unordered_map<TextureHandle, TextureData> textures_; ///< テクスチャマップ
     bool isShutdown_ = false;                           ///< シャットダウン済みフラグ
 };
+

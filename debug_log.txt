@@ -1,152 +1,172 @@
 ﻿========================================
 デバッグログ開始
 ========================================
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] ========================================
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] App::Init() 開始
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] ウィンドウサイズ: 1280x720
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] COMライブラリを初期化 (モード: COINIT_MULTITHREADED, HRESULT: 0x0)
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] CreateAppWindow() 開始
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] ウィンドウクラスを正常に登録
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] ウィンドウサイズを調整: 1296x759
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] WM_NCCREATE: Appインスタンスをウィンドウに関連付け
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] ウィンドウ作成成功 (HWND: 0x4854648)
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] ウィンドウを表示
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] CreateAppWindow() 正常に完了
-2025-10-27 10:49:47 [F#0] [TID:36228] [General] [INFO] InitializeGraphics() 開始
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] アダプタ: NVIDIA GeForce RTX 4070 Laptop GPU
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] 機能レベル: 11.0
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] スワップ効果: FLIP_DISCARD (推奨)
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] バックバッファフォーマット: RGBA8_UNORM
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] 垂直同期: ON (Present(1)) - ディスプレイのリフレッシュレートに同期
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] GfxDeviceを正常に初期化
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] TextureManagerを正常に初期化
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] RenderSystem initialized with all mesh types
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] RenderSystemを正常に初期化
-2025-10-27 10:49:48 [F#0] [TID:36228] [Input] [INFO] InputSystem::Init() - 初期化開始
-2025-10-27 10:49:48 [F#0] [TID:36228] [Input] [INFO] InputSystem::Init() - 初期化完了
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] InputSystemを初期化
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] DebugDrawを初期化中 (DEBUGビルド)
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] DebugDraw::Init() 開始
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] 頂点シェーダーのコンパイル成功
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] ピクセルシェーダーのコンパイル成功
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] 頂点シェーダーを作成
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] ピクセルシェーダーを作成
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] 入力レイアウトを作成
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] 定数バッファを作成
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] 頂点バッファを作成 (最大線数: 10000)
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] DebugDraw::Init() 正常に完了
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] DebugDrawを正常に初期化
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] InitializeGraphics() 正常に完了
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] SetupCamera() 開始
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] アスペクト比: 1.777778
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] カメラ設定完了 (位置: 0, 0, -20 | ターゲット: 0, 0, 0)
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] InitializeGame() 開始
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] GameSceneインスタンスを作成
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] GameSceneをSceneManagerに登録
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] SceneManagerをGameSceneで初期化
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] InitializeGame() 正常に完了
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] App::Init() 正常に完了
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] ========================================
-2025-10-27 10:49:48 [F#0] [TID:36228] [General] [INFO] App::Run() - メインループ開始
-2025-10-27 10:49:52 [F#1000] [TID:36228] [General] [INFO] メトリクス: frames=1000, dt(avg/min/max)=0.004277/0.000397/0.021910, created=0, destroyed=0, maxAlive=0, aliveNow=0
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] WM_CLOSEを受信 - ユーザーによるウィンドウ閉じる操作
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] WM_DESTROYを受信 - 終了メッセージを投稿
-2025-10-27 10:49:55 [F#1805] [TID:36228] [General] [INFO] App::Run() - メインループ終了 (総フレーム数: 1805)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [General] [INFO] App::~App() - デストラクタ呼び出し
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] ========================================
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] フレーム統計サマリ (サンプル数: 1000)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] ========================================
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] フレーム合計時間 (外れ値除外後サンプル数: 980): 平均=4.12ms, 最小=0.74ms, 1%タイル=1.78ms, 中央値=4.15ms, 99%タイル=6.67ms, 最大=8.32ms
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Update時間 (外れ値除外後サンプル数: 980): 平均=0.71ms, 最小=0.23ms, 1%タイル=0.23ms, 中央値=0.28ms, 99%タイル=6.52ms, 最大=8.12ms
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Render時間 (外れ値除外後サンプル数: 980): 平均=0.06ms, 最小=0.04ms, 1%タイル=0.04ms, 中央値=0.06ms, 99%タイル=0.10ms, 最大=0.11ms
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Present時間 (外れ値除外後サンプル数: 980): 平均=3.31ms, 最小=0.08ms, 1%タイル=0.09ms, 中央値=3.78ms, 99%タイル=4.02ms, 最大=4.14ms
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] FPS (外れ値除外後サンプル数: 980): 平均=250.47, 最小=120.12, 1%タイル=149.83, 中央値=240.77, 99%タイル=562.15, 最大=1351.72
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] ========================================
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] App::Shutdown() - クリーンアップ開始
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 0: すべてのシステムを停止（新規Spawn無効化）
-2025-10-27 10:49:55 [F#1805] [TID:36228] [ECS] [INFO] World::StopAllSystems() - すべてのシステムを停止
-2025-10-27 10:49:55 [F#1805] [TID:36228] [ECS] [INFO] 新規Spawnが無効化されました
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 1: SceneManagerのシャットダウン
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Scene] [INFO] SceneManager::Shutdown() 呼び出し
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Scene] [INFO] 現在のシーンを終了中
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Scene] [INFO] 1 個のシーンを削除中
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Scene] [INFO] シーン削除: Game
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Scene] [INFO] SceneManager::Shutdown() 完了
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 2: Worldキューをフラッシュ (エンティティ数: 0)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 3: World破棄前の残存エンティティチェック
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 3: すべてのエンティティが正常に破棄されました
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 4: DebugDrawを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] DebugDraw::Shutdown() - リソースを解放中
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] 頂点シェーダーを解放 (DebugDraw)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] ピクセルシェーダーを解放 (DebugDraw)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] 入力レイアウトを解放 (DebugDraw)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] 定数バッファを解放 (DebugDraw)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] 頂点バッファを解放 (DebugDraw, 最大線数: 10000)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] DebugDraw::Shutdown() 完了 (解放リソース数: 5)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 5: RenderSystemを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] RenderSystem::Shutdown() - リソースを解放中
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] 頂点シェーダーを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] ピクセルシェーダーを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] 入力レイアウトを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] VS定数バッファを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] PS定数バッファを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] ラスタライザステートを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] サンプラーステートを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(vb)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(ib)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(vb)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(ib)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(vb)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(ib)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(vb)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(ib)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(vb)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(ib)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(vb)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] メッシュ(ib)を解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Render] [INFO] RenderSystem::Shutdown() 完了 (解放リソース数: 19)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 6: TextureManagerを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] TextureManager::Shutdown() - 1 個のテクスチャを解放中
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] テクスチャ2D: 1 個
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] シェーダーリソースビュー: 1 個
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] TextureManager::Shutdown() 完了
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 7: InputSystemを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Input] [INFO] InputSystem::Shutdown() - シャットダウン中
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Input] [INFO] InputSystem::Shutdown() - 完了
-2025-10-27 10:49:55 [F#1805] [TID:36228] [System] [INFO] Phase 8: GfxDeviceを解放
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] GfxDevice::Shutdown() - リソースを解放中
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] ID3D11DeviceContext::ClearState() を呼び出し
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] ID3D11DeviceContext::Flush() を呼び出し
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] 深度ステンシルビューを解放 (ULONG RefCount: 1)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] レンダーターゲットビューを解放 (ULONG RefCount: 1)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] スワップチェインを解放 (ULONG RefCount: 1)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] デバイスコンテキストを解放 (ULONG RefCount: 1)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] ========================================
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] D3D11デバッグレイヤー: Live Objectsレポート(アプリログ)開始
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] ========================================
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] --- Live Objects要約 (参照カウント) ---
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] DSV RefCount: 1
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] RTV RefCount: 1
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] SwapChain RefCount: 1
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] DeviceContext RefCount: 1
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] Device RefCount: 1
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] ========================================
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] デバイスの参照カウント: 1 (正常)
-2025-10-27 10:49:55 [F#1805] [TID:36228] [Graphics] [INFO] デバイスを解放 (ULONG RefCount: 1)
-2025-10-27 10:49:56 [F#1805] [TID:36228] [Graphics] [INFO] GfxDevice::Shutdown() 完了 (解放リソース数: 5)
-2025-10-27 10:49:56 [F#1805] [TID:36228] [System] [INFO] Phase 9: COMを終了
-2025-10-27 10:49:56 [F#1805] [TID:36228] [System] [INFO] App::Shutdown() 正常に完了
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] App 正常に破棄
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] DebugDraw::~DebugDraw() - デストラクタ呼び出し
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] SceneManager::~SceneManager() - クリーンアップ中
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] SceneManager破棄完了
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] World::~World() - World破棄中
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] アクティブエンティティ: 0
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] アクティブビヘイビア: 0
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] World破棄完了
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] TextureManager::~TextureManager() - デストラクタ呼び出し
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] RenderSystem::~RenderSystem() - デストラクタ呼び出し
-2025-10-27 10:49:56 [F#1805] [TID:36228] [General] [INFO] GfxDevice::~GfxDevice() - デストラクタ呼び出し
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ========================================
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] App::Init() 開始
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウサイズ: 1080x720
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] COMライブラリを初期化 (モード: COINIT_MULTITHREADED, HRESULT: 0x0)
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreateAppWindow() 開始
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウクラスを正常に登録
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウサイズを調整: 1096x759
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] WM_NCCREATE: Appインスタンスをウィンドウに関連付け
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウ作成成功 (HWND: 0x1507842)
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ウィンドウを表示
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreateAppWindow() 正常に完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InitializeGraphics() 開始
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] アダプタ: NVIDIA GeForce RTX 4070 Laptop GPU
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] 機能レベル: 11.0
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] スワップ効果: FLIP_DISCARD (推奨)
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] バックバッファフォーマット: RGBA8_UNORM_sRGB (sRGB対応 - ガンマ補正有効)
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] 垂直同期: ON (Present(1)) - ディスプレイのリフレッシュレートに同期
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GfxDeviceを正常に初期化
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class GfxDevice
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] TextureManagerを正常に初期化
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class TextureManager
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 初期化開始
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] シェーダーのコンパイル完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 入力レイアウトの作成完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 定数バッファの作成完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] ステートの作成完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 基本形状メッシュの作成完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] [RenderSystem] 初期化完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] RenderSystemを正常に初期化
+2025-11-02 11:50:40 [F#0] [TID:70464] [Input] [INFO] InputSystem::Init() - 初期化開始
+2025-11-02 11:50:40 [F#0] [TID:70464] [Input] [INFO] InputSystem::Init() - 初期化完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InputSystemを初期化
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] DebugDrawを初期化中 (DEBUGビルド)
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw::Init() 開始 (最大線数: 10000)
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw: シェーダーとレイアウトを作成
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw: 定数バッファを作成
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw: 頂点バッファを作成 (最大線数: 10000)
+2025-11-02 11:50:40 [F#0] [TID:70464] [Graphics] [INFO] DebugDraw::Init() 正常に完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] DebugDrawを正常に初期化
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InitializeGraphics() 正常に完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class InputSystem
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class World
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: struct RenderSystem
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] Service registered: class ResourceManager
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] SetupCamera() 開始
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] アスペクト比: 1.500000
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InitializeGame() begin
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GameScene instance created
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GameScene registered to SceneManager
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GameScene::OnEnter() - ゲーム開始
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] エンティティ作成 (新規ID: 1)
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct ModelLoadingSystem をエンティティ 1 に追加
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] エンティティ作成 (新規ID: 2)
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct DirectionalLight をエンティティ 2 に追加
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] エンティティ作成 (新規ID: 3)
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct Transform をエンティティ 3 に追加
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct MeshRenderer をエンティティ 3 に追加
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct PlayerTag をエンティティ 3 に追加
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct PlayerMovement をエンティティ 3 に追加
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] コンポーネント struct Rotator をエンティティ 3 に追加
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Player entity created - ID: 3, Gen: 1
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Position: (0.000000, 0.000000, 5.000000)
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Has Transform: YES
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Has PlayerTag: YES
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] CreatePlayer: Has MeshRenderer: YES
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] GameScene::OnEnter() - 初期化完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] SceneManager initialised with Game scene
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] InitializeGame() complete
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] App::Init() 正常に完了
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] ========================================
+2025-11-02 11:50:40 [F#0] [TID:70464] [General] [INFO] App::Run() - メインループ開始
+2025-11-02 11:50:40 [F#1] [TID:70464] [General] [INFO] ビヘイビア開始: struct ModelLoadingSystem on Entity 1 (gen 1) 原因=Unknown
+2025-11-02 11:50:40 [F#1] [TID:70464] [General] [INFO] ビヘイビア開始: struct PlayerMovement on Entity 3 (gen 1) 原因=Unknown
+2025-11-02 11:50:40 [F#1] [TID:70464] [General] [INFO] ビヘイビア開始: struct Rotator on Entity 3 (gen 1) 原因=Unknown
+2025-11-02 11:50:40 [F#1] [TID:70464] [General] [INFO] 3 個の新しいビヘイビアを開始
+2025-11-02 11:50:57 [F#1000] [TID:70464] [General] [INFO] メトリクス: frames=1000, dt(avg/min/max)=0.017180/0.000429/0.521277, created=0, destroyed=0, maxAlive=3, aliveNow=3
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] WM_CLOSEを受信 - ユーザーによるウィンドウ閉じる操作
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] WM_DESTROYを受信 - 終了メッセージを投稿
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] App::Run() - メインループ終了 (総フレーム数: 1571)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] App::~App() - デストラクタ呼び出し
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] ========================================
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] フレーム統計サマリ (サンプル数: 1000)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] ========================================
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] フレーム合計時間 (外れ値除外後サンプル数: 980): 平均=16.45ms, 最小=10.97ms, 1%タイル=12.42ms, 中央値=16.64ms, 99%タイル=16.87ms, 最大=20.74ms
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Update時間 (外れ値除外後サンプル数: 980): 平均=1.13ms, 最小=0.31ms, 1%タイル=0.31ms, 中央値=0.44ms, 99%タイル=7.44ms, 最大=9.11ms
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Render時間 (外れ値除外後サンプル数: 980): 平均=0.14ms, 最小=0.10ms, 1%タイル=0.10ms, 中央値=0.14ms, 99%タイル=0.20ms, 最大=0.23ms
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Present時間 (外れ値除外後サンプル数: 980): 平均=15.09ms, 最小=1.94ms, 1%タイル=6.05ms, 中央値=16.01ms, 99%タイル=16.36ms, 最大=19.97ms
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] FPS (外れ値除外後サンプル数: 980): 平均=60.97, 最小=48.21, 1%タイル=59.26, 中央値=60.10, 99%タイル=80.50, 最大=91.17
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] ========================================
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] App::Shutdown() - クリーンアップ開始
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 0: すべてのシステムを停止（新規Spawn無効化）
+2025-11-02 11:51:07 [F#1571] [TID:70464] [ECS] [INFO] World::StopAllSystems() - すべてのシステムを停止
+2025-11-02 11:51:07 [F#1571] [TID:70464] [ECS] [INFO] 新規Spawnが無効化されました
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 1: SceneManagerのシャットダウン
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Scene] [INFO] SceneManager::Shutdown()
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] GameScene::OnExit() - ゲーム終了
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] 破棄をキューに追加 (ID: 3, 原因=SceneUnload)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] GameScene::OnExit() - クリーンアップ完了
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 2: Worldキューをフラッシュ (エンティティ数: 3)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄中 (ID: 3, 原因=SceneUnload)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ 3 から 2 個のビヘイビアを削除
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄成功 (ID: 3, 総生存数: 2)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] 破棄キューをフラッシュ: 1 個のエンティティ
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 3: World破棄前の残存エンティティチェック
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [WARNING] World破棄前に 2 個の生存エンティティが残っています
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 4: DebugDrawを解放
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DebugDraw::Shutdown() - リソースを解放中
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DebugDraw統計: 総追加線数=89547, ピーク線数=57, 破棄線数=0
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 頂点シェーダーを解放 (DebugDraw)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ピクセルシェーダーを解放 (DebugDraw)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 入力レイアウトを解放 (DebugDraw)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 定数バッファを解放 (DebugDraw)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 頂点バッファを解放 (DebugDraw, 最大線数: 10000)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DebugDraw::Shutdown() 完了 (解放リソース数: 5)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 5: RenderSystemを解放
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] [RenderSystem] シャットダウン開始
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] RenderSystem統計: Models=0, Meshes=1, DrawCalls=1
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] [RenderSystem] シャットダウン完了
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 6: TextureManagerを解放
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] TextureManager::Shutdown() - 1 個のテクスチャを解放中
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] テクスチャ2D: 1 個
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] シェーダーリソースビュー: 1 個
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] TextureManager::Shutdown() 完了
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] Clearing all cached resources.
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 7: InputSystemを解放
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Input] [INFO] InputSystem::Shutdown() - シャットダウン中
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Input] [INFO] InputSystem::Shutdown() - 完了
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 8: GfxDeviceを解放
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] GfxDevice::Shutdown() - リソースを解放中
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ID3D11DeviceContext::ClearState() を呼び出し
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ID3D11DeviceContext::Flush() を呼び出し
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] 深度ステンシルビューを解放 (ULONG RefCount: 1)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] レンダーターゲットビューを解放 (ULONG RefCount: 1)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] スワップチェインを解放 (ULONG RefCount: 1)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] デバイスコンテキストを解放 (ULONG RefCount: 1)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ========================================
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] D3D11デバッグレイヤー: Live Objectsレポート(アプリログ)開始
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ========================================
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] --- Live Objects要約 (参照カウント) ---
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DSV RefCount: 1
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] RTV RefCount: 1
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] SwapChain RefCount: 1
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] DeviceContext RefCount: 1
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] Device RefCount: 1
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] ========================================
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] デバイスの参照カウント: 1 (正常)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] デバイスを解放 (ULONG RefCount: 1)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [Graphics] [INFO] GfxDevice::Shutdown() 完了 (解放リソース数: 5)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] Phase 9: COMを終了
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] ServiceLocator shutting down.
+2025-11-02 11:51:07 [F#1571] [TID:70464] [System] [INFO] App::Shutdown() 正常に完了
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] App 正常に破棄
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] SceneManager::~SceneManager()
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] World::~World() - World破棄中
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] アクティブエンティティ: 2
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] アクティブビヘイビア: 1
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [WARNING] 2 個の残存エンティティを強制破棄 (原因=AppShutdown)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄中 (ID: 1, 原因=AppShutdown)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ 1 から 1 個のビヘイビアを削除
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄成功 (ID: 1, 総生存数: 1)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄中 (ID: 2, 原因=AppShutdown)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] エンティティ破棄成功 (ID: 2, 総生存数: 0)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] すべてのエンティティを破棄 (最終生存数: 0)
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] World破棄完了
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] TextureManager::~TextureManager() - デストラクタ呼び出し
+2025-11-02 11:51:07 [F#1571] [TID:70464] [General] [INFO] GfxDevice::~GfxDevice() - デストラクタ呼び出し
 ========================================
 デバッグログ終了
 ========================================
