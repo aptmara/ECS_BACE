@@ -180,7 +180,7 @@
     <ClInclude Include="include\samples\GamepadSample.h" />
     <ClInclude Include="include\systems\ModelLoadingSystem.h" />
     <ClInclude Include="include\samples\WorldImprovementDemo.h" />
-    <ClInclude Include="include\scenes\MainGame.h" />
+    <ClInclude Include="include\scenes\Game.h" />
     <ClInclude Include="include\components\Rotator.h" />
     <ClInclude Include="include\scenes\SceneManager.h" />
     <ClInclude Include="include\graphics\TextureManager.h" />

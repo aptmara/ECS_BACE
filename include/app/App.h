@@ -44,7 +44,7 @@
 
 // ゲームシステム
 #include "scenes/SceneManager.h"
-#include "scenes/MainGame.h"
+#include "scenes/Game.h"
 
 /**
  * @struct App
