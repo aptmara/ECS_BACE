@@ -7,7 +7,6 @@
 [![C++17](https://img.shields.io/badge/C++-17-blue.svg?style=flat&logo=c%2B%2B)](https://isocpp.org/)
 [![DirectX](https://img.shields.io/badge/DirectX-11-green.svg?style=flat)](https://docs.microsoft.com/en-us/windows/win32/directx)
 [![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg?style=flat)](https://www.microsoft.com/windows)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](LICENSE)
 [![Build](https://img.shields.io/badge/Build-Passing-brightgreen.svg?style=flat)](https://github.com/aptma-sHEWTeam/HEW_ECS)
 
 **ECS（Entity Component System）アーキテクチャ**を活用した柔軟で拡張性の高いゲーム開発プロジェクト
@@ -18,7 +17,7 @@
 
 ---
 
-## 📋 目次
+## 📋目次
 
 <details open>
 <summary><b>主要セクション（クリックして展開/折りたたみ）</b></summary>
@@ -60,8 +59,9 @@
 | **名称** | HEW_ECS (ECS_BACE) |
 | **目的** | ECSを活用したチームゲーム開発 |
 | **言語** | C++17 |
-| **プラットフォーム** | Windows (DirectX 11) |
+| **プラットフォーム** | Windows (DirectX11) |
 | **アーキテクチャ** | Entity Component System |
+| **チーム名** | はじけるポップコーン |
 
 </td>
 <td width="50%">
@@ -970,3 +970,13 @@ masterにプッシュする前に必ず確認:
 □ ペアの人にレビューしてもらった
 □ プッシュ前に再度 git pull した
 ```
+
+---
+
+## ⚠️ 著作権について
+
+このプロジェクトのソースコードおよび関連資料は、著作権法によって保護されています。 
+無断での使用、複製、改変、再配布を禁止します。 
+著作権者: **はじけるポップコーン**
+
+---
