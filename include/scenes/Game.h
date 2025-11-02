@@ -1,6 +1,6 @@
 /**
- * @file MainGame.h
- * @brief シンプルなシューティングゲーム
+ * @file Game.h
+ * @brief ゲームのメインシーン
  * @author 山内陽
  * @date 2025
  */
