@@ -561,6 +561,7 @@ private:
 
         // 座標軸を後から描画して見やすくする
         debugDraw_.DrawAxes(500.0f);
+
     }
 #endif
 
