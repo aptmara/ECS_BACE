@@ -71,6 +71,9 @@
  * @author 山内陽
  */
 struct Transform {
+    Transform(DirectX::XMFLOAT3 pos = {0,0,5}, DirectX::XMFLOAT3 rot = {0,0,0}, DirectX::XMFLOAT3 scl = {1,1,1})
+        : position(pos), rotation(rot), scale(scl) {}
+
     /**
      * @var position
      * @brief エンティティの3D空間における位置座標

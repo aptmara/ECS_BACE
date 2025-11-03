@@ -41,6 +41,7 @@
 #include "components/Component.h"
 #include "components/Transform.h"
 #include "components/MeshRenderer.h"
+#include "components/Model.h"
 #include "scenes/Tags.h"
 
 // ========================================================
