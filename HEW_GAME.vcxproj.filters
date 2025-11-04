@@ -131,6 +131,9 @@
     <ClInclude Include="include\scenes\Tags.h">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
+    <ClInclude Include="include\input\MouseCoordinate.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
