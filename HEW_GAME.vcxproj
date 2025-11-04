@@ -166,6 +166,7 @@
     <ClInclude Include="include\components\Component.h" />
     <ClInclude Include="include\graphics\RenderSystem.h" />
     <ClInclude Include="include\input\GamepadSystem.h" />
+    <ClInclude Include="include\input\MouseCoordinate.h" />
     <ClInclude Include="include\pch.h" />
     <ClInclude Include="include\samples\ComponentSamples.h" />
     <ClInclude Include="include\graphics\DebugDraw.h" />
