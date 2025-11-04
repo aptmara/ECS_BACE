@@ -2,6 +2,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
+#include "app/DebugLog.h"
 #include <cstdint>
 #include <cstring>
 
@@ -79,10 +80,27 @@ public:
         mouseDeltaX_ = mouseDeltaY_ = 0;
         mouseWheel_ = 0;
         mouseWheelAccum_ = 0;
+        hwnd_ = nullptr;
 #ifdef _DEBUG
         DEBUGLOG_CATEGORY(DebugLog::Category::Input, "InputSystem::Init() - 初期化完了");
 #endif
     }
+
+    void SetWindowHandle(HWND hwnd) {
+        hwnd_ = hwnd;
+        if (!hwnd_) {
+            return;
+        }
+        POINT pt{};
+        if (GetCursorPos(&pt) && ScreenToClient(hwnd_, &pt)) {
+            mouseX_ = pt.x;
+            mouseY_ = pt.y;
+        } else {
+            mouseX_ = 0;
+            mouseY_ = 0;
+        }
+    }
+
 
     /**
      * @brief シャットダウン
@@ -91,6 +109,7 @@ public:
      * 入力システムをシャットダウンします。
      */
     void Shutdown() {
+        hwnd_ = nullptr;
 #ifdef _DEBUG
         DEBUGLOG_CATEGORY(DebugLog::Category::Input, "InputSystem::Shutdown() - シャットダウン中");
         memset(keyStates_, 0, sizeof(keyStates_));
@@ -123,6 +142,11 @@ public:
         
         POINT pt;
         if (GetCursorPos(&pt)) {
+            POINT clientPt = pt;
+            if (hwnd_ && ScreenToClient(hwnd_, &clientPt)) {
+                pt = clientPt;
+            }
+
             int newX = pt.x;
             int newY = pt.y;
             mouseDeltaX_ = newX - mouseX_;
@@ -141,7 +165,7 @@ public:
      * @return true 押されている, false 押されていない
      * 
      * @details
-     * キーが押され続けている間、またはこのフレームで押された瞬間にtrueを返します。
+     * キーが押され続けている間、またはこのフレームで押された瞬間に true を返します。
      * 
      * @par 使用例
      * @code
@@ -307,6 +331,7 @@ public:
     }
 
 private:
+    HWND hwnd_ = nullptr;            ///< Tracking window handle for client-space coordinates
     uint8_t keyStates_[256];        ///< 現在のキー状態
     uint8_t prevKeyStates_[256];    ///< 前フレームのキー状態
     
@@ -338,4 +363,3 @@ inline InputSystem& GetInput() {
     static InputSystem instance;
     return instance;
 }
-

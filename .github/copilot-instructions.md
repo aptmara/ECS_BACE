@@ -131,6 +131,9 @@ void UpdateMovementSystem(World& world, float dt) {
 }
 ```
 
+### Component規約
+* **componentSamples.hにはWriteOnry.ゲーム内からcomponentSamplesを呼び出すのではなく、ゲームのためにComponentを作成し、それの原案としての仕様のみ許可。
+ただし、componentsamplesの文法にはしたがって書いて。
 ---
 
 ## コーディング規約

@@ -1,17 +1,17 @@
-#pragma once
+ï»¿#pragma once
 
 #include "pch.h"
 
 /**
  * @struct Player
- * @brief ƒvƒŒƒCƒ„[ƒ^ƒO
- * @details ƒvƒŒƒCƒ„[ƒGƒ“ƒeƒBƒeƒB‚ğ¯•Ê‚·‚é‚½‚ß‚Ìƒ}[ƒJ[
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¿ã‚°
+ * @details ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®ãƒãƒ¼ã‚«ãƒ¼
  */
 struct Player : IComponent {};
 
 /**
  * @struct Enemy
- * @brief “Gƒ^ƒO
- * @details “GƒGƒ“ƒeƒBƒeƒB‚ğ¯•Ê‚·‚é‚½‚ß‚Ìƒ}[ƒJ[
+ * @brief æ•µã‚¿ã‚°
+ * @details æ•µã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®ãƒãƒ¼ã‚«ãƒ¼
  */
 struct Enemy : IComponent {};
