@@ -131,6 +131,9 @@
     <ClInclude Include="include\scenes\Tags.h">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

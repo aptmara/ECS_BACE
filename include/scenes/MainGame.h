@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "util/Random.h"
+#include"Tags.h"
 
 // ========================================================
 // ゲームシーン
@@ -30,6 +31,7 @@
  *
  * @author 山内陽
  */
+
 class GameScene : public IScene {
 public:
     /**
@@ -37,6 +39,16 @@ public:
      * @param[in,out] world ワールド参照
      */
     void OnEnter(World& world) override {
+      Transform PlayerTransform{
+          DirectX::XMFLOAT3{0, 2, 0},  // 位置: Y軸上に5単位
+          DirectX::XMFLOAT3{0, 45, 0}, // 回転: Y軸中心に45度
+          DirectX::XMFLOAT3{2, 2, 2}   // スケール: 2倍
+      };
+      world.Create()
+          .With<Player>()
+          .With<Transform>(PlayerTransform)
+          .With<MeshRenderer>()
+          .Build();
 
     }
 
@@ -47,9 +59,9 @@ public:
      * @param[in] deltaTime デルタタイム(秒単位)
      */
     void OnUpdate(World& world, InputSystem& input, float deltaTime) override {
-
         // ゲームロジックの更新
         world.Tick(deltaTime);
+
     }
 
     /**
@@ -67,7 +79,10 @@ public:
         }
         ownedEntities_.clear();
     }
-private:
+
+    
+
+  private:
 
 
     Entity playerEntity_;        ///< プレイヤーエンティティ
