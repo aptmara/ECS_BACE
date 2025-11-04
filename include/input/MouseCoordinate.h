@@ -31,6 +31,7 @@ struct  MouseCoordinate :IComponent
     int MouseDeltaX = 0;
     int MouseDeltaY = 0;
 
+
 };
 
 
