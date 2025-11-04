@@ -1,6 +1,7 @@
 /**
  * @file ModelLoadingSystem.h
- * @brief Loads Model components into renderable data.
+ * @brief 3Dモデルのロードシステム
+ * @author 山内陽
  */
 #pragma once
 
