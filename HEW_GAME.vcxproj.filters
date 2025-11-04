@@ -203,6 +203,9 @@
     <ClInclude Include="include\util\Random.h">
       <Filter>include\util</Filter>
     </ClInclude>
+    <ClInclude Include="include\input\MouseCoordinate.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

@@ -636,6 +636,7 @@ private:
     void DrawDebugInfo() {
         debugDraw_.Clear();
 
+
         // グリッドを少し下げて描画（Y = -0.01）
         debugDraw_.DrawGrid(20.0f, 20, DirectX::XMFLOAT3{0.2f, 0.2f, 0.2f});
 
