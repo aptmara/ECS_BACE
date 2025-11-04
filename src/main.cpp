@@ -3,7 +3,7 @@
  * @brief アプリケーションのエントリーポイント
  * @author 山内陽
  * @date 2025
- * @version 6.0
+ * @version 39.0
  *
  * @details
  * このファイルはWindowsアプリケーションのメインエントリーポイント(WinMain)を定義します。
