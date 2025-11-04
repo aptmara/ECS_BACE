@@ -203,8 +203,12 @@
     <ClInclude Include="include\util\Random.h">
       <Filter>include\util</Filter>
     </ClInclude>
-    <ClInclude Include="include\input\MouseCoordinate.h">
-      <Filter>Header Files\input</Filter>
+    <ClInclude Include="include\input\MouseCoordinate.h" />
+    <ClInclude Include="include\components\Collision.h">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
