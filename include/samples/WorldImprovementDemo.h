@@ -1,390 +1,397 @@
 /**
  * @file WorldImprovementDemo.h
- * @brief World‰ü‘P‹@”\‚Ìƒfƒ‚ƒ“ƒXƒgƒŒ[ƒVƒ‡ƒ“
- * @author R“à—z
- * @date 2025
- * @version 1.0
+ * @brief Worldã®ãƒ‡ãƒ¢ã®ãƒ‡ãƒ¢ãƒ³ã‚¹ãƒˆãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
+ * @author å±±å†…é™½        // ãƒ‡ãƒãƒƒã‚°ãƒ¢ãƒ¼ãƒ‰ã§ã¯é‡è¤‡ãƒã‚§ãƒƒã‚¯
+        if (s.map.find(e.id) != s.map.end()) {
+            char msg[160];
+            sprintf_s(msg, "ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ %s ã¯æ—¢ã«ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«å­˜åœ¨ã—ã¾ã™ (ID: %u, gen: %u)", typeid(T).name(), e.id, e.gen);
+            DEBUGLOG_ERROR(std::string(msg));
+            throw std::runtime_error(msg);
+        }
+ * @date2025
+ * @version1.0
  *
  * @details
- * World v5.0‚ÌV‹@”\iHas, Get, ForEach<T1,T2>‚È‚Çj‚Ìg—p—á‚ğ’ñ‹Ÿ‚µ‚Ü‚·B
+ * World v5.0ã®æ–°æ©Ÿèƒ½ï¼ˆHas, Get, ForEach<T1,T2>ãªã©ï¼‰ã®ä½¿ç”¨ä¾‹ã‚’ç¤ºã—ã¾ã™ã€‚
  */
 #pragma once
 
 #include "ecs/World.h"
 #include "components/Transform.h"
 #include "components/MeshRenderer.h"
-#include "samples/ComponentSamples.h"
+#include "components/GameTags.h"
+#include "components/GameComponents.h"
 #include <DirectXMath.h>
 
 namespace WorldImprovementDemo {
 
 // ========================================================
-// V‹@”\1: Has() - ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‘¶İŠm”F
+// æ–°æ©Ÿèƒ½1: Has() - ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å­˜åœ¨ç¢ºèª
 // ========================================================
 
 /**
- * @brief Has()ƒƒ\ƒbƒh‚Ìg—p—á
- * 
+ * @brief Has()ãƒ¡ã‚½ãƒƒãƒ‰ã®ä½¿ç”¨ä¾‹
+ *
  * @details
- * Has()‚ğg‚¤‚±‚Æ‚ÅAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‘¶İƒ`ƒFƒbƒN‚ª–¾¦“I‚É‚È‚è‚Ü‚·B
+ * Has()ã‚’ä½¿ç”¨ã™ã‚‹ã“ã¨ã§ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å­˜åœ¨ãƒã‚§ãƒƒã‚¯ãŒç°¡å˜ã«ãªã‚Šã¾ã™ã€‚
  */
 inline void DemoHasMethod(World& world) {
-    Entity entity = world.Create()
-        .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-        .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
-        .Build();
-    
-    // ? V‚µ‚¢•û–@: Has()‚Å–¾¦“I‚Éƒ`ƒFƒbƒN
-    if (world.Has<Transform>(entity)) {
-        auto* transform = world.TryGet<Transform>(entity);
-        transform->position.x += 1.0f;
-    }
-    
-    // ? •¡”ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ`ƒFƒbƒN
-    if (world.Has<Transform>(entity) && world.Has<MeshRenderer>(entity)) {
-        // —¼•û‚Á‚Ä‚¢‚éê‡‚Ìˆ—
-        printf("Entity has both Transform and MeshRenderer\n");
-    }
-    
-    // ? ŒÃ‚¢•û–@i“®ì‚Í‚·‚é‚ªˆÓ}‚ª•s–¾Šmj
-    auto* transform = world.TryGet<Transform>(entity);
-    if (transform) {
-        transform->position.x += 1.0f;
-    }
+ Entity entity = world.Create()
+ .With<Transform>(DirectX::XMFLOAT3{0,0,0})
+ .With<MeshRenderer>(DirectX::XMFLOAT3{1,0,0})
+ .Build();
+
+ // æ–°æ©Ÿèƒ½ä¾‹: Has()ã§ç°¡å˜ã«ãƒã‚§ãƒƒã‚¯
+ if (world.Has<Transform>(entity)) {
+ auto* transform = world.TryGet<Transform>(entity);
+ transform->position.x +=1.0f;
+ }
+
+ // è¤‡æ•°ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒã‚§ãƒƒã‚¯
+ if (world.Has<Transform>(entity) && world.Has<MeshRenderer>(entity)) {
+ // ä¸¡æ–¹å­˜åœ¨ã™ã‚‹å ´åˆã®å‡¦ç†
+ printf("Entity has both Transform and MeshRenderer\n");
+ }
+
+ // å®‰å…¨ãªæ–¹æ³•ï¼ˆå­˜åœ¨ã—ãªã„å ´åˆã¯ç„¡è¦–ã™ã‚‹ï¼‰
+ auto* transform = world.TryGet<Transform>(entity);
+ if (transform) {
+ transform->position.x +=1.0f;
+ }
 }
 
 // ========================================================
-// V‹@”\2: Get() - —áŠO”Å‚Ìæ“¾
+// æ–°æ©Ÿèƒ½2: Get() - å®‰å…¨ãªå–å¾—
 // ========================================================
 
 /**
- * @brief Get()ƒƒ\ƒbƒh‚Ìg—p—á
- * 
+ * @brief Get()ãƒ¡ã‚½ãƒƒãƒ‰ã®ä½¿ç”¨ä¾‹
+ *
  * @details
- * •K‚¸‘¶İ‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚Í Get() ‚ğg‚¤‚±‚Æ‚Å
- * nullptrƒ`ƒFƒbƒN‚ª•s—v‚É‚È‚è‚Ü‚·B
+ * å¿…ãšå­˜åœ¨ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«å¯¾ã—ã¦ Get() ã‚’ä½¿ç”¨ã™ã‚‹ã“ã¨ã§
+ * nullptrãƒã‚§ãƒƒã‚¯ä¸è¦ã«ãªã‚Šã¾ã™ã€‚
  */
 inline void DemoGetMethod(World& world) {
-    Entity player = world.Create()
-        .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-        .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 0})
-        .Build();
-    
-    // ? V‚µ‚¢•û–@: Get()‚Ånullptrƒ`ƒFƒbƒN•s—v
-    try {
-        Transform& transform = world.Get<Transform>(player);
-        transform.position.x += 1.0f;
-        
-        MeshRenderer& renderer = world.Get<MeshRenderer>(player);
-        renderer.color = DirectX::XMFLOAT3{1, 1, 1};
-        
-    } catch (const std::runtime_error& e) {
-        printf("Error: %s\n", e.what());
-    }
-    
-    // ? ŒÃ‚¢•û–@iç’·j
-    auto* transform = world.TryGet<Transform>(player);
-    if (transform) {
-        transform->position.x += 1.0f;
-    }
-    auto* renderer = world.TryGet<MeshRenderer>(player);
-    if (renderer) {
-        renderer->color = DirectX::XMFLOAT3{1, 1, 1};
-    }
+ Entity player = world.Create()
+ .With<Transform>(DirectX::XMFLOAT3{0,0,0})
+ .With<MeshRenderer>(DirectX::XMFLOAT3{0,1,0})
+ .Build();
+
+ // æ–°æ©Ÿèƒ½ä¾‹: Get()ã§nullptrãƒã‚§ãƒƒã‚¯ä¸è¦
+ try {
+ Transform& transform = world.Get<Transform>(player);
+ transform.position.x +=1.0f;
+
+ MeshRenderer& renderer = world.Get<MeshRenderer>(player);
+ renderer.color = DirectX::XMFLOAT3{1,1,1};
+
+ } catch (const std::runtime_error& e) {
+ printf("Error: %s\n", e.what());
+ }
+
+ // å®‰å…¨ãªæ–¹æ³•ï¼ˆä¾‹å¤–ã‚’é¿ã‘ã‚‹ï¼‰
+ auto* transform = world.TryGet<Transform>(player);
+ if (transform) {
+ transform->position.x +=1.0f;
+ }
+ auto* renderer = world.TryGet<MeshRenderer>(player);
+ if (renderer) {
+ renderer->color = DirectX::XMFLOAT3{1,1,1};
+ }
 }
 
 // ========================================================
-// V‹@”\3: ForEach<T1, T2> - •¡”ƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒGƒŠ
+// æ–°æ©Ÿèƒ½3: ForEach<T1, T2> - è¤‡æ•°ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸€æ‹¬å‡¦ç†
 // ========================================================
 
 /**
- * @brief 2‚Â‚ÌƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒGƒŠ‚Ìg—p—á
- * 
+ * @brief2ã¤ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä¸€æ‹¬å‡¦ç†ã®ä½¿ç”¨ä¾‹
+ *
  * @details
- * •¡”‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚É‘Î‚µ‚ÄŒø—¦“I‚Éˆ—‚Å‚«‚Ü‚·B
+ * è¤‡æ•°ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«å¯¾ã—ã¦åŠ¹ç‡çš„ã«å‡¦ç†ã‚’è¡Œãˆã¾ã™ã€‚
  */
 inline void DemoForEachTwoComponents(World& world) {
-    // ƒeƒXƒgƒf[ƒ^ì¬
-    for (int i = 0; i < 5; ++i) {
-        world.Create()
-            .With<Transform>(DirectX::XMFLOAT3{static_cast<float>(i), 0, 0})
-            .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
-            .Build();
-    }
-    
-    // ? V‚µ‚¢•û–@: 2‚Â‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ“¯‚Éˆ—
-    world.ForEach<Transform, MeshRenderer>(
-        [](Entity e, Transform& t, MeshRenderer& r) {
-            // ˆÊ’u‚É‰‚¶‚ÄF‚ğ•Ï‚¦‚é
-            r.color.x = t.position.x / 10.0f;
-            r.color.y = 1.0f - (t.position.x / 10.0f);
-            r.color.z = 0.5f;
-        }
-    );
-    
-    // ? ŒÃ‚¢•û–@iç’·‚Å”ñŒø—¦j
-    world.ForEach<Transform>([&](Entity e, Transform& t) {
-        auto* renderer = world.TryGet<MeshRenderer>(e);
-        if (renderer) {
-            renderer->color.x = t.position.x / 10.0f;
-        }
-    });
+ // ãƒ†ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ä½œæˆ
+ for (int i =0; i <5; ++i) {
+ world.Create()
+ .With<Transform>(DirectX::XMFLOAT3{static_cast<float>(i),0,0})
+ .With<MeshRenderer>(DirectX::XMFLOAT3{1,0,0})
+ .Build();
+ }
+
+ // æ–°æ©Ÿèƒ½ä¾‹:2ã¤ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’åŠ¹ç‡çš„ã«å‡¦ç†
+ world.ForEach<Transform, MeshRenderer>(
+ [](Entity e, Transform& t, MeshRenderer& r) {
+ //ä½ç½®ã«å¿œã˜ã¦è‰²ã‚’å¤‰æ›´
+ r.color.x = t.position.x /10.0f;
+ r.color.y =1.0f - (t.position.x /10.0f);
+ r.color.z =0.5f;
+ }
+ );
+
+ // å®‰å…¨ãªæ–¹æ³•ï¼ˆä¾‹å¤–ã‚’é¿ã‘ã‚‹å‡¦ç†ï¼‰
+ world.ForEach<Transform>([&](Entity e, Transform& t) {
+ auto* renderer = world.TryGet<MeshRenderer>(e);
+ if (renderer) {
+ renderer->color.x = t.position.x /10.0f;
+ }
+ });
 }
 
 // ========================================================
-// V‹@”\4: •¨—‰‰Z‚Ì—áiTransform + Velocityj
+// æ–°æ©Ÿèƒ½4:ç‰©ç†æ¼”ç®—ï¼ˆTransform + Velocityï¼‰
 // ========================================================
 
 /**
- * @brief •¨—‰‰ZƒVƒXƒeƒ€‚Ì—á
- * 
+ * @briefç‰©ç†æ¼”ç®—ã‚·ã‚¹ãƒ†ãƒ ã®ä¾‹
+ *
  * @details
- * Transform‚ÆVelocity‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚ğ©“®“I‚ÉˆÚ“®‚³‚¹‚Ü‚·B
+ * Transformã¨Velocityã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’åŠ¹ç‡çš„ã«ç§»å‹•ã•ã›ã¾ã™ã€‚
  */
 inline void DemoPhysicsSystem(World& world, float dt) {
-    // VelocityƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚ğì¬
-    Entity movingObject = world.Create()
-        .With<Transform>(DirectX::XMFLOAT3{0, 0, 0})
-        .With<Velocity>()
-        .With<MeshRenderer>(DirectX::XMFLOAT3{0, 1, 1})
-        .Build();
-    
-    // ‘¬“x‚ğİ’è
-    world.Get<Velocity>(movingObject).velocity = DirectX::XMFLOAT3{5, 0, 0};
-    
-    // ? •¨—‰‰Z: Transform‚ÆVelocity‚ğ‚Â‘SƒGƒ“ƒeƒBƒeƒB‚ğˆÚ“®
-    world.ForEach<Transform, Velocity>(
-        [dt](Entity e, Transform& t, Velocity& v) {
-            t.position.x += v.velocity.x * dt;
-            t.position.y += v.velocity.y * dt;
-            t.position.z += v.velocity.z * dt;
-        }
-    );
+ // Velocityã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒã¤ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆ
+ Entity movingObject = world.Create()
+ .With<Transform>(DirectX::XMFLOAT3{0,0,0})
+ .With<Velocity>()
+ .With<MeshRenderer>(DirectX::XMFLOAT3{0,1,1})
+ .Build();
+
+ // åˆé€Ÿåº¦è¨­å®š
+ world.Get<Velocity>(movingObject).velocity = DirectX::XMFLOAT3{5,0,0};
+
+ //ç‰©ç†æ¼”ç®—: Transformã¨Velocityã‚’æŒã¤å…¨ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ç§»å‹•
+ world.ForEach<Transform, Velocity>(
+ [dt](Entity e, Transform& t, Velocity& v) {
+ t.position.x += v.velocity.x * dt;
+ t.position.y += v.velocity.y * dt;
+ t.position.z += v.velocity.z * dt;
+ }
+ );
 }
 
 // ========================================================
-// V‹@”\5: GetEntityCount / GetComponentCount
+// æ–°æ©Ÿèƒ½5: GetEntityCount / GetComponentCount
 // ========================================================
 
 /**
- * @brief ƒfƒoƒbƒOî•ñæ“¾‚Ì—á
- * 
+ * @brief ãƒ‡ãƒãƒƒã‚°æƒ…å ±å–å¾—ã®ä¾‹
+ *
  * @details
- * ƒGƒ“ƒeƒBƒeƒB”‚âƒRƒ“ƒ|[ƒlƒ“ƒg”‚ğæ“¾‚µ‚ÄƒpƒtƒH[ƒ}ƒ“ƒX•ªÍ‚Å‚«‚Ü‚·B
+ * ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£æ•°ã‚„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆæ•°ã‚’å–å¾—ã—ã¦ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ã‚’ç¢ºèªã—ã¾ã™ã€‚
  */
 inline void DemoDebugInfo(World& world) {
-    // ƒGƒ“ƒeƒBƒeƒB”‚ğæ“¾
-    printf("Total entities: %zu\n", world.GetEntityCount());
-    
-    // “Á’èƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì”‚ğæ“¾
-    printf("Entities with Transform: %zu\n", world.GetComponentCount<Transform>());
-    printf("Entities with MeshRenderer: %zu\n", world.GetComponentCount<MeshRenderer>());
-    printf("Entities with Enemy: %zu\n", world.GetComponentCount<EnemyTag>());
-    
-    // ƒGƒ“ƒeƒBƒeƒB”‚Ì§ŒÀƒ`ƒFƒbƒN
-    if (world.GetEntityCount() < 1000) {
-        printf("Safe to spawn more entities\n");
-    } else {
-        printf("Warning: Too many entities!\n");
-    }
-    
+ // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£æ•°ã‚’å–å¾—
+ printf("Total entities: %zu\n", world.GetEntityCount());
+
+ // å„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ•°ã‚’å–å¾—
+ printf("Entities with Transform: %zu\n", world.GetComponentCount<Transform>());
+ printf("Entities with MeshRenderer: %zu\n", world.GetComponentCount<MeshRenderer>());
+ printf("Entities with Enemy: %zu\n", world.GetComponentCount<EnemyTag>());
+
+ // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£æ•°ã®ãƒã‚§ãƒƒã‚¯
+ if (world.GetEntityCount() <1000) {
+ printf("Safe to spawn more entities\n");
+ } else {
+ printf("Warning: Too many entities!\n");
+ }
+
 #ifdef _DEBUG
-    // ƒfƒoƒbƒOƒrƒ‹ƒh‚Å‚ÍÚ×î•ñ‚à•\¦
-    world.PrintDebugInfo();
+ // ãƒ‡ãƒãƒƒã‚°ãƒ“ãƒ«ãƒ‰ã§ã¯è©³ç´°æƒ…å ±ã‚’è¡¨ç¤º
+ world.PrintDebugInfo();
 #endif
 }
 
 // ========================================================
-// V‹@”\6: Reserve - –‘OŠm•Û‚ÅƒpƒtƒH[ƒ}ƒ“ƒXŒüã
+// æ–°æ©Ÿèƒ½6: Reserve -äº‹å‰äºˆç´„ã§ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹å‘ä¸Š
 // ========================================================
 
 /**
- * @brief Reserve()‚Ìg—p—á
- * 
+ * @brief Reserve()ã®ä½¿ç”¨ä¾‹
+ *
  * @details
- * ‘å—Ê‚ÌƒGƒ“ƒeƒBƒeƒB‚ğ¶¬‚·‚é‘O‚É–‘OŠm•Û‚·‚é‚±‚Æ‚Å
- * ƒƒ‚ƒŠÄŠm•Û‚ÌƒI[ƒo[ƒwƒbƒh‚ğíŒ¸‚µ‚Ü‚·B
+ * å¤§é‡ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½œæˆã™ã‚‹å‰ã«äº‹å‰äºˆç´„ã™ã‚‹ã“ã¨ã§
+ * åŠ¹ç‡çš„ãªãƒ¡ãƒ¢ãƒªã®ã‚ªãƒ¼ãƒãƒ¼ãƒ˜ãƒƒãƒ‰ã‚’å‰Šæ¸›ã—ã¾ã™ã€‚
  */
 inline void DemoReserve(World& world) {
-    // ? 100‘Ì‚Ì“G‚ğ¶¬‚·‚é‘O‚É–‘OŠm•Û
-    world.Reserve(100);
-    
-    for (int i = 0; i < 100; ++i) {
-        world.Create()
-            .With<Transform>(DirectX::XMFLOAT3{
-                static_cast<float>(i % 10) * 2.0f,
-                0,
-                static_cast<float>(i / 10) * 2.0f
-            })
-            .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
-            .With<EnemyTag>()
-            .Build();
-    }
-    
-    printf("Created 100 enemies efficiently!\n");
+ //100å€‹ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½œæˆã™ã‚‹å‰ã«äº‹å‰äºˆç´„
+ world.Reserve(100);
+
+ for (int i =0; i <100; ++i) {
+ world.Create()
+ .With<Transform>(DirectX::XMFLOAT3{
+ static_cast<float>(i %10) *2.0f,
+0,
+ static_cast<float>(i /10) *2.0f
+ })
+ .With<MeshRenderer>(DirectX::XMFLOAT3{1,0,0})
+ .With<EnemyTag>()
+ .Build();
+ }
+
+ printf("Created100 enemies efficiently!\n");
 }
 
 // ========================================================
-// V‹@”\7: IDÄ—˜—p‚Ìƒfƒ‚
+// æ–°æ©Ÿèƒ½7: IDå†åˆ©ç”¨ã®ä¾‹
 // ========================================================
 
 /**
- * @brief IDÄ—˜—p‚Ì“®ìŠm”F
- * 
+ * @brief IDå†åˆ©ç”¨ã®ç¢ºèª
+ *
  * @details
- * ƒGƒ“ƒeƒBƒeƒB‚ğíœ‚·‚é‚ÆID‚ªÄ—˜—pƒv[ƒ‹‚É“ü‚èA
- * Ÿ‰ñ‚ÌCreateEntity()‚ÅÄ—˜—p‚³‚ê‚Ü‚·B
+ * ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’å‰Šé™¤ã—ãŸå¾Œã®IDã‚’å†åˆ©ç”¨ã™ã‚‹ã“ã¨ã§ã€
+ * ç„¡é§„ãªCreateEntity()ã‚’é˜²ãã¾ã™ã€‚
  */
 inline void DemoIDReuse(World& world) {
-    printf("=== ID Reuse Demo ===\n");
-    
-    // ƒGƒ“ƒeƒBƒeƒB‚ğ3‚Âì¬
-    Entity e1 = world.CreateEntity();
-    Entity e2 = world.CreateEntity();
-    Entity e3 = world.CreateEntity();
-    
-    printf("Created: ID=%u, %u, %u\n", e1.id, e2.id, e3.id);
-    
-    // 2”Ô–Ú‚ğíœ
-    world.DestroyEntity(e2);
-    printf("Deleted: ID=%u\n", e2.id);
-    
-    // V‚µ‚¢ƒGƒ“ƒeƒBƒeƒB‚ğì¬iíœ‚³‚ê‚½ID‚ªÄ—˜—p‚³‚ê‚éj
-    Entity e4 = world.CreateEntity();
-    printf("Created: ID=%u (reused!)\n", e4.id);
-    
-    printf("=====================\n");
+ printf("=== ID Reuse Demo ===\n");
+
+ // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’3ã¤ä½œæˆ
+ Entity e1 = world.CreateEntity();
+ Entity e2 = world.CreateEntity();
+ Entity e3 = world.CreateEntity();
+
+ printf("Created: ID=%u, %u, %u\n", e1.id, e2.id, e3.id);
+
+ //2ç•ªç›®ã‚’å‰Šé™¤
+ world.DestroyEntity(e2);
+ printf("Deleted: ID=%u\n", e2.id);
+
+ // æ–°ã—ã„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä½œæˆï¼ˆå‰Šé™¤ã•ã‚ŒãŸIDã‚’å†åˆ©ç”¨ã™ã‚‹ï¼‰
+ Entity e4 = world.CreateEntity();
+ printf("Created: ID=%u (reused!)\n", e4.id);
+
+ printf("=====================");
 }
 
 // ========================================================
-// À‘H—á: ‘Ì—ÍƒVƒXƒeƒ€‚Æ©“®íœ
+// å¿œç”¨ä¾‹: ãƒ˜ãƒ«ã‚¹ã‚·ã‚¹ãƒ†ãƒ ã¨æ•µã®å‰Šé™¤
 // ========================================================
 
 /**
- * @brief ‘Ì—ÍƒVƒXƒeƒ€‚ÌÀ‘H—á
- * 
+ * @brief ãƒ˜ãƒ«ã‚¹ã‚·ã‚¹ãƒ†ãƒ ã®ä¾‹
+ *
  * @details
- * Health‚ÆEnemy‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚ğŠÇ—‚µA
- * ‘Ì—Í‚ª0‚É‚È‚Á‚½‚ç©“®íœ‚µ‚Ü‚·B
+ * Healthã¨Enemyã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ç®¡ç†ã—ã€
+ * ãƒ˜ãƒ«ã‚¹ãŒ0ã«ãªã£ãŸæ•µã‚’å‰Šé™¤ã—ã¾ã™ã€‚
  */
 inline void DemoHealthSystem(World& world) {
-    // “G‚ğ5‘Ìì¬
-    for (int i = 0; i < 5; ++i) {
-        Entity enemy = world.Create()
-            .With<Transform>(DirectX::XMFLOAT3{static_cast<float>(i) * 2.0f, 0, 0})
-            .With<MeshRenderer>(DirectX::XMFLOAT3{1, 0, 0})
-            .With<EnemyTag>()
-            .Build();
-        
-        // Health‚ğ’Ç‰Á
-        Health hp;
-        hp.current = 100.0f;
-        hp.max = 100.0f;
-        world.Add<Health>(enemy, hp);
-    }
-    
-    printf("Created %zu enemies with health\n", world.GetComponentCount<EnemyTag>());
-    
-    // ? ‘S‚Ä‚Ì“G‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
-    world.ForEach<EnemyTag, Health>([](Entity e, EnemyTag&, Health& hp) {
-        hp.TakeDamage(50.0f);
-        printf("Enemy %u: HP = %.1f\n", e.id, hp.current);
-    });
-    
-    // ? €‚ñ‚¾“G‚ğíœ
-    world.ForEach<EnemyTag, Health>([&](Entity e, EnemyTag&, Health& hp) {
-        if (hp.IsDead()) {
-            printf("Enemy %u died!\n", e.id);
-            world.DestroyEntity(e);
-        }
-    });
-    
-    printf("Remaining enemies: %zu\n", world.GetComponentCount<EnemyTag>());
+ // æ•µã‚’5ä½“ä½œæˆ
+ for (int i =0; i <5; ++i) {
+ Entity enemy = world.Create()
+ .With<Transform>(DirectX::XMFLOAT3{static_cast<float>(i) *2.0f,0,0})
+ .With<MeshRenderer>(DirectX::XMFLOAT3{1,0,0})
+ .With<EnemyTag>()
+ .Build();
+
+ // Healthã‚’è¿½åŠ 
+ Health hp;
+ hp.current =100.0f;
+ hp.max =100.0f;
+ world.Add<Health>(enemy, hp);
+ }
+
+ printf("Created %zu enemies with health\n", world.GetComponentCount<EnemyTag>());
+
+ // å…¨ã¦ã®æ•µã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹
+ world.ForEach<EnemyTag, Health>([](Entity e, EnemyTag&, Health& hp) {
+ hp.TakeDamage(50.0f);
+ printf("Enemy %u: HP = %.1f\n", e.id, hp.current);
+ });
+
+ // æ­»äº¡ã—ãŸæ•µã‚’å‰Šé™¤
+ world.ForEach<EnemyTag, Health>([&](Entity e, EnemyTag&, Health& hp) {
+ if (hp.IsDead()) {
+ printf("Enemy %u died!\n", e.id);
+ world.DestroyEntity(e);
+ }
+ });
+
+ printf("Remaining enemies: %zu\n", world.GetComponentCount<EnemyTag>());
 }
 
 // ========================================================
-// •ïŠ‡“I‚Èƒfƒ‚ƒV[ƒ“
+// ç·åˆãƒ‡ãƒ¢
 // ========================================================
 
 /**
- * @brief ‚·‚×‚Ä‚ÌV‹@”\‚ğg‚Á‚½ƒfƒ‚ƒV[ƒ“
+ * @brief ç·åˆãƒ‡ãƒ¢ã®å®Ÿè¡Œ
  */
 inline void RunComprehensiveDemo(World& world) {
-    printf("\n========================================\n");
-    printf("  World v5.0 Improvement Demo\n");
-    printf("========================================\n\n");
-    
-    // 1. Has()‚Ìƒfƒ‚
-    printf("--- Demo 1: Has() Method ---\n");
-    DemoHasMethod(world);
-    printf("\n");
-    
-    // 2. Get()‚Ìƒfƒ‚
-    printf("--- Demo 2: Get() Method ---\n");
-    DemoGetMethod(world);
-    printf("\n");
-    
-    // 3. ForEach<T1,T2>‚Ìƒfƒ‚
-    printf("--- Demo 3: ForEach<T1,T2> ---\n");
-    DemoForEachTwoComponents(world);
-    printf("\n");
-    
-    // 4. •¨—‰‰Z‚Ìƒfƒ‚
-    printf("--- Demo 4: Physics System ---\n");
-    DemoPhysicsSystem(world, 0.016f);
-    printf("\n");
-    
-    // 5. ƒfƒoƒbƒOî•ñ‚Ìƒfƒ‚
-    printf("--- Demo 5: Debug Info ---\n");
-    DemoDebugInfo(world);
-    printf("\n");
-    
-    // 6. Reserve()‚Ìƒfƒ‚
-    printf("--- Demo 6: Reserve() ---\n");
-    DemoReserve(world);
-    printf("\n");
-    
-    // 7. IDÄ—˜—p‚Ìƒfƒ‚
-    printf("--- Demo 7: ID Reuse ---\n");
-    DemoIDReuse(world);
-    printf("\n");
-    
-    // 8. ‘Ì—ÍƒVƒXƒeƒ€‚Ìƒfƒ‚
-    printf("--- Demo 8: Health System ---\n");
-    DemoHealthSystem(world);
-    printf("\n");
-    
-    printf("========================================\n");
-    printf("  All Demos Completed!\n");
-    printf("========================================\n\n");
+ printf("\n========================================\n");
+ printf(" World v5.0 Improvement Demo\n");
+ printf("========================================\n\n");
+
+ //1. Has()ã®ãƒ‡ãƒ¢
+ printf("--- Demo1: Has() Method ---\n");
+ DemoHasMethod(world);
+ printf("\n");
+
+ //2. Get()ã®ãƒ‡ãƒ¢
+ printf("--- Demo2: Get() Method ---\n");
+ DemoGetMethod(world);
+ printf("\n");
+
+ //3. ForEach<T1,T2>ã®ãƒ‡ãƒ¢
+ printf("--- Demo3: ForEach<T1,T2> ---\n");
+ DemoForEachTwoComponents(world);
+ printf("\n");
+
+ //4.ç‰©ç†æ¼”ç®—ã®ãƒ‡ãƒ¢
+ printf("--- Demo4: Physics System ---\n");
+ DemoPhysicsSystem(world,0.016f);
+ printf("\n");
+
+ //5. ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã®ãƒ‡ãƒ¢
+ printf("--- Demo5: Debug Info ---\n");
+ DemoDebugInfo(world);
+ printf("\n");
+
+ //6. Reserve()ã®ãƒ‡ãƒ¢
+ printf("--- Demo6: Reserve() ---\n");
+ DemoReserve(world);
+ printf("\n");
+
+ //7. IDå†åˆ©ç”¨ã®ãƒ‡ãƒ¢
+ printf("--- Demo7: ID Reuse ---\n");
+ DemoIDReuse(world);
+ printf("\n");
+
+ //8. ãƒ˜ãƒ«ã‚¹ã‚·ã‚¹ãƒ†ãƒ ã®ãƒ‡ãƒ¢
+ printf("--- Demo8: Health System ---\n");
+ DemoHealthSystem(world);
+ printf("\n");
+
+ printf("========================================\n");
+ printf(" All Demos Completed!\n");
+ printf("========================================\n\n");
 }
 
 } // namespace WorldImprovementDemo
 
 // ========================================================
-// g‚¢•û‚Ì—á
+// å®Ÿè¡Œä¾‹
 // ========================================================
 /*
 
-// App.cpp ‚Ü‚½‚Í main.cpp ‚Åg‚¤—á
+// App.cpp ã¾ãŸã¯ main.cppã§ä½¿ç”¨
 
 #include "samples/WorldImprovementDemo.h"
 
 void TestWorldImprovements() {
-    World world;
-    
-    // ŒÂ•Ê‚Ìƒfƒ‚‚ğÀs
-    WorldImprovementDemo::DemoHasMethod(world);
-    WorldImprovementDemo::DemoGetMethod(world);
-    WorldImprovementDemo::DemoForEachTwoComponents(world);
-    
-    // ‚Ü‚½‚ÍA‚·‚×‚Ä‚Ìƒfƒ‚‚ğÀs
-    WorldImprovementDemo::RunComprehensiveDemo(world);
+ World world;
+
+ // å€‹åˆ¥ã®ãƒ‡ãƒ¢ã‚’å®Ÿè¡Œ
+ WorldImprovementDemo::DemoHasMethod(world);
+ WorldImprovementDemo::DemoGetMethod(world);
+ WorldImprovementDemo::DemoForEachTwoComponents(world);
+
+ // ã¾ãŸã¯ã€ç·åˆçš„ãªãƒ‡ãƒ¢ã‚’å®Ÿè¡Œ
+ WorldImprovementDemo::RunComprehensiveDemo(world);
 }
 
 */
 
 // ========================================================
-// ì¬Ò: R“à—z
-// ƒo[ƒWƒ‡ƒ“: v1.0 - World v5.0‰ü‘P‹@”\ƒfƒ‚
+// ä½œæˆè€…: å±±å†…é™½
+// ãƒãƒ¼ã‚¸ãƒ§ãƒ³: v1.0 - World v5.0æ–°æ©Ÿèƒ½ãƒ‡ãƒ¢
 // ========================================================
