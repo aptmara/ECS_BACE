@@ -42,6 +42,23 @@ class GameScene : public IScene {
     }
 
     void OnUpdate(World &world, InputSystem &input, float deltaTime) override {
+
+        //collisionsというリストを作った
+        std::vector<std::pair<Entity, CollisionGet>> collisions;
+        //作ったリストにentityとCollisionGetを入れる
+        world.ForEach<Collision>([&](Entity e, Collision &c) {
+            collisions.push_back({e, c.data});
+        });
+
+        //collisionsに入っている値を順番に判定
+        for (int i = 0; i < collisions.size(); i++) {
+            for (int j = i + 1; j < collisions.size(); j++) {
+                auto &a = collisions[i].second;
+                auto &b = collisions[j].second;
+                Check_AABB_AABB(a, b);
+            }
+        }
+
         // PlayerMovementコンポーネントにInputSystemとGamepadSystemの参照を設定
         world.ForEach<PlayerMovement>([&](Entity e, PlayerMovement &pm) {
             if (!pm.input_) {
@@ -112,6 +129,17 @@ class GameScene : public IScene {
 
         ownedEntities_.push_back(player);
         playerEntity_ = player;
+    }
+
+    bool Check_AABB_AABB(const CollisionGet &a, const CollisionGet &b) {
+        XMFLOAT3 aMin = {a.center.x - a.size.x * 0.5f, a.center.y - a.size.y * 0.5f, a.center.z - a.size.z * 0.5f}; //aの最小の値(イメージだと左下の手前)
+        XMFLOAT3 aMax = {a.center.x + a.size.x * 0.5f, a.center.y + a.size.y * 0.5f, a.center.z + a.size.z * 0.5f}; //aの最大の値(右上の奥)
+        XMFLOAT3 bMin = {b.center.x - b.size.x * 0.5f, b.center.y - b.size.y * 0.5f, b.center.z - b.size.z * 0.5f}; //bの最小の値(左下の手前)
+        XMFLOAT3 bMax = {b.center.x + b.size.x * 0.5f, b.center.y + b.size.y * 0.5f, b.center.z + b.size.z * 0.5f}; //bの最大の値(右上の奥)
+
+        return (aMin.x <= bMax.x && aMax.x >= bMin.x) && //x軸で当たっているか
+               (aMin.y <= bMax.y && aMax.y >= bMin.y) && //y軸で当たっているか
+               (aMin.z <= bMax.z && aMax.z >= bMin.z);   //z軸で当たっているか
     }
     Entity playerEntity_;               ///< プレイヤーエンティティ
     std::vector<Entity> ownedEntities_; ///< シーンが管理するエンティティ
