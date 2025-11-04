@@ -154,11 +154,13 @@
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\ResourceManager.h" />
     <ClInclude Include="include\app\ServiceLocator.h" />
     <ClInclude Include="include\app\App.h" />
     <ClInclude Include="include\app\DebugLog.h" />
+    <ClInclude Include="include\components\Collision.h" />
     <ClInclude Include="include\components\PlayerComponents.h" />
     <ClInclude Include="include\ecs\World.h" />
     <ClInclude Include="include\gameplay\EnemySpawner.h" />
