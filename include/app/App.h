@@ -534,6 +534,7 @@ private:
             MessageBoxA(nullptr, "DebugDrawの初期化に失敗", "警告", MB_OK | MB_ICONWARNING);
         } else {
             DEBUGLOG("DebugDrawを正常に初期化");
+            ServiceLocator::Register(&debugDraw_); // Register DebugDraw in ServiceLocator
         }
 #endif
 
