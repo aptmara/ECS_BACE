@@ -1,34 +1,34 @@
-/**
+ï»¿/**
  * @file Collision.cpp
- * @brief Õ“Ë”»’èƒVƒXƒeƒ€‚ÌÀ‘•
- * @author —§R—IñEãè™y‘¾˜YER“à—z
+ * @brief è¡çªåˆ¤å®šã‚·ã‚¹ãƒ†ãƒ ã®å®Ÿè£…
+ * @author ç«‹å±±æ‚ æœ”ãƒ»ä¸Šæ‰‹å‡‰å¤ªéƒãƒ»å±±å†…é™½
  * @date 2025
  * @version 2.1
  */
 
 #include "pch.h"
 #include "components/Collision.h"
-#include "scenes/Game.h" // ? PlayerCollisionHandler ‚Æ EnemyCollisionHandler ‚ğƒCƒ“ƒNƒ‹[ƒh
+#include "scenes/Game.h" // âœ… PlayerCollisionHandler ã¨ EnemyCollisionHandler ã‚’ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 
 #ifdef _DEBUG
 #include "graphics/DebugDraw.h"
 #include "app/ServiceLocator.h"
 
 /**
- * @brief CollisionDebugRenderer‚ÌÀ‘•
+ * @brief CollisionDebugRendererã®å®Ÿè£…
  */
 void CollisionDebugRenderer::OnUpdate(World& w, Entity self, float dt) {
    if (!enabled) return;
 
-    // DebugDrawƒVƒXƒeƒ€‚ğæ“¾(try-catch‚ÅƒGƒ‰[ƒnƒ“ƒhƒŠƒ“ƒO)
+    // DebugDrawã‚·ã‚¹ãƒ†ãƒ ã‚’å–å¾—(try-catchã§ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°)
  DebugDraw* debugDraw = nullptr;
     try {
         debugDraw = &ServiceLocator::Get<DebugDraw>();
     } catch (const std::runtime_error&) {
-        // DebugDraw‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍŒx‚ğo‚µ‚ÄI—¹
+        // DebugDrawãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯è­¦å‘Šã‚’å‡ºã—ã¦çµ‚äº†
      static bool warningShown = false;
   if (!warningShown) {
-   DEBUGLOG_WARNING("CollisionDebugRenderer: DebugDrawƒVƒXƒeƒ€‚ª“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñBServiceLocator‚É“o˜^‚µ‚Ä‚­‚¾‚³‚¢B");
+   DEBUGLOG_WARNING("CollisionDebugRenderer: DebugDrawã‚·ã‚¹ãƒ†ãƒ ãŒç™»éŒ²ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚ServiceLocatorã«ç™»éŒ²ã—ã¦ãã ã•ã„ã€‚");
             warningShown = true;
    }
         return;
@@ -38,13 +38,13 @@ void CollisionDebugRenderer::OnUpdate(World& w, Entity self, float dt) {
     return;
     }
 
-    // CollisionBox‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚ğ•`‰æ
+    // CollisionBoxã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’æç”»
     w.ForEach<Transform, CollisionBox>([&](Entity e, Transform& t, CollisionBox& box) {
  auto center = box.GetWorldCenter(t);
       auto size = box.GetScaledSize(t);
-   
-  // ƒ{ƒbƒNƒX‚ğƒƒCƒ„[ƒtƒŒ[ƒ€‚Å•`‰æ
-        // DebugDraw::DrawBox ‚Í center ‚Æ halfExtents ‚ğó‚¯æ‚é‚½‚ß
+
+  // ãƒœãƒƒã‚¯ã‚¹ã‚’ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã§æç”»
+        // DebugDraw::DrawBox ã¯ center ã¨ halfExtents ã‚’å—ã‘å–ã‚‹ãŸã‚
     DirectX::XMFLOAT3 halfExtents = {
    size.x * 0.5f,
   size.y * 0.5f,
@@ -53,22 +53,22 @@ void CollisionDebugRenderer::OnUpdate(World& w, Entity self, float dt) {
         debugDraw->DrawBox(center, halfExtents, boxColor);
     });
 
-    // CollisionSphere‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚ğ•`‰æ
+    // CollisionSphereã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’æç”»
     w.ForEach<Transform, CollisionSphere>([&](Entity e, Transform& t, CollisionSphere& sphere) {
 auto center = sphere.GetWorldCenter(t);
         float radius = sphere.GetScaledRadius(t);
-  
-     // ‹…‚ğƒƒCƒ„[ƒtƒŒ[ƒ€‚Å•`‰æ
+
+     // çƒã‚’ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã§æç”»
       debugDraw->DrawSphere(center, radius, sphereColor);
     });
 
-    // CollisionCapsule‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚ğ•`‰æ
+    // CollisionCapsuleã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’æç”»
     w.ForEach<Transform, CollisionCapsule>([&](Entity e, Transform& t, CollisionCapsule& capsule) {
   auto top = capsule.GetTopPoint(t);
      auto bottom = capsule.GetBottomPoint(t);
    float radius = capsule.radius * std::max({t.scale.x, t.scale.y, t.scale.z});
-     
-        // ƒJƒvƒZƒ‹‚ğƒƒCƒ„[ƒtƒŒ[ƒ€‚Å•`‰æ(ŠÈˆÕÀ‘•: ‹…2‚Â+ü•ª)
+
+        // ã‚«ãƒ—ã‚»ãƒ«ã‚’ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã§æç”»(ç°¡æ˜“å®Ÿè£…: çƒ2ã¤+ç·šåˆ†)
         debugDraw->DrawSphere(top, radius, sphereColor);
      debugDraw->DrawSphere(bottom, radius, sphereColor);
      debugDraw->AddLine(top, bottom, sphereColor);
@@ -78,11 +78,11 @@ auto center = sphere.GetWorldCenter(t);
 #endif // _DEBUG
 
 // ========================================================
-// CollisionDetectionSystem ‚ÌƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[À‘•
+// CollisionDetectionSystem ã®ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©ãƒ¼å®Ÿè£…
 // ========================================================
 
 void CollisionDetectionSystem::ForEachHandler(World& w, Entity e, const std::function<void(ICollisionHandler*)>& func) {
-    // ‚·‚×‚Ä‚ÌŠù’m‚Ìƒnƒ“ƒhƒ‰[Œ^‚ğs
+    // ã™ã¹ã¦ã®æ—¢çŸ¥ã®ãƒãƒ³ãƒ‰ãƒ©ãƒ¼å‹ã‚’è©¦è¡Œ
     if (auto* h = w.TryGet<PlayerCollisionHandler>(e)) {
         func(static_cast<ICollisionHandler*>(h));
         return;
@@ -91,21 +91,21 @@ void CollisionDetectionSystem::ForEachHandler(World& w, Entity e, const std::fun
         func(static_cast<ICollisionHandler*>(h));
         return;
     }
-    // ?? V‚µ‚¢ƒnƒ“ƒhƒ‰[Œ^‚ğ’Ç‰Á‚·‚éê‡‚Í‚±‚±‚É’Ç‹L
+    // ğŸ”§ æ–°ã—ã„ãƒãƒ³ãƒ‰ãƒ©ãƒ¼å‹ã‚’è¿½åŠ ã™ã‚‹å ´åˆã¯ã“ã“ã«è¿½è¨˜
 }
 
 void CollisionDetectionSystem::TriggerCollisionEnter(World& w, Entity a, Entity b, const CollisionInfo& info) {
-    DEBUGLOG("?? OnCollisionEnter: Entity " + std::to_string(a.id) + " <-> Entity " + std::to_string(b.id));
+    DEBUGLOG("ğŸ”¥ OnCollisionEnter: Entity " + std::to_string(a.id) + " <-> Entity " + std::to_string(b.id));
 
-    // ƒGƒ“ƒeƒBƒeƒBA‚Ìƒnƒ“ƒhƒ‰[‚ğŒÄ‚Ño‚·
+    // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£Aã®ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ã‚’å‘¼ã³å‡ºã™
     ForEachHandler(w, a, [&](ICollisionHandler* handler) {
-        DEBUGLOG("  ? Entity " + std::to_string(a.id) + " has handler, calling OnCollisionEnter");
+        DEBUGLOG("  âœ… Entity " + std::to_string(a.id) + " has handler, calling OnCollisionEnter");
         handler->OnCollisionEnter(w, a, b, info);
     });
 
-    // ƒGƒ“ƒeƒBƒeƒBB‚Ìƒnƒ“ƒhƒ‰[‚ğŒÄ‚Ño‚·(–@ü‚ğ”½“])
+    // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£Bã®ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ã‚’å‘¼ã³å‡ºã™(æ³•ç·šã‚’åè»¢)
     ForEachHandler(w, b, [&](ICollisionHandler* handler) {
-        DEBUGLOG("  ? Entity " + std::to_string(b.id) + " has handler, calling OnCollisionEnter");
+        DEBUGLOG("  âœ… Entity " + std::to_string(b.id) + " has handler, calling OnCollisionEnter");
         CollisionInfo reversedInfo = info;
   std::swap(reversedInfo.entityA, reversedInfo.entityB);
       reversedInfo.normal.x = -reversedInfo.normal.x;
@@ -133,7 +133,7 @@ void CollisionDetectionSystem::TriggerCollisionStay(World& w, Entity a, Entity b
 void CollisionDetectionSystem::TriggerCollisionExit(World& w, Entity a, Entity b) {
   if (!w.IsAlive(a) || !w.IsAlive(b)) return;
 
-    DEBUGLOG("?? OnCollisionExit: Entity " + std::to_string(a.id) + " <-> Entity " + std::to_string(b.id));
+    DEBUGLOG("ğŸ”š OnCollisionExit: Entity " + std::to_string(a.id) + " <-> Entity " + std::to_string(b.id));
 
     ForEachHandler(w, a, [&](ICollisionHandler* handler) {
         handler->OnCollisionExit(w, a, b);
