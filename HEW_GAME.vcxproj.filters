@@ -79,6 +79,9 @@
     <Filter Include="x64\Debug">
       <UniqueIdentifier>{FBADB094-13CB-4734-8B7D-415CDDEA0286}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\components">
+      <UniqueIdentifier>{57a46a21-f980-4759-8996-2ff09f74a300}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app\ResourceManager.cpp">
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\Collision.cpp">
+      <Filter>src\components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,8 +209,15 @@
     <ClInclude Include="include\util\Random.h">
       <Filter>include\util</Filter>
     </ClInclude>
-    <ClInclude Include="include\input\MouseCoordinate.h">
-      <Filter>Header Files\input</Filter>
+    <ClInclude Include="include\input\MouseCoordinate.h" />
+    <ClInclude Include="include\components\Collision.h">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\samples\CollisionSamples.h">
+      <Filter>docs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\samples\CollisionEventSamples.h">
+      <Filter>docs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +277,12 @@
       <Filter>docs</Filter>
     </None>
     <None Include="docs\RenderSystem_Improvements.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="docs\Collision_Event_System.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="docs\Collision_System_Guide.md">
       <Filter>docs</Filter>
     </None>
   </ItemGroup>
