@@ -1,101 +1,95 @@
 ````markdown
-# GitHub Copilot �J�X�^���w�� - HEW_GAME �v���W�F�N�g
+# GitHub Copilot カスタム指示 - HEW_GAME プロジェクト（C++17統一版）
 
-���̃t�@�C���́AGitHub Copilot ���{�v���W�F�N�g�i**HEW_GAME**�j�ŃR�[�h�𐶐��E�C������ۂɏ]���ׂ� **�Z�p�K��E�^�p�t���[** ���`���܂��B  
-**��K�͕ύX�O�ɂ͕K���u�v���W�F�N�g�Ǎ� �� �v�旧�� �� ���r���[���F�v���o�邱�ƁB**
-
----
-
-## �v���W�F�N�g�T�v
-
-- **�v���W�F�N�g��**: HEW_GAME
-- **�ړI**: Entity Component System (ECS) �����p�����`�[���Q�[���J��
-- **����**: C++14�i����j
-- **�v���b�g�t�H�[��**: Windows / DirectX 11
-- **�A�[�L�e�N�`��**: Entity Component System
-- **�J���X�^�C��**: Git/GitHub�iDraft PR + ���F�Q�[�g�^�p�j
+このファイルは、GitHub Copilot が本プロジェクト（**HEW_GAME**）でコードを生成・修正する際に従うべき **技術規約・運用フロー** を定義する。  
+**大規模変更前には必ず「プロジェクト読込 → 計画立案 → レビュー承認」を経ること。**
 
 ---
 
-## �d�v�Ȑ��񎖍��iC++ �W���j
+## プロジェクト概要
 
-### �g�p�\�iC++14�j
+- **プロジェクト名**: HEW_GAME
+- **目的**: Entity Component System (ECS) を活用したチームゲーム開発
+- **言語**: **C++17（厳守）**
+- **プラットフォーム**: Windows / DirectX 11
+- **アーキテクチャ**: Entity Component System
+- **開発スタイル**: Git/GitHub（Draft PR + 承認ゲート運用）
+
+---
+
+## 重要な制約事項（C++ 標準）
+
+### 使用可能（C++17）
 ```cpp
-// auto �^���_
-auto entity = world.CreateEntity();
-
-// �����_��
-world.ForEach<Transform>([](Entity e, Transform& t) {
-    t.position.x += 1.0f;
-});
-
-// �X�}�[�g�|�C���^
-std::unique_ptr<Component> component;
-std::shared_ptr<Resource> resource;
-
-// �͈� for
-for (const auto& entity : entities) { }
-
-// ���������X�g
-DirectX::XMFLOAT3 position{0.0f, 0.0f, 0.0f};
+// 例示（OK）
+std::optional<int> v;
+if constexpr (std::is_same_v<T, U>) { /* ... */ }
+std::filesystem::path p{"assets/texture.png"};
+auto [x, y, z] = GetPosition();
+inline constexpr int MAX_ENTITIES = 1000;
 ````
 
-### �g�p�֎~�iC++17 �ȍ~�j
+### 使用禁止（C++20 以降）
 
 ```cpp
-// std::optional�iC++17�j
-std::optional<Transform> GetTransform(Entity e);  // NG
-
-// if constexpr�iC++17�j
-if constexpr (std::is_same_v<T, Transform>) { }   // NG
-
-// std::filesystem�iC++17�j
-std::filesystem::path filePath;                   // NG
-
-// �\���������iC++17�j
-auto [x, y, z] = GetPosition();                   // NG
-
-// �C�����C���ϐ��iC++17�j
-inline constexpr int MAX_ENTITIES = 1000;         // NG
+// 例示（NG）
+std::span<int> s;                 // C++20
+std::format("{}", 42);            // C++20
+concepts / ranges / coroutine 等   // C++20+
 ```
 
-**�Ώ����j�iC++14 �݊��j**
-
-```cpp
-// ��̓|�C���^�ő�ցi���L����World�j
-Transform* GetTransform(Entity e) { return world.TryGet<Transform>(e); }
-
-// �^����̓e���v���[�g���ꉻ
-template<typename T> void Process(T& component);
-
-// ������Win32 API or boost::filesystem�i���p�Ȃ�j���g�p
-#include <windows.h>
-```
+> 旧来の「C++14 互換代替」節は **廃止**。必要なら C++17 での正攻法を採用する。
 
 ---
 
-## ECS �A�[�L�e�N�`���̌���
+## **出力制約（Copilot のコメント/テキスト生成を全面制御）**
 
-### Entity�i���ʎq�̂݁j
+**目的**: Copilot が C++ ファイル上に「🆕 などの絵文字」「補足・メモ・NOTE」等の**装飾/自然文**を挿入することを**全面禁止**する。
+
+### 絶対禁止
+
+* **絵文字・顔文字・装飾記号**（例: `🆕`, `✨`, `📌`, `🔥`, `✅`, `❗`, `❌`, `💡` などの Unicode 絵文字全般）
+* **自然文の補足/感想/助言**（例: `NOTE:`, `Tip:`, `補足:`, `メモ:` など）。レビュー依頼文の自動挿入も不可
+* **Markdown 見出し/箇条書き**の**コード外**生成（C++ ファイル内に `#`, `- ` 等で見出し/リストを書かない）
+* **関数本体内のコメント**全般（例外を除く。下記「唯一許可」参照）
+
+### 唯一許可（最小限のみ）
+
+* **Doxygen コメント**のみ（`@file`, `@brief`, `@details`, `@note`, `@warning`, `@param`, `@return`, `@tparam`, `@version`, `@date`, `@author`）。
+
+  * 位置: **宣言直前**（クラス/構造体/関数/ファイル先頭）。
+  * 内容: **機能説明に限定**。主観・感嘆・雑談・装飾表現は不可。
+* **抑止例外**: 静的解析のための **NOLINT** 等、**ツール指示コメント**のみ許可（必要最小限）。
+
+### Copilot への出力指示（強制）
+
+* **コード以外の文章を出力するな**。説明が必要なら **Doxygen の最小限**に収める。
+* 上記に反する生成を試みる場合、**出力を空にする**か**Doxygen の最小形式**に自動変換すること。
+* **TODO** を出力したい場合は **Jira/Issue 番号必須**（例: `// TODO[PROJ-1234]: …`）。番号なし TODO は禁止。
+
+---
+
+## ECS アーキテクチャの原則
+
+### Entity（識別子のみ）
 
 ```cpp
 struct Entity {
-    uint32_t id;   // �G���e�B�e�BID
-    uint32_t gen;  // ����ԍ��i�폜/�ė��p�Ǘ��j
+    uint32_t id;   // エンティティID
+    uint32_t gen;  // 世代番号（削除/再利用管理）
 };
 ```
 
-**�֎~**: Entity �Ƀ��W�b�N���Ԃ��������Ȃ��B
+**禁止**: Entity にロジックや状態を持たせない。
 
-### Component�i2 ��ށj
+### Component（2 種類）
 
-1. **�f�[�^�R���|�[�l���g�iIComponent �p���j**: �f�[�^�ێ��{�y���w���p�̂�
+1. **データコンポーネント（IComponent 継承）**: データ保持＋軽いヘルパのみ
 
 ```cpp
 struct Health : IComponent {
     float current = 100.0f;
     float max = 100.0f;
-
     void TakeDamage(float dmg) {
         current -= dmg;
         if (current < 0.0f) current = 0.0f;
@@ -104,7 +98,7 @@ struct Health : IComponent {
 };
 ```
 
-2. **Behaviour �R���|�[�l���g�iBehaviour �p���j**: ���t���[���X�V����郍�W�b�N
+2. **Behaviour コンポーネント（Behaviour 継承）**: 毎フレーム更新されるロジック
 
 ```cpp
 struct Rotator : Behaviour {
@@ -116,10 +110,10 @@ struct Rotator : Behaviour {
 };
 ```
 
-### System �����p�^�[��
+### System 実装パターン
 
-* **Behaviour �p�^�[���i�����j**: �e Entity �ɐU�镑���𑕒�
-* **ForEach �p�^�[��**: �f�[�^�w���Ɉꊇ����
+* **Behaviour パターン（推奨）**: 各 Entity に振る舞いを装着
+* **ForEach パターン**: データ指向に一括処理
 
 ```cpp
 void UpdateMovementSystem(World& world, float dt) {
@@ -131,20 +125,23 @@ void UpdateMovementSystem(World& world, float dt) {
 }
 ```
 
-### Component�K��
-* **componentSamples.h�ɂ�WriteOnry.�Q�[��������componentSamples���Ăяo���̂ł͂Ȃ��A�Q�[���̂��߂�Component���쐬���A����̌��ĂƂ��Ă̎d�l�̂݋��B
-�������Acomponentsamples�̕��@�ɂ͂��������ď����āB
+### Component 規約
+
+* **`include/samples/ComponentSamples.h` は** *設計の原案集* **のみ**。ゲームコードから **参照・include 禁止**。
+
+  * ビルド対象から除外すること。`src/**` での `#include "samples/ComponentSamples.h"` を検出した場合は CI で失敗させる（後述の CI 参照）。
+
 ---
 
-## �R�[�f�B���O�K��
+## コーディング規約
 
-| �v�f      | �K��                     | ��                                          |
+| 要素      | 規約                     | 例                                          |
 | ------- | ---------------------- | ------------------------------------------ |
-| �N���X/�\���� | PascalCase             | `Transform`, `MeshRenderer`, `World`       |
-| �֐�      | PascalCase             | `CreateEntity()`, `TryGet()`, `OnUpdate()` |
-| �ϐ�      | camelCase              | `deltaTime`, `entityId`, `speed`           |
-| �����o�ϐ�   | camelCase + `_` �T�t�B�b�N�X | `world_`, `nextId_`                        |
-| �萔      | UPPER_SNAKE_CASE       | `MAX_ENTITIES`, `DEFAULT_SPEED`            |
+| クラス/構造体 | PascalCase             | `Transform`, `MeshRenderer`, `World`       |
+| 関数      | PascalCase             | `CreateEntity()`, `TryGet()`, `OnUpdate()` |
+| 変数      | camelCase              | `deltaTime`, `entityId`, `speed`           |
+| メンバ変数   | camelCase + `_` サフィックス | `world_`, `nextId_`                        |
+| 定数      | UPPER_SNAKE_CASE       | `MAX_ENTITIES`, `DEFAULT_SPEED`            |
 
 ```cpp
 class PlayerController : public Behaviour {
@@ -161,9 +158,9 @@ private:
 
 ---
 
-## World �N���X�̎g�p
+## World クラスの使用
 
-### �G���e�B�e�B�쐬�i�r���_�[�p�^�[�������j
+### エンティティ作成（ビルダーパターン推奨）
 
 ```cpp
 Entity player = world.Create()
@@ -174,33 +171,26 @@ Entity player = world.Create()
     .Build();
 ```
 
-### �R���|�[�l���g����
+### コンポーネント操作
 
 ```cpp
-// ���S�擾
 if (auto* t = world.TryGet<Transform>(entity)) { t->position.x += 1.0f; }
-
-// �ǉ�/���݊m�F/�폜
 world.Add<Health>(entity, Health{100.0f, 100.0f});
 if (world.Has<Transform>(entity)) { /* ... */ }
 world.Remove<Health>(entity);
-
-// �폜�i�����t�����O�j
 world.DestroyEntityWithCause(entity, World::Cause::Collision);
 ```
 
-### ForEach ���p
+### ForEach 利用
 
 ```cpp
 world.ForEach<Transform>([](Entity, Transform& t) { t.position.y += 0.1f; });
-world.ForEach<PlayerTag, Transform>([](Entity, PlayerTag&, Transform& t) { /* �v���C���̂� */ });
+world.ForEach<PlayerTag, Transform>([](Entity, PlayerTag&, Transform& t) { /* プレイヤのみ */ });
 ```
 
 ---
 
-## DirectXMath �̎g�p
-
-**�ێ��� `XMFLOAT3/4`�A�v�Z�� `XMVECTOR`**
+## DirectXMath の使用（保持は `XMFLOAT*`、計算は `XMVECTOR`）
 
 ```cpp
 void MoveTowards(Transform& t, const DirectX::XMFLOAT3& target, float speed) {
@@ -216,57 +206,56 @@ void MoveTowards(Transform& t, const DirectX::XMFLOAT3& target, float speed) {
 
 ---
 
-## �h�L�������e�[�V�����K��iDoxygen�j
+## ドキュメンテーション規約（Doxygen のみ許可）
+
+ファイル/宣言直前に限る。**関数本体内へのコメントは原則禁止**（NOLINT 等のツール指示を除く）。
 
 ```cpp
 /**
  * @file MyComponent.h
- * @brief �R���|�[�l���g�̐���
+ * @brief コンポーネントの説明
  * @author ...
  * @date 2025
  * @version 6.0
  */
 ```
 
-�֐��E�\���̂ɂ� `@brief`, `@details`, `@note`, `@warning`, `@param`, `@return` ��K�X�t�^�B
+* `@brief`, `@details`, `@note`, `@warning`, `@param`, `@return`, `@tparam` を必要最小限で付与。
+* 絵文字・装飾記号・感嘆・主観は禁止。
 
 ---
 
-## �֎~�����i�A�[�L�j��/�񐄏��p�^�[���j
+## 禁止事項（アーキ破壊/非推奨パターン）
 
-* Entity �Ƀ��W�b�N/��Ԃ�ǉ����Ȃ�
-* �O���[�o���ŃG���e�B�e�B�Ǘ����Ȃ��iWorld �Ǘ��j
-* �R���|�[�l���g����ʃR���|�[�l���g�ւ�**���ڐ��|�C���^�ێ�**�֎~�iWorld �o�R�Ŏ擾�j
-* Update ���œ����I�ɑ�ʃX�|�[��/�j�����Ȃ��i**Enqueue** ���g�p�j
-* ���t���[���̕s�v�ȓ��I�m�ۂ�����A�����o�ė��p
+* Entity にロジック/状態を追加しない
+* グローバルでエンティティ管理しない（World 管理）
+* コンポーネントから別コンポーネントへの**直接生ポインタ保持**禁止（World 経由で取得）
+* Update 内で同期的に大量スポーン/破棄しない（**Enqueue** を使用）
+* 毎フレームの不要な動的確保を避け、メンバ再利用
 
 ---
 
-## �f�o�b�O�ƃ��O�i�K��j
+## デバッグとログ（規約）
 
 ```cpp
 #include "app/DebugLog.h"
-
-// ���x����
 DEBUGLOG("Entity created: ID=%u", entity.id);
 DEBUGLOG_WARNING("Transform not found on entity %u", entity.id);
 DEBUGLOG_ERROR("Failed to load resource: %s", resourceName.c_str());
-
-// _DEBUG �߂ł̏����t�����O
 #ifdef _DEBUG
 DEBUGLOG("Delta time = %f", deltaTime);
 #endif
 ```
 
-**�Z�L�����e�B/�^�p**
+**セキュリティ/運用**
 
-* PII/�V�[�N���b�g�i��/�g�[�N��/���[���j���o�͂��Ȃ�
-* �X���b�g�����O�F���ꃁ�b�Z�[�W�� 1 �b�� 1 ��܂Łi�Ăяo�����Ő���j
-* `INFO`, `WARN`, `ERROR` �ȊO�� `_DEBUG` �r���h����
+* PII/シークレット（鍵/トークン/メール）を出力しない
+* スロットリング：同一メッセージは 1 秒に 1 回まで（呼び出し側で制御）
+* `INFO`, `WARN`, `ERROR` 以外は `_DEBUG` ビルド限定
 
 ---
 
-## �}�N�����p
+## マクロ活用
 
 ### DEFINE_DATA_COMPONENT
 
@@ -296,90 +285,79 @@ DEFINE_BEHAVIOUR(CircularMotion,
 
 ---
 
-## �ύX�v��Ə��F�t���[�iLarge Change Gate�j
+## 変更計画と承認フロー（Large Change Gate）
 
-**�ړI**: �e���̑傫���C���ɑ΂��A**����O�́u�v�恨���r���[�����F�v��K�{��**���A�݌v����⍷���߂���h�~�B
+**目的**: 影響の大きい修正に対し、**着手前の「計画→レビュー→承認」を必須化**。
 
-### ��K�͕ύX�̔����i�ȉ��̂����ꂩ�j
+### 大規模変更の判定基準（以下のいずれか）
 
-* �ύX�s���i���Z+�폜�j > **300**
-* **�V�K�t�@�C�� 3 �ȏ�** �܂��� **���J API/�R���|�[�l���g�̃V�O�l�`���ύX**
-* **Core �̈�**�i`include/ecs/*`, `include/components/*`�j�ɐG���
-* **�X���b�h���f��/���C�t�T�C�N��**�։e���i�X�|�[��/�j��/�X�V����/�����j
-* **�r���h�ݒ�/�ˑ��ǉ�** ���܂�
+* 変更行数（加算+削除） > **300**
+* **新規ファイル 3 個以上** または **公開 API/コンポーネントのシグネチャ変更**
+* **Core 領域**（`include/ecs/*`, `include/components/*`）に触れる
+* **スレッドモデル/ライフサイクル**へ影響（スポーン/破棄/更新順序/同期）
+* **ビルド設定/依存追加** を含む
 
-### ���s�菇
+### 実行手順
 
-1. **�R�[�h�x�[�X�Ǎ�**�i�֘A `.h/.cpp`�A�Ăяo���֌W�A�ˑ��j
-2. **�v��쐬�iPLAN.md �����j** ? �{���e���v���g�p
-3. **�h���t�g PR �쐬�iDraft �w��j** ? PR �{���� PLAN.md ��\�t�A���r���[�A�w��
-4. **���F�Q�[�g** ? ���r���[�A�� `APPROVED: <���� or �`�[��>` �R�����g��t����܂ŁA**�����̓X�P���g��/�X�^�u�ŏ���**
-5. **�����J�n** ? �v�悩�����ꍇ�� PLAN.md �X�V �� **�ď��F** �K�{
+1. **コードベース読込**（関連 `.h/.cpp`、呼び出し関係、依存）
+2. **計画作成（PLAN.md 生成）** – 本書テンプレ使用
+3. **ドラフト PR 作成（Draft 指定）** – PR 本文に PLAN.md を貼付、レビューア指名
+4. **承認ゲート** – レビューアが `APPROVED: <氏名 or チーム>` コメントを付けるまで、**実装はスケルトン/スタブ最小限**
+5. **実装開始** – 計画から逸れる場合は PLAN.md 更新 → **再承認** 必須
 
-### �֎~����
+### 禁止事項
 
-* `APPROVED:` �R�����g **�O** �ɑ�K�͉��ς��}�[�W/Push
-* Core �̈�̖��f�ҏW�iHotfix �� `HOTFIX:` �`�P�b�g + �ŏ������Ɍ���j
+* `APPROVED:` コメント **前** に大規模改変をマージ/Push
+* Core 領域の無断編集（Hotfix は `HOTFIX:` チケット + 最小差分に限る）
 
 ---
 
-## PLAN.md �e���v���[�g�i�\�t�p�j
+## PLAN.md テンプレート（貼付用）
 
 ```md
-# PLAN.md ? �ύX�v��
+# PLAN.md – 変更計画
 
-## �T�v
-- �^�C�g��: <�ύX��>
-- �ړI: <���[�U���l/���\/�ێ琫>
-- �X�R�[�v: <�ΏۃV�[��/�V�X�e��/�R���|�[�l���g>
+## 概要
+- タイトル: <変更名>
+- 目的: <ユーザ価値/性能/保守性>
+- スコープ: <対象シーン/システム/コンポーネント>
 
-## �e���͈�
-- ���� API/ABI: <�L/�� + �ڍ�>
-- �ύX�\��t�@�C��:
+## 影響範囲
+- 既存 API/ABI: <有/無 + 詳細>
+- 変更予定ファイル:
   - include/...
   - src/...
 
-## �݌v���j
-- �A�[�L�e�N�`��: <ECS �����ɉ���������>
-- �f�[�^�t���[/�X�V����: <OnStart/OnUpdate/ForEach>
-- ��ֈĔ�r: <��A/��B/�s�̗p���R>
+## 設計方針
+- アーキテクチャ: <ECS 原則に沿った分離>
+- データフロー/更新順序: <OnStart/OnUpdate/ForEach>
+- 代替案比較: <案A/案B/不採用理由>
 
-## ���s���[�h�Ɗɘa��
-- ����/����: <EnqueueSpawn/Destroy�A�C�e���[�^�������h�~>
-- ���C�t�T�C�N��: <Entity ����/�Q�Ǝ���>
-- ���l���萫: <���K���O�̒����`�F�b�N/NaN�΍�>
+## 失敗モードと緩和策
+- 競合/並列: <EnqueueSpawn/Destroy、イテレータ無効化防止>
+- ライフサイクル: <Entity 世代/参照失効>
+- 数値安定性: <正規化前の長さチェック/NaN対策>
 
-## �}�C���X�g�[��
-- M1: �X�P���g�������i�e�X�g�ʉ߁j
-- M2: �@�\A
-- M3: �@�\B/���׎���
+## マイルストーン
+- M1: スケルトン導入（テスト通過）
+- M2: 機能A
+- M3: 機能B/負荷試験
 
-## �v��/����
-- ���\�w�W: <�t���[�����ԁAForEach ��������>
-- �e�X�g: <�P��/����/�V�[����A>
+## 計測/検証
+- 性能指標: <フレーム時間、ForEach 走査件数>
+- テスト: <単体/統合/シーン回帰>
 
-## ���[���o�b�N
-- �菇: <Revert/Feature Flag>
+## ロールバック
+- 手順: <Revert/Feature Flag>
 
-## ���r���[�˗�
-- ���r���[�A: <�S����>
-- ���F�g�[�N��: `APPROVED: <����>`
+## レビュー依頼
+- レビューア: <担当者>
+- 承認トークン: `APPROVED: <氏名>`
 ```
 
 ---
 
-## Copilot �O�i�^�X�N�i��K�͕ύX���͕K�{�j
-
-* �v���W�F�N�g�𑖍����A�֘A�t�@�C��/�Ăяo���֌W/�ˑ����
-* ��L **PLAN.md** �����������i�e���v������j
-* Draft PR �{���� PLAN.md �𖄂ߍ��ރe�L�X�g���o��
-* ���F�҂��R�����g�������}��:
-  `READY FOR REVIEW ? Reply with "APPROVED: <name>" to proceed.`
-* `APPROVED:` ���t���܂�**�����R�[�h�����̓X�P���g��/�C���^�t�F�[�X�݂̂Ɍ���**
-
----
-
-## �ύX�����̈�i�v���F�j
+## 変更凍結領域（要承認）
 
 * `include/ecs/World.h`
 * `include/ecs/Entity.h`
@@ -387,27 +365,11 @@ DEFINE_BEHAVIOUR(CircularMotion,
 * `include/components/Transform.h`
 * `include/components/MeshRenderer.h`
 
-**�K��**: ��L�ɐG��� PR �� **�������� PLAN.md �K�{**�B`APPROVED:` �t�^�O�� Draft �̂܂܁B
+**規則**: 上記に触れる PR は **無条件で PLAN.md 必須**。`APPROVED:` 付与前は Draft のまま。
 
 ---
 
-## C++14 ��փp�^�[���i�֐��u���b�N�j
-
-```cpp
-// Optional �̑�ցi�ؗp�����j
-template<typename T>
-T* TryGetBorrowed(World& w, Entity e) { return w.TryGet<T>(e); }
-
-struct MaybeTransform { Transform* ptr; bool has; };
-inline MaybeTransform GetMaybeTransform(World& w, Entity e) {
-    Transform* t = w.TryGet<Transform>(e);
-    return { t, t != nullptr };
-}
-```
-
----
-
-## DirectXMath ���S�K�[�h�i���S�`�j
+## DirectXMath 安全ガード（完全形）
 
 ```cpp
 static inline void MoveTowardsSafe(Transform& t, const DirectX::XMFLOAT3& target, float speed, float dt) {
@@ -415,12 +377,8 @@ static inline void MoveTowardsSafe(Transform& t, const DirectX::XMFLOAT3& target
     XMVECTOR pos = XMLoadFloat3(&t.position);
     XMVECTOR tgt = XMLoadFloat3(&target);
     XMVECTOR delta = XMVectorSubtract(tgt, pos);
-
-    // �[�������
     XMVECTOR lenSq = XMVector3LengthSq(delta);
     if (XMVectorGetX(lenSq) < 1e-12f) return;
-
-    // �P�ʌn: speed[m/s] * dt[s]
     XMVECTOR dir = XMVector3Normalize(delta);
     XMVECTOR step = XMVectorScale(dir, speed * dt);
     XMStoreFloat3(&t.position, XMVectorAdd(pos, step));
@@ -429,18 +387,17 @@ static inline void MoveTowardsSafe(Transform& t, const DirectX::XMFLOAT3& target
 
 ---
 
-## �`�[���J�����[��
+## チーム開発ルール
 
-### �t�@�C���ҏW�̗D�揇��
+### ファイル編集の優先順位
 
-* **�R�A�i�G��Ȃ�/�v���F�j**: �O�߁u�ύX�����̈�v�Q��
-* **���R�ɕҏW**: `include/scenes/`, `include/components/Custom*.h`, `src/`
-* **�v���k**: `include/graphics/`, `include/input/`, `include/app/`
+* **コア（触らない/要承認）**: 前節「変更凍結領域」参照
+* **自由に編集**: `include/scenes/`, `include/components/Custom*.h`, `src/`
+* **要相談**: `include/graphics/`, `include/input/`, `include/app/`
 
-### Git �R�~�b�g���b�Z�[�W
+### Git コミットメッセージ
 
 ```bash
-# �ǂ���i�^�{���e�j
 git commit -m "feat: Add player shooting system"
 git commit -m "fix: Resolve collision detection NaN at zero-length"
 git commit -m "docs: Update README with component guide"
@@ -450,35 +407,209 @@ git commit -m "refactor: Restructure component stores"
 
 ---
 
-## �Q�l�t�@�C��
+## Copilot 前段タスク（大規模変更時は必須）
 
-* `include/samples/ComponentSamples.h` ? �R���|�[�l���g������
-* `include/samples/SampleScenes.h` ? �V�[��������
-* `include/scenes/MiniGame.h` ? ���K�̓Q�[������
-* `include/ecs/World.h` ? ���p�K�C�h/�C���^�t�F�[�X
-
----
-
-## �R�[�h�����`�F�b�N���X�g�iCopilot �p�j
-
-* [ ] C++14 �����iC++17 �@�\�͕s�g�p�j
-* [ ] ECS �̕����iEntity / Component / System�j
-* [ ] �R���|�[�l���g�� `IComponent` �܂��� `Behaviour` ���p��
-* [ ] �G���e�B�e�B�쐬�̓r���_�[�p�^�[���i�����j
-* [ ] �|�C���^�擾�� `TryGet` ��p���� null �`�F�b�N
-* [ ] �����K��iPascalCase / camelCase / `_` �ڔ����j����
-* [ ] Doxygen �R�����g�t�^
-* [ ] DirectXMath �̌^�iXMFLOAT3 ���j�ƌv�Z�菇�̕���
-* [ ] �O���[�o���Ǘ�������AWorld �Ǘ�
-* [ ] ���[�N�����iWorld �����L�������j/ ���C�t�T�C�N�����S
-* [ ] **��K�͕ύX���� PLAN.md + Draft PR + `APPROVED:` ���F���m�F**
+* プロジェクトを走査し、関連ファイル/呼び出し関係/依存を列挙
+* **PLAN.md** を自動生成（テンプレ厳守）
+* Draft PR 本文に PLAN.md を埋め込むテキストを出力
+* 承認待ちコメントを自動挿入:
+  `READY FOR REVIEW – Reply with "APPROVED: <name>" to proceed.`
+* `APPROVED:` が付くまで**実装コード生成はスケルトン/インタフェースのみに限定**
 
 ---
 
-## �쐬�ҁE���^���
+## **CI / フックによる強制（実装者向け）**
 
-* **�쐬��**: �R���z
-* **�ŏI�X�V**: 2025
-* **�o�[�W����**: v6.0 ? �`�[���Q�[���J���t���[�����[�N�iHEW_GAME �Ή��j
+> Copilot 規約を**機械で担保**する。以下は**プロジェクトに同梱**して運用する。
+
+### 1) GitHub Actions（PR の追加行のみ検査）
+
+`.github/workflows/lint-no-emoji.yml`
+
+```yaml
+name: Lint - forbid emojis and decorative comments
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+jobs:
+  lint-no-emoji:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Compute base
+        id: base
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          echo "base=$(git merge-base HEAD origin/${{ github.base_ref }})" >> $GITHUB_OUTPUT
+      - name: Scan added lines for forbidden content
+        run: |
+          python3 - << 'PY'
+          import os, re, sys, subprocess
+          base = os.environ.get("BASE") or "${{ steps.base.outputs.base }}"
+          diff = subprocess.check_output(["bash","-lc",f"git diff -U0 {base}...HEAD"]).decode("utf-8","ignore")
+          added = []
+          for line in diff.splitlines():
+            if line.startswith('+++ ') or line.startswith('--- '): continue
+            if line.startswith('+') and not line.startswith('++'):
+              added.append(line[1:])
+          FORBID_STRINGS = ["🆕","✨","📌","🔥","✅","❗","❌","💡","NOTE:", "Tip:", "補足:", "メモ:", "Ready for review"]
+          def has_forbidden_string(s): return any(t in s for t in FORBID_STRINGS)
+          RANGES = [(0x1F300,0x1FAFF),(0x1F1E6,0x1F1FF),(0x2600,0x27BF)]
+          def has_emoji(s):
+            for ch in s:
+              c=ord(ch)
+              for lo,hi in RANGES:
+                if lo<=c<=hi: return True
+            return False
+          violations=[]
+          for i,l in enumerate(added,1):
+            if has_forbidden_string(l) or has_emoji(l):
+              violations.append((i,l))
+          # samples の include 監査
+          inc_viol=[(i,l) for i,l in enumerate(added,1) if '#include "samples/ComponentSamples.h"' in l]
+          if violations or inc_viol:
+            print("❌ Forbidden content detected in added lines:")
+            for i,l in violations: print(f"[+{i}] {l}")
+            for i,l in inc_viol:  print(f"[+{i}] include forbidden: {l}")
+            sys.exit(1)
+          print("✅ No forbidden decorative content found.")
+          PY
+        env:
+          BASE: ${{ steps.base.outputs.base }}
+```
+
+### 2) ローカル pre-commit（Bash）
+
+`.git/hooks/pre-commit`
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+files=$(git diff --cached --name-only --diff-filter=ACM | tr '\n' ' ')
+[ -z "$files" ] && exit 0
+diff=$(git diff --cached -U0 -- $files)
+
+forbidden_strings=("🆕" "✨" "📌" "🔥" "✅" "❗" "❌" "💡" "NOTE:" "Tip:" "補足:" "メモ:" "Ready for review" '#include "samples/ComponentSamples.h"')
+has_violation=0
+while IFS= read -r line; do
+  [[ "$line" =~ ^\+\+ ]] && continue
+  [[ "$line" =~ ^\+ ]] || continue
+  l="${line:1}"
+  for s in "${forbidden_strings[@]}"; do
+    if [[ "$l" == *"$s"* ]]; then
+      echo "pre-commit: NG: $l"
+      has_violation=1
+      break
+    fi
+  done
+  while IFS= read -r -n1 ch; do
+    [[ -z "$ch" ]] && break
+    code=$(printf '%d' "'$ch")
+    if { [ $code -ge 127744 -a $code -le 129535 ] || [ $code -ge 127462 -a $code -le 127487 ] || [ $code -ge 9728 -a $code -le 10175 ]; }; then
+      echo "pre-commit: NG (emoji): $l"
+      has_violation=1
+      break
+    fi
+  done <<< "$l"
+done <<< "$diff"
+
+if [ $has_violation -ne 0 ]; then
+  echo "pre-commit: 絵文字/補足コメントは禁止。削除して再コミット。"
+  exit 1
+fi
+exit 0
+```
+
+### 3) ローカル pre-commit（PowerShell / VS2022）
+
+`.git/hooks/pre-commit.ps1`
+
+```powershell
+#Requires -Version 5.1
+$ErrorActionPreference = "Stop"
+$files = git diff --cached --name-only --diff-filter=ACM
+if ([string]::IsNullOrWhiteSpace($files)) { exit 0 }
+$diff = git diff --cached -U0 -- $files
+$forbidden = @("🆕","✨","📌","🔥","✅","❗","❌","💡","NOTE:","Tip:","補足:","メモ:","Ready for review",'#include "samples/ComponentSamples.h"')
+$hasViolation = $false
+$lines = $diff -split "`n"
+foreach ($ln in $lines) {
+    if ($ln.StartsWith("++")) { continue }
+    if (-not $ln.StartsWith("+")) { continue }
+    $l = $ln.Substring(1)
+    foreach ($s in $forbidden) {
+        if ($l.Contains($s)) { Write-Host "pre-commit: NG: $l"; $hasViolation = $true; break }
+    }
+    foreach ($ch in $l.ToCharArray()) {
+        $code = [int][char]$ch
+        if ( ($code -ge 127744 -and $code -le 129535) -or
+             ($code -ge 127462 -and $code -le 127487) -or
+             ($code -ge 9728   -and $code -le 10175) ) {
+            Write-Host "pre-commit: NG (emoji): $l"
+            $hasViolation = $true
+            break
+        }
+    }
+}
+if ($hasViolation) {
+    Write-Error "pre-commit: 絵文字/補足コメントは禁止。削除して再コミット。"
+    exit 1
+}
+exit 0
+```
+
+### 4) PR テンプレート（ヒューマンチェック）
+
+`.github/pull_request_template.md`
+
+```md
+## 禁止事項チェック
+- [ ] 差分に絵文字/装飾コメント（`🆕`, `✨`, `📌` 等）は**一切ない**
+- [ ] C++ ファイル内の自然文コメントは**Doxygen（宣言直前）限定**
+- [ ] `#include "samples/ComponentSamples.h"` を参照していない
+```
 
 ---
+
+## 参考ファイル
+
+* `include/samples/ComponentSamples.h` – コンポーネント実装例（**参照禁止・ビルド除外**）
+* `include/samples/SampleScenes.h` – シーン実装例
+* `include/scenes/MiniGame.h` – 小規模ゲーム実装
+* `include/ecs/World.h` – 利用ガイド/インタフェース
+
+---
+
+## コード生成チェックリスト（Copilot 用）
+
+* [ ] **C++17 準拠**（C++20+ 機能は不使用）
+* [ ] **出力制約**順守（絵文字・補足・NOTE 等の**自然文禁止** / Doxygen 最小限のみ）
+* [ ] ECS の分離（Entity / Component / System）
+* [ ] コンポーネントは `IComponent` または `Behaviour` を継承
+* [ ] エンティティ作成はビルダーパターン（推奨）
+* [ ] ポインタ取得は `TryGet` を用いて null チェック
+* [ ] 命名規約（PascalCase / camelCase / `_` 接尾辞）遵守
+* [ ] Doxygen コメントは**宣言直前のみ**。本体内コメントは禁止（NOLINT 等を除く）
+* [ ] DirectXMath の型（XMFLOAT*）と計算手順の分離
+* [ ] グローバル管理を避け、World 管理
+* [ ] リーク無し（World が所有権）/ ライフサイクル安全
+* [ ] **大規模変更時は PLAN.md + Draft PR + `APPROVED:` 承認を確認**
+
+---
+
+## 作成者・メタ情報
+
+* **作成者**: 山内陽
+* **最終更新**: 2025
+* **バージョン**: v7.0 – C++17統一・コメント出力禁止強化
+
+```
+
+---
+
+### 追加改善提案（任意）
+- `clang-tidy` に `readability-*` を有効化し、**関数本体内コメントの多用**を警告化。
+- `cmake` 側で `samples/` を**ビルド対象外**に固定（`add_subdirectory(samples EXCLUDE_FROM_ALL)` 等を使わない）。
+- `pre-push` フックで **C++20 記号**（`<format>`, `concept` 等）の禁則も検査しておく。
+```
