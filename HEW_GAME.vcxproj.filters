@@ -99,6 +99,7 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\components\Collision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\animation\Animation.h">
@@ -207,9 +208,9 @@
     <ClInclude Include="include\components\Collision.h">
       <Filter>include\components</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="include\samples\CollisionSamples.h" />
+    <ClInclude Include="include\samples\CollisionEventSamples.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -270,6 +271,8 @@
     <None Include="docs\RenderSystem_Improvements.md">
       <Filter>docs</Filter>
     </None>
+    <None Include="docs\Collision_System_Guide.md" />
+    <None Include="docs\Collision_Event_System.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">

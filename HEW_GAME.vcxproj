@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\app\ResourceManager.cpp" />
+    <ClCompile Include="src\components\Collision.cpp" />
     <ClCompile Include="src\ecs\World.cpp" />
     <ClCompile Include="src\graphics\ModelLoader.cpp" />
     <ClCompile Include="src\input\GamepadSystem.cpp" />
@@ -170,6 +171,8 @@
     <ClInclude Include="include\input\GamepadSystem.h" />
     <ClInclude Include="include\input\MouseCoordinate.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\samples\CollisionEventSamples.h" />
+    <ClInclude Include="include\samples\CollisionSamples.h" />
     <ClInclude Include="include\samples\ComponentSamples.h" />
     <ClInclude Include="include\graphics\DebugDraw.h" />
     <ClInclude Include="include\ecs\Entity.h" />
@@ -208,6 +211,8 @@
     <None Include="Assets\Textures\test.png" />
     <None Include="docs\ChargeSystem_Guide.md" />
     <None Include="docs\ChargeSystem_QuickRef.md" />
+    <None Include="docs\Collision_Event_System.md" />
+    <None Include="docs\Collision_System_Guide.md" />
     <None Include="docs\DebugDraw_Improvements.md" />
     <None Include="docs\GamepadSystem_README.md" />
     <None Include="docs\RealtimeCharge_Guide.md" />
