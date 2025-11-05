@@ -79,6 +79,9 @@
     <Filter Include="x64\Debug">
       <UniqueIdentifier>{FBADB094-13CB-4734-8B7D-415CDDEA0286}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\components">
+      <UniqueIdentifier>{57a46a21-f980-4759-8996-2ff09f74a300}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app\ResourceManager.cpp">
@@ -99,7 +102,9 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\Collision.cpp" />
+    <ClCompile Include="src\components\Collision.cpp">
+      <Filter>src\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\animation\Animation.h">
@@ -208,9 +213,12 @@
     <ClInclude Include="include\components\Collision.h">
       <Filter>include\components</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="include\samples\CollisionSamples.h" />
-    <ClInclude Include="include\samples\CollisionEventSamples.h" />
+    <ClInclude Include="include\samples\CollisionSamples.h">
+      <Filter>docs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\samples\CollisionEventSamples.h">
+      <Filter>docs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -271,8 +279,12 @@
     <None Include="docs\RenderSystem_Improvements.md">
       <Filter>docs</Filter>
     </None>
-    <None Include="docs\Collision_System_Guide.md" />
-    <None Include="docs\Collision_Event_System.md" />
+    <None Include="docs\Collision_Event_System.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="docs\Collision_System_Guide.md">
+      <Filter>docs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">

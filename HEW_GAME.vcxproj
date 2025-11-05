@@ -155,7 +155,6 @@
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\ResourceManager.h" />
     <ClInclude Include="include\app\ServiceLocator.h" />
