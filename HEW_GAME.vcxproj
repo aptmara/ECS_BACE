@@ -162,6 +162,7 @@
     <ClInclude Include="include\app\App.h" />
     <ClInclude Include="include\app\DebugLog.h" />
     <ClInclude Include="include\components\Collision.h" />
+    <ClInclude Include="include\components\GameStats.h" />
     <ClInclude Include="include\components\PlayerComponents.h" />
     <ClInclude Include="include\components\UIComponents.h" />
     <ClInclude Include="include\ecs\World.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="include\components\ModelComponent.h" />
     <ClInclude Include="include\graphics\ModelLoader.h" />
     <ClInclude Include="include\samples\GamepadSample.h" />
+    <ClInclude Include="include\scenes\SenesUIController.h" />
     <ClInclude Include="include\systems\ModelLoadingSystem.h" />
     <ClInclude Include="include\samples\WorldImprovementDemo.h" />
     <ClInclude Include="include\scenes\Game.h" />

@@ -1,13 +1,13 @@
-/**
+﻿/**
  * @file UIComponents.h
- * @brief UI�R���|�[�l���g�̒�`
- * @author �R���z
+ * @brief UIコンポーネントの定義
+ * @author 山内陽
  * @date 2025
  * @version 1.0
  *
  * @details
- * UI�{�^���A�e�L�X�g���x���A�p�l���Ȃǂ�2D UI�v�f��
- * ECS�A�[�L�e�N�`���Ŏ������܂��B
+ * UIボタン、テキストラベル、パネルなどの2D UI要素を
+ * ECSアーキテクチャで実装します。
  */
 #pragma once
 #include "components/Component.h"
@@ -18,23 +18,23 @@
 
 /**
  * @struct UITransform
- * @brief 2D UI�v�f�̈ʒu�ƃT�C�Y
+ * @brief 2D UI要素の位置とサイズ
  *
  * @details
- * �X�N���[�����W�n�ł̈ʒu�ƃT�C�Y��ێ����܂��B
- * �A���J�[�V�X�e���ɂ��A��ʉ𑜓x�̕ω��ɑΉ��ł��܂��B
+ * スクリーン座標系での位置とサイズを保持します。
+ * アンカーシステムにより、画面解像度の変化に対応できます。
  */
 struct UITransform : IComponent {
-    DirectX::XMFLOAT2 position{0.0f, 0.0f}; ///< �X�N���[�����W(�s�N�Z��)
-    DirectX::XMFLOAT2 size{100.0f, 50.0f};  ///< �T�C�Y(��, ����)
-    DirectX::XMFLOAT2 anchor{0.0f, 0.0f};   ///< �A���J�[(0-1, ����=0,0 �E��=1,1)
-    DirectX::XMFLOAT2 pivot{0.5f, 0.5f};    ///< �s�{�b�g(0-1, ���S=0.5,0.5)
+    DirectX::XMFLOAT2 position{0.0f, 0.0f}; ///< スクリーン座標(ピクセル)
+    DirectX::XMFLOAT2 size{100.0f, 50.0f};  ///< サイズ(幅, 高さ)
+    DirectX::XMFLOAT2 anchor{0.0f, 0.0f};   ///< アンカー(0-1, 左上=0,0 右下=1,1)
+    DirectX::XMFLOAT2 pivot{0.5f, 0.5f};    ///< ピボット(0-1, 中心=0.5,0.5)
 
     /**
-     * @brief �A���J�[���l�������X�N���[�����W���擾
-     * @param[in] screenWidth ��ʕ�
-     * @param[in] screenHeight ��ʍ���
-   * @return DirectX::XMFLOAT2 ���ۂ̃X�N���[�����W
+     * @brief アンカーを考慮したスクリーン座標を取得
+     * @param[in] screenWidth 画面幅
+     * @param[in] screenHeight 画面高さ
+   * @return DirectX::XMFLOAT2 実際のスクリーン座標
      */
     DirectX::XMFLOAT2 GetScreenPosition(float screenWidth, float screenHeight) const {
         float anchorX = screenWidth * anchor.x;
@@ -47,12 +47,12 @@ struct UITransform : IComponent {
     }
 
     /**
-     * @brief �_��UI�v�f�͈͓̔��ɂ��邩�𔻒�
-     * @param[in] x X���W
-     * @param[in] y Y���W
-     * @param[in] screenWidth ��ʕ�
-     * @param[in] screenHeight ��ʍ���
-     * @return bool �͈͓��̏ꍇ��true
+     * @brief 点がUI要素の範囲内にあるかを判定
+     * @param[in] x X座標
+     * @param[in] y Y座標
+     * @param[in] screenWidth 画面幅
+     * @param[in] screenHeight 画面高さ
+     * @return bool 範囲内の場合はtrue
      */
     bool Contains(float x, float y, float screenWidth, float screenHeight) const {
         DirectX::XMFLOAT2 screenPos = GetScreenPosition(screenWidth, screenHeight);
@@ -63,12 +63,12 @@ struct UITransform : IComponent {
 
 /**
  * @struct UIText
- * @brief �e�L�X�g���x���R���|�[�l���g
+ * @brief テキストラベルコンポーネント
  */
 struct UIText : IComponent {
-    std::wstring text = L"Label";                    ///< �\������e�L�X�g
-    DirectX::XMFLOAT4 color{1.0f, 1.0f, 1.0f, 1.0f}; ///< �e�L�X�g�̐F(RGBA)
-    std::string formatId = "default";                ///< TextSystem�̃t�H�[�}�b�gID
+    std::wstring text = L"Label";                    ///< 表示するテキスト
+    DirectX::XMFLOAT4 color{1.0f, 1.0f, 1.0f, 1.0f}; ///< テキストの色(RGBA)
+    std::string formatId = "default";                ///< TextSystemのフォーマットID
 
     explicit UIText(const std::wstring &txt = L"Label")
         : text(txt) {}
@@ -76,33 +76,33 @@ struct UIText : IComponent {
 
 /**
  * @struct UIButton
- * @brief �{�^���R���|�[�l���g
+ * @brief ボタンコンポーネント
  *
  * @details
- * �N���b�N�\�ȃ{�^��UI���������܂��B
- * ��Ԃɂ���ĐF���ω����܂��B
+ * クリック可能なボタンUIを実装します。
+ * 状態によって色が変化します。
  */
 struct UIButton : IComponent {
     enum class State {
-        Normal,  ///< �ʏ���
-        Hovered, ///< �}�E�X�I�[�o�[���
-        Pressed, ///< �������
-        Disabled ///< �������
+        Normal,  ///< 通常状態
+        Hovered, ///< マウスオーバー状態
+        Pressed, ///< 押下状態
+        Disabled ///< 無効状態
     };
 
-    State state = State::Normal; ///< ���݂̏��
-    bool enabled = true;         ///< �L��/����
+    State state = State::Normal; ///< 現在の状態
+    bool enabled = true;         ///< 有効/無効
 
-    DirectX::XMFLOAT4 normalColor{0.2f, 0.2f, 0.2f, 1.0f};     ///< �ʏ펞�̐F
-    DirectX::XMFLOAT4 hoverColor{0.3f, 0.3f, 0.3f, 1.0f};      ///< �z�o�[���̐F
-    DirectX::XMFLOAT4 pressedColor{0.15f, 0.15f, 0.15f, 1.0f}; ///< �������̐F
-    DirectX::XMFLOAT4 disabledColor{0.1f, 0.1f, 0.1f, 0.5f};   ///< �������̐F
+    DirectX::XMFLOAT4 normalColor{0.2f, 0.2f, 0.2f, 1.0f};     ///< 通常時の色
+    DirectX::XMFLOAT4 hoverColor{0.3f, 0.3f, 0.3f, 1.0f};      ///< ホバー時の色
+    DirectX::XMFLOAT4 pressedColor{0.15f, 0.15f, 0.15f, 1.0f}; ///< 押下時の色
+    DirectX::XMFLOAT4 disabledColor{0.1f, 0.1f, 0.1f, 0.5f};   ///< 無効時の色
 
-    std::function<void()> onClick; ///< �N���b�N���̃R�[���o�b�N
+    std::function<void()> onClick; ///< クリック時のコールバック
 
     /**
-     * @brief ���݂̏�Ԃɉ������F���擾
-     * @return DirectX::XMFLOAT4 ���݂̐F
+     * @brief 現在の状態に応じた色を取得
+     * @return DirectX::XMFLOAT4 現在の色
      */
     DirectX::XMFLOAT4 GetCurrentColor() const {
         if (!enabled)
@@ -120,11 +120,11 @@ struct UIButton : IComponent {
 
 /**
  * @struct UIPanel
- * @brief �P�F�p�l���R���|�[�l���g
+ * @brief 単色パネルコンポーネント
  */
 struct UIPanel : IComponent {
-    DirectX::XMFLOAT4 color{0.1f, 0.1f, 0.1f, 0.8f}; ///< �p�l���̐F(RGBA)
-    bool visible = true;                             ///< �\��/��\��
+    DirectX::XMFLOAT4 color{0.1f, 0.1f, 0.1f, 0.8f}; ///< パネルの色(RGBA)
+    bool visible = true;                             ///< 表示/非表示
 
     explicit UIPanel(const DirectX::XMFLOAT4 &col = {0.1f, 0.1f, 0.1f, 0.8f})
         : color(col) {}
@@ -132,12 +132,12 @@ struct UIPanel : IComponent {
 
 /**
  * @struct UICanvas
- * @brief UI�̃��[�g�L�����o�X
+ * @brief UIのルートキャンバス
  *
  * @details
- * ���ׂĂ�UI�v�f�͂��̃L�����o�X�̎q�v�f�Ƃ��Ĉ����܂��B
+ * すべてのUI要素はこのキャンバスの子要素として扱われます。
  */
 struct UICanvas : IComponent {
-    bool enabled = true; ///< �L�����o�X�S�̗̂L��/����
-    int sortOrder = 0;   ///< �`�揇��(�傫���قǎ�O)
+    bool enabled = true; ///< キャンバス全体の有効/無効
+    int sortOrder = 0;   ///< 描画順序(大きいほど手前)
 };
