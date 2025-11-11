@@ -1,13 +1,13 @@
-/**
+ï»¿/**
  * @file TextSystem.h
- * @brief DirectWrite‚ğg—p‚µ‚½•¶š•`‰æƒVƒXƒeƒ€
- * @author R“à—z
+ * @brief DirectWriteã‚’ä½¿ç”¨ã—ãŸæ–‡å­—æç”»ã‚·ã‚¹ãƒ†ãƒ 
+ * @author å±±å†…é™½
  * @date 2025
  * @version 1.0
  *
  * @details
- * Direct2D‚ÆDirectWrite‚ğg—p‚µ‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éƒVƒXƒeƒ€‚Å‚·B
- * 3DƒV[ƒ“‚ÆƒV[ƒ€ƒŒƒX‚ÉCasade‚·‚é‚½‚ßA“¯‚¶ƒXƒƒbƒvƒ`ƒFƒCƒ“‚ğg—p‚µ‚Ü‚·B
+ * Direct2Dã¨DirectWriteã‚’ä½¿ç”¨ã—ã¦ãƒ†ã‚­ã‚¹ãƒˆã‚’æç”»ã™ã‚‹ã‚·ã‚¹ãƒ†ãƒ ã§ã™ã€‚
+ * 3Dã‚·ãƒ¼ãƒ³ã¨ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹ã«Casadeã™ã‚‹ãŸã‚ã€åŒã˜ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
  */
 #pragma once
 #include "graphics/GfxDevice.h"
@@ -26,13 +26,13 @@
 
 /**
  * @class TextSystem
- * @brief ƒeƒLƒXƒg•`‰æƒVƒXƒeƒ€
+ * @brief ãƒ†ã‚­ã‚¹ãƒˆæç”»ã‚·ã‚¹ãƒ†ãƒ 
  *
  * @details
- * DirectWrite‚ÆDirect2D‚ğg—p‚µ‚Ä2DƒeƒLƒXƒg‚ğ•`‰æ‚µ‚Ü‚·B
- * 3DƒV[ƒ“‚ÆƒV[ƒ€ƒŒƒX‚ÉCasade‚·‚é‚½‚ßA“¯‚¶ƒXƒƒbƒvƒ`ƒFƒCƒ“‚ğg—p‚µ‚Ü‚·B
+ * DirectWriteã¨Direct2Dã‚’ä½¿ç”¨ã—ã¦2Dãƒ†ã‚­ã‚¹ãƒˆã‚’æç”»ã—ã¾ã™ã€‚
+ * 3Dã‚·ãƒ¼ãƒ³ã¨ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹ã«Casadeã™ã‚‹ãŸã‚ã€åŒã˜ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
  *
- * @par g—p—á
+ * @par ä½¿ç”¨ä¾‹
  * @code
  * TextSystem textSystem;
  * textSystem.Init(gfx);
@@ -58,29 +58,29 @@ class TextSystem {
   public:
     /**
   * @struct TextFormat
-     * @brief ƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgİ’è
+     * @brief ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆè¨­å®š
      */
     struct TextFormat {
-        std::wstring fontFamily = L"ƒƒCƒŠƒI";                                           ///< ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[
-        float fontSize = 24.0f;                                                          ///< ƒtƒHƒ“ƒgƒTƒCƒY
-        DWRITE_FONT_WEIGHT weight = DWRITE_FONT_WEIGHT_NORMAL;                           ///< ƒtƒHƒ“ƒg‚Ì‘¾‚³
-        DWRITE_FONT_STYLE style = DWRITE_FONT_STYLE_NORMAL;                              ///< ƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹
-        DWRITE_TEXT_ALIGNMENT alignment = DWRITE_TEXT_ALIGNMENT_LEADING;                 ///< …•½•ûŒü‚Ì”z’u
-        DWRITE_PARAGRAPH_ALIGNMENT paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_NEAR; ///< ‚’¼•ûŒü‚Ì”z’u
+        std::wstring fontFamily = L"ãƒ¡ã‚¤ãƒªã‚ª";                                           ///< ãƒ•ã‚©ãƒ³ãƒˆãƒ•ã‚¡ãƒŸãƒªãƒ¼
+        float fontSize = 24.0f;                                                          ///< ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚º
+        DWRITE_FONT_WEIGHT weight = DWRITE_FONT_WEIGHT_NORMAL;                           ///< ãƒ•ã‚©ãƒ³ãƒˆã®å¤ªã•
+        DWRITE_FONT_STYLE style = DWRITE_FONT_STYLE_NORMAL;                              ///< ãƒ•ã‚©ãƒ³ãƒˆã‚¹ã‚¿ã‚¤ãƒ«
+        DWRITE_TEXT_ALIGNMENT alignment = DWRITE_TEXT_ALIGNMENT_LEADING;                 ///< æ°´å¹³æ–¹å‘ã®é…ç½®
+        DWRITE_PARAGRAPH_ALIGNMENT paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_NEAR; ///< å‚ç›´æ–¹å‘ã®é…ç½®
     };
 
     /**
      * @struct TextParams
-* @brief ƒeƒLƒXƒg•`‰æƒpƒ‰ƒ[ƒ^
+* @brief ãƒ†ã‚­ã‚¹ãƒˆæç”»ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     struct TextParams {
-        std::wstring text;                               ///< •`‰æ‚·‚éƒeƒLƒXƒg
-        float x = 0.0f;                                  ///< XÀ•W
-        float y = 0.0f;                                  ///< YÀ•W
-        float width = 100.0f;                            ///< •`‰æ—Ìˆæ‚Ì•
-        float height = 50.0f;                            ///< •`‰æ—Ìˆæ‚Ì‚‚³
-        DirectX::XMFLOAT4 color{1.0f, 1.0f, 1.0f, 1.0f}; ///< ƒeƒLƒXƒg‚ÌF(RGBA)
-        std::string formatId = "default";                ///< g—p‚·‚éƒtƒH[ƒ}ƒbƒgID
+        std::wstring text;                               ///< æç”»ã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆ
+        float x = 0.0f;                                  ///< Xåº§æ¨™
+        float y = 0.0f;                                  ///< Yåº§æ¨™
+        float width = 100.0f;                            ///< æç”»é ˜åŸŸã®å¹…
+        float height = 50.0f;                            ///< æç”»é ˜åŸŸã®é«˜ã•
+        DirectX::XMFLOAT4 color{1.0f, 1.0f, 1.0f, 1.0f}; ///< ãƒ†ã‚­ã‚¹ãƒˆã®è‰²(RGBA)
+        std::string formatId = "default";                ///< ä½¿ç”¨ã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆID
     };
 
     TextSystem() = default;
@@ -92,53 +92,53 @@ class TextSystem {
     TextSystem &operator=(const TextSystem &) = delete;
 
     /**
-     * @brief ‰Šú‰»
-     * @param[in] gfx ƒOƒ‰ƒtƒBƒbƒNƒXƒfƒoƒCƒX
-     * @return bool ‰Šú‰»‚ª¬Œ÷‚µ‚½ê‡‚Ítrue
+     * @brief åˆæœŸåŒ–
+     * @param[in] gfx ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‡ãƒã‚¤ã‚¹
+     * @return bool åˆæœŸåŒ–ãŒæˆåŠŸã—ãŸå ´åˆã¯true
      */
     bool Init(GfxDevice &gfx);
 
     /**
-     * @brief ƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒg‚ğì¬
-     * @param[in] id ƒtƒH[ƒ}ƒbƒgID
-   * @param[in] format ƒtƒH[ƒ}ƒbƒgİ’è
-     * @return bool ì¬‚ª¬Œ÷‚µ‚½ê‡‚Ítrue
+     * @brief ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’ä½œæˆ
+     * @param[in] id ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆID
+   * @param[in] format ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆè¨­å®š
+     * @return bool ä½œæˆãŒæˆåŠŸã—ãŸå ´åˆã¯true
      */
     bool CreateTextFormat(const std::string &id, const TextFormat &format);
 
     /**
-     * @brief ƒeƒLƒXƒg‚ğ•`‰æ
-     * @param[in] params •`‰æƒpƒ‰ƒ[ƒ^
+     * @brief ãƒ†ã‚­ã‚¹ãƒˆã‚’æç”»
+     * @param[in] params æç”»ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      *
      * @details
-     * BeginDraw()‚ÆEndDraw()‚ÌŠÔ‚ÅŒÄ‚Ño‚·•K—v‚ª‚ ‚è‚Ü‚·B
+     * BeginDraw()ã¨EndDraw()ã®é–“ã§å‘¼ã³å‡ºã™å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
      */
     void DrawText(const TextParams &params);
 
     /**
-  * @brief •`‰æŠJn
+  * @brief æç”»é–‹å§‹
      *
      * @details
-     * ‚·‚×‚Ä‚ÌƒeƒLƒXƒg•`‰æ‚Ì‘O‚ÉŒÄ‚Ño‚µ‚Ü‚·B
+     * ã™ã¹ã¦ã®ãƒ†ã‚­ã‚¹ãƒˆæç”»ã®å‰ã«å‘¼ã³å‡ºã—ã¾ã™ã€‚
      */
     void BeginDraw();
 
     /**
-     * @brief •`‰æI—¹
+     * @brief æç”»çµ‚äº†
      *
      * @details
-     * ‚·‚×‚Ä‚ÌƒeƒLƒXƒg•`‰æ‚ÌŒã‚ÉŒÄ‚Ño‚µ‚Ü‚·B
+     * ã™ã¹ã¦ã®ãƒ†ã‚­ã‚¹ãƒˆæç”»ã®å¾Œã«å‘¼ã³å‡ºã—ã¾ã™ã€‚
      */
     void EndDraw();
 
     /**
-     * @brief ƒVƒƒƒbƒgƒ_ƒEƒ“
+     * @brief ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³
      */
     void Shutdown();
 
     /**
-     * @brief ‰Šú‰»ó‘Ô‚ğŠm”F
-     * @return bool ‰Šú‰»Ï‚İ‚Ìê‡‚Ítrue
+     * @brief åˆæœŸåŒ–çŠ¶æ…‹ã‚’ç¢ºèª
+     * @return bool åˆæœŸåŒ–æ¸ˆã¿ã®å ´åˆã¯true
      */
     bool IsInitialized() const {
         return initialized_;
@@ -159,6 +159,6 @@ class TextSystem {
     ID2D1SolidColorBrush *GetOrCreateBrush(const DirectX::XMFLOAT4 &color);
     uint32_t ColorToHash(const DirectX::XMFLOAT4 &color) const;
 
-    // Œ»İ‚ÌƒoƒbƒNƒoƒbƒtƒ@‚É‡‚í‚¹‚Äƒ^[ƒQƒbƒgƒrƒbƒgƒ}ƒbƒv‚ğÄì¬
+    // ç¾åœ¨ã®ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã«åˆã‚ã›ã¦ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ã‚’å†ä½œæˆ
     void RefreshTargetBitmap();
 };
