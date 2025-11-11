@@ -173,7 +173,6 @@
     <ClInclude Include="include\graphics\RenderSystem.h" />
     <ClInclude Include="include\graphics\TextSystem.h" />
     <ClInclude Include="include\input\GamepadSystem.h" />
-    <ClInclude Include="include\input\MouseCoordinate.h" />
     <ClInclude Include="include\pch.h" />
     <ClInclude Include="include\samples\CollisionEventSamples.h" />
     <ClInclude Include="include\samples\CollisionSamples.h" />
