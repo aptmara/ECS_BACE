@@ -294,6 +294,17 @@ public:
      * @return int Y座標(スクリーン座標系)
      */
     int GetMouseY() const { return mouseY_; }
+
+    /**
+     * @brief マウス位置を取得
+     * @return POINT マウス座標(クライアント座標系)
+     */
+    POINT GetMousePosition() const {
+        POINT pt;
+        pt.x = mouseX_;
+        pt.y = mouseY_;
+        return pt;
+    }
     
     /**
      * @brief マウスの移動量(X方向)を取得

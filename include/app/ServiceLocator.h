@@ -52,6 +52,20 @@ public:
     }
 
     /**
+     * @brief 登録されたサービスを安全に取得します。
+     * @tparam T 取得するサービスの型
+     * @return T* サービスへのポインタ（登録されていない場合はnullptr）
+     */
+    template<typename T>
+    static T* TryGet() {
+        auto it = services_.find(typeid(T));
+        if (it == services_.end() || it->second == nullptr) {
+            return nullptr;
+        }
+        return static_cast<T*>(it->second);
+    }
+
+    /**
      * @brief すべてのサービスをクリアします。
      * アプリケーション終了時に呼び出します。
      */

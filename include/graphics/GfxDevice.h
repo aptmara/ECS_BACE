@@ -79,7 +79,7 @@ public:
         sd.BufferCount = 2;
         sd.BufferDesc.Width = w;
         sd.BufferDesc.Height = h;
-        sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; // Direct2D互換のためBGRAに変更
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         sd.OutputWindow = hwnd;
         sd.SampleDesc.Count = 1;
@@ -90,6 +90,7 @@ public:
 #if defined(_DEBUG)
         flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
+        flags |= D3D11_CREATE_DEVICE_BGRA_SUPPORT; // Direct2D1.1との互換用
         D3D_FEATURE_LEVEL fl;
         HRESULT hr = D3D11CreateDeviceAndSwapChain(
             nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags,
@@ -189,6 +190,15 @@ public:
      */
     uint32_t Height() const { return height_; }
     
+    /**
+     * @brief スワップチェインへのアクセス
+     * @return IDXGISwapChain* スワップチェインのポインタ
+     * 
+     * @details
+     * TextSystemなど、スワップチェインへの直接アクセスが必要な場合に使用します。
+     */
+    IDXGISwapChain* GetSwapChain() const { return swap_.Get(); }
+ 
     /**
      * @brief リソースの明示的解放
      * 
@@ -333,18 +343,12 @@ private:
             return false;
         }
         
-        // RTV作成時にsRGBフォーマットを指定
-        D3D11_RENDER_TARGET_VIEW_DESC rtvDesc{};
-        rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;  // sRBG対応
-        rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-        
-        hr = device_->CreateRenderTargetView(back.Get(), &rtvDesc, rtv_.ReleaseAndGetAddressOf());
+        hr = device_->CreateRenderTargetView(back.Get(), nullptr, rtv_.ReleaseAndGetAddressOf());
         if (FAILED(hr)) {
             MessageBoxA(nullptr, "Failed to create render target view", "DirectX Error", MB_OK | MB_ICONERROR);
             return false;
         }
 
-        // 深度ステンシルバッファ
         D3D11_TEXTURE2D_DESC td{};
         td.Width = width_;
         td.Height = height_;
@@ -417,7 +421,7 @@ private:
             default: break;
         }
         DEBUGLOG(std::string("スワップ効果: ") + swapEffectText);
-        DEBUGLOG(std::string("バックバッファフォーマット: RGBA8_UNORM_sRGB (sRGB対応 - ガンマ補正有効)"));
+        DEBUGLOG(std::string("バックバッファフォーマット: BGRA8_UNORM (Direct2D互換)"));
         DEBUGLOG(std::string("垂直同期: ON (Present(1)) - ディスプレイのリフレッシュレートに同期"));
     }
 
