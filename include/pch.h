@@ -43,6 +43,7 @@
 #include "components/MeshRenderer.h"
 #include "components/Model.h"
 #include "scenes/Tags.h"
+#include "components/Collision.h"
 
 // ========================================================
 // システム

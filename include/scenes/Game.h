@@ -1,8 +1,9 @@
 /**
  * @file Game.h
- * @brief ゲームのメインシーン
+ * @brief UIを統合したゲームシーン
  * @author 山内陽
  * @date 2025
+ * @version 1.0
  */
 #pragma once
 
@@ -10,39 +11,120 @@
 #include "components/GameTags.h"
 #include "components/PlayerComponents.h"
 #include "components/MeshRenderer.h"
+#include "components/Collision.h"
+#include "components/UIComponents.h"
 #include "input/InputSystem.h"
 #include "input/GamepadSystem.h"
-#include "components/Model.h"
-#include "components/ModelComponent.h"
 #include "components/Rotator.h"
 #include "components/Light.h"
-#include "systems/ModelLoadingSystem.h"
+#include "systems/UISystem.h"
+#include "graphics/TextSystem.h"
+#include "graphics/GfxDevice.h"
 #include "app/ServiceLocator.h"
-#include "app/ResourceManager.h"
+#include "SenesUIController.h"
+#include "components/GameStats.h"
+#include <sstream>
+#include <iomanip>
 
-// ========================================================
-// ゲームシーン
-// ========================================================
+/**
+ * @struct PlayerCollisionHandler
+ * @brief プレイヤーの衝突イベントを処理
+ */
+struct PlayerCollisionHandler : ICollisionHandler {
+    void OnCollisionEnter(World &w, Entity self, Entity other, const CollisionInfo &info) override {
+        if (w.Has<EnemyTag>(other)) {
+            DEBUGLOG("Player collision with enemy - penetration depth: " + std::to_string(info.penetrationDepth));
 
+            w.ForEach<GameStats>([](Entity e, GameStats &stats) {
+                stats.score += 10;
+            });
+        }
+    }
+
+    void OnCollisionStay(World &w, Entity self, Entity other, const CollisionInfo &info) override {
+    }
+
+    void OnCollisionExit(World &w, Entity self, Entity other) override {
+    }
+};
+
+/**
+ * @struct EnemyCollisionHandler
+ * @brief 敵の衝突イベントを処理
+ */
+struct EnemyCollisionHandler : ICollisionHandler {
+    void OnCollisionEnter(World &w, Entity self, Entity other, const CollisionInfo &info) override {
+        if (w.Has<PlayerTag>(other)) {
+            DEBUGLOG("Enemy collision with player");
+        }
+    }
+};
+
+/**
+ * @class GameScene
+ * @brief 3DゲームとUIを統合したシーン
+ */
 class GameScene : public IScene {
   public:
     void OnEnter(World &world) override {
-        DEBUGLOG("GameScene::OnEnter() - ゲーム開始");
+        DEBUGLOG("GameWithUIScene::OnEnter()");
 
-        // システムエンティティを作成
-        world.Create().With<ModelLoadingSystem>();
+        auto *gfx = ServiceLocator::TryGet<GfxDevice>();
+        if (!gfx) {
+            DEBUGLOG_ERROR("GfxDevice not found");
+            return;
+        }
 
-        // ライト作成
+        if (!textSystem_.Init(*gfx)) {
+            DEBUGLOG_ERROR("TextSystem initialization failed");
+            return;
+        }
+
+        CreateTextFormats();
+
+        float screenWidth = static_cast<float>(gfx->Width());
+        float screenHeight = static_cast<float>(gfx->Height());
+
+        Entity gameStats = world.Create()
+                               .With<GameStats>()
+                               .Build();
+        ownedEntities_.push_back(gameStats);
+
+        Entity collisionSystem = world.Create()
+                                     .With<CollisionDetectionSystem>()
+                                     .Build();
+        ownedEntities_.push_back(collisionSystem);
+
+#ifdef _DEBUG
+        Entity debugRenderer = world.Create()
+                                   .With<CollisionDebugRenderer>()
+                                   .Build();
+        ownedEntities_.push_back(debugRenderer);
+#endif
+
         world.Create().With<DirectionalLight>();
 
-        // プレイヤー作成
+        CreateFloor(world);
         CreatePlayer(world);
+        CreateTestEnemy(world);
 
-        DEBUGLOG("GameScene::OnEnter() - 初期化完了");
+        CreateUI(world, screenWidth, screenHeight);
+
+        DEBUGLOG("GameWithUIScene initialized successfully");
     }
 
     void OnUpdate(World &world, InputSystem &input, float deltaTime) override {
-        // PlayerMovementコンポーネントにInputSystemとGamepadSystemの参照を設定
+        world.ForEach<GameStats>([&](Entity e, GameStats &stats) {
+            if (input.GetKeyDown(VK_ESCAPE) || input.GetKeyDown('P')) {
+                stats.isPaused = !stats.isPaused;
+                DEBUGLOG(stats.isPaused ? "Game paused" : "Game resumed");
+            }
+
+            if (stats.isPaused) {
+                deltaTime = 0.0f;
+            }
+        });
+
         world.ForEach<PlayerMovement>([&](Entity e, PlayerMovement &pm) {
             if (!pm.input_) {
                 pm.input_ = &input;
@@ -52,17 +134,18 @@ class GameScene : public IScene {
             }
         });
 
+        world.ForEach<UIInteractionSystem>([&](Entity e, UIInteractionSystem &sys) {
+            if (!sys.input_) {
+                sys.input_ = &input;
+            }
+        });
+
         world.Tick(deltaTime);
     }
 
-    /**
-     * @brief シーン終了時のクリーンアップ
-     * @param[in,out] world ワールド参照
-     */
     void OnExit(World &world) override {
-        DEBUGLOG("GameScene::OnExit() - ゲーム終了");
+        DEBUGLOG("GameWithUIScene::OnExit()");
 
-        // シーンが管理するエンティティを削除
         for (const auto &entity : ownedEntities_) {
             if (world.IsAlive(entity)) {
                 world.DestroyEntityWithCause(entity, World::Cause::SceneUnload);
@@ -70,49 +153,204 @@ class GameScene : public IScene {
         }
         ownedEntities_.clear();
 
-        DEBUGLOG("GameScene::OnExit() - クリーンアップ完了");
+        textSystem_.Shutdown();
+        DEBUGLOG("GameWithUIScene cleanup completed");
     }
 
   private:
-    /**
-     * @brief プレイヤーを作成
-     * @param[in,out] world ワールド参照
-     */
+    void CreateTextFormats() {
+        TextSystem::TextFormat hudFormat;
+        hudFormat.fontSize = 24.0f;
+        hudFormat.fontFamily = L"メイリオ";
+        hudFormat.alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
+        textSystem_.CreateTextFormat("hud", hudFormat);
+
+        TextSystem::TextFormat pauseFormat;
+        pauseFormat.fontSize = 72.0f;
+        pauseFormat.fontFamily = L"メイリオ";
+        pauseFormat.alignment = DWRITE_TEXT_ALIGNMENT_CENTER;
+        pauseFormat.paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER;
+        textSystem_.CreateTextFormat("pause", pauseFormat);
+
+        TextSystem::TextFormat buttonFormat;
+        buttonFormat.fontSize = 20.0f;
+        buttonFormat.alignment = DWRITE_TEXT_ALIGNMENT_CENTER;
+        buttonFormat.paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER;
+        textSystem_.CreateTextFormat("button", buttonFormat);
+
+        TextSystem::TextFormat panelFormat;
+        panelFormat.fontSize = 200.0f;
+        textSystem_.CreateTextFormat("panel", panelFormat);
+    }
+
+    void CreateUI(World &world, float screenWidth, float screenHeight) {
+        Entity canvas = world.Create()
+                            .With<UICanvas>()
+                            .Build();
+        ownedEntities_.push_back(canvas);
+
+        Entity uiRenderSystem = world.Create()
+                                    .With<UIRenderSystem>()
+                                    .Build();
+        auto *renderSys = world.TryGet<UIRenderSystem>(uiRenderSystem);
+        if (renderSys) {
+            renderSys->SetTextSystem(&textSystem_);
+            renderSys->SetScreenSize(screenWidth, screenHeight);
+        }
+        ownedEntities_.push_back(uiRenderSystem);
+
+        Entity uiInteractionSystem = world.Create()
+                                         .With<UIInteractionSystem>()
+                                         .Build();
+        auto *interactionSys = world.TryGet<UIInteractionSystem>(uiInteractionSystem);
+        if (interactionSys) {
+            interactionSys->SetScreenSize(screenWidth, screenHeight);
+        }
+        ownedEntities_.push_back(uiInteractionSystem);
+
+        UITransform scoreTransform;
+        scoreTransform.position = {20.0f, 20.0f};
+        scoreTransform.size = {300.0f, 40.0f};
+        scoreTransform.anchor = {0.0f, 0.0f};
+        scoreTransform.pivot = {0.0f, 0.0f};
+
+        UIText scoreText{L"Score: 0"};
+        scoreText.color = {1.0f, 1.0f, 0.0f, 1.0f};
+        scoreText.formatId = "hud";
+
+        Entity scoreEntity = world.Create()
+                                 .With<UITransform>(scoreTransform)
+                                 .With<UIText>(scoreText)
+                                 .Build();
+        ownedEntities_.push_back(scoreEntity);
+
+        UITransform timeTransform;
+        timeTransform.position = {20.0f, 70.0f};
+        timeTransform.size = {300.0f, 40.0f};
+        timeTransform.anchor = {0.0f, 0.0f};
+        timeTransform.pivot = {0.0f, 0.0f};
+
+        UIText timeText{L"Time: 00:00"};
+        timeText.color = {1.0f, 1.0f, 1.0f, 1.0f};
+        timeText.formatId = "hud";
+
+        Entity timeEntity = world.Create()
+                                .With<UITransform>(timeTransform)
+                                .With<UIText>(timeText)
+                                .Build();
+        ownedEntities_.push_back(timeEntity);
+
+        UITransform fpsTransform;
+        fpsTransform.position = {-20.0f, 20.0f};
+        fpsTransform.size = {200.0f, 40.0f};
+        fpsTransform.anchor = {1.0f, 0.0f};
+        fpsTransform.pivot = {1.0f, 0.0f};
+
+        UIText fpsText{L"FPS: 0.0"};
+        fpsText.color = {0.0f, 1.0f, 0.0f, 1.0f};
+        fpsText.formatId = "hud";
+
+        Entity fpsEntity = world.Create()
+                               .With<UITransform>(fpsTransform)
+                               .With<UIText>(fpsText)
+                               .Build();
+        ownedEntities_.push_back(fpsEntity);
+
+        UITransform pauseTransform;
+        pauseTransform.position = {0.0f, 0.0f};
+        pauseTransform.size = {0.0f, 0.0f};
+        pauseTransform.anchor = {0.5f, 0.5f};
+        pauseTransform.pivot = {0.5f, 0.5f};
+
+        UIText pauseText{L""};
+        pauseText.color = {1.0f, 0.0f, 0.0f, 1.0f};
+        pauseText.formatId = "pause";
+
+        Entity pauseEntity = world.Create()
+                                 .With<UITransform>(pauseTransform)
+                                 .With<UIText>(pauseText)
+                                 .Build();
+        ownedEntities_.push_back(pauseEntity);
+
+        Entity uiUpdater = world.Create()
+                               .With<GameUIUpdater>()
+                               .Build();
+        auto *updater = world.TryGet<GameUIUpdater>(uiUpdater);
+        if (updater) {
+            updater->scoreTextEntity_ = scoreEntity;
+            updater->timeTextEntity_ = timeEntity;
+            updater->fpsTextEntity_ = fpsEntity;
+            updater->pauseTextEntity_ = pauseEntity;
+        }
+        ownedEntities_.push_back(uiUpdater);
+    }
+
+    void CreateFloor(World &world) {
+        Transform transform{
+            {0.0f, -2.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f},
+            {20.0f, 0.2f, 20.0f},
+        };
+
+        MeshRenderer renderer;
+        renderer.meshType = MeshType::Plane;
+        renderer.color = DirectX::XMFLOAT3{0.5f, 0.5f, 0.5f};
+
+        Entity floor = world.Create()
+                           .With<Transform>(transform)
+                           .With<MeshRenderer>(renderer)
+                           .With<CollisionBox>(DirectX::XMFLOAT3{20.0f, 0.2f, 20.0f})
+                           .Build();
+
+        ownedEntities_.push_back(floor);
+    }
+
     void CreatePlayer(World &world) {
-        // エンティティ作成
-        // カメラは{0, 20, -20}から{0, 0, 0}を見ているため、
-        // プレイヤーをZ=5付近に配置してカメラの視野内に表示
         Transform transform{
             {0.0f, 0.0f, 5.0f},
             {0.0f, 0.0f, 0.0f},
             {1.0f, 1.0f, 1.0f},
         };
 
-        // MeshRendererを使ってキューブとして描画
         MeshRenderer renderer;
         renderer.meshType = MeshType::Cube;
-        renderer.color = DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f}; // 緑色
+        renderer.color = DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f};
 
-        // プレイヤーエンティティを作成
         Entity player = world.Create()
                             .With<Transform>(transform)
                             .With<MeshRenderer>(renderer)
                             .With<PlayerTag>()
-                            .With<PlayerMovement>() // プレイヤー移動コンポーネントを追加
-                            .With<Rotator>(45.0f)   // 回転速度を45度/秒に修正
+                            .With<PlayerMovement>()
+                            .With<Rotator>(45.0f)
+                            .With<CollisionBox>(DirectX::XMFLOAT3{1.0f, 2.0f, 1.0f})
+                            .With<PlayerCollisionHandler>()
                             .Build();
 
-        DEBUGLOG("CreatePlayer: Player entity created - ID: " + std::to_string(player.id) + ", Gen: " + std::to_string(player.gen));
-        DEBUGLOG("CreatePlayer: Position: (" + std::to_string(transform.position.x) + ", " +
-                 std::to_string(transform.position.y) + ", " +
-                 std::to_string(transform.position.z) + ")");
-        DEBUGLOG("CreatePlayer: Has Transform: " + std::string(world.Has<Transform>(player) ? "YES" : "NO"));
-        DEBUGLOG("CreatePlayer: Has PlayerTag: " + std::string(world.Has<PlayerTag>(player) ? "YES" : "NO"));
-        DEBUGLOG("CreatePlayer: Has MeshRenderer: " + std::string(world.Has<MeshRenderer>(player) ? "YES" : "NO"));
-
         ownedEntities_.push_back(player);
-        playerEntity_ = player;
     }
-    Entity playerEntity_;               ///< プレイヤーエンティティ
-    std::vector<Entity> ownedEntities_; ///< シーンが管理するエンティティ
+
+    void CreateTestEnemy(World &world) {
+        Transform transform{
+            {1.5f, 0.0f, 5.0f},
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 1.0f, 1.0f},
+        };
+
+        MeshRenderer renderer;
+        renderer.meshType = MeshType::Sphere;
+        renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f};
+
+        Entity enemy = world.Create()
+                           .With<Transform>(transform)
+                           .With<MeshRenderer>(renderer)
+                           .With<EnemyTag>()
+                           .With<CollisionSphere>(0.5f)
+                           .With<EnemyCollisionHandler>()
+                           .Build();
+
+        ownedEntities_.push_back(enemy);
+    }
+
+    TextSystem textSystem_;
+    std::vector<Entity> ownedEntities_;
 };
