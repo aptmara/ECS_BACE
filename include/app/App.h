@@ -22,6 +22,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <thread>
 
 // DirectX11 & ECS システム
 #include "graphics/GfxDevice.h"
@@ -184,6 +185,8 @@ struct App {
         auto previousTime = std::chrono::high_resolution_clock::now();
         int frameCount = 0;
 
+        const float targetFrameTime = 1.0f / 120.0f; // 60Hz (16.67ms)
+
         while (msg.message != WM_QUIT) {
             // フレーム番号をログシステムに設定
             DebugLog::GetInstance().SetFrame(frameCount);
@@ -296,6 +299,13 @@ struct App {
 #else
             UpdateWindowTitle();
 #endif
+
+            // フレーム時間を調整して60Hzに制限
+            auto frameEndTime = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<float> elapsedTime = frameEndTime - frameStartTime;
+            if (elapsedTime.count() < targetFrameTime) {
+                std::this_thread::sleep_for(std::chrono::duration<float>(targetFrameTime - elapsedTime.count()));
+            }
 
             frameCount++;
         }
