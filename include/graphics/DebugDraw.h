@@ -72,12 +72,12 @@
  * @author 山内陽
  */
 class DebugDraw {
-public:
+  public:
     /**
      * @struct Line
      * @brief 線分の定義(開始点、終了点、色)
      */
-struct Line {
+    struct Line {
         DirectX::XMFLOAT3 start; ///< 線の開始点
         DirectX::XMFLOAT3 end;   ///< 線の終了点
         DirectX::XMFLOAT3 color; ///< 線の色(RGB: 0.0～1.0)
@@ -88,16 +88,16 @@ struct Line {
      * @brief 描画統計情報
      */
     struct Statistics {
-      size_t linesDrawn = 0;        ///< 描画された線の数
-  size_t linesDropped = 0;      ///< 容量不足で破棄された線の数
-        size_t totalLinesAdded = 0;   ///< 追加された線の総数
-size_t peakLineCount = 0;     ///< ピーク時の線の数
+        size_t linesDrawn = 0;      ///< 描画された線の数
+        size_t linesDropped = 0;    ///< 容量不足で破棄された線の数
+        size_t totalLinesAdded = 0; ///< 追加された線の総数
+        size_t peakLineCount = 0;   ///< ピーク時の線の数
 
         void Reset() {
-    linesDrawn = 0;
+            linesDrawn = 0;
             linesDropped = 0;
             totalLinesAdded = 0;
-       peakLineCount = 0;
+            peakLineCount = 0;
         }
     };
 
@@ -109,46 +109,36 @@ size_t peakLineCount = 0;     ///< ピーク時の線の数
     /**
      * @brief コピー禁止
      */
-    DebugDraw(const DebugDraw&) = delete;
-    DebugDraw& operator=(const DebugDraw&) = delete;
+    DebugDraw(const DebugDraw &) = delete;
+    DebugDraw &operator=(const DebugDraw &) = delete;
 
     /**
      * @brief ムーブ許可
 */
-DebugDraw(DebugDraw&& other) noexcept
-        : vs_(std::move(other.vs_))
-, ps_(std::move(other.ps_))
-    , layout_(std::move(other.layout_))
-        , cb_(std::move(other.cb_))
-        , vb_(std::move(other.vb_))
-    , lines_(std::move(other.lines_))
- , maxLines_(other.maxLines_)
-        , isShutdown_(other.isShutdown_)
-  , initialized_(other.initialized_)
-        , stats_(other.stats_)
-    {
+    DebugDraw(DebugDraw &&other) noexcept
+        : vs_(std::move(other.vs_)), ps_(std::move(other.ps_)), layout_(std::move(other.layout_)), cb_(std::move(other.cb_)), vb_(std::move(other.vb_)), lines_(std::move(other.lines_)), maxLines_(other.maxLines_), isShutdown_(other.isShutdown_), initialized_(other.initialized_), stats_(other.stats_) {
         other.initialized_ = false;
         other.isShutdown_ = true;
     }
 
-    DebugDraw& operator=(DebugDraw&& other) noexcept {
-   if (this != &other) {
-      Shutdown();
-    
+    DebugDraw &operator=(DebugDraw &&other) noexcept {
+        if (this != &other) {
+            Shutdown();
+
             vs_ = std::move(other.vs_);
             ps_ = std::move(other.ps_);
-    layout_ = std::move(other.layout_);
-          cb_ = std::move(other.cb_);
+            layout_ = std::move(other.layout_);
+            cb_ = std::move(other.cb_);
             vb_ = std::move(other.vb_);
-       lines_ = std::move(other.lines_);
-          maxLines_ = other.maxLines_;
-     isShutdown_ = other.isShutdown_;
+            lines_ = std::move(other.lines_);
+            maxLines_ = other.maxLines_;
+            isShutdown_ = other.isShutdown_;
             initialized_ = other.initialized_;
-  stats_ = other.stats_;
-            
-   other.initialized_ = false;
-     other.isShutdown_ = true;
-    }
+            stats_ = other.stats_;
+
+            other.initialized_ = false;
+            other.isShutdown_ = true;
+        }
         return *this;
     }
 
@@ -162,25 +152,25 @@ DebugDraw(DebugDraw&& other) noexcept
      * シェーダーのコンパイル、パイプラインステートの作成、
      * 動的頂点バッファの作成を行います。
      */
-    bool Init(GfxDevice& gfx, size_t maxLines = 10000) {
+    bool Init(GfxDevice &gfx, size_t maxLines = 10000) {
         DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Init() 開始 (最大線数: " + std::to_string(maxLines) + ")");
-        
+
         // 既に初期化済みの再初期化に対応
         if (initialized_) {
-       DEBUGLOG_WARNING("DebugDraw::Init() - 既に初期化されています。再初期化します。");
+            DEBUGLOG_WARNING("DebugDraw::Init() - 既に初期化されています。再初期化します。");
             Shutdown();
         }
 
         maxLines_ = maxLines;
         lines_.reserve(maxLines_);
 
-  // シェーダーのコンパイル
+        // シェーダーのコンパイル
         if (!CompileShaders(gfx)) {
-      DEBUGLOG_ERROR("[DebugDraw] シェーダーのコンパイルに失敗しました");
+            DEBUGLOG_ERROR("[DebugDraw] シェーダーのコンパイルに失敗しました");
             return false;
-}
+        }
 
-      // パイプラインステートの作成
+        // パイプラインステートの作成
         if (!CreatePipelineState(gfx)) {
             DEBUGLOG_ERROR("[DebugDraw] パイプラインステートの作成に失敗しました");
             return false;
@@ -188,21 +178,21 @@ DebugDraw(DebugDraw&& other) noexcept
 
         // 定数バッファの作成
         if (!CreateConstantBuffer(gfx)) {
-    DEBUGLOG_ERROR("[DebugDraw] 定数バッファの作成に失敗しました");
-          return false;
+            DEBUGLOG_ERROR("[DebugDraw] 定数バッファの作成に失敗しました");
+            return false;
         }
 
         // 動的頂点バッファの作成
         if (!CreateVertexBuffer(gfx)) {
             DEBUGLOG_ERROR("[DebugDraw] 頂点バッファの作成に失敗しました");
-         return false;
-      }
+            return false;
+        }
 
         initialized_ = true;
         isShutdown_ = false;
         stats_.Reset();
-        
-   DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Init() 正常に完了");
+
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Init() 正常に完了");
         return true;
     }
 
@@ -234,27 +224,27 @@ DebugDraw(DebugDraw&& other) noexcept
      * );
      * @endcode
      */
-    void AddLine(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, const DirectX::XMFLOAT3& color) {
-      if (!initialized_) {
+    void AddLine(const DirectX::XMFLOAT3 &start, const DirectX::XMFLOAT3 &end, const DirectX::XMFLOAT3 &color) {
+        if (!initialized_) {
             DEBUGLOG_WARNING("[DebugDraw] 初期化されていません。AddLine()を無視します。");
-       return;
+            return;
         }
 
- if (lines_.size() >= maxLines_) {
+        if (lines_.size() >= maxLines_) {
             stats_.linesDropped++;
-     
-// 最初の警告のみログ出力
-    static bool warningShown = false;
-   if (!warningShown) {
-             DEBUGLOG_WARNING("[DebugDraw] 線の上限に到達 (" + std::to_string(maxLines_) + ")。これ以降の線は破棄されます。");
-          warningShown = true;
+
+            // 最初の警告のみログ出力
+            static bool warningShown = false;
+            if (!warningShown) {
+                DEBUGLOG_WARNING("[DebugDraw] 線の上限に到達 (" + std::to_string(maxLines_) + ")。これ以降の線は破棄されます。");
+                warningShown = true;
             }
-   return;
+            return;
         }
-        
-     lines_.push_back({ start, end, color });
-      stats_.totalLinesAdded++;
-     stats_.peakLineCount = (std::max)(stats_.peakLineCount, lines_.size());
+
+        lines_.push_back({start, end, color});
+        stats_.totalLinesAdded++;
+        stats_.peakLineCount = (std::max)(stats_.peakLineCount, lines_.size());
     }
 
     /**
@@ -267,29 +257,29 @@ DebugDraw(DebugDraw&& other) noexcept
      * ワイヤーフレームのボックスを描画します。
      * 当たり判定の可視化に便利です。
      */
-    void DrawBox(const DirectX::XMFLOAT3& center, const DirectX::XMFLOAT3& halfExtents, const DirectX::XMFLOAT3& color) {
+    void DrawBox(const DirectX::XMFLOAT3 &center, const DirectX::XMFLOAT3 &halfExtents, const DirectX::XMFLOAT3 &color) {
         float minX = center.x - halfExtents.x;
-    float maxX = center.x + halfExtents.x;
+        float maxX = center.x + halfExtents.x;
         float minY = center.y - halfExtents.y;
         float maxY = center.y + halfExtents.y;
         float minZ = center.z - halfExtents.z;
         float maxZ = center.z + halfExtents.z;
 
-  // Front face
+        // Front face
         AddLine({minX, minY, minZ}, {maxX, minY, minZ}, color);
         AddLine({maxX, minY, minZ}, {maxX, maxY, minZ}, color);
         AddLine({maxX, maxY, minZ}, {minX, maxY, minZ}, color);
-      AddLine({minX, maxY, minZ}, {minX, minY, minZ}, color);
+        AddLine({minX, maxY, minZ}, {minX, minY, minZ}, color);
 
         // Back face
         AddLine({minX, minY, maxZ}, {maxX, minY, maxZ}, color);
         AddLine({maxX, minY, maxZ}, {maxX, maxY, maxZ}, color);
-  AddLine({maxX, maxY, maxZ}, {minX, maxY, maxZ}, color);
+        AddLine({maxX, maxY, maxZ}, {minX, maxY, maxZ}, color);
         AddLine({minX, maxY, maxZ}, {minX, minY, maxZ}, color);
 
         // Connections
- AddLine({minX, minY, minZ}, {minX, minY, maxZ}, color);
-     AddLine({maxX, minY, minZ}, {maxX, minY, maxZ}, color);
+        AddLine({minX, minY, minZ}, {minX, minY, maxZ}, color);
+        AddLine({maxX, minY, minZ}, {maxX, minY, maxZ}, color);
         AddLine({maxX, maxY, minZ}, {maxX, maxY, maxZ}, color);
         AddLine({minX, maxY, minZ}, {minX, maxY, maxZ}, color);
     }
@@ -304,58 +294,52 @@ DebugDraw(DebugDraw&& other) noexcept
      * @details
    * ワイヤーフレームの球を描画します。
    */
-    void DrawSphere(const DirectX::XMFLOAT3& center, float radius, const DirectX::XMFLOAT3& color, int segments = 16) {
-   const float angleStep = DirectX::XM_2PI / segments;
+    void DrawSphere(const DirectX::XMFLOAT3 &center, float radius, const DirectX::XMFLOAT3 &color, int segments = 16) {
+        const float angleStep = DirectX::XM_2PI / segments;
 
         // XY平面の円
         for (int i = 0; i < segments; ++i) {
-       float angle1 = angleStep * i;
+            float angle1 = angleStep * i;
             float angle2 = angleStep * (i + 1);
-  DirectX::XMFLOAT3 p1{
-        center.x + radius * cosf(angle1),
-center.y + radius * sinf(angle1),
-        center.z
-   };
-   DirectX::XMFLOAT3 p2{
-           center.x + radius * cosf(angle2),
-           center.y + radius * sinf(angle2),
-     center.z
-   };
-AddLine(p1, p2, color);
+            DirectX::XMFLOAT3 p1{
+                center.x + radius * cosf(angle1),
+                center.y + radius * sinf(angle1),
+                center.z};
+            DirectX::XMFLOAT3 p2{
+                center.x + radius * cosf(angle2),
+                center.y + radius * sinf(angle2),
+                center.z};
+            AddLine(p1, p2, color);
         }
 
-    // XZ平面の円
+        // XZ平面の円
         for (int i = 0; i < segments; ++i) {
-    float angle1 = angleStep * i;
-       float angle2 = angleStep * (i + 1);
+            float angle1 = angleStep * i;
+            float angle2 = angleStep * (i + 1);
             DirectX::XMFLOAT3 p1{
- center.x + radius * cosf(angle1),
-          center.y,
-      center.z + radius * sinf(angle1)
-            };
-          DirectX::XMFLOAT3 p2{
-    center.x + radius * cosf(angle2),
-     center.y,
-    center.z + radius * sinf(angle2)
-    };
-      AddLine(p1, p2, color);
- }
+                center.x + radius * cosf(angle1),
+                center.y,
+                center.z + radius * sinf(angle1)};
+            DirectX::XMFLOAT3 p2{
+                center.x + radius * cosf(angle2),
+                center.y,
+                center.z + radius * sinf(angle2)};
+            AddLine(p1, p2, color);
+        }
 
         // YZ平面の円
         for (int i = 0; i < segments; ++i) {
             float angle1 = angleStep * i;
-      float angle2 = angleStep * (i + 1);
- DirectX::XMFLOAT3 p1{
-    center.x,
- center.y + radius * cosf(angle1),
-       center.z + radius * sinf(angle1)
-   };
+            float angle2 = angleStep * (i + 1);
+            DirectX::XMFLOAT3 p1{
+                center.x,
+                center.y + radius * cosf(angle1),
+                center.z + radius * sinf(angle1)};
             DirectX::XMFLOAT3 p2{
-        center.x,
-        center.y + radius * cosf(angle2),
-center.z + radius * sinf(angle2)
- };
-       AddLine(p1, p2, color);
+                center.x,
+                center.y + radius * cosf(angle2),
+                center.z + radius * sinf(angle2)};
+            AddLine(p1, p2, color);
         }
     }
 
@@ -376,32 +360,30 @@ center.z + radius * sinf(angle2)
   * debugDraw.DrawGrid(20.0f, 20);
      * @endcode
      */
-    void DrawGrid(float size = 10.0f, int divisions = 10, const DirectX::XMFLOAT3& color = {0.5f, 0.5f, 0.5f}, float yOffset = -0.01f) {
+    void DrawGrid(float size = 10.0f, int divisions = 10, const DirectX::XMFLOAT3 &color = {0.5f, 0.5f, 0.5f}, float yOffset = -0.01f) {
         if (divisions <= 0) {
             DEBUGLOG_WARNING("[DebugDraw] DrawGrid: divisionsは正の値である必要があります");
-  return;
+            return;
         }
 
         float step = size / divisions;
- float halfSize = size * 0.5f;
+        float halfSize = size * 0.5f;
 
         // X-Z平面のグリッド（yOffsetを適用）
         for (int i = 0; i <= divisions; ++i) {
- float pos = -halfSize + i * step;
+            float pos = -halfSize + i * step;
 
             // Z軸に平行な線(X方向に並ぶ)
-       AddLine(
-         DirectX::XMFLOAT3{-halfSize, yOffset, pos},
-    DirectX::XMFLOAT3{ halfSize, yOffset, pos},
-  color
-    );
-
-  // X軸に平行な線(Z方向に並ぶ)
             AddLine(
-            DirectX::XMFLOAT3{pos, yOffset, -halfSize},
-    DirectX::XMFLOAT3{pos, yOffset,  halfSize},
- color
-        );
+                DirectX::XMFLOAT3{-halfSize, yOffset, pos},
+                DirectX::XMFLOAT3{halfSize, yOffset, pos},
+                color);
+
+            // X軸に平行な線(Z方向に並ぶ)
+            AddLine(
+                DirectX::XMFLOAT3{pos, yOffset, -halfSize},
+                DirectX::XMFLOAT3{pos, yOffset, halfSize},
+                color);
         }
     }
 
@@ -422,29 +404,26 @@ center.z + radius * sinf(angle2)
     void DrawAxes(float length = 500.0f) {
         if (length <= 0.0f) {
             DEBUGLOG_WARNING("[DebugDraw] DrawAxes: lengthは正の値である必要があります");
-    return;
+            return;
         }
 
         // X軸(明るい赤)
         AddLine(
-      DirectX::XMFLOAT3{0, 0, 0},
-         DirectX::XMFLOAT3{length, 0, 0},
-            DirectX::XMFLOAT3{1, 0.2f, 0.2f}
-   );
+            DirectX::XMFLOAT3{0, 0, 0},
+            DirectX::XMFLOAT3{length, 0, 0},
+            DirectX::XMFLOAT3{1, 0.2f, 0.2f});
 
         // Y軸(明るい緑)
         AddLine(
             DirectX::XMFLOAT3{0, 0, 0},
             DirectX::XMFLOAT3{0, length, 0},
-            DirectX::XMFLOAT3{0.2f, 1, 0.2f}
-    );
+            DirectX::XMFLOAT3{0.2f, 1, 0.2f});
 
         // Z軸(明るい青)
         AddLine(
-      DirectX::XMFLOAT3{0, 0, 0},
-     DirectX::XMFLOAT3{0, 0, length},
-            DirectX::XMFLOAT3{0.3f, 0.3f, 1}
-   );
+            DirectX::XMFLOAT3{0, 0, 0},
+            DirectX::XMFLOAT3{0, 0, length},
+            DirectX::XMFLOAT3{0.3f, 0.3f, 1});
     }
 
     /**
@@ -456,34 +435,34 @@ center.z + radius * sinf(angle2)
      * AddLine()やDrawGrid()などで追加されたすべての線を描画します。
      * カメラのView・Projection行列を使用してワールド空間から画面空間に変換します。
      */
-    void Render(GfxDevice& gfx, const Camera& cam) {
+    void Render(GfxDevice &gfx, const Camera &cam) {
         if (!initialized_) {
             DEBUGLOG_WARNING("[DebugDraw] 初期化されていません。Render()を無視します。");
-        return;
+            return;
         }
 
-     if (lines_.empty()) {
-   return;
- }
+        if (lines_.empty()) {
+            return;
+        }
 
         // 頂点データを構築
         std::vector<Vertex> vertices;
         vertices.reserve(lines_.size() * 2);
 
-        for (const auto& line : lines_) {
-      vertices.push_back({ line.start, line.color });
-            vertices.push_back({ line.end, line.color });
-   }
+        for (const auto &line : lines_) {
+            vertices.push_back({line.start, line.color});
+            vertices.push_back({line.end, line.color});
+        }
 
         // 頂点バッファを更新
-  D3D11_MAPPED_SUBRESOURCE mapped;
+        D3D11_MAPPED_SUBRESOURCE mapped;
         HRESULT hr = gfx.Ctx()->Map(vb_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
         if (FAILED(hr)) {
-         DEBUGLOG_ERROR("[DebugDraw] 頂点バッファのマップ失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[DebugDraw] 頂点バッファのマップ失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             return;
-     }
-  
-  memcpy(mapped.pData, vertices.data(), vertices.size() * sizeof(Vertex));
+        }
+
+        memcpy(mapped.pData, vertices.data(), vertices.size() * sizeof(Vertex));
         gfx.Ctx()->Unmap(vb_.Get(), 0);
 
         // パイプライン設定
@@ -495,15 +474,15 @@ center.z + radius * sinf(angle2)
         UINT stride = sizeof(Vertex);
         UINT offset = 0;
         gfx.Ctx()->IASetVertexBuffers(0, 1, vb_.GetAddressOf(), &stride, &offset);
-      gfx.Ctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+        gfx.Ctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
         // 定数バッファ更新(ワールド行列は単位行列)
-    DirectX::XMMATRIX VP = DirectX::XMMatrixTranspose(cam.View * cam.Proj);
+        DirectX::XMMATRIX VP = DirectX::XMMatrixTranspose(cam.View * cam.Proj);
         gfx.Ctx()->UpdateSubresource(cb_.Get(), 0, nullptr, &VP, 0, 0);
 
         // 描画
         gfx.Ctx()->Draw(static_cast<UINT>(vertices.size()), 0);
-        
+
         stats_.linesDrawn = lines_.size();
     }
 
@@ -536,7 +515,7 @@ center.z + radius * sinf(angle2)
      * @brief 統計情報を取得
      * @return const Statistics& 統計情報への参照
    */
-    const Statistics& GetStatistics() const {
+    const Statistics &GetStatistics() const {
         return stats_;
     }
 
@@ -544,8 +523,8 @@ center.z + radius * sinf(angle2)
      * @brief 統計情報をリセット
      */
     void ResetStatistics() {
- stats_.Reset();
- }
+        stats_.Reset();
+    }
 
     /**
      * @brief 現在の線の数を取得
@@ -561,77 +540,78 @@ center.z + radius * sinf(angle2)
      */
     size_t GetMaxLines() const {
         return maxLines_;
-  }
+    }
 
     /**
      * @brief デストラクタ
      */
     ~DebugDraw() {
         if (!isShutdown_) {
-    DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::~DebugDraw() - デストラクタ呼び出し");
- DEBUGLOG_WARNING("[DebugDraw] Shutdown()が明示的に呼ばれていません。デストラクタで自動クリーンアップします。");
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::~DebugDraw() - デストラクタ呼び出し");
+            DEBUGLOG_WARNING("[DebugDraw] Shutdown()が明示的に呼ばれていません。デストラクタで自動クリーンアップします。");
         }
-      Shutdown();
+        Shutdown();
     }
 
     /**
      * @brief リソースの明示的解放
      */
     void Shutdown() {
-        if (isShutdown_) return; // 冪等性
+        if (isShutdown_)
+            return; // 冪等性
 
-     DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Shutdown() - リソースを解放中");
-      
-    // 統計情報をログ出力
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Shutdown() - リソースを解放中");
+
+        // 統計情報をログ出力
         if (stats_.totalLinesAdded > 0) {
-      DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, 
-                "DebugDraw統計: 総追加線数=" + std::to_string(stats_.totalLinesAdded) +
- ", ピーク線数=" + std::to_string(stats_.peakLineCount) +
-     ", 破棄線数=" + std::to_string(stats_.linesDropped));
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics,
+                              "DebugDraw統計: 総追加線数=" + std::to_string(stats_.totalLinesAdded) +
+                                  ", ピーク線数=" + std::to_string(stats_.peakLineCount) +
+                                  ", 破棄線数=" + std::to_string(stats_.linesDropped));
         }
-    
+
         int releasedCount = 0;
-        
+
         if (vs_) {
-       DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "頂点シェーダーを解放 (DebugDraw)");
-    vs_.Reset();
-   releasedCount++;
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "頂点シェーダーを解放 (DebugDraw)");
+            vs_.Reset();
+            releasedCount++;
         }
-    
+
         if (ps_) {
-    DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "ピクセルシェーダーを解放 (DebugDraw)");
-       ps_.Reset();
-   releasedCount++;
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "ピクセルシェーダーを解放 (DebugDraw)");
+            ps_.Reset();
+            releasedCount++;
         }
-        
-    if (layout_) {
-  DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "入力レイアウトを解放 (DebugDraw)");
+
+        if (layout_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "入力レイアウトを解放 (DebugDraw)");
             layout_.Reset();
-      releasedCount++;
-      }
-        
-      if (cb_) {
-     DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "定数バッファを解放 (DebugDraw)");
-    cb_.Reset();
-     releasedCount++;
+            releasedCount++;
         }
-   
+
+        if (cb_) {
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "定数バッファを解放 (DebugDraw)");
+            cb_.Reset();
+            releasedCount++;
+        }
+
         if (vb_) {
-DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "頂点バッファを解放 (DebugDraw, 最大線数: " + std::to_string(maxLines_) + ")");
-         vb_.Reset();
-      releasedCount++;
-   }
-      
+            DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "頂点バッファを解放 (DebugDraw, 最大線数: " + std::to_string(maxLines_) + ")");
+            vb_.Reset();
+            releasedCount++;
+        }
+
         lines_.clear();
         lines_.shrink_to_fit();
-        
+
         isShutdown_ = true;
-   initialized_ = false;
-        
-      DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Shutdown() 完了 (解放リソース数: " + std::to_string(releasedCount) + ")");
+        initialized_ = false;
+
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw::Shutdown() 完了 (解放リソース数: " + std::to_string(releasedCount) + ")");
     }
 
-private:
+  private:
     /**
    * @struct Vertex
  * @brief 頂点データ(位置と色)
@@ -639,13 +619,13 @@ private:
     struct Vertex {
         DirectX::XMFLOAT3 pos; ///< 位置
         DirectX::XMFLOAT3 col; ///< 色
-};
+    };
 
     /**
      * @brief シェーダーのコンパイル
      */
-    bool CompileShaders(GfxDevice& gfx) {
-        const char* VS = R"(
+    bool CompileShaders(GfxDevice &gfx) {
+        const char *VS = R"(
             cbuffer CB : register(b0) { float4x4 gVP; };
 struct VSIn { float3 pos : POSITION; float3 col : COLOR; };
             struct VSOut { float4 pos : SV_POSITION; float3 col : COLOR; };
@@ -657,130 +637,129 @@ struct VSIn { float3 pos : POSITION; float3 col : COLOR; };
         }
         )";
 
-        const char* PS = R"(
+        const char *PS = R"(
           struct VSOut { float4 pos : SV_POSITION; float3 col : COLOR; };
         float4 main(VSOut i) : SV_Target { return float4(i.col, 1); }
         )";
 
         Microsoft::WRL::ComPtr<ID3DBlob> vsb, psb, err;
-        
-      UINT compileFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+
+        UINT compileFlags = D3DCOMPILE_ENABLE_STRICTNESS;
 #ifdef _DEBUG
         compileFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
         HRESULT hr = D3DCompile(VS, strlen(VS), nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags, 0, vsb.GetAddressOf(), err.GetAddressOf());
         if (FAILED(hr)) {
-      if (err) {
-                std::string errorMsg(static_cast<const char*>(err->GetBufferPointer()), err->GetBufferSize());
-         DEBUGLOG_ERROR("[DebugDraw] 頂点シェーダーのコンパイル失敗: " + errorMsg);
+            if (err) {
+                std::string errorMsg(static_cast<const char *>(err->GetBufferPointer()), err->GetBufferSize());
+                DEBUGLOG_ERROR("[DebugDraw] 頂点シェーダーのコンパイル失敗: " + errorMsg);
             } else {
                 DEBUGLOG_ERROR("[DebugDraw] 頂点シェーダーのコンパイル失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             }
-     return false;
+            return false;
         }
 
-    hr = D3DCompile(PS, strlen(PS), nullptr, nullptr, nullptr, "main", "ps_5_0", compileFlags, 0, psb.GetAddressOf(), err.ReleaseAndGetAddressOf());
+        hr = D3DCompile(PS, strlen(PS), nullptr, nullptr, nullptr, "main", "ps_5_0", compileFlags, 0, psb.GetAddressOf(), err.ReleaseAndGetAddressOf());
         if (FAILED(hr)) {
-     if (err) {
-           std::string errorMsg(static_cast<const char*>(err->GetBufferPointer()), err->GetBufferSize());
-      DEBUGLOG_ERROR("[DebugDraw] ピクセルシェーダーのコンパイル失敗: " + errorMsg);
-          } else {
- DEBUGLOG_ERROR("[DebugDraw] ピクセルシェーダーのコンパイル失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
- }
-      return false;
+            if (err) {
+                std::string errorMsg(static_cast<const char *>(err->GetBufferPointer()), err->GetBufferSize());
+                DEBUGLOG_ERROR("[DebugDraw] ピクセルシェーダーのコンパイル失敗: " + errorMsg);
+            } else {
+                DEBUGLOG_ERROR("[DebugDraw] ピクセルシェーダーのコンパイル失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            }
+            return false;
         }
 
         hr = gfx.Dev()->CreateVertexShader(vsb->GetBufferPointer(), vsb->GetBufferSize(), nullptr, vs_.GetAddressOf());
-    if (FAILED(hr)) {
-       DEBUGLOG_ERROR("[DebugDraw] 頂点シェーダーの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-      return false;
+        if (FAILED(hr)) {
+            DEBUGLOG_ERROR("[DebugDraw] 頂点シェーダーの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            return false;
         }
 
         hr = gfx.Dev()->CreatePixelShader(psb->GetBufferPointer(), psb->GetBufferSize(), nullptr, ps_.GetAddressOf());
         if (FAILED(hr)) {
             DEBUGLOG_ERROR("[DebugDraw] ピクセルシェーダーの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-  return false;
+            return false;
         }
 
-      // 入力レイアウト
+        // 入力レイアウト
         D3D11_INPUT_ELEMENT_DESC il[] = {
-            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,         D3D11_INPUT_PER_VERTEX_DATA, 0 },
-            { "COLOR",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-        };
-        
+            {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+            {"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}};
+
         hr = gfx.Dev()->CreateInputLayout(il, 2, vsb->GetBufferPointer(), vsb->GetBufferSize(), layout_.GetAddressOf());
         if (FAILED(hr)) {
             DEBUGLOG_ERROR("[DebugDraw] 入力レイアウトの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             return false;
-  }
+        }
 
         DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw: シェーダーとレイアウトを作成");
-   return true;
+        return true;
     }
 
     /**
      * @brief パイプラインステートの作成
      */
-    bool CreatePipelineState(GfxDevice& gfx) {
-// 現在の実装では追加のパイプラインステートは不要
+    bool CreatePipelineState(GfxDevice &gfx) {
+        // 現在の実装では追加のパイプラインステートは不要
         // 将来的にラスタライザーステートやブレンドステートを追加可能
-      return true;
+        return true;
     }
 
     /**
      * @brief 定数バッファの作成
   */
-    bool CreateConstantBuffer(GfxDevice& gfx) {
-     D3D11_BUFFER_DESC cbd{};
+    bool CreateConstantBuffer(GfxDevice &gfx) {
+        D3D11_BUFFER_DESC cbd{};
         cbd.ByteWidth = sizeof(DirectX::XMMATRIX);
         cbd.Usage = D3D11_USAGE_DEFAULT;
         cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         cbd.CPUAccessFlags = 0;
         cbd.MiscFlags = 0;
         cbd.StructureByteStride = 0;
-        
+
         HRESULT hr = gfx.Dev()->CreateBuffer(&cbd, nullptr, cb_.GetAddressOf());
         if (FAILED(hr)) {
             DEBUGLOG_ERROR("[DebugDraw] 定数バッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             return false;
         }
-      
-    DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw: 定数バッファを作成");
-  return true;
+
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw: 定数バッファを作成");
+        return true;
     }
 
     /**
      * @brief 頂点バッファの作成
      */
-  bool CreateVertexBuffer(GfxDevice& gfx) {
+    bool CreateVertexBuffer(GfxDevice &gfx) {
         D3D11_BUFFER_DESC vbd{};
         vbd.ByteWidth = static_cast<UINT>(maxLines_ * 2 * sizeof(Vertex)); // 1線分 = 2頂点
         vbd.Usage = D3D11_USAGE_DYNAMIC;
-   vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+        vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         vbd.MiscFlags = 0;
         vbd.StructureByteStride = 0;
-        
+
         HRESULT hr = gfx.Dev()->CreateBuffer(&vbd, nullptr, vb_.GetAddressOf());
         if (FAILED(hr)) {
-        DEBUGLOG_ERROR("[DebugDraw] 頂点バッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[DebugDraw] 頂点バッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             return false;
         }
-        
-      DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw: 頂点バッファを作成 (最大線数: " + std::to_string(maxLines_) + ")");
+
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "DebugDraw: 頂点バッファを作成 (最大線数: " + std::to_string(maxLines_) + ")");
         return true;
     }
 
     Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;    ///< 頂点シェーダー
     Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;     ///< ピクセルシェーダー
     Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_; ///< 入力レイアウト
-    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_;    ///< 定数バッファ
+    Microsoft::WRL::ComPtr<ID3D11Buffer> cb_;          ///< 定数バッファ
     Microsoft::WRL::ComPtr<ID3D11Buffer> vb_;          ///< 頂点バッファ
 
     std::vector<Line> lines_;  ///< 描画する線のリスト
     size_t maxLines_ = 10000;  ///< 最大線数
     bool isShutdown_ = false;  ///< シャットダウンフラグ
     bool initialized_ = false; ///< 初期化済みフラグ
-    Statistics stats_;       ///< 統計情報
+    Statistics stats_;         ///< 統計情報
 };

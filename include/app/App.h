@@ -205,14 +205,20 @@ struct App {
                 deltaTime = 0.1f;
             }
 
+            // ========== RENDER PHASE ==========
+            auto renderStartTime = std::chrono::high_resolution_clock::now();
+
+            // BeginFrameとレンダリング処理
+            gfx_.BeginFrame();
+
             // ========== UPDATE PHASE ==========
             auto updateStartTime = std::chrono::high_resolution_clock::now();
 
             // 入力の更新
-         input_.Update();
+            input_.Update();
 
-         // ゲームパッドの更新
-         gamepad_.Update();
+            // ゲームパッドの更新
+            gamepad_.Update();
 #ifdef _DEBUG
             UpdateDebugCamera(deltaTime);
 #endif
@@ -234,12 +240,6 @@ struct App {
             auto updateEndTime = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> updateDuration = updateEndTime - updateStartTime;
             currentMetrics_.updateTime = updateDuration.count();
-
-            // ========== RENDER PHASE ==========
-            auto renderStartTime = std::chrono::high_resolution_clock::now();
-
-            // BeginFrameとレンダリング処理
-            gfx_.BeginFrame();
 
 #ifdef _DEBUG
             DrawDebugInfo();

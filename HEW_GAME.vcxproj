@@ -150,6 +150,7 @@
     <ClCompile Include="src\components\Collision.cpp" />
     <ClCompile Include="src\ecs\World.cpp" />
     <ClCompile Include="src\graphics\ModelLoader.cpp" />
+    <ClCompile Include="src\graphics\TextSystem.cpp" />
     <ClCompile Include="src\input\GamepadSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp" />
@@ -162,11 +163,13 @@
     <ClInclude Include="include\app\DebugLog.h" />
     <ClInclude Include="include\components\Collision.h" />
     <ClInclude Include="include\components\PlayerComponents.h" />
+    <ClInclude Include="include\components\UIComponents.h" />
     <ClInclude Include="include\ecs\World.h" />
     <ClInclude Include="include\gameplay\EnemySpawner.h" />
     <ClInclude Include="include\graphics\Camera.h" />
     <ClInclude Include="include\components\Component.h" />
     <ClInclude Include="include\graphics\RenderSystem.h" />
+    <ClInclude Include="include\graphics\TextSystem.h" />
     <ClInclude Include="include\input\GamepadSystem.h" />
     <ClInclude Include="include\input\MouseCoordinate.h" />
     <ClInclude Include="include\pch.h" />
@@ -192,6 +195,7 @@
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\graphics\VideoPlayer.h" />
     <ClInclude Include="include\scenes\Tags.h" />
+    <ClInclude Include="include\systems\UISystem.h" />
     <ClInclude Include="include\util\Random.h" />
   </ItemGroup>
   <ItemGroup>
@@ -216,9 +220,11 @@
     <None Include="docs\GamepadSystem_README.md" />
     <None Include="docs\RealtimeCharge_Guide.md" />
     <None Include="docs\RenderSystem_Improvements.md" />
+    <None Include="docs\UI_System_Guide.md" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="debug_log.txt" />
     <Text Include="x64\Debug\debug_log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
