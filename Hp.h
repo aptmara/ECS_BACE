@@ -4,7 +4,7 @@
 // hp.h追加
 //プレイヤーがダメージでHPを減らし、0でリセット
 //
-//////
+/////
 #pragma once
 
 #include "components/Component.h"
