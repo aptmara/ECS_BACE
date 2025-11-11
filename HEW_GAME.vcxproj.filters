@@ -105,6 +105,9 @@
     <ClCompile Include="src\components\Collision.cpp">
       <Filter>src\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\TextSystem.cpp">
+      <Filter>src\app</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\animation\Animation.h">
@@ -209,7 +212,6 @@
     <ClInclude Include="include\util\Random.h">
       <Filter>include\util</Filter>
     </ClInclude>
-    <ClInclude Include="include\input\MouseCoordinate.h" />
     <ClInclude Include="include\components\Collision.h">
       <Filter>include\components</Filter>
     </ClInclude>
@@ -219,9 +221,20 @@
     <ClInclude Include="include\samples\CollisionEventSamples.h">
       <Filter>docs</Filter>
     </ClInclude>
+    <ClInclude Include="include\input\MouseCoordinate.h">
+      <Filter>include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\systems\UISystem.h">
+      <Filter>include\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\UIComponents.h">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graphics\TextSystem.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
     <None Include="Assets\Textures\test.png">
       <Filter>Assets\Textures</Filter>
     </None>
@@ -285,10 +298,19 @@
     <None Include="docs\Collision_System_Guide.md">
       <Filter>docs</Filter>
     </None>
+    <None Include="README.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="docs\UI_System_Guide.md">
+      <Filter>docs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="x64\Debug\debug_log.txt">
       <Filter>x64\Debug</Filter>
+    </Text>
+    <Text Include="debug_log.txt">
+      <Filter>docs</Filter>
     </Text>
   </ItemGroup>
 </Project>
