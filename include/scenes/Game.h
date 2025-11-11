@@ -119,7 +119,8 @@ class GameScene : public IScene {
         CreateFloor(world);
         CreatePlayer(world);
         CreateTestEnemy(world);
-        CreateWall(world);
+        CreateWall(world,{3.0f,0.0f,3.0f});
+        CreateWall(world, {-1.0f, 0.0f, 3.0f});
 
         CreateUI(world, screenWidth, screenHeight);
 
@@ -342,10 +343,10 @@ class GameScene : public IScene {
         ownedEntities_.push_back(player);
     }
 
-    void CreateWall(World& world)
+    void CreateWall(World &world,const DirectX::XMFLOAT3 &position)
     {
         Transform transform{
-            {3.0f, 0.0f, 2.0f},
+            position,
             {0.0f, 0.0f, 0.0f},
             {1.0f, 1.0f, 1.0f},
         };
