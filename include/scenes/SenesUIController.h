@@ -1,0 +1,63 @@
+﻿#pragma once
+
+#include "pch.h"
+#include "scenes/Game.h"
+#include "components/UIComponents.h"
+#include "systems/UISystem.h"
+#include "components/GameStats.h"
+#include <sstream>
+#include <iomanip>
+
+/**
+ * @struct GameUIUpdater
+ * @brief ゲームUIを更新するシステム
+ */
+struct GameUIUpdater : Behaviour {
+    Entity scoreTextEntity_;
+    Entity timeTextEntity_;
+    Entity fpsTextEntity_;
+    Entity pauseTextEntity_;
+
+    void OnUpdate(World &w, Entity self, float dt) override {
+        w.ForEach<GameStats>([&](Entity e, GameStats &stats) {
+            if (!stats.isPaused) {
+                stats.elapsedTime += dt;
+            }
+
+            if (auto *scoreText = w.TryGet<UIText>(scoreTextEntity_)) {
+                std::wstringstream ss;
+                ss << L"Score: " << stats.score;
+                scoreText->text = ss.str();
+            }
+
+            if (auto *timeText = w.TryGet<UIText>(timeTextEntity_)) {
+                std::wstringstream ss;
+                int minutes = static_cast<int>(stats.elapsedTime) / 60;
+                int seconds = static_cast<int>(stats.elapsedTime) % 60;
+                ss << L"Time: " << std::setw(2) << std::setfill(L'0') << minutes
+                   << L":" << std::setw(2) << std::setfill(L'0') << seconds;
+                timeText->text = ss.str();
+            }
+
+            if (auto *fpsText = w.TryGet<UIText>(fpsTextEntity_)) {
+                float fps = (dt > 0.0f) ? (1.0f / dt) : 0.0f;
+                std::wstringstream ss;
+                ss << L"FPS: " << std::fixed << std::setprecision(1) << fps;
+                fpsText->text = ss.str();
+            }
+
+            if (auto *pauseText = w.TryGet<UIText>(pauseTextEntity_)) {
+                auto *pauseTransform = w.TryGet<UITransform>(pauseTextEntity_);
+                if (pauseTransform) {
+                    if (stats.isPaused) {
+                        pauseText->text = L"PAUSED";
+                        pauseTransform->size = {400.0f, 100.0f};
+                    } else {
+                        pauseText->text = L"";
+                        pauseTransform->size = {0.0f, 0.0f};
+                    }
+                }
+            }
+        });
+    }
+};

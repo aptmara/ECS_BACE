@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * @file TextSystem.cpp
- * @brief TextSystem‚ÌŽÀ‘•
- * @author ŽR“à—z
+ * @brief TextSystemã®å®Ÿè£…
+ * @author å±±å†…é™½
  * @date 2025
  */
 #include "graphics/TextSystem.h"
@@ -57,7 +57,7 @@ bool TextSystem::Init(GfxDevice &gfx) {
     }
 
     FLOAT dpiX = 96.0f;
-    FLOAT dpiY = 96.0f; // ŒÅ’èDPI (GetDesktopDpi‚Í”ñ„§)
+    FLOAT dpiY = 96.0f; // å›ºå®šDPI (GetDesktopDpiã¯éžæŽ¨å¥¨)
     // d2dFactory_->GetDesktopDpi(&dpiX, &dpiY);
 
     D2D1_BITMAP_PROPERTIES1 bp = D2D1::BitmapProperties1(
