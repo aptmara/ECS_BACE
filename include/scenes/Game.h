@@ -61,6 +61,18 @@ struct EnemyCollisionHandler : ICollisionHandler {
 };
 
 /**
+ * @struct WallCollisionHandler
+ * @brief 壁の衝突イベントを処理
+ */
+struct WallCollisionHandler : ICollisionHandler {
+    void OnCollisionEnter(World& w, Entity self, Entity other, const CollisionInfo& info) override {
+        if (w.Has<WallTag>(other)) {
+            DEBUGLOG("Wall collision with player");
+        }
+    }
+};
+
+/**
  * @class GameScene
  * @brief 3DゲームとUIを統合したシーン
  */
@@ -107,6 +119,8 @@ class GameScene : public IScene {
         CreateFloor(world);
         CreatePlayer(world);
         CreateTestEnemy(world);
+        CreateWall(world,{3.0f,0.0f,3.0f});
+        CreateWall(world, {-1.0f, 0.0f, 3.0f});
 
         CreateUI(world, screenWidth, screenHeight);
 
@@ -327,6 +341,27 @@ class GameScene : public IScene {
                             .Build();
 
         ownedEntities_.push_back(player);
+    }
+
+    void CreateWall(World &world,const DirectX::XMFLOAT3 &position)
+    {
+        Transform transform{
+            position,
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 1.0f, 1.0f},
+        };
+
+        MeshRenderer renderer;
+        renderer.meshType = MeshType::Cube;
+        renderer.color = DirectX::XMFLOAT3{1.0f,1.0f,1.0f};
+
+        Entity wall = world.Create()
+                          .With<Transform>(transform)
+                          .With<MeshRenderer>(renderer)
+                          .With<WallTag>()
+                          .With<CollisionBox>(DirectX::XMFLOAT3{1.0f,1.0f,1.0f})
+                          .With<WallCollisionHandler>()
+                          .Build();
     }
 
     void CreateTestEnemy(World &world) {
