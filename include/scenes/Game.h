@@ -66,7 +66,7 @@ struct EnemyCollisionHandler : ICollisionHandler {
  */
 struct WallCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World& w, Entity self, Entity other, const CollisionInfo& info) override {
-        if (w.Has<WallTag>(other)) {
+        if (w.Has<PlayerTag>(other)) {
             DEBUGLOG("Wall collision with player");
         }
     }
@@ -362,6 +362,8 @@ class GameScene : public IScene {
                           .With<CollisionBox>(DirectX::XMFLOAT3{1.0f,1.0f,1.0f})
                           .With<WallCollisionHandler>()
                           .Build();
+
+         ownedEntities_.push_back(wall);
     }
 
     void CreateTestEnemy(World &world) {
