@@ -165,6 +165,7 @@
     <ClInclude Include="include\components\Collision.h" />
     <ClInclude Include="include\components\GameStats.h" />
     <ClInclude Include="include\components\PlayerComponents.h" />
+    <ClInclude Include="include\components\StageComponents.h" />
     <ClInclude Include="include\components\TransformHierarchy.h" />
     <ClInclude Include="include\components\UIComponents.h" />
     <ClInclude Include="include\ecs\World.h" />
