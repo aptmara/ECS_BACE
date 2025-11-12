@@ -151,6 +151,15 @@ class GameScene : public IScene {
         TextSystem::TextFormat panelFormat;
         panelFormat.fontSize = 200.0f;
         textSystem_.CreateTextFormat("panel", panelFormat);
+
+        TextSystem::TextFormat titleFormat;
+        titleFormat.fontSize = 20.0f;
+        titleFormat.fontFamily = L"メイリオ";
+        titleFormat.style = DWRITE_FONT_STYLE_ITALIC;
+        titleFormat.alignment = DWRITE_TEXT_ALIGNMENT_JUSTIFIED;
+        buttonFormat.paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_FAR;
+        textSystem_.CreateTextFormat("title", titleFormat);
+
     }
 
     void CreateUI(World &world, float screenWidth, float screenHeight) {
@@ -225,6 +234,40 @@ class GameScene : public IScene {
                                .With<UIText>(fpsText)
                                .Build();
         ownedEntities_.push_back(fpsEntity);
+        
+        UIText titleText[2];
+
+        titleText[0].text     = {L"Fricker Game:"};
+        titleText[0].color    = {1.0f, 0.0f, 1.0f, 1.0f};
+        titleText[0].formatId = "title";
+        float titletextSize0  = 3.9f * sizeof(titleText[0].text);
+
+        titleText[1].text     = {L"Proto Type"};
+        titleText[1].color    = {0.7f, 0.0f, 0.7f, 1.0f};
+        titleText[1].formatId = "title";
+
+        UITransform titleTransform[2];
+
+        titleTransform[0].position = {800.0f, 60.0f};
+        titleTransform[0].size     = {300.0f, 30.0f};
+        titleTransform[0].anchor   = {0.0f,    0.0f};
+        titleTransform[0].pivot    = {0.0f,    0.0f};
+
+        titleTransform[1].position = {titleTransform[0].position.x + titletextSize0 , titleTransform[0].position.y};
+        titleTransform[1].size     = titleTransform[0].size;
+        titleTransform[1].anchor   = titleTransform[0].anchor;
+        titleTransform[1].pivot    = titleTransform[0].pivot;
+
+        for (int i = 0 ; i < 2; i++)
+        {
+            Entity titleEntity[2];
+
+                   titleEntity[i] = world.Create()
+                                     .With<UITransform>(titleTransform[i])
+                                     .With<UIText>(titleText[i])
+                                     .Build();
+            ownedEntities_.push_back(titleEntity[i]);
+        }
 
         UITransform pauseTransform;
         pauseTransform.position = {0.0f, 0.0f};
@@ -290,6 +333,7 @@ class GameScene : public IScene {
                             .With<Transform>(transform)
                             .With<MeshRenderer>(renderer)
                             .With<PlayerTag>()
+                            .With<PlayerVelocity>()
                             .With<PlayerMovement>()
                             .With<Rotator>(45.0f)
                             .With<CollisionBox>(DirectX::XMFLOAT3{1.0f, 2.0f, 1.0f})
