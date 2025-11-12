@@ -221,9 +221,6 @@
     <ClInclude Include="include\samples\CollisionEventSamples.h">
       <Filter>docs</Filter>
     </ClInclude>
-    <ClInclude Include="include\input\MouseCoordinate.h">
-      <Filter>include\input</Filter>
-    </ClInclude>
     <ClInclude Include="include\systems\UISystem.h">
       <Filter>include\systems</Filter>
     </ClInclude>
@@ -236,7 +233,27 @@
     <ClInclude Include="include\scenes\SenesUIController.h">
       <Filter>include\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\GameStats.h" />
+    <ClInclude Include="MouseCoordinate.h">
+      <Filter>include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\GameStats.h">
+      <Filter>include\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Hp.h">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\TransformHierarchy.h">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\systems\TransformHierarchySystem.h">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\samples\TransformHierarchySamples.h">
+      <Filter>include\samples</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\StageComponents.h">
+      <Filter>include\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Textures\test.png">
@@ -306,6 +323,9 @@
       <Filter>docs</Filter>
     </None>
     <None Include="docs\UI_System_Guide.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="docs\Transform_Hierarchy_Guide.md">
       <Filter>docs</Filter>
     </None>
   </ItemGroup>

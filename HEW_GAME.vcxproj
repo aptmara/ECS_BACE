@@ -156,6 +156,7 @@
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hp.h" />
     <ClInclude Include="include\animation\Animation.h" />
     <ClInclude Include="include\app\ResourceManager.h" />
     <ClInclude Include="include\app\ServiceLocator.h" />
@@ -164,6 +165,8 @@
     <ClInclude Include="include\components\Collision.h" />
     <ClInclude Include="include\components\GameStats.h" />
     <ClInclude Include="include\components\PlayerComponents.h" />
+    <ClInclude Include="include\components\StageComponents.h" />
+    <ClInclude Include="include\components\TransformHierarchy.h" />
     <ClInclude Include="include\components\UIComponents.h" />
     <ClInclude Include="include\ecs\World.h" />
     <ClInclude Include="include\gameplay\EnemySpawner.h" />
@@ -172,7 +175,6 @@
     <ClInclude Include="include\graphics\RenderSystem.h" />
     <ClInclude Include="include\graphics\TextSystem.h" />
     <ClInclude Include="include\input\GamepadSystem.h" />
-    <ClInclude Include="include\input\MouseCoordinate.h" />
     <ClInclude Include="include\pch.h" />
     <ClInclude Include="include\samples\CollisionEventSamples.h" />
     <ClInclude Include="include\samples\CollisionSamples.h" />
@@ -187,6 +189,7 @@
     <ClInclude Include="include\components\ModelComponent.h" />
     <ClInclude Include="include\graphics\ModelLoader.h" />
     <ClInclude Include="include\samples\GamepadSample.h" />
+    <ClInclude Include="include\samples\TransformHierarchySamples.h" />
     <ClInclude Include="include\scenes\SenesUIController.h" />
     <ClInclude Include="include\systems\ModelLoadingSystem.h" />
     <ClInclude Include="include\samples\WorldImprovementDemo.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\graphics\VideoPlayer.h" />
     <ClInclude Include="include\scenes\Tags.h" />
+    <ClInclude Include="include\systems\TransformHierarchySystem.h" />
     <ClInclude Include="include\systems\UISystem.h" />
     <ClInclude Include="include\util\Random.h" />
     <ClInclude Include="MouseCoordinate.h" />
@@ -223,6 +227,7 @@
     <None Include="docs\GamepadSystem_README.md" />
     <None Include="docs\RealtimeCharge_Guide.md" />
     <None Include="docs\RenderSystem_Improvements.md" />
+    <None Include="docs\Transform_Hierarchy_Guide.md" />
     <None Include="docs\UI_System_Guide.md" />
     <None Include="README.md" />
   </ItemGroup>
