@@ -54,7 +54,7 @@
  * @author 山内陽
  */
 class GamepadSystem {
-public:
+  public:
     /**
      * @brief サポートする最大ゲームパッド数
      */
@@ -65,21 +65,21 @@ public:
      * @brief ゲームパッドボタンの識別子(Xbox配置)
      */
     enum GamepadButton {
-        Button_A = 0,     ///< Aボタン(下)
-        Button_B = 1,      ///< Bボタン(右)
+        Button_A = 0,           ///< Aボタン(下)
+        Button_B = 1,           ///< Bボタン(右)
         Button_X = 2,           ///< Xボタン(左)
-        Button_Y = 3,        ///< Yボタン(上)
+        Button_Y = 3,           ///< Yボタン(上)
         Button_LB = 4,          ///< 左バンパー
-        Button_RB = 5, ///< 右バンパー
+        Button_RB = 5,          ///< 右バンパー
         Button_Back = 6,        ///< Backボタン
-        Button_Start = 7,     ///< Startボタン
+        Button_Start = 7,       ///< Startボタン
         Button_LS = 8,          ///< 左スティック押し込み
         Button_RS = 9,          ///< 右スティック押し込み
         Button_DPad_Up = 10,    ///< 十字キー上
         Button_DPad_Down = 11,  ///< 十字キー下
-      Button_DPad_Left = 12,  ///< 十字キー左
+        Button_DPad_Left = 12,  ///< 十字キー左
         Button_DPad_Right = 13, ///< 十字キー右
-        Button_Count = 14 ///< ボタン総数
+        Button_Count = 14       ///< ボタン総数
     };
 
     /**
@@ -99,7 +99,7 @@ public:
      * @details
      * DirectInputの初期化とゲームパッドの列挙を行います。
      */
-  bool Init();
+    bool Init();
 
     /**
      * @brief ゲームパッドシステムのシャットダウン
@@ -215,7 +215,7 @@ public:
      * @brief 右スティックの最大チャージ時間を取得
      * @return float チャージ時間(秒)
      */
-  float GetRightStickChargeTime() const;
+    float GetRightStickChargeTime() const;
 
     /**
      * @brief 左スティックがこのフレームでリリースされたか
@@ -287,16 +287,16 @@ public:
      */
     void SetVibration(float leftMotor, float rightMotor);
 
-private:
+  private:
     /**
      * @enum ButtonState
      * @brief ボタンの状態
      */
     enum ButtonState : uint8_t {
-        None = 0,      ///< 何も押されていない
-      Down = 1,      ///< このフレームで押された
-        Pressed = 2,   ///< 押され続けている
-        Up = 3         ///< このフレームで離された
+        None = 0,    ///< 何も押されていない
+        Down = 1,    ///< このフレームで押された
+        Pressed = 2, ///< 押され続けている
+        Up = 3       ///< このフレームで離された
     };
 
     /**
@@ -304,9 +304,9 @@ private:
      * @brief デバイスタイプ
      */
     enum DeviceType {
-        Type_None,      ///< 未接続
-    Type_XInput,    ///< XInputデバイス
-        Type_DInput     ///< DirectInputデバイス
+        Type_None,   ///< 未接続
+        Type_XInput, ///< XInputデバイス
+        Type_DInput  ///< DirectInputデバイス
     };
 
     /**
@@ -314,29 +314,29 @@ private:
      * @brief ゲームパッドの状態
      */
     struct GamepadState {
-        DeviceType type;   ///< デバイスタイプ
-        bool connected; ///< 接続状態
-        uint8_t buttons[Button_Count];  ///< ボタン状態
-        uint8_t prevButtons[Button_Count];///< 前フレームのボタン状態
-        float leftStickX;     ///< 左スティックX
-        float leftStickY;   ///< 左スティックY
-        float rightStickX;        ///< 右スティックX
-        float rightStickY;    ///< 右スティックY
-        float leftTrigger; ///< 左トリガー
-        float rightTrigger;          ///< 右トリガー
-        LPDIRECTINPUTDEVICE8 dinputDevice;      ///< DirectInputデバイス
-        DWORD xinputIndex; ///< XInputインデックス
+        DeviceType type;                   ///< デバイスタイプ
+        bool connected;                    ///< 接続状態
+        uint8_t buttons[Button_Count];     ///< ボタン状態
+        uint8_t prevButtons[Button_Count]; ///< 前フレームのボタン状態
+        float leftStickX;                  ///< 左スティックX
+        float leftStickY;                  ///< 左スティックY
+        float rightStickX;                 ///< 右スティックX
+        float rightStickY;                 ///< 右スティックY
+        float leftTrigger;                 ///< 左トリガー
+        float rightTrigger;                ///< 右トリガー
+        LPDIRECTINPUTDEVICE8 dinputDevice; ///< DirectInputデバイス
+        DWORD xinputIndex;                 ///< XInputインデックス
 
         // チャージ&リリースシステム用
-        bool leftStickWasCharging;   ///< 前フレームで左スティックがチャージ中だったか
-        bool rightStickWasCharging;  ///< 前フレームで右スティックがチャージ中だったか
-        float leftStickChargeTime;   ///< 左スティックチャージ時間
-        float rightStickChargeTime;  ///< 右スティックチャージ時間
-        float leftStickIntensitySum; ///< 左スティック強度累積値
-        float rightStickIntensitySum;///< 右スティック強度累積値
-        int leftStickChargeSamples;  ///< 左スティックチャージサンプル数
-        int rightStickChargeSamples; ///< 右スティックチャージサンプル数
-        float leftStickReleaseTimer; ///< 左スティックリリースタイマー
+        bool leftStickWasCharging;    ///< 前フレームで左スティックがチャージ中だったか
+        bool rightStickWasCharging;   ///< 前フレームで右スティックがチャージ中だったか
+        float leftStickChargeTime;    ///< 左スティックチャージ時間
+        float rightStickChargeTime;   ///< 右スティックチャージ時間
+        float leftStickIntensitySum;  ///< 左スティック強度累積値
+        float rightStickIntensitySum; ///< 右スティック強度累積値
+        int leftStickChargeSamples;   ///< 左スティックチャージサンプル数
+        int rightStickChargeSamples;  ///< 右スティックチャージサンプル数
+        float leftStickReleaseTimer;  ///< 左スティックリリースタイマー
         float rightStickReleaseTimer; ///<右スティックリリースタイマー
 
         GamepadState() {
@@ -349,8 +349,8 @@ private:
             leftTrigger = rightTrigger = 0.0f;
             dinputDevice = nullptr;
             xinputIndex = 0;
-            
-          // チャージシステム初期化
+
+            // チャージシステム初期化
             leftStickWasCharging = false;
             rightStickWasCharging = false;
             leftStickChargeTime = 0.0f;
@@ -397,7 +397,7 @@ private:
      * @details
      * 円形デッドゾーンを適用し、正規化します。
      */
-    void ApplyDeadzone(float x, float y, float& outX, float& outY, float deadzone) const;
+    void ApplyDeadzone(float x, float y, float &outX, float &outY, float deadzone) const;
 
     /**
      * @brief DirectInputデバイスの列挙コールバック
@@ -413,18 +413,18 @@ private:
      * WMIを使用してデバイスIDを確認し、XInputデバイスを識別します。
      * XInputデバイスの場合はDirectInputで列挙しないようにします。
      */
-    static bool IsXInputDevice(const GUID* pGuidProductFromDirectInput);
+    static bool IsXInputDevice(const GUID *pGuidProductFromDirectInput);
 
-    GamepadState gamepads_[MAX_GAMEPADS];  ///< ゲームパッド状態
-    LPDIRECTINPUT8 dinput_;        ///< DirectInput8インターフェース
-    int nextDInputSlot_;       ///< 次に使用するDirectInputスロット
-    float deltaTime_;    ///< 前フレームのデルタタイム
+    GamepadState gamepads_[MAX_GAMEPADS]; ///< ゲームパッド状態
+    LPDIRECTINPUT8 dinput_;               ///< DirectInput8インターフェース
+    int nextDInputSlot_;                  ///< 次に使用するDirectInputスロット
+    float deltaTime_;                     ///< 前フレームのデルタタイム
 
     // デッドゾーン定数
-    static constexpr float XINPUT_LEFT_DEADZONE = 7849.0f / 32767.0f;   ///< 左スティックデッドゾーン
-    static constexpr float XINPUT_RIGHT_DEADZONE = 8689.0f / 32767.0f;  ///< 右スティックデッドゾーン
-    static constexpr float XINPUT_TRIGGER_THRESHOLD = 30.0f / 255.0f;   ///< トリガー閾値
-    static constexpr float CHARGE_DETECTION_THRESHOLD = 0.1f; ///< チャージ検出閾値
+    static constexpr float XINPUT_LEFT_DEADZONE = 7849.0f / 32767.0f;  ///< 左スティックデッドゾーン
+    static constexpr float XINPUT_RIGHT_DEADZONE = 8689.0f / 32767.0f; ///< 右スティックデッドゾーン
+    static constexpr float XINPUT_TRIGGER_THRESHOLD = 30.0f / 255.0f;  ///< トリガー閾値
+    static constexpr float CHARGE_DETECTION_THRESHOLD = 0.1f;          ///< チャージ検出閾値
 };
 
 /**
@@ -443,5 +443,4 @@ private:
  * 
  * @author 山内陽
  */
-GamepadSystem& GetGamepad();
-
+GamepadSystem &GetGamepad();

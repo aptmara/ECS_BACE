@@ -22,6 +22,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <thread>
 
 // DirectX11 & ECS システム
 #include "graphics/GfxDevice.h"
@@ -184,6 +185,8 @@ struct App {
         auto previousTime = std::chrono::high_resolution_clock::now();
         int frameCount = 0;
 
+        const float targetFrameTime = 1.0f / 120.0f; // 60Hz (16.67ms)
+
         while (msg.message != WM_QUIT) {
             // フレーム番号をログシステムに設定
             DebugLog::GetInstance().SetFrame(frameCount);
@@ -205,14 +208,20 @@ struct App {
                 deltaTime = 0.1f;
             }
 
+            // ========== RENDER PHASE ==========
+            auto renderStartTime = std::chrono::high_resolution_clock::now();
+
+            // BeginFrameとレンダリング処理
+            gfx_.BeginFrame();
+
             // ========== UPDATE PHASE ==========
             auto updateStartTime = std::chrono::high_resolution_clock::now();
 
             // 入力の更新
-         input_.Update();
+            input_.Update();
 
-         // ゲームパッドの更新
-         gamepad_.Update();
+            // ゲームパッドの更新
+            gamepad_.Update();
 #ifdef _DEBUG
             UpdateDebugCamera(deltaTime);
 #endif
@@ -234,12 +243,6 @@ struct App {
             auto updateEndTime = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> updateDuration = updateEndTime - updateStartTime;
             currentMetrics_.updateTime = updateDuration.count();
-
-            // ========== RENDER PHASE ==========
-            auto renderStartTime = std::chrono::high_resolution_clock::now();
-
-            // BeginFrameとレンダリング処理
-            gfx_.BeginFrame();
 
 #ifdef _DEBUG
             DrawDebugInfo();
@@ -296,6 +299,13 @@ struct App {
 #else
             UpdateWindowTitle();
 #endif
+
+            // フレーム時間を調整して60Hzに制限
+            auto frameEndTime = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<float> elapsedTime = frameEndTime - frameStartTime;
+            if (elapsedTime.count() < targetFrameTime) {
+                std::this_thread::sleep_for(std::chrono::duration<float>(targetFrameTime - elapsedTime.count()));
+            }
 
             frameCount++;
         }
@@ -534,6 +544,7 @@ private:
             MessageBoxA(nullptr, "DebugDrawの初期化に失敗", "警告", MB_OK | MB_ICONWARNING);
         } else {
             DEBUGLOG("DebugDrawを正常に初期化");
+            ServiceLocator::Register(&debugDraw_); // Register DebugDraw in ServiceLocator
         }
 #endif
 
