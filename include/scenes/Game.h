@@ -45,6 +45,7 @@ struct PlayerCollisionHandler : ICollisionHandler {
     void OnCollisionStay(World &w, Entity self, Entity other, const CollisionInfo &info) override {}
     void OnCollisionExit(World &w, Entity self, Entity other) override {}
 };
+REGISTER_COLLISION_HANDLER_TYPE(PlayerCollisionHandler)
 
 /**
  * @struct EnemyCollisionHandler
@@ -54,9 +55,11 @@ struct EnemyCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World &w, Entity self, Entity other, const CollisionInfo &info) override {
         if (w.Has<PlayerTag>(other)) {
             DEBUGLOG("敵がプレイヤーと衝突");
+            
         }
     }
 };
+REGISTER_COLLISION_HANDLER_TYPE(EnemyCollisionHandler)
 
 /**
  * @struct WallCollisionHandler
@@ -64,11 +67,13 @@ struct EnemyCollisionHandler : ICollisionHandler {
  */
 struct WallCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World& w, Entity self, Entity other, const CollisionInfo& info) override {
-        if (w.Has<WallTag>(other)) {
+        // 壁(self)にプレイヤー(other)が衝突したときにログ出力
+        if (w.Has<PlayerTag>(other)) {
             DEBUGLOG("壁がプレイヤーと衝突");
         }
     }
 };
+REGISTER_COLLISION_HANDLER_TYPE(WallCollisionHandler)
 
 /**
  * @class GameScene
@@ -397,10 +402,12 @@ class GameScene : public IScene {
         ownedEntities_.push_back(e);
     }
 
-    void CreateWall(World &world,const DirectX::XMFLOAT3 &position) {
-        Transform transform{ position,{0.0f, 0.0f, 0.0f},{1.0f, 1.0f, 1.0f} };
-        MeshRenderer renderer; renderer.meshType = MeshType::Cube; renderer.color = DirectX::XMFLOAT3{1.0f,1.0f,1.0f};
-        Entity wall = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<WallTag>().With<CollisionBox>(DirectX::XMFLOAT3{1.0f,1.0f,1.0f}).With<WallCollisionHandler>().Build();
+    void CreateWall(World &world, const DirectX::XMFLOAT3 &position) {
+        Transform transform{position, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}};
+        MeshRenderer renderer;
+        renderer.meshType = MeshType::Cube;
+        renderer.color = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+        Entity wall = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<WallTag>().With<CollisionBox>(DirectX::XMFLOAT3{1.0f, 2.0f, 1.0f}).With<WallCollisionHandler>().Build();
         ownedEntities_.push_back(wall);
     }
 
