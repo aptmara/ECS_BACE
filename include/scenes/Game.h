@@ -45,6 +45,7 @@ struct PlayerCollisionHandler : ICollisionHandler {
     void OnCollisionStay(World &w, Entity self, Entity other, const CollisionInfo &info) override {}
     void OnCollisionExit(World &w, Entity self, Entity other) override {}
 };
+REGISTER_COLLISION_HANDLER_TYPE(PlayerCollisionHandler)
 
 /**
  * @struct EnemyCollisionHandler
@@ -57,6 +58,7 @@ struct EnemyCollisionHandler : ICollisionHandler {
         }
     }
 };
+REGISTER_COLLISION_HANDLER_TYPE(EnemyCollisionHandler)
 
 /**
  * @struct WallCollisionHandler
@@ -64,11 +66,13 @@ struct EnemyCollisionHandler : ICollisionHandler {
  */
 struct WallCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World& w, Entity self, Entity other, const CollisionInfo& info) override {
-        if (w.Has<WallTag>(other)) {
+        // 壁(self)にプレイヤー(other)が衝突したときにログ出力
+        if (w.Has<PlayerTag>(other)) {
             DEBUGLOG("壁がプレイヤーと衝突");
         }
     }
 };
+REGISTER_COLLISION_HANDLER_TYPE(WallCollisionHandler)
 
 /**
  * @class GameScene
