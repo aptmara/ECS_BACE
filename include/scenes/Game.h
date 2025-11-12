@@ -23,6 +23,7 @@
 #include "app/ServiceLocator.h"
 #include "SenesUIController.h"
 #include "components/GameStats.h"
+#include "components/StageComponents.h"
 #include <sstream>
 #include <iomanip>
 
@@ -33,19 +34,16 @@
 struct PlayerCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World &w, Entity self, Entity other, const CollisionInfo &info) override {
         if (w.Has<EnemyTag>(other)) {
-            DEBUGLOG("Player collision with enemy - penetration depth: " + std::to_string(info.penetrationDepth));
-
-            w.ForEach<GameStats>([](Entity e, GameStats &stats) {
-                stats.score += 10;
-            });
+            DEBUGLOG("プレイヤーが敵と衝突 - 侵入深度: " + std::to_string(info.penetrationDepth));
+            w.ForEach<GameStats>([](Entity e, GameStats &stats) { stats.score += 10; });
+        }
+        if (w.Has<GoalTag>(other)) {
+            w.ForEach<StageProgress>([](Entity e, StageProgress &sp){ sp.requestAdvance = true; });
+            DEBUGLOG("プレイヤーがゴールに到達");
         }
     }
-
-    void OnCollisionStay(World &w, Entity self, Entity other, const CollisionInfo &info) override {
-    }
-
-    void OnCollisionExit(World &w, Entity self, Entity other) override {
-    }
+    void OnCollisionStay(World &w, Entity self, Entity other, const CollisionInfo &info) override {}
+    void OnCollisionExit(World &w, Entity self, Entity other) override {}
 };
 
 /**
@@ -55,7 +53,7 @@ struct PlayerCollisionHandler : ICollisionHandler {
 struct EnemyCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World &w, Entity self, Entity other, const CollisionInfo &info) override {
         if (w.Has<PlayerTag>(other)) {
-            DEBUGLOG("Enemy collision with player");
+            DEBUGLOG("敵がプレイヤーと衝突");
         }
     }
 };
@@ -67,7 +65,7 @@ struct EnemyCollisionHandler : ICollisionHandler {
 struct WallCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World& w, Entity self, Entity other, const CollisionInfo& info) override {
         if (w.Has<WallTag>(other)) {
-            DEBUGLOG("Wall collision with player");
+            DEBUGLOG("壁がプレイヤーと衝突");
         }
     }
 };
@@ -79,98 +77,56 @@ struct WallCollisionHandler : ICollisionHandler {
 class GameScene : public IScene {
   public:
     void OnEnter(World &world) override {
-        DEBUGLOG("GameWithUIScene::OnEnter()");
-
+        DEBUGLOG("GameWithUIScene::OnEnter() 開始");
         auto *gfx = ServiceLocator::TryGet<GfxDevice>();
-        if (!gfx) {
-            DEBUGLOG_ERROR("GfxDevice not found");
-            return;
-        }
-
-        if (!textSystem_.Init(*gfx)) {
-            DEBUGLOG_ERROR("TextSystem initialization failed");
-            return;
-        }
-
+        if (!gfx) { DEBUGLOG_ERROR("GfxDevice が見つかりません"); return; }
+        if (!textSystem_.Init(*gfx)) { DEBUGLOG_ERROR("TextSystem の初期化に失敗しました"); return; }
         CreateTextFormats();
-
         float screenWidth = static_cast<float>(gfx->Width());
         float screenHeight = static_cast<float>(gfx->Height());
-
-        Entity gameStats = world.Create()
-                               .With<GameStats>()
-                               .Build();
-        ownedEntities_.push_back(gameStats);
-
-        Entity collisionSystem = world.Create()
-                                     .With<CollisionDetectionSystem>()
-                                     .Build();
-        ownedEntities_.push_back(collisionSystem);
-
+        Entity gameStats = world.Create().With<GameStats>().Build(); ownedEntities_.push_back(gameStats);
+        Entity stageProgress = world.Create().With<StageProgress>().Build(); ownedEntities_.push_back(stageProgress);
+        Entity collisionSystem = world.Create().With<CollisionDetectionSystem>().Build(); ownedEntities_.push_back(collisionSystem);
 #ifdef _DEBUG
-        Entity debugRenderer = world.Create()
-                                   .With<CollisionDebugRenderer>()
-                                   .Build();
-        ownedEntities_.push_back(debugRenderer);
+        Entity debugRenderer = world.Create().With<CollisionDebugRenderer>().Build(); ownedEntities_.push_back(debugRenderer);
 #endif
-
         world.Create().With<DirectionalLight>();
-
         CreateFloor(world);
         CreatePlayer(world);
+        CreateStart(world);
+        CreateGoal(world);
         CreateTestEnemy(world);
         CreateWall(world,{3.0f,0.0f,3.0f});
         CreateWall(world, {-1.0f, 0.0f, 3.0f});
-
         CreateUI(world, screenWidth, screenHeight);
-
-        DEBUGLOG("GameWithUIScene initialized successfully");
+        // ステージ1をセットアップ
+        SetupStage(world, 1);
+        DEBUGLOG("GameWithUIScene の初期化が正常に完了しました");
     }
-
     void OnUpdate(World &world, InputSystem &input, float deltaTime) override {
         world.ForEach<GameStats>([&](Entity e, GameStats &stats) {
-            if (input.GetKeyDown(VK_ESCAPE) || input.GetKeyDown('P')) {
-                stats.isPaused = !stats.isPaused;
-                DEBUGLOG(stats.isPaused ? "Game paused" : "Game resumed");
-            }
-
-            if (stats.isPaused) {
-                deltaTime = 0.0f;
+            if (input.GetKeyDown(VK_ESCAPE) || input.GetKeyDown('P')) { stats.isPaused = !stats.isPaused; DEBUGLOG(stats.isPaused ? "ゲームが一時停止されました" : "ゲームが再開されました"); }
+            if (stats.isPaused) { deltaTime = 0.0f; }
+        });
+        world.ForEach<StageProgress>([&](Entity e, StageProgress &sp){
+            if (sp.requestAdvance){
+                sp.requestAdvance = false;
+                sp.currentStage++;
+                DEBUGLOG("ステージが進行しました: " + std::to_string(sp.currentStage));
+                SetupStage(world, sp.currentStage);
             }
         });
-
-        world.ForEach<PlayerMovement>([&](Entity e, PlayerMovement &pm) {
-            if (!pm.input_) {
-                pm.input_ = &input;
-            }
-            if (!pm.gamepad_) {
-                pm.gamepad_ = &ServiceLocator::Get<GamepadSystem>();
-            }
-        });
-
-        world.ForEach<UIInteractionSystem>([&](Entity e, UIInteractionSystem &sys) {
-            if (!sys.input_) {
-                sys.input_ = &input;
-            }
-        });
-
+        world.ForEach<PlayerMovement>([&](Entity e, PlayerMovement &pm) { if (!pm.input_) { pm.input_ = &input; } if (!pm.gamepad_) { pm.gamepad_ = &ServiceLocator::Get<GamepadSystem>(); } });
+        world.ForEach<UIInteractionSystem>([&](Entity e, UIInteractionSystem &sys) { if (!sys.input_) { sys.input_ = &input; } });
         world.Tick(deltaTime);
     }
-
     void OnExit(World &world) override {
-        DEBUGLOG("GameWithUIScene::OnExit()");
-
-        for (const auto &entity : ownedEntities_) {
-            if (world.IsAlive(entity)) {
-                world.DestroyEntityWithCause(entity, World::Cause::SceneUnload);
-            }
-        }
+        DEBUGLOG("GameWithUIScene::OnExit() 開始");
+        for (const auto &entity : ownedEntities_) { if (world.IsAlive(entity)) { world.DestroyEntityWithCause(entity, World::Cause::SceneUnload); } }
         ownedEntities_.clear();
-
         textSystem_.Shutdown();
-        DEBUGLOG("GameWithUIScene cleanup completed");
+        DEBUGLOG("GameWithUIScene のクリーンアップが完了しました");
     }
-
   private:
     void CreateTextFormats() {
         TextSystem::TextFormat hudFormat;
@@ -237,7 +193,7 @@ class GameScene : public IScene {
         scoreTransform.anchor = {0.0f, 0.0f};
         scoreTransform.pivot = {0.0f, 0.0f};
 
-        UIText scoreText{L"Score: 0"};
+        UIText scoreText{L"スコア: 0"};
         scoreText.color = {1.0f, 1.0f, 0.0f, 1.0f};
         scoreText.formatId = "hud";
 
@@ -253,7 +209,7 @@ class GameScene : public IScene {
         timeTransform.anchor = {0.0f, 0.0f};
         timeTransform.pivot = {0.0f, 0.0f};
 
-        UIText timeText{L"Time: 00:00"};
+        UIText timeText{L"時間: 00:00"};
         timeText.color = {1.0f, 1.0f, 1.0f, 1.0f};
         timeText.formatId = "hud";
 
@@ -383,52 +339,70 @@ class GameScene : public IScene {
                             .With<PlayerCollisionHandler>()
                             .Build();
 
+        playerEntity_ = player;
         ownedEntities_.push_back(player);
     }
 
-    void CreateWall(World &world,const DirectX::XMFLOAT3 &position)
-    {
-        Transform transform{
-            position,
-            {0.0f, 0.0f, 0.0f},
-            {1.0f, 1.0f, 1.0f},
-        };
+    void CreateStart(World &world) {
+        Transform t{{-3.0f,0.0f,5.0f},{0,0,0},{1,1,1}};
 
-        MeshRenderer renderer;
-        renderer.meshType = MeshType::Cube;
-        renderer.color = DirectX::XMFLOAT3{1.0f,1.0f,1.0f};
+        MeshRenderer r;
+        r.meshType = MeshType::Cube;
+        r.color = DirectX::XMFLOAT3{0.0f,0.0f,1.0f};
 
-        Entity wall = world.Create()
-                          .With<Transform>(transform)
-                          .With<MeshRenderer>(renderer)
-                          .With<WallTag>()
-                          .With<CollisionBox>(DirectX::XMFLOAT3{1.0f,1.0f,1.0f})
-                          .With<WallCollisionHandler>()
-                          .Build();
+        Entity e = world.Create()
+                      .With<Transform>(t)
+                      .With<MeshRenderer>(r)
+                      .With<StartTag>()
+                      .With<CollisionBox>(DirectX::XMFLOAT3{1.0f,2.0f,1.0f})
+                      .Build();
+
+        startEntity_ = e;
+        ownedEntities_.push_back(e);
+    }
+
+    void CreateGoal(World &world) {
+        Transform t{{5.0f,0.0f,5.0f},{0,0,0},{1,1,1}};
+
+        MeshRenderer r;
+        r.meshType = MeshType::Cube;
+        r.color = DirectX::XMFLOAT3{1.0f,1.0f,0.0f};
+
+        Entity e = world.Create()
+                      .With<Transform>(t)
+                      .With<MeshRenderer>(r)
+                      .With<GoalTag>()
+                      .With<CollisionBox>(DirectX::XMFLOAT3{1.0f,2.0f,1.0f})
+                      .Build();
+
+        goalEntity_ = e;
+        ownedEntities_.push_back(e);
+    }
+
+    void CreateWall(World &world,const DirectX::XMFLOAT3 &position) {
+        Transform transform{ position,{0.0f, 0.0f, 0.0f},{1.0f, 1.0f, 1.0f} };
+        MeshRenderer renderer; renderer.meshType = MeshType::Cube; renderer.color = DirectX::XMFLOAT3{1.0f,1.0f,1.0f};
+        Entity wall = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<WallTag>().With<CollisionBox>(DirectX::XMFLOAT3{1.0f,1.0f,1.0f}).With<WallCollisionHandler>().Build();
+        ownedEntities_.push_back(wall);
     }
 
     void CreateTestEnemy(World &world) {
-        Transform transform{
-            {1.5f, 0.0f, 5.0f},
-            {0.0f, 0.0f, 0.0f},
-            {1.0f, 1.0f, 1.0f},
-        };
-
-        MeshRenderer renderer;
-        renderer.meshType = MeshType::Sphere;
-        renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f};
-
-        Entity enemy = world.Create()
-                           .With<Transform>(transform)
-                           .With<MeshRenderer>(renderer)
-                           .With<EnemyTag>()
-                           .With<CollisionSphere>(0.5f)
-                           .With<EnemyCollisionHandler>()
-                           .Build();
-
+        Transform transform{{1.5f, 0.0f, 5.0f},{0.0f, 0.0f, 0.0f},{1.0f, 1.0f, 1.0f}};
+        MeshRenderer renderer; renderer.meshType = MeshType::Sphere; renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f};
+        Entity enemy = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<EnemyTag>().With<CollisionSphere>(0.5f).With<EnemyCollisionHandler>().Build();
         ownedEntities_.push_back(enemy);
+    }
+
+    void SetupStage(World &world, int stage) {
+        float goalX = 5.0f + static_cast<float>(stage - 1) * 2.0f;
+        if (world.IsAlive(goalEntity_)) { if (auto* tGoal = world.TryGet<Transform>(goalEntity_)) { tGoal->position = { goalX, 0.0f, 5.0f }; } }
+        if (world.IsAlive(startEntity_)) { if (auto* tStart = world.TryGet<Transform>(startEntity_)) { tStart->position = { -3.0f, 0.0f, 5.0f }; } }
+        if (world.IsAlive(playerEntity_)) { if (auto* tPlayer = world.TryGet<Transform>(playerEntity_)) { tPlayer->position = { -3.0f, 0.0f, 5.0f }; } }
     }
 
     TextSystem textSystem_;
     std::vector<Entity> ownedEntities_;
+    Entity playerEntity_{};
+    Entity startEntity_{};
+    Entity goalEntity_{};
 };

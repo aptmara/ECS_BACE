@@ -251,6 +251,9 @@
     <ClInclude Include="include\samples\TransformHierarchySamples.h">
       <Filter>include\samples</Filter>
     </ClInclude>
+    <ClInclude Include="include\components\StageComponents.h">
+      <Filter>include\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Textures\test.png">
