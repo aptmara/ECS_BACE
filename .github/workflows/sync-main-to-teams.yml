@@ -43,7 +43,7 @@ jobs:
         id: rebase
         run: |
           set -e
-          git rebase origin/master || echo "::set-output name=need_pr::true"
+          git rebase origin/master || echo "need_pr=true" >> "$GITHUB_OUTPUT"
 
       - name: Push (force-with-lease) if rebase succeeded
         if: steps.rebase.outputs.need_pr != 'true'
