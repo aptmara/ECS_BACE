@@ -19,6 +19,41 @@
 #include "input/GamepadSystem.h"
 #include <DirectXMath.h>
 
+// =========================================
+// ベロシティ計算コンポーネント
+// =========================================
+
+struct PlayerVelocity : Behaviour {
+    float speed = 10.0f;                       ///< 移動速度(単位/秒) - 速度を上げて動きを明確に
+    DirectX::XMFLOAT2 velocity = {0.0f, 0.0f}; ///< 現在の移動ベロシティ
+
+    void SetVelocity(DirectX::XMFLOAT2 speed) {
+        velocity.x = speed.x;
+        velocity.y = speed.y;
+    }
+
+    void UpdateVelocity(const DirectX::XMFLOAT2 &inputDir) {
+        // 入力がある場合はベロシティを更新
+        if (inputDir.x != 0.0f || inputDir.y != 0.0f) {
+
+            // ベクトルの長さを計算
+            float length = std::sqrt(inputDir.x * inputDir.x + inputDir.y * inputDir.y);
+
+            if (length > 0.0f) {
+                // 正規化し、speedを乗算してベロシティを更新
+                float normal_x = inputDir.x / length;
+                float normal_y = inputDir.y / length;
+                velocity.x = normal_x * speed;
+                velocity.y = normal_y * speed;
+            }
+        }
+    }
+
+    DirectX::XMFLOAT2 GetVelocity() {
+        return velocity;
+    }
+};
+
 // ========================================================
 // プレイヤー移動コンポーネント
 // ========================================================
@@ -49,10 +84,8 @@
  * @see InputSystem
  */
 struct PlayerMovement : Behaviour {
-    InputSystem *input_ = nullptr;             ///< 入力システムへのポインタ
-    GamepadSystem *gamepad_ = nullptr;         ///< ゲームパッドシステムへのポインタ
-    float speed = 10.0f;                        ///< 移動速度(単位/秒) - 速度を上げて動きを明確に
-    DirectX::XMFLOAT2 velocity = {0.0f, 0.0f}; ///< 現在の移動ベロシティ
+    InputSystem *input_ = nullptr;     ///< 入力システムへのポインタ
+    GamepadSystem *gamepad_ = nullptr; ///< ゲームパッドシステムへのポインタ
 
     /**
      * @brief 毎フレーム更新処理
@@ -67,10 +100,13 @@ struct PlayerMovement : Behaviour {
      */
     void OnUpdate(World &w, Entity self, float dt) override {
         auto *t = w.TryGet<Transform>(self);
-        if (!t || (!input_ && !gamepad_))
+        auto *v = w.TryGet<PlayerVelocity>(self);
+       
+        if (!t || !v || (!input_ && !gamepad_))
             return;
 
         DirectX::XMFLOAT2 inputDir = {0.0f, 0.0f};
+
 
         // キーボード入力の処理
         if (input_) {
@@ -95,7 +131,7 @@ struct PlayerMovement : Behaviour {
 
 #ifdef _DEBUG
             static int debugCounter = 0;
-            if (debugCounter % 30 == 0 && (gx != 0.0f || gy != 0.0f)) {  // 入力があるときだけログ出力
+            if (debugCounter % 30 == 0 && (gx != 0.0f || gy != 0.0f)) { // 入力があるときだけログ出力
                 DEBUGLOG("PlayerMovement: Gamepad input - LX=" + std::to_string(gx) + ", LY=" + std::to_string(gy));
             }
             debugCounter++;
@@ -105,14 +141,11 @@ struct PlayerMovement : Behaviour {
             inputDir.y += gy;
         }
 
-        // 入力がある場合はベロシティを更新
-        if (inputDir.x != 0.0f || inputDir.y != 0.0f) {
-            velocity = {inputDir.x * speed, inputDir.y * speed};
-        }
+        v->UpdateVelocity(inputDir);
 
         // ベロシティに基づいて位置を更新
-        t->position.x += velocity.x * dt;
-        t->position.z += velocity.y * dt;
+        t->position.x += v->velocity.x * dt;
+        t->position.z += v->velocity.y * dt;
 
         // 画面外に出ないように制限
         const float limitX = 8.0f;
