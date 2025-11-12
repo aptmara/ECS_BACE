@@ -270,28 +270,6 @@ void GamepadSystem::UpdateXInput(int index) {
 
     pad.connected = true;
 
-#ifdef _DEBUG
-    static int debugFrameCounter = 0;
-    static int debugInterval = 10; //0.16秒ごと (より頻繁にログ出力)
-    bool shouldDebugLog = (debugFrameCounter % debugInterval == 0);
-    debugFrameCounter++;
-
-    if (shouldDebugLog) {
-        // 入力値が実際に変化しているかをログ出力
-        std::ostringstream oss;
-        oss << "XInput[" << index << "] RAW INPUT: ";
-        oss << "PacketNum=" << state.dwPacketNumber;
-        oss << ", Buttons=0x" << std::hex << state.Gamepad.wButtons;
-        oss << ", LX=" << std::dec << state.Gamepad.sThumbLX;
-        oss << ", LY=" << state.Gamepad.sThumbLY;
-        oss << ", RX=" << state.Gamepad.sThumbRX;
-        oss << ", RY=" << state.Gamepad.sThumbRY;
-        oss << ", LT=" << (int) state.Gamepad.bLeftTrigger;
-        oss << ", RT=" << (int) state.Gamepad.bRightTrigger;
-        DEBUGLOG_CATEGORY(DebugLog::Category::Input, oss.str());
-    }
-#endif
-
     // 前フレームの状態を保存
     memcpy(pad.prevButtons, pad.buttons, sizeof(pad.buttons));
 
