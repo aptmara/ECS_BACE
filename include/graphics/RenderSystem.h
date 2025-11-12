@@ -65,21 +65,21 @@ struct RenderSystem {
      * @brief 頂点シェーダー用定数バッファ
      */
     struct VSConstants {
-        DirectX::XMMATRIX World;      ///< ワールド行列
-        DirectX::XMMATRIX WVP;        ///< ワールド・ビュー・プロジェクション行列
+        DirectX::XMMATRIX World;       ///< ワールド行列
+        DirectX::XMMATRIX WVP;         ///< ワールド・ビュー・プロジェクション行列
         DirectX::XMFLOAT4 uvTransform; ///< UVオフセットとスケール
     };
 
-  /**
+    /**
      * @struct PSConstants
      * @brief ピクセルシェーダー用オブジェクト定数バッファ
      */
     struct PSConstants {
-        DirectX::XMFLOAT4 color;///< マテリアルカラー
-        float useTexture;     ///< テクスチャ使用フラグ
-        float useNormalMap;     ///< ノーマルマップ使用フラグ
+        DirectX::XMFLOAT4 color; ///< マテリアルカラー
+        float useTexture;        ///< テクスチャ使用フラグ
+        float useNormalMap;      ///< ノーマルマップ使用フラグ
         float specularPower;     ///< スペキュラ強度
-        float padding;       ///< パディング
+        float padding;           ///< パディング
     };
 
     /**
@@ -87,27 +87,27 @@ struct RenderSystem {
      * @brief ピクセルシェーダー用ライト定数バッファ
      */
     struct PSLightConstants {
-        DirectionalLight light; ///< ディレクショナルライト
-        DirectX::XMFLOAT3 ambientColor{ 0.2f, 0.2f, 0.2f };  ///< アンビエントカラー
-float padding2;         ///< パディング
-        DirectX::XMFLOAT3 eyePos;                 ///< カメラ位置
-   float padding3;      ///< パディング
- };
+        DirectionalLight light;                           ///< ディレクショナルライト
+        DirectX::XMFLOAT3 ambientColor{0.2f, 0.2f, 0.2f}; ///< アンビエントカラー
+        float padding2;                                   ///< パディング
+        DirectX::XMFLOAT3 eyePos;                         ///< カメラ位置
+        float padding3;                                   ///< パディング
+    };
 
     /**
      * @struct Statistics
      * @brief レンダリング統計情報
      */
     struct Statistics {
-        size_t modelsRendered = 0;     ///< 描画されたModelComponentの数
-      size_t meshesRendered = 0;  ///< 描画されたMeshRendererの数
-        size_t totalDrawCalls = 0;     ///< 総描画コール数
+        size_t modelsRendered = 0; ///< 描画されたModelComponentの数
+        size_t meshesRendered = 0; ///< 描画されたMeshRendererの数
+        size_t totalDrawCalls = 0; ///< 総描画コール数
 
-    void Reset() {
- modelsRendered = 0;
-       meshesRendered = 0;
- totalDrawCalls = 0;
-     }
+        void Reset() {
+            modelsRendered = 0;
+            meshesRendered = 0;
+            totalDrawCalls = 0;
+        }
     };
 
     /**
@@ -120,14 +120,14 @@ float padding2;         ///< パディング
     /**
      * @brief コピー禁止
      */
-    RenderSystem(const RenderSystem&) = delete;
-    RenderSystem& operator=(const RenderSystem&) = delete;
+    RenderSystem(const RenderSystem &) = delete;
+    RenderSystem &operator=(const RenderSystem &) = delete;
 
     /**
      * @brief ムーブ許可
      */
-    RenderSystem(RenderSystem&&) noexcept = default;
-    RenderSystem& operator=(RenderSystem&&) noexcept = default;
+    RenderSystem(RenderSystem &&) noexcept = default;
+    RenderSystem &operator=(RenderSystem &&) noexcept = default;
 
     /**
      * @brief デフォルトコンストラクタ
@@ -143,38 +143,38 @@ float padding2;         ///< パディング
      * 基本形状メッシュの生成を行います。
      */
     bool Init() {
-  if (initialized_) {
-   DEBUGLOG_WARNING("[RenderSystem] 既に初期化されています");
-   return true;
+        if (initialized_) {
+            DEBUGLOG_WARNING("[RenderSystem] 既に初期化されています");
+            return true;
         }
 
         DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] 初期化開始");
 
-      auto& gfx = ServiceLocator::Get<GfxDevice>();
+        auto &gfx = ServiceLocator::Get<GfxDevice>();
 
         if (!CompileShaders(gfx)) {
-        DEBUGLOG_ERROR("[RenderSystem] シェーダーのコンパイルに失敗");
-        return false;
+            DEBUGLOG_ERROR("[RenderSystem] シェーダーのコンパイルに失敗");
+            return false;
         }
 
         if (!CreateInputLayout(gfx)) {
-       DEBUGLOG_ERROR("[RenderSystem] 入力レイアウトの作成に失敗");
+            DEBUGLOG_ERROR("[RenderSystem] 入力レイアウトの作成に失敗");
             return false;
         }
 
         if (!CreateConstantBuffers(gfx)) {
-         DEBUGLOG_ERROR("[RenderSystem] 定数バッファの作成に失敗");
-     return false;
-        }
-
- if (!CreateStates(gfx)) {
-    DEBUGLOG_ERROR("[RenderSystem] ステートの作成に失敗");
+            DEBUGLOG_ERROR("[RenderSystem] 定数バッファの作成に失敗");
             return false;
         }
 
- if (!CreatePrimitiveMeshes(gfx)) {
-   DEBUGLOG_ERROR("[RenderSystem] 基本形状メッシュの作成に失敗");
-    return false;
+        if (!CreateStates(gfx)) {
+            DEBUGLOG_ERROR("[RenderSystem] ステートの作成に失敗");
+            return false;
+        }
+
+        if (!CreatePrimitiveMeshes(gfx)) {
+            DEBUGLOG_ERROR("[RenderSystem] 基本形状メッシュの作成に失敗");
+            return false;
         }
 
         initialized_ = true;
@@ -192,24 +192,24 @@ float padding2;         ///< パディング
      * @details
      * すべてのModelComponentとMeshRendererを描画します。
      */
-    void Render(World& w, const Camera& cam) {
+    void Render(World &w, const Camera &cam) {
         if (!initialized_) {
             DEBUGLOG_WARNING("[RenderSystem] 初期化されていません");
-         return;
- }
+            return;
+        }
 
-        auto& gfx = ServiceLocator::Get<GfxDevice>();
-     auto& texMgr = ServiceLocator::Get<TextureManager>();
+        auto &gfx = ServiceLocator::Get<GfxDevice>();
+        auto &texMgr = ServiceLocator::Get<TextureManager>();
 
- stats_.Reset();
+        stats_.Reset();
 
-  // パイプラインステートの設定
-      SetupPipeline(gfx);
+        // パイプラインステートの設定
+        SetupPipeline(gfx);
 
         // ライト情報の更新
         UpdateLightConstants(w, cam, gfx);
 
-    // ModelComponentの描画
+        // ModelComponentの描画
         RenderModelComponents(w, gfx, cam, texMgr);
 
         // MeshRendererの描画
@@ -223,40 +223,41 @@ float padding2;         ///< パディング
      * すべてのリソースを解放します。
      */
     void Shutdown() {
-        if (!initialized_) return;
+        if (!initialized_)
+            return;
 
- DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] シャットダウン開始");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] シャットダウン開始");
 
         // 統計情報のログ出力
-     if (stats_.totalDrawCalls > 0) {
+        if (stats_.totalDrawCalls > 0) {
             DEBUGLOG_CATEGORY(DebugLog::Category::Graphics,
-     "RenderSystem統計: Models=" + std::to_string(stats_.modelsRendered) +
-         ", Meshes=" + std::to_string(stats_.meshesRendered) +
-           ", DrawCalls=" + std::to_string(stats_.totalDrawCalls));
+                              "RenderSystem統計: Models=" + std::to_string(stats_.modelsRendered) +
+                                  ", Meshes=" + std::to_string(stats_.meshesRendered) +
+                                  ", DrawCalls=" + std::to_string(stats_.totalDrawCalls));
         }
 
         // リソース解放
-    vs_.Reset();
+        vs_.Reset();
         ps_.Reset();
         layout_.Reset();
-    vsCb_.Reset();
+        vsCb_.Reset();
         psCb_.Reset();
         psLightCb_.Reset();
         rasterState_.Reset();
- samplerState_.Reset();
+        samplerState_.Reset();
 
         meshCache_.clear();
 
-      initialized_ = false;
+        initialized_ = false;
 
-   DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] シャットダウン完了");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] シャットダウン完了");
     }
 
     /**
      * @brief 統計情報の取得
  * @return const Statistics& 統計情報への参照
      */
-    const Statistics& GetStatistics() const {
+    const Statistics &GetStatistics() const {
         return stats_;
     }
 
@@ -268,7 +269,7 @@ float padding2;         ///< パディング
         return initialized_;
     }
 
-private:
+  private:
     /**
      * @struct MeshData
    * @brief メッシュデータ
@@ -287,13 +288,13 @@ private:
         DirectX::XMFLOAT3 pos;
         DirectX::XMFLOAT2 tex;
         DirectX::XMFLOAT3 nrm;
-     DirectX::XMFLOAT3 tan;
+        DirectX::XMFLOAT3 tan;
         DirectX::XMFLOAT3 bitan;
     };
 
     // DirectX11リソース
     Microsoft::WRL::ComPtr<ID3D11VertexShader> vs_;
-  Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;
+    Microsoft::WRL::ComPtr<ID3D11PixelShader> ps_;
     Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;
     Microsoft::WRL::ComPtr<ID3D11Buffer> vsCb_;
     Microsoft::WRL::ComPtr<ID3D11Buffer> psCb_;
@@ -311,8 +312,8 @@ private:
     /**
      * @brief シェーダーのコンパイル
      */
-    bool CompileShaders(GfxDevice& gfx) {
-        const char* VS = R"(
+    bool CompileShaders(GfxDevice &gfx) {
+        const char *VS = R"(
             cbuffer PerObject : register(b0) {
           float4x4 gWorld;
          float4x4 gWVP;
@@ -348,7 +349,7 @@ private:
        }
         )";
 
-        const char* PS = R"(
+        const char *PS = R"(
             struct DirectionalLight {
      float3 direction;
           float padding;
@@ -411,7 +412,7 @@ private:
             }
   )";
 
-Microsoft::WRL::ComPtr<ID3DBlob> vsb, psb, err;
+        Microsoft::WRL::ComPtr<ID3DBlob> vsb, psb, err;
         UINT compileFlags = D3DCOMPILE_ENABLE_STRICTNESS;
 #ifdef _DEBUG
         compileFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
@@ -419,42 +420,42 @@ Microsoft::WRL::ComPtr<ID3DBlob> vsb, psb, err;
 
         // 頂点シェーダーのコンパイル
         HRESULT hr = D3DCompile(VS, strlen(VS), nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags, 0, vsb.GetAddressOf(), err.GetAddressOf());
-  if (FAILED(hr)) {
-   if (err) {
-        std::string errorMsg(static_cast<const char*>(err->GetBufferPointer()), err->GetBufferSize());
-     DEBUGLOG_ERROR("[RenderSystem] 頂点シェーダーのコンパイル失敗: " + errorMsg);
+        if (FAILED(hr)) {
+            if (err) {
+                std::string errorMsg(static_cast<const char *>(err->GetBufferPointer()), err->GetBufferSize());
+                DEBUGLOG_ERROR("[RenderSystem] 頂点シェーダーのコンパイル失敗: " + errorMsg);
             } else {
-        DEBUGLOG_ERROR("[RenderSystem] 頂点シェーダーのコンパイル失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+                DEBUGLOG_ERROR("[RenderSystem] 頂点シェーダーのコンパイル失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             }
             return false;
         }
 
-// ピクセルシェーダーのコンパイル
-  err.Reset();
+        // ピクセルシェーダーのコンパイル
+        err.Reset();
         hr = D3DCompile(PS, strlen(PS), nullptr, nullptr, nullptr, "main", "ps_5_0", compileFlags, 0, psb.GetAddressOf(), err.GetAddressOf());
         if (FAILED(hr)) {
             if (err) {
-         std::string errorMsg(static_cast<const char*>(err->GetBufferPointer()), err->GetBufferSize());
-     DEBUGLOG_ERROR("[RenderSystem] ピクセルシェーダーのコンパイル失敗: " + errorMsg);
-  } else {
-      DEBUGLOG_ERROR("[RenderSystem] ピクセルシェーダーのコンパイル失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+                std::string errorMsg(static_cast<const char *>(err->GetBufferPointer()), err->GetBufferSize());
+                DEBUGLOG_ERROR("[RenderSystem] ピクセルシェーダーのコンパイル失敗: " + errorMsg);
+            } else {
+                DEBUGLOG_ERROR("[RenderSystem] ピクセルシェーダーのコンパイル失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             }
-return false;
+            return false;
         }
 
-// 頂点シェーダーの作成
+        // 頂点シェーダーの作成
         hr = gfx.Dev()->CreateVertexShader(vsb->GetBufferPointer(), vsb->GetBufferSize(), nullptr, vs_.GetAddressOf());
-if (FAILED(hr)) {
-       DEBUGLOG_ERROR("[RenderSystem] 頂点シェーダーの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-        return false;
-     }
+        if (FAILED(hr)) {
+            DEBUGLOG_ERROR("[RenderSystem] 頂点シェーダーの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            return false;
+        }
 
-     // ピクセルシェーダーの作成
+        // ピクセルシェーダーの作成
         hr = gfx.Dev()->CreatePixelShader(psb->GetBufferPointer(), psb->GetBufferSize(), nullptr, ps_.GetAddressOf());
-      if (FAILED(hr)) {
+        if (FAILED(hr)) {
             DEBUGLOG_ERROR("[RenderSystem] ピクセルシェーダーの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-          return false;
-  }
+            return false;
+        }
 
         // 入力レイアウトの作成のためにvsb_を保存
         vsBlob_ = vsb;
@@ -468,57 +469,56 @@ if (FAILED(hr)) {
     /**
      * @brief 入力レイアウトの作成
      */
-    bool CreateInputLayout(GfxDevice& gfx) {
-  D3D11_INPUT_ELEMENT_DESC il[] = {
-       { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-  { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
- { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-            { "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-     { "BITANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-        };
+    bool CreateInputLayout(GfxDevice &gfx) {
+        D3D11_INPUT_ELEMENT_DESC il[] = {
+            {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+            {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+            {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+            {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+            {"BITANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}};
 
         HRESULT hr = gfx.Dev()->CreateInputLayout(il, 5, vsBlob_->GetBufferPointer(), vsBlob_->GetBufferSize(), layout_.GetAddressOf());
-      if (FAILED(hr)) {
+        if (FAILED(hr)) {
             DEBUGLOG_ERROR("[RenderSystem] 入力レイアウトの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-return false;
+            return false;
         }
 
-     DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] 入力レイアウトの作成完了");
-    return true;
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] 入力レイアウトの作成完了");
+        return true;
     }
 
     /**
      * @brief 定数バッファの作成
      */
-    bool CreateConstantBuffers(GfxDevice& gfx) {
+    bool CreateConstantBuffers(GfxDevice &gfx) {
         D3D11_BUFFER_DESC cbd{};
         cbd.Usage = D3D11_USAGE_DEFAULT;
-   cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+        cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         cbd.CPUAccessFlags = 0;
-cbd.MiscFlags = 0;
+        cbd.MiscFlags = 0;
         cbd.StructureByteStride = 0;
 
         // VS定数バッファ
-   cbd.ByteWidth = sizeof(VSConstants);
+        cbd.ByteWidth = sizeof(VSConstants);
         HRESULT hr = gfx.Dev()->CreateBuffer(&cbd, nullptr, vsCb_.GetAddressOf());
         if (FAILED(hr)) {
-  DEBUGLOG_ERROR("[RenderSystem] VS定数バッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[RenderSystem] VS定数バッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             return false;
         }
 
         // PS定数バッファ
         cbd.ByteWidth = sizeof(PSConstants);
-  hr = gfx.Dev()->CreateBuffer(&cbd, nullptr, psCb_.GetAddressOf());
-    if (FAILED(hr)) {
+        hr = gfx.Dev()->CreateBuffer(&cbd, nullptr, psCb_.GetAddressOf());
+        if (FAILED(hr)) {
             DEBUGLOG_ERROR("[RenderSystem] PS定数バッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-  return false;
+            return false;
         }
 
         // PSライト定数バッファ
         cbd.ByteWidth = sizeof(PSLightConstants);
         hr = gfx.Dev()->CreateBuffer(&cbd, nullptr, psLightCb_.GetAddressOf());
         if (FAILED(hr)) {
-     DEBUGLOG_ERROR("[RenderSystem] PSライト定数バッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            DEBUGLOG_ERROR("[RenderSystem] PSライト定数バッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
             return false;
         }
 
@@ -529,28 +529,28 @@ cbd.MiscFlags = 0;
     /**
      * @brief ステートの作成
      */
-    bool CreateStates(GfxDevice& gfx) {
-     // サンプラーステート
+    bool CreateStates(GfxDevice &gfx) {
+        // サンプラーステート
         D3D11_SAMPLER_DESC sampDesc{};
         sampDesc.Filter = D3D11_FILTER_ANISOTROPIC;
         sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
         sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
         sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
         sampDesc.MaxAnisotropy = 16;
-   sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+        sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
         sampDesc.MinLOD = 0;
         sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
         HRESULT hr = gfx.Dev()->CreateSamplerState(&sampDesc, &samplerState_);
         if (FAILED(hr)) {
-     DEBUGLOG_ERROR("[RenderSystem] サンプラーステートの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-     return false;
+            DEBUGLOG_ERROR("[RenderSystem] サンプラーステートの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            return false;
         }
 
         // ラスタライザーステート
- D3D11_RASTERIZER_DESC rsd{};
+        D3D11_RASTERIZER_DESC rsd{};
         rsd.FillMode = D3D11_FILL_SOLID;
-   rsd.CullMode = D3D11_CULL_BACK;
+        rsd.CullMode = D3D11_CULL_BACK;
         rsd.FrontCounterClockwise = FALSE;
         rsd.DepthClipEnable = TRUE;
         rsd.ScissorEnable = FALSE;
@@ -558,41 +558,41 @@ cbd.MiscFlags = 0;
         rsd.AntialiasedLineEnable = FALSE;
 
         hr = gfx.Dev()->CreateRasterizerState(&rsd, rasterState_.GetAddressOf());
-   if (FAILED(hr)) {
-      DEBUGLOG_ERROR("[RenderSystem] ラスタライザーステートの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-  return false;
+        if (FAILED(hr)) {
+            DEBUGLOG_ERROR("[RenderSystem] ラスタライザーステートの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
+            return false;
         }
 
- DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ステートの作成完了");
+        DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] ステートの作成完了");
         return true;
     }
 
     /**
      * @brief 基本形状メッシュの作成
      */
-    bool CreatePrimitiveMeshes(GfxDevice& gfx) {
+    bool CreatePrimitiveMeshes(GfxDevice &gfx) {
         // Cube
         if (!CreateCubeMesh(gfx)) {
-  DEBUGLOG_ERROR("[RenderSystem] キューブメッシュの作成失敗");
+            DEBUGLOG_ERROR("[RenderSystem] キューブメッシュの作成失敗");
             return false;
         }
 
         // Sphere
-  if (!CreateSphereMesh(gfx)) {
-    DEBUGLOG_ERROR("[RenderSystem] 球体メッシュの作成失敗");
+        if (!CreateSphereMesh(gfx)) {
+            DEBUGLOG_ERROR("[RenderSystem] 球体メッシュの作成失敗");
             return false;
         }
 
-     // Cylinder
-    if (!CreateCylinderMesh(gfx)) {
+        // Cylinder
+        if (!CreateCylinderMesh(gfx)) {
             DEBUGLOG_ERROR("[RenderSystem] 円柱メッシュの作成失敗");
             return false;
-    }
+        }
 
-      // Plane
+        // Plane
         if (!CreatePlaneMesh(gfx)) {
             DEBUGLOG_ERROR("[RenderSystem] 平面メッシュの作成失敗");
-  return false;
+            return false;
         }
 
         DEBUGLOG_CATEGORY(DebugLog::Category::Graphics, "[RenderSystem] 基本形状メッシュの作成完了");
@@ -602,123 +602,123 @@ cbd.MiscFlags = 0;
     /**
      * @brief キューブメッシュの作成
      */
-    bool CreateCubeMesh(GfxDevice& gfx) {
+    bool CreateCubeMesh(GfxDevice &gfx) {
         const float size = 0.5f;
 
         // 頂点データ（各面に4頂点）
         Vertex vertices[] = {
             // Front face (Z+)
-    {{-size, -size, size}, {0, 1}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
-  {{size, -size, size}, {1, 1}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
+            {{-size, -size, size}, {0, 1}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
+            {{size, -size, size}, {1, 1}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
             {{size, size, size}, {1, 0}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
-     {{-size, size, size}, {0, 0}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
+            {{-size, size, size}, {0, 0}, {0, 0, 1}, {1, 0, 0}, {0, 1, 0}},
 
-     // Back face (Z-)
-         {{size, -size, -size}, {0, 1}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
-       {{-size, -size, -size}, {1, 1}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
-          {{-size, size, -size}, {1, 0}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
+            // Back face (Z-)
+            {{size, -size, -size}, {0, 1}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
+            {{-size, -size, -size}, {1, 1}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
+            {{-size, size, -size}, {1, 0}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
             {{size, size, -size}, {0, 0}, {0, 0, -1}, {-1, 0, 0}, {0, 1, 0}},
 
-        // Left face (X-)
-      {{-size, -size, -size}, {0, 1}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
-      {{-size, -size, size}, {1, 1}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
-       {{-size, size, size}, {1, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
-        {{-size, size, -size}, {0, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
+            // Left face (X-)
+            {{-size, -size, -size}, {0, 1}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
+            {{-size, -size, size}, {1, 1}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
+            {{-size, size, size}, {1, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
+            {{-size, size, -size}, {0, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 1, 0}},
 
-        // Right face (X+)
+            // Right face (X+)
             {{size, -size, size}, {0, 1}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
-  {{size, -size, -size}, {1, 1}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
-      {{size, size, -size}, {1, 0}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
+            {{size, -size, -size}, {1, 1}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
+            {{size, size, -size}, {1, 0}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
             {{size, size, size}, {0, 0}, {1, 0, 0}, {0, 0, -1}, {0, 1, 0}},
 
-   // Top face (Y+)
+            // Top face (Y+)
             {{-size, size, size}, {0, 1}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
-          {{size, size, size}, {1, 1}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
-   {{size, size, -size}, {1, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
-    {{-size, size, -size}, {0, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
+            {{size, size, size}, {1, 1}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
+            {{size, size, -size}, {1, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
+            {{-size, size, -size}, {0, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, -1}},
 
-        // Bottom face (Y-)
+            // Bottom face (Y-)
             {{-size, -size, -size}, {0, 1}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
-   {{size, -size, -size}, {1, 1}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
- {{size, -size, size}, {1, 0}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
-    {{-size, -size, size}, {0, 0}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
+            {{size, -size, -size}, {1, 1}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
+            {{size, -size, size}, {1, 0}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
+            {{-size, -size, size}, {0, 0}, {0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
         };
 
         // インデックスデータ（各面に2三角形 = 6インデックス）
- uint16_t indices[] = {
-     0, 1, 2, 0, 2, 3,       // Front
-            4, 5, 6, 4, 6, 7,     // Back
-      8, 9, 10, 8, 10, 11,    // Left
+        uint16_t indices[] = {
+            0, 1, 2, 0, 2, 3,       // Front
+            4, 5, 6, 4, 6, 7,       // Back
+            8, 9, 10, 8, 10, 11,    // Left
             12, 13, 14, 12, 14, 15, // Right
-       16, 17, 18, 16, 18, 19, // Top
-     20, 21, 22, 20, 22, 23  // Bottom
+            16, 17, 18, 16, 18, 19, // Top
+            20, 21, 22, 20, 22, 23  // Bottom
         };
 
-     return CreateMeshBuffers(gfx, vertices, sizeof(vertices) / sizeof(Vertex), indices, sizeof(indices) / sizeof(uint16_t), static_cast<int>(MeshType::Cube));
+        return CreateMeshBuffers(gfx, vertices, sizeof(vertices) / sizeof(Vertex), indices, sizeof(indices) / sizeof(uint16_t), static_cast<int>(MeshType::Cube));
     }
 
     /**
    * @brief 球体メッシュの作成
      */
-    bool CreateSphereMesh(GfxDevice& gfx) {
+    bool CreateSphereMesh(GfxDevice &gfx) {
         const int segments = 32;
-     const int rings = 16;
+        const int rings = 16;
         const float radius = 0.5f;
 
-     std::vector<Vertex> vertices;
+        std::vector<Vertex> vertices;
         std::vector<uint16_t> indices;
 
         // 頂点生成
         for (int ring = 0; ring <= rings; ++ring) {
-   float phi = DirectX::XM_PI * ring / rings;
-    float sinPhi = sinf(phi);
+            float phi = DirectX::XM_PI * ring / rings;
+            float sinPhi = sinf(phi);
             float cosPhi = cosf(phi);
 
             for (int seg = 0; seg <= segments; ++seg) {
-        float theta = 2.0f * DirectX::XM_PI * seg / segments;
-        float sinTheta = sinf(theta);
-  float cosTheta = cosf(theta);
+                float theta = 2.0f * DirectX::XM_PI * seg / segments;
+                float sinTheta = sinf(theta);
+                float cosTheta = cosf(theta);
 
-        Vertex v;
-       v.pos.x = radius * sinPhi * cosTheta;
-          v.pos.y = radius * cosPhi;
-       v.pos.z = radius * sinPhi * sinTheta;
+                Vertex v;
+                v.pos.x = radius * sinPhi * cosTheta;
+                v.pos.y = radius * cosPhi;
+                v.pos.z = radius * sinPhi * sinTheta;
 
-           v.nrm.x = sinPhi * cosTheta;
-      v.nrm.y = cosPhi;
-         v.nrm.z = sinPhi * sinTheta;
+                v.nrm.x = sinPhi * cosTheta;
+                v.nrm.y = cosPhi;
+                v.nrm.z = sinPhi * sinTheta;
 
-v.tex.x = static_cast<float>(seg) / segments;
-  v.tex.y = static_cast<float>(ring) / rings;
+                v.tex.x = static_cast<float>(seg) / segments;
+                v.tex.y = static_cast<float>(ring) / rings;
 
-    v.tan.x = -sinTheta;
-     v.tan.y = 0;
+                v.tan.x = -sinTheta;
+                v.tan.y = 0;
                 v.tan.z = cosTheta;
 
-     v.bitan.x = cosPhi * cosTheta;
-      v.bitan.y = -sinPhi;
-   v.bitan.z = cosPhi * sinTheta;
+                v.bitan.x = cosPhi * cosTheta;
+                v.bitan.y = -sinPhi;
+                v.bitan.z = cosPhi * sinTheta;
 
-          vertices.push_back(v);
-        }
+                vertices.push_back(v);
+            }
         }
 
         // インデックス生成
         for (int ring = 0; ring < rings; ++ring) {
             for (int seg = 0; seg < segments; ++seg) {
-            int a = ring * (segments + 1) + seg;
- int b = a + 1;
+                int a = ring * (segments + 1) + seg;
+                int b = a + 1;
                 int c = a + segments + 1;
-  int d = c + 1;
+                int d = c + 1;
 
-   indices.push_back(a);
-     indices.push_back(c);
-          indices.push_back(b);
+                indices.push_back(a);
+                indices.push_back(c);
+                indices.push_back(b);
 
-      indices.push_back(b);
-       indices.push_back(c);
-           indices.push_back(d);
-   }
+                indices.push_back(b);
+                indices.push_back(c);
+                indices.push_back(d);
+            }
         }
 
         return CreateMeshBuffers(gfx, vertices.data(), vertices.size(), indices.data(), indices.size(), static_cast<int>(MeshType::Sphere));
@@ -727,9 +727,9 @@ v.tex.x = static_cast<float>(seg) / segments;
     /**
      * @brief 円柱メッシュの作成
      */
-    bool CreateCylinderMesh(GfxDevice& gfx) {
-      const int segments = 32;
-     const float radius = 0.5f;
+    bool CreateCylinderMesh(GfxDevice &gfx) {
+        const int segments = 32;
+        const float radius = 0.5f;
         const float height = 1.0f;
 
         std::vector<Vertex> vertices;
@@ -738,33 +738,33 @@ v.tex.x = static_cast<float>(seg) / segments;
         // 側面の頂点
         for (int i = 0; i <= segments; ++i) {
             float theta = 2.0f * DirectX::XM_PI * i / segments;
-        float cosTheta = cosf(theta);
-         float sinTheta = sinf(theta);
+            float cosTheta = cosf(theta);
+            float sinTheta = sinf(theta);
 
             // トップの頂点
             Vertex vTop;
-    vTop.pos = {radius * cosTheta, height / 2, radius * sinTheta};
-     vTop.tex = {static_cast<float>(i) / segments, 0.0f};
-        vTop.nrm = {cosTheta, 0, sinTheta};
-    vTop.tan = {-sinTheta, 0, cosTheta};
-   vTop.bitan = {0, 1, 0};
+            vTop.pos = {radius * cosTheta, height / 2, radius * sinTheta};
+            vTop.tex = {static_cast<float>(i) / segments, 0.0f};
+            vTop.nrm = {cosTheta, 0, sinTheta};
+            vTop.tan = {-sinTheta, 0, cosTheta};
+            vTop.bitan = {0, 1, 0};
             vertices.push_back(vTop);
 
-         // ボトムの頂点
-    Vertex vBottom;
-      vBottom.pos = {radius * cosTheta, -height / 2, radius * sinTheta};
-       vBottom.tex = {static_cast<float>(i) / segments, 1.0f};
-      vBottom.nrm = {cosTheta, 0, sinTheta};
+            // ボトムの頂点
+            Vertex vBottom;
+            vBottom.pos = {radius * cosTheta, -height / 2, radius * sinTheta};
+            vBottom.tex = {static_cast<float>(i) / segments, 1.0f};
+            vBottom.nrm = {cosTheta, 0, sinTheta};
             vBottom.tan = {-sinTheta, 0, cosTheta};
             vBottom.bitan = {0, 1, 0};
             vertices.push_back(vBottom);
-    }
+        }
 
-     // 側面のインデックス
-    for (int i = 0; i < segments; ++i) {
+        // 側面のインデックス
+        for (int i = 0; i < segments; ++i) {
             int top1 = i * 2;
-  int bot1 = i * 2 + 1;
-  int top2 = (i + 1) * 2;
+            int bot1 = i * 2 + 1;
+            int top2 = (i + 1) * 2;
             int bot2 = (i + 1) * 2 + 1;
 
             indices.push_back(top1);
@@ -772,9 +772,9 @@ v.tex.x = static_cast<float>(seg) / segments;
             indices.push_back(top2);
 
             indices.push_back(top2);
-    indices.push_back(bot1);
-   indices.push_back(bot2);
-     }
+            indices.push_back(bot1);
+            indices.push_back(bot2);
+        }
 
         // キャップの追加は省略（実装を簡略化）
 
@@ -784,25 +784,25 @@ v.tex.x = static_cast<float>(seg) / segments;
     /**
      * @brief 平面メッシュの作成
      */
- bool CreatePlaneMesh(GfxDevice& gfx) {
+    bool CreatePlaneMesh(GfxDevice &gfx) {
         const float size = 0.5f;
 
         Vertex vertices[] = {
-  {{-size, 0, -size}, {0, 1}, {0, 1, 0}, {1, 0, 0}, {0, 0, 1}},
+            {{-size, 0, -size}, {0, 1}, {0, 1, 0}, {1, 0, 0}, {0, 0, 1}},
             {{size, 0, -size}, {1, 1}, {0, 1, 0}, {1, 0, 0}, {0, 0, 1}},
             {{size, 0, size}, {1, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, 1}},
-  {{-size, 0, size}, {0, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, 1}},
+            {{-size, 0, size}, {0, 0}, {0, 1, 0}, {1, 0, 0}, {0, 0, 1}},
         };
 
-      uint16_t indices[] = {0, 1, 2, 0, 2, 3};
+        uint16_t indices[] = {0, 1, 2, 0, 2, 3};
 
-  return CreateMeshBuffers(gfx, vertices, 4, indices, 6, static_cast<int>(MeshType::Plane));
+        return CreateMeshBuffers(gfx, vertices, 4, indices, 6, static_cast<int>(MeshType::Plane));
     }
 
     /**
      * @brief メッシュバッファの作成
      */
-    bool CreateMeshBuffers(GfxDevice& gfx, const Vertex* vertices, size_t vertexCount, const uint16_t* indices, size_t indexCount, int meshTypeKey) {
+    bool CreateMeshBuffers(GfxDevice &gfx, const Vertex *vertices, size_t vertexCount, const uint16_t *indices, size_t indexCount, int meshTypeKey) {
         auto meshData = std::make_unique<MeshData>();
 
         // 頂点バッファの作成
@@ -811,7 +811,7 @@ v.tex.x = static_cast<float>(seg) / segments;
         vbd.ByteWidth = static_cast<UINT>(vertexCount * sizeof(Vertex));
         vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         vbd.CPUAccessFlags = 0;
-vbd.MiscFlags = 0;
+        vbd.MiscFlags = 0;
         vbd.StructureByteStride = 0;
 
         D3D11_SUBRESOURCE_DATA vData{};
@@ -825,7 +825,7 @@ vbd.MiscFlags = 0;
 
         // インデックスバッファの作成
         D3D11_BUFFER_DESC ibd{};
-ibd.Usage = D3D11_USAGE_IMMUTABLE;
+        ibd.Usage = D3D11_USAGE_IMMUTABLE;
         ibd.ByteWidth = static_cast<UINT>(indexCount * sizeof(uint16_t));
         ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
         ibd.CPUAccessFlags = 0;
@@ -833,24 +833,24 @@ ibd.Usage = D3D11_USAGE_IMMUTABLE;
         ibd.StructureByteStride = 0;
 
         D3D11_SUBRESOURCE_DATA iData{};
-    iData.pSysMem = indices;
+        iData.pSysMem = indices;
 
-     hr = gfx.Dev()->CreateBuffer(&ibd, &iData, meshData->indexBuffer.GetAddressOf());
-     if (FAILED(hr)) {
+        hr = gfx.Dev()->CreateBuffer(&ibd, &iData, meshData->indexBuffer.GetAddressOf());
+        if (FAILED(hr)) {
             DEBUGLOG_ERROR("[RenderSystem] インデックスバッファの作成失敗 (HRESULT: 0x" + std::to_string(hr) + ")");
-   return false;
+            return false;
         }
 
         meshData->indexCount = static_cast<UINT>(indexCount);
         meshCache_[meshTypeKey] = std::move(meshData);
 
- return true;
+        return true;
     }
 
     /**
    * @brief パイプラインの設定
      */
-    void SetupPipeline(GfxDevice& gfx) {
+    void SetupPipeline(GfxDevice &gfx) {
         gfx.Ctx()->IASetInputLayout(layout_.Get());
         gfx.Ctx()->VSSetShader(vs_.Get(), nullptr, 0);
         gfx.Ctx()->PSSetShader(ps_.Get(), nullptr, 0);
@@ -858,18 +858,18 @@ ibd.Usage = D3D11_USAGE_IMMUTABLE;
         gfx.Ctx()->PSSetConstantBuffers(0, 1, psCb_.GetAddressOf());
         gfx.Ctx()->PSSetConstantBuffers(1, 1, psLightCb_.GetAddressOf());
         gfx.Ctx()->PSSetSamplers(0, 1, samplerState_.GetAddressOf());
-  gfx.Ctx()->RSSetState(rasterState_.Get());
+        gfx.Ctx()->RSSetState(rasterState_.Get());
         gfx.Ctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     }
 
     /**
 * @brief ライト定数の更新
      */
-    void UpdateLightConstants(World& w, const Camera& cam, GfxDevice& gfx) {
-      PSLightConstants lightCbuf;
+    void UpdateLightConstants(World &w, const Camera &cam, GfxDevice &gfx) {
+        PSLightConstants lightCbuf;
         lightCbuf.eyePos = cam.position;
 
-        w.ForEach<DirectionalLight>([&](Entity e, DirectionalLight& l) {
+        w.ForEach<DirectionalLight>([&](Entity e, DirectionalLight &l) {
             lightCbuf.light = l;
         });
 
@@ -879,64 +879,67 @@ ibd.Usage = D3D11_USAGE_IMMUTABLE;
     /**
      * @brief ModelComponentの描画
      */
-    void RenderModelComponents(World& w, GfxDevice& gfx, const Camera& cam, TextureManager& texMgr) {
-        w.ForEach<ModelComponent>([&](Entity e, ModelComponent& mc) {
-    auto* t = w.TryGet<Transform>(e);
-       if (!t) return;
-    if (!mc.vertexBuffer || !mc.indexBuffer) return;
+    void RenderModelComponents(World &w, GfxDevice &gfx, const Camera &cam, TextureManager &texMgr) {
+        w.ForEach<ModelComponent>([&](Entity e, ModelComponent &mc) {
+            auto *t = w.TryGet<Transform>(e);
+            if (!t)
+                return;
+            if (!mc.vertexBuffer || !mc.indexBuffer)
+                return;
 
-     // ワールド行列の計算
-          DirectX::XMMATRIX worldMatrix = CalculateWorldMatrix(*t);
+            // ワールド行列の計算
+            DirectX::XMMATRIX worldMatrix = CalculateWorldMatrix(*t);
 
             // 定数バッファの更新
-   UpdateVSConstants(gfx, worldMatrix, cam, mc.uvOffset, mc.uvScale);
+            UpdateVSConstants(gfx, worldMatrix, cam, mc.uvOffset, mc.uvScale);
             UpdatePSConstants(gfx, mc.color, mc.texture, mc.normalTexture, 32.0f);
 
-  // テクスチャの設定
-         SetTextures(gfx, texMgr, mc.texture, mc.normalTexture);
+            // テクスチャの設定
+            SetTextures(gfx, texMgr, mc.texture, mc.normalTexture);
 
-// 描画
-   UINT stride = sizeof(Vertex);
-     UINT offset = 0;
+            // 描画
+            UINT stride = sizeof(Vertex);
+            UINT offset = 0;
             gfx.Ctx()->IASetVertexBuffers(0, 1, mc.vertexBuffer.GetAddressOf(), &stride, &offset);
             gfx.Ctx()->IASetIndexBuffer(mc.indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
-          gfx.Ctx()->DrawIndexed(mc.indexCount, 0, 0);
+            gfx.Ctx()->DrawIndexed(mc.indexCount, 0, 0);
 
-stats_.modelsRendered++;
-      stats_.totalDrawCalls++;
+            stats_.modelsRendered++;
+            stats_.totalDrawCalls++;
         });
     }
 
     /**
      * @brief MeshRendererの描画
    */
-    void RenderMeshRenderers(World& w, GfxDevice& gfx, const Camera& cam, TextureManager& texMgr) {
-        w.ForEach<Transform, MeshRenderer>([&](Entity e, Transform& t, MeshRenderer& mr) {
-          // メッシュデータの取得
-  auto it = meshCache_.find(static_cast<int>(mr.meshType));
+    void RenderMeshRenderers(World &w, GfxDevice &gfx, const Camera &cam, TextureManager &texMgr) {
+        w.ForEach<Transform, MeshRenderer>([&](Entity e, Transform &t, MeshRenderer &mr) {
+            // メッシュデータの取得
+            auto it = meshCache_.find(static_cast<int>(mr.meshType));
             if (it == meshCache_.end() || !it->second) {
-  DEBUGLOG_WARNING("[RenderSystem] MeshType not found: " + std::to_string(static_cast<int>(mr.meshType)));
-    return;
-    }
+                DEBUGLOG_WARNING("[RenderSystem] MeshType not found: " + std::to_string(static_cast<int>(mr.meshType)));
+                return;
+            }
 
-   auto* meshData = it->second.get();
-        if (!meshData->vertexBuffer || !meshData->indexBuffer) return;
+            auto *meshData = it->second.get();
+            if (!meshData->vertexBuffer || !meshData->indexBuffer)
+                return;
 
-      // ワールド行列の計算
-     DirectX::XMMATRIX worldMatrix = CalculateWorldMatrix(t);
+            // ワールド行列の計算
+            DirectX::XMMATRIX worldMatrix = CalculateWorldMatrix(t);
 
-  // 定数バッファの更新
-     UpdateVSConstants(gfx, worldMatrix, cam, mr.uvOffset, mr.uvScale);
-UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32.0f);
+            // 定数バッファの更新
+            UpdateVSConstants(gfx, worldMatrix, cam, mr.uvOffset, mr.uvScale);
+            UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32.0f);
 
             // テクスチャの設定
-   SetTextures(gfx, texMgr, mr.texture, TextureManager::INVALID_TEXTURE);
+            SetTextures(gfx, texMgr, mr.texture, TextureManager::INVALID_TEXTURE);
 
- // 描画
+            // 描画
             UINT stride = sizeof(Vertex);
             UINT offset = 0;
             gfx.Ctx()->IASetVertexBuffers(0, 1, meshData->vertexBuffer.GetAddressOf(), &stride, &offset);
-        gfx.Ctx()->IASetIndexBuffer(meshData->indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
+            gfx.Ctx()->IASetIndexBuffer(meshData->indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
             gfx.Ctx()->DrawIndexed(meshData->indexCount, 0, 0);
 
             stats_.meshesRendered++;
@@ -947,13 +950,13 @@ UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32
     /**
      * @brief ワールド行列の計算
      */
-    DirectX::XMMATRIX CalculateWorldMatrix(const Transform& t) const {
+    DirectX::XMMATRIX CalculateWorldMatrix(const Transform &t) const {
         DirectX::XMMATRIX S = DirectX::XMMatrixScaling(t.scale.x, t.scale.y, t.scale.z);
         DirectX::XMMATRIX R = DirectX::XMMatrixRotationRollPitchYaw(
             DirectX::XMConvertToRadians(t.rotation.x),
             DirectX::XMConvertToRadians(t.rotation.y),
- DirectX::XMConvertToRadians(t.rotation.z));
-  DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(t.position.x, t.position.y, t.position.z);
+            DirectX::XMConvertToRadians(t.rotation.z));
+        DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(t.position.x, t.position.y, t.position.z);
 
         return S * R * T;
     }
@@ -961,11 +964,11 @@ UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32
     /**
      * @brief VS定数バッファの更新
      */
-    void UpdateVSConstants(GfxDevice& gfx, const DirectX::XMMATRIX& worldMatrix, const Camera& cam, const DirectX::XMFLOAT2& uvOffset, const DirectX::XMFLOAT2& uvScale) {
-      VSConstants vsCbuf;
+    void UpdateVSConstants(GfxDevice &gfx, const DirectX::XMMATRIX &worldMatrix, const Camera &cam, const DirectX::XMFLOAT2 &uvOffset, const DirectX::XMFLOAT2 &uvScale) {
+        VSConstants vsCbuf;
         vsCbuf.World = DirectX::XMMatrixTranspose(worldMatrix);
-    vsCbuf.WVP = DirectX::XMMatrixTranspose(worldMatrix * cam.View * cam.Proj);
-     vsCbuf.uvTransform = DirectX::XMFLOAT4{uvOffset.x, uvOffset.y, uvScale.x, uvScale.y};
+        vsCbuf.WVP = DirectX::XMMatrixTranspose(worldMatrix * cam.View * cam.Proj);
+        vsCbuf.uvTransform = DirectX::XMFLOAT4{uvOffset.x, uvOffset.y, uvScale.x, uvScale.y};
 
         gfx.Ctx()->UpdateSubresource(vsCb_.Get(), 0, nullptr, &vsCbuf, 0, 0);
     }
@@ -973,11 +976,11 @@ UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32
     /**
      * @brief PS定数バッファの更新
      */
-    void UpdatePSConstants(GfxDevice& gfx, const DirectX::XMFLOAT3& color, TextureManager::TextureHandle texture, TextureManager::TextureHandle normalTexture, float specularPower) {
+    void UpdatePSConstants(GfxDevice &gfx, const DirectX::XMFLOAT3 &color, TextureManager::TextureHandle texture, TextureManager::TextureHandle normalTexture, float specularPower) {
         PSConstants psCbuf;
-   psCbuf.color = DirectX::XMFLOAT4{color.x, color.y, color.z, 1.0f};
-      psCbuf.useTexture = (texture != TextureManager::INVALID_TEXTURE) ? 1.0f : 0.0f;
-    psCbuf.useNormalMap = (normalTexture != TextureManager::INVALID_TEXTURE) ? 1.0f : 0.0f;
+        psCbuf.color = DirectX::XMFLOAT4{color.x, color.y, color.z, 1.0f};
+        psCbuf.useTexture = (texture != TextureManager::INVALID_TEXTURE) ? 1.0f : 0.0f;
+        psCbuf.useNormalMap = (normalTexture != TextureManager::INVALID_TEXTURE) ? 1.0f : 0.0f;
         psCbuf.specularPower = specularPower;
 
         gfx.Ctx()->UpdateSubresource(psCb_.Get(), 0, nullptr, &psCbuf, 0, 0);
@@ -986,15 +989,15 @@ UpdatePSConstants(gfx, mr.color, mr.texture, TextureManager::INVALID_TEXTURE, 32
     /**
      * @brief テクスチャの設定
      */
-    void SetTextures(GfxDevice& gfx, TextureManager& texMgr, TextureManager::TextureHandle texture, TextureManager::TextureHandle normalTexture) {
-   ID3D11ShaderResourceView* srvs[2] = {nullptr, nullptr};
+    void SetTextures(GfxDevice &gfx, TextureManager &texMgr, TextureManager::TextureHandle texture, TextureManager::TextureHandle normalTexture) {
+        ID3D11ShaderResourceView *srvs[2] = {nullptr, nullptr};
 
         if (texture != TextureManager::INVALID_TEXTURE) {
             srvs[0] = texMgr.GetSRV(texture);
         }
 
         if (normalTexture != TextureManager::INVALID_TEXTURE) {
-    srvs[1] = texMgr.GetSRV(normalTexture);
+            srvs[1] = texMgr.GetSRV(normalTexture);
         }
 
         gfx.Ctx()->PSSetShaderResources(0, 2, srvs);
