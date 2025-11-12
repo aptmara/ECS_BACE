@@ -54,6 +54,7 @@ struct EnemyCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World &w, Entity self, Entity other, const CollisionInfo &info) override {
         if (w.Has<PlayerTag>(other)) {
             DEBUGLOG("敵がプレイヤーと衝突");
+            
         }
     }
 };
@@ -336,10 +337,12 @@ class GameScene : public IScene {
         ownedEntities_.push_back(e);
     }
 
-    void CreateWall(World &world,const DirectX::XMFLOAT3 &position) {
-        Transform transform{ position,{0.0f, 0.0f, 0.0f},{1.0f, 1.0f, 1.0f} };
-        MeshRenderer renderer; renderer.meshType = MeshType::Cube; renderer.color = DirectX::XMFLOAT3{1.0f,1.0f,1.0f};
-        Entity wall = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<WallTag>().With<CollisionBox>(DirectX::XMFLOAT3{1.0f,1.0f,1.0f}).With<WallCollisionHandler>().Build();
+    void CreateWall(World &world, const DirectX::XMFLOAT3 &position) {
+        Transform transform{position, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}};
+        MeshRenderer renderer;
+        renderer.meshType = MeshType::Cube;
+        renderer.color = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
+        Entity wall = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<WallTag>().With<CollisionBox>(DirectX::XMFLOAT3{1.0f, 2.0f, 1.0f}).With<WallCollisionHandler>().Build();
         ownedEntities_.push_back(wall);
     }
 
