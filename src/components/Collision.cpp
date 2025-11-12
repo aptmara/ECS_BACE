@@ -8,7 +8,9 @@
 
 #include "pch.h"
 #include "components/Collision.h"
-#include "scenes/Game.h" // ✅ PlayerCollisionHandler と EnemyCollisionHandler をインクルード
+#include "scenes/Game.h"
+#include <unordered_set>
+#include <typeindex>
 
 #ifdef _DEBUG
 #include "graphics/DebugDraw.h"
@@ -78,20 +80,39 @@ auto center = sphere.GetWorldCenter(t);
 #endif // _DEBUG
 
 // ========================================================
+// CollisionHandlerRegistry 実装
+// ========================================================
+namespace {
+    using TryFunc = CollisionHandlerRegistry::TryFunc;
+
+    std::vector<TryFunc>& HandlerFuncs() {
+        static std::vector<TryFunc> v;
+        return v;
+    }
+    std::unordered_set<size_t>& RegisteredTypes() {
+        static std::unordered_set<size_t> s;
+        return s;
+    }
+}
+
+void CollisionHandlerRegistry::RegisterType(std::type_index type, TryFunc func) {
+    size_t key = type.hash_code();
+    auto& types = RegisteredTypes();
+    if (types.insert(key).second) {
+        HandlerFuncs().push_back(func);
+    }
+}
+
+void CollisionHandlerRegistry::ForEach(World& w, Entity e, const std::function<void(ICollisionHandler*)>& func) {
+    for (auto f : HandlerFuncs()) { f(w, e, func); }
+}
+
+// ========================================================
 // CollisionDetectionSystem のイベントハンドラー実装
 // ========================================================
 
 void CollisionDetectionSystem::ForEachHandler(World& w, Entity e, const std::function<void(ICollisionHandler*)>& func) {
-    // すべての既知のハンドラー型を試行
-    if (auto* h = w.TryGet<PlayerCollisionHandler>(e)) {
-        func(static_cast<ICollisionHandler*>(h));
-        return;
-    }
-    if (auto* h = w.TryGet<EnemyCollisionHandler>(e)) {
-        func(static_cast<ICollisionHandler*>(h));
-        return;
-    }
-    // 🔧 新しいハンドラー型を追加する場合はここに追記
+    CollisionHandlerRegistry::ForEach(w, e, func);
 }
 
 void CollisionDetectionSystem::TriggerCollisionEnter(World& w, Entity a, Entity b, const CollisionInfo& info) {

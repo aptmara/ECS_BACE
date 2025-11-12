@@ -66,6 +66,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <algorithm>
+#include <typeindex>
 
 // ========================================================
 // 前方宣言
@@ -735,3 +736,33 @@ struct CollisionDebugRenderer : Behaviour {
 // 作成者: 立山悠朔・上手涼太郎・山内陽
 // バージョン: v2.1 - OnEnter/OnStay/OnExit イベントシステム追加
 // ========================================================
+
+/**
+ * @brief ICollisionHandler 自動登録レジストリ
+ */
+struct CollisionHandlerRegistry {
+    using TryFunc = void (*)(World&, Entity, const std::function<void(ICollisionHandler*)>&);
+    static void RegisterType(std::type_index type, TryFunc func);
+    static void ForEach(World& w, Entity e, const std::function<void(ICollisionHandler*)>& func);
+};
+
+/**
+ * @brief 型Tをレジストリへ自動登録するヘルパ
+ * @tparam T ICollisionHandler を継承したコンポーネント型
+ */
+template <typename T>
+struct CollisionHandlerAutoRegister {
+    CollisionHandlerAutoRegister() {
+        CollisionHandlerRegistry::RegisterType(std::type_index(typeid(T)),
+            +[](World& w, Entity e, const std::function<void(ICollisionHandler*)>& func){
+                if (auto* h = w.TryGet<T>(e)) { func(static_cast<ICollisionHandler*>(h)); }
+            }
+        );
+    }
+};
+
+/**
+ * @brief ICollisionHandler 実装型の自動登録マクロ
+ */
+#define REGISTER_COLLISION_HANDLER_TYPE(T) \
+    static CollisionHandlerAutoRegister<T> g_collisionHandlerAutoRegister_##T;
