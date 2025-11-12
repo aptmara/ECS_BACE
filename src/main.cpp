@@ -48,6 +48,7 @@
  * @note DirectX11がサポートされていない環境では初期化に失敗します
  * @see App アプリケーションクラス
  */
+
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int) {
     // アプリケーションインスタンスを作成
     App app;
