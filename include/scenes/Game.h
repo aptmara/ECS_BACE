@@ -377,6 +377,7 @@ class GameScene : public IScene {
                             .With<Transform>(transform)
                             .With<MeshRenderer>(renderer)
                             .With<PlayerTag>()
+                            .With<PlayerVelocity>()
                             .With<PlayerMovement>()
                             .With<Rotator>(45.0f)
                             .With<CollisionBox>(DirectX::XMFLOAT3{1.0f, 2.0f, 1.0f})
