@@ -254,7 +254,7 @@ public:
      * @endcode
      */
     float GetLeftStickChargeAmount(float maxChargeTime = 3.0f) const;
-
+    
     /**
      * @brief 右スティックのチャージ量を取得(0.0 ～ 1.0)
      * @param[in] maxChargeTime 最大チャージ時間(秒、デフォルト3.0秒)
@@ -294,7 +294,7 @@ private:
      */
     enum ButtonState : uint8_t {
         None = 0,      ///< 何も押されていない
-      Down = 1,      ///< このフレームで押された
+        Down = 1,      ///< このフレームで押された
         Pressed = 2,   ///< 押され続けている
         Up = 3         ///< このフレームで離された
     };
