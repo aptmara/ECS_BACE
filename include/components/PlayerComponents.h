@@ -129,10 +129,6 @@ struct PlayerMovement : Behaviour {
         {
             float gx = gamepad_->GetLeftStickX();
             float gy = gamepad_->GetLeftStickY();
-
-<<<<<<< HEAD
-         //   inputDir.x += gx;
-=======
 #ifdef _DEBUG
             static int debugCounter = 0;
             if (debugCounter % 30 == 0 && (gx != 0.0f || gy != 0.0f)) { // 入力があるときだけログ出力
@@ -142,7 +138,6 @@ struct PlayerMovement : Behaviour {
 #endif
 
             inputDir.x += gx;
->>>>>>> 0169deba6f2c58a25a2f215756e89c6976b02ed9
             inputDir.y += gy;
 
             static bool isCharging = false;     //チャージ中かどうか

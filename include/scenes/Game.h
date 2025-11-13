@@ -38,7 +38,7 @@ struct PlayerCollisionHandler : ICollisionHandler {
             w.ForEach<GameStats>([](Entity e, GameStats &stats) { stats.score += 10; });
         }
         if (w.Has<GoalTag>(other)) {
-            w.ForEach<StageProgress>([](Entity e, StageProgress &sp){ sp.requestAdvance = true; });
+            w.ForEach<StageProgress>([](Entity e, StageProgress &sp) { sp.requestAdvance = true, sp.currentStage += 1; });
             DEBUGLOG("プレイヤーがゴールに到達");
         }
     }
@@ -162,7 +162,7 @@ class GameScene : public IScene {
         titleFormat.fontFamily = L"メイリオ";
         titleFormat.style = DWRITE_FONT_STYLE_ITALIC;
         titleFormat.alignment = DWRITE_TEXT_ALIGNMENT_JUSTIFIED;
-        buttonFormat.paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_FAR;
+        titleFormat.paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_FAR;
         textSystem_.CreateTextFormat("title", titleFormat);
 
     }
@@ -239,6 +239,22 @@ class GameScene : public IScene {
                                .With<UIText>(fpsText)
                                .Build();
         ownedEntities_.push_back(fpsEntity);
+
+        UITransform stageTransform;
+        stageTransform.position = {150.0f, 120.0f};
+        stageTransform.size = {130.0f, 40.0f};
+        stageTransform.anchor = {0.0f, 0.0f};
+        stageTransform.pivot = {1.0f, 0.0f};
+
+        UIText stageText{L"FLOOR: 1"};
+        stageText.color = {1.0f, 0.5f, 0.0f, 1.0f};
+        stageText.formatId = "hud";
+
+        Entity stageEntity = world.Create()
+                                 .With<UITransform>(stageTransform)
+                                 .With<UIText>(stageText)
+                                 .Build();
+        ownedEntities_.push_back(stageEntity);
         
         UIText titleText[2];
 
@@ -299,6 +315,7 @@ class GameScene : public IScene {
             updater->timeTextEntity_ = timeEntity;
             updater->fpsTextEntity_ = fpsEntity;
             updater->pauseTextEntity_ = pauseEntity;
+            updater->stageTextEntity_ = stageEntity;
         }
         ownedEntities_.push_back(uiUpdater);
     }

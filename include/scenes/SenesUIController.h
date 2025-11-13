@@ -7,6 +7,7 @@
 #include "components/GameStats.h"
 #include <sstream>
 #include <iomanip>
+#include "components/StageComponents.h"
 
 /**
  * @struct GameUIUpdater
@@ -17,6 +18,7 @@ struct GameUIUpdater : Behaviour {
     Entity timeTextEntity_;
     Entity fpsTextEntity_;
     Entity pauseTextEntity_;
+    Entity stageTextEntity_;
 
     void OnUpdate(World &w, Entity self, float dt) override {
         w.ForEach<GameStats>([&](Entity e, GameStats &stats) {
@@ -57,6 +59,14 @@ struct GameUIUpdater : Behaviour {
                         pauseTransform->size = {0.0f, 0.0f};
                     }
                 }
+            }
+        });
+
+        w.ForEach<StageProgress>([&](Entity e, StageProgress &sp) {
+            if (auto *stageText = w.TryGet<UIText>(stageTextEntity_)) {
+                std::wstringstream ss;
+                ss << L"FLOOR: " << sp.currentStage;
+                stageText->text = ss.str();
             }
         });
     }
