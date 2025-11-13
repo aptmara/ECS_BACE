@@ -130,9 +130,7 @@ struct PlayerMovement : Behaviour {
             float gx = gamepad_->GetLeftStickX();
             float gy = gamepad_->GetLeftStickY();
 
-<<<<<<< HEAD
-         //   inputDir.x += gx;
-=======
+
 #ifdef _DEBUG
             static int debugCounter = 0;
             if (debugCounter % 30 == 0 && (gx != 0.0f || gy != 0.0f)) { // 入力があるときだけログ出力
@@ -140,17 +138,13 @@ struct PlayerMovement : Behaviour {
             }
             debugCounter++;
 #endif
-
-            inputDir.x += gx;
->>>>>>> 0169deba6f2c58a25a2f215756e89c6976b02ed9
-            inputDir.y += gy;
-
             static bool isCharging = false;     //チャージ中かどうか
             static float ChargePower = 0.0f;    //チャージ具合
-            static float prev_gx = 0.0f;        //前のスティック値
+            static float prev_gx = 0.0f;        //前のX軸入力値値
+            static float prev_gy = 0.0f;        //前のY軸入力値
 
-        //左スティックを倒している時
-           if (gx < -0.5f) 
+        //左右上下スティックを倒している時
+           if (gx < -0.5f||gx > 0.5f||gy < -0.5f||gy > 0.5f) 
            {
                 isCharging = true;      
                 float currentCharge = gamepad_->GetLeftStickChargeAmount(1.0f);
@@ -164,6 +158,8 @@ struct PlayerMovement : Behaviour {
                     ChargePower = 1.0f;
                 } 
            }
+
+          
 
            //fab....絶対値を求める関数
            //スティックが戻ったら右へ移動
@@ -179,7 +175,47 @@ struct PlayerMovement : Behaviour {
                isCharging = false;
                ChargePower = 0.0f;
            }
+           //スティックが戻ったら左へ移動
+           else if (isCharging && prev_gx > 0.5f && fabs(gx) < 0.1f)
+           {
+               //テスト用
+               //5倍速で左へ
+               float Speed = 1.0f + ChargePower * 5.0f;
+
+               inputDir.x = -Speed;
+
+               //状態リセット
+               isCharging = false;
+               ChargePower = 0.0f;
+           } 
+           //スティックが戻ったら上へ移動
+           else if (isCharging&& prev_gy < -0.5f && fabs(gy) < 0.1f)
+           {
+               //テスト用
+               //5倍速で上へ
+               float Speed = 1.0f + ChargePower * 5.0f;
+
+               inputDir.y = Speed;
+               
+               //状態リセット
+               isCharging = false;
+               ChargePower = 0.0f;
+           }
+           //スティックが戻ったら下へ移動
+           else if (isCharging && prev_gy > 0.5f && fabs(gy) < 0.1f)
+           {
+               //テスト用
+               //5倍速で下へ
+               float Speed = 1.0f + ChargePower * 5.0f;
+
+               inputDir.y = -Speed;
+
+               //状態リセット
+               isCharging = false;
+               ChargePower = 0.0f;
+           }
             prev_gx = gx; 
+            prev_gy = gy;
         }
 
         v->UpdateVelocity(inputDir);
