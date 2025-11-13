@@ -96,10 +96,9 @@ class GameScene : public IScene {
         Entity debugRenderer = world.Create().With<CollisionDebugRenderer>().Build(); ownedEntities_.push_back(debugRenderer);
 #endif
         world.Create().With<DirectionalLight>();
-        int gridSize = 10.0f;
+        int gridSize = 10;//床のサイズ指定
         float tileSize = 1.0f;
         CreateFloor(world, gridSize,tileSize);
-        CreateFloor(world);
         CreatePlayer(world);
         CreateStart(world);
         CreateGoal(world);
@@ -348,7 +347,7 @@ class GameScene : public IScene {
                 };
 
                 MeshRenderer renderer;
-                renderer.meshType = MeshType::Plane;
+                renderer.meshType = MeshType::Cube;
                 renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 1.0f};
 
                 Entity floor = world.Create()
