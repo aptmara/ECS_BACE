@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * @file StageComponents.h
- * @brief ƒXƒe[ƒWis—p‚Ìƒ^ƒO‚Æó‘ÔƒRƒ“ƒ|[ƒlƒ“ƒg
+ * @brief ã‚¹ãƒ†ãƒ¼ã‚¸é€²è¡Œç”¨ã®ã‚¿ã‚°ã¨çŠ¶æ…‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
  */
 #pragma once
 
@@ -8,19 +8,19 @@
 
 /**
  * @struct StartTag
- * @brief ƒXƒe[ƒW‚ÌŠJn’n“_‚ğ¦‚·ƒ^ƒO
+ * @brief ã‚¹ãƒ†ãƒ¼ã‚¸ã®é–‹å§‹åœ°ç‚¹ã‚’ç¤ºã™ã‚¿ã‚°
  */
 struct StartTag : IComponent {};
 
 /**
  * @struct GoalTag
- * @brief ƒXƒe[ƒW‚ÌƒS[ƒ‹’n“_‚ğ¦‚·ƒ^ƒO
+ * @brief ã‚¹ãƒ†ãƒ¼ã‚¸ã®ã‚´ãƒ¼ãƒ«åœ°ç‚¹ã‚’ç¤ºã™ã‚¿ã‚°
  */
 struct GoalTag : IComponent {};
 
 /**
  * @struct StageProgress
- * @brief ƒXƒe[ƒW”Ô†‚Æisƒtƒ‰ƒO‚ğŠÇ—
+ * @brief ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·ã¨é€²è¡Œãƒ•ãƒ©ã‚°ã‚’ç®¡ç†
  */
 struct StageProgress : IComponent {
     int currentStage = 1;
