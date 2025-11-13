@@ -137,19 +137,23 @@ struct PlayerMovement : Behaviour {
             debugCounter++;
 #endif
 
-            inputDir.x += gx;
-            inputDir.y += gy;
+           // inputDir.x += gx;
+           //  inputDir.y += gy; 
+            static bool isCharging = false;                      //チャージ中かどうか
+            static float ChargePower = 0.0f;                     //チャージ具合
+            static DirectX::XMFLOAT2 stickDir = {0.0f, 0.0f};    //スティックの傾き方向
+            static float prev_gXY = 0.0f;                        //前のスティック位置
+            float angle = sqrtf(gx * gx + gy * gy);              //sqrtf…平方根　これで角度を求める
 
-            static bool isCharging = false;     //チャージ中かどうか
-            static float ChargePower = 0.0f;    //チャージ具合
-            static float prev_gx = 0.0f;        //前のスティック値
+            //
+            if (angle > 0.5f)
+            {
+                isCharging = true;
 
-        //左スティックを倒している時
-           if (gx < -0.5f) 
-           {
-                isCharging = true;      
+                //角度を求める処理
+                stickDir = {gx / angle, gy / angle};
                 float currentCharge = gamepad_->GetLeftStickChargeAmount(1.0f);
-                
+
                 //経過時間に応じてチャージ量を溜める
                 ChargePower += currentCharge * dt;
 
@@ -158,23 +162,23 @@ struct PlayerMovement : Behaviour {
                 {
                     ChargePower = 1.0f;
                 } 
-           }
+            }
 
-           //fab....絶対値を求める関数
-           //スティックが戻ったら右へ移動
-           if (isCharging && prev_gx < -0.5f && fabs(gx) < 0.1f) 
-           {
-               //テスト用
-               //5倍速で右へ
-               float Speed = 1.0f + ChargePower * 5.0f;
+            //
+            if (isCharging && prev_gXY > 0.5f && angle < 0.1f)
+            {
+                //テスト用
+                float Speed = 1.0f + ChargePower * 5.0f;
 
-               inputDir.x = Speed; 
+                inputDir.x = -stickDir.x * Speed;
+                inputDir.y = -stickDir.y * Speed;
 
-               //状態リセット
-               isCharging = false;
-               ChargePower = 0.0f;
-           }
-            prev_gx = gx; 
+                //状態リセット
+                    isCharging = false;
+                    ChargePower = 0.0f;
+                    stickDir = {0.0f, 0.0f};
+            }
+            prev_gXY = angle;
         }
 
         v->UpdateVelocity(inputDir);

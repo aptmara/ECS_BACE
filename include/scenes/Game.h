@@ -96,8 +96,8 @@ class GameScene : public IScene {
         Entity debugRenderer = world.Create().With<CollisionDebugRenderer>().Build(); ownedEntities_.push_back(debugRenderer);
 #endif
         world.Create().With<DirectionalLight>();
-        int gridSize = 10;//床のサイズ指定
-        float tileSize = 1.0f;
+        int gridSize = 15;//床(全体)のサイズ指定
+        float tileSize = 1.0f;//床（1マス）サイズ指定
         CreateFloor(world, gridSize,tileSize);
         CreatePlayer(world);
         CreateStart(world);
@@ -348,7 +348,7 @@ class GameScene : public IScene {
 
                 MeshRenderer renderer;
                 renderer.meshType = MeshType::Cube;
-                renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 1.0f};
+                renderer.color = DirectX::XMFLOAT3{0.5f, 0.5f, 0.5f};//床の色
 
                 Entity floor = world.Create()
                                    .With<Transform>(transform)
@@ -448,6 +448,15 @@ class GameScene : public IScene {
         if (world.IsAlive(goalEntity_)) { if (auto* tGoal = world.TryGet<Transform>(goalEntity_)) { tGoal->position = { goalX, 0.0f, 5.0f }; } }
         if (world.IsAlive(startEntity_)) { if (auto* tStart = world.TryGet<Transform>(startEntity_)) { tStart->position = { -3.0f, 0.0f, 5.0f }; } }
         if (world.IsAlive(playerEntity_)) { if (auto* tPlayer = world.TryGet<Transform>(playerEntity_)) { tPlayer->position = { -3.0f, 0.0f, 5.0f }; } }
+    }
+
+    //プレイヤーのスタート合図
+    void ShowStateUI()
+    {
+        //優先事項：UIの表示
+        //プレイヤーの停止（後でいい）
+        //カウントスタート321
+        //プレイヤーの解放
     }
 
     TextSystem textSystem_;
