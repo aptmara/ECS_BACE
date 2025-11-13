@@ -27,7 +27,8 @@ struct PlayerVelocity : Behaviour {
     float speed = 10.0f;                       ///< 移動速度(単位/秒) - 速度を上げて動きを明確に
     DirectX::XMFLOAT2 velocity = {0.0f, 0.0f}; ///< 現在の移動ベロシティ
 
-    void SetVelocity(DirectX::XMFLOAT2 speed) {
+    void SetVelocity(DirectX::XMFLOAT2 speed)
+    {
         velocity.x = speed.x;
         velocity.y = speed.y;
     }
@@ -107,7 +108,6 @@ struct PlayerMovement : Behaviour {
 
         DirectX::XMFLOAT2 inputDir = {0.0f, 0.0f};
 
-
         // キーボード入力の処理
         if (input_) {
             if (input_->GetKey('W') || input_->GetKey(VK_UP)) {
@@ -136,47 +136,52 @@ struct PlayerMovement : Behaviour {
             }
             debugCounter++;
 #endif
-
            // inputDir.x += gx;
-           //  inputDir.y += gy; 
-            static bool isCharging = false;                      //チャージ中かどうか
-            static float ChargePower = 0.0f;                     //チャージ具合
-            static DirectX::XMFLOAT2 stickDir = {0.0f, 0.0f};    //スティックの傾き方向
-            static float prev_gXY = 0.0f;                        //前のスティック位置
-            float angle = sqrtf(gx * gx + gy * gy);              //sqrtf…平方根　これで角度を求める
+           // inputDir.y += gy; 
+            static bool isCharging   = false;                       //チャージ中かどうか
+            static float ChargePower = 0.0f;                        //チャージ具合
+            static DirectX::XMFLOAT2 stickDir = {0.0f, 0.0f};       //スティックの傾き方向
+            static float prev_gXY    = 0.0f;                        //前のスティック位置
+            float angle = sqrtf(gx * gx + gy * gy);                 //sqrtf…平方根　これで角度を求める
 
-            //
+            //チャージ(スティック傾け)
             if (angle > 0.5f)
             {
                 isCharging = true;
-
-                //角度を求める処理
-                stickDir = {gx / angle, gy / angle};
-                float currentCharge = gamepad_->GetLeftStickChargeAmount(1.0f);
-
-                //経過時間に応じてチャージ量を溜める
-                ChargePower += currentCharge * dt;
-
-                //1.0以上は溜めれない
-                if (ChargePower > 1.0f)
+                while (isCharging)
                 {
-                    ChargePower = 1.0f;
-                } 
+                    //角度を求める処理
+                    stickDir = {gx / angle, gy / angle};
+                    float currentCharge = gamepad_->GetLeftStickChargeAmount(1.0f);
+
+                    //経過時間に応じてチャージ量を溜める
+                    ChargePower += currentCharge * dt;
+
+                    //1.0以上は溜めれない
+                    if (ChargePower > 1.0f)
+                    {
+                        ChargePower = 1.0f;
+                    } 
+
+                    v->speed = 1.0f;
+
+                    break;
+                }
             }
 
-            //
-            if (isCharging && prev_gXY > 0.5f && angle < 0.1f)
+            //スティックが元の位置に戻ったらプレイヤー移動
+            if (isCharging && prev_gXY > 0.5f && angle < 0.1f )
             {
                 //テスト用
-                float Speed = 1.0f + ChargePower * 5.0f;
-
-                inputDir.x = -stickDir.x * Speed;
-                inputDir.y = -stickDir.y * Speed;
+                //float Speed = 1.0f + ChargePower * 5.0f;
+              
+                inputDir.x = -stickDir.x * ChargePower;
+                inputDir.y = -stickDir.y * ChargePower;
 
                 //状態リセット
-                    isCharging = false;
-                    ChargePower = 0.0f;
-                    stickDir = {0.0f, 0.0f};
+                isCharging  = false;
+                ChargePower = 0.0f;
+                stickDir    ={0.0f, 0.0f};
             }
             prev_gXY = angle;
         }
