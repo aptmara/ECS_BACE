@@ -1,10 +1,8 @@
-name: Sync master to team branches
+name: Sync master to team branches (rebase-first)
 
 on:
   push:
-    branches: [ master ]               # master更新時に即同期
-  schedule:
-    - cron: "0 11 * * *"               # 毎日 JST 20:00（＝UTC 11:00）
+    branches: [ master ]               # master更新時に発火
   workflow_dispatch:
 
 permissions:
@@ -21,57 +19,53 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        team_branch: [ "Team_A", "Team_B", "Team_C" ]
-
+        team_branch: [Team_A, Team_B, Team_C]   # 対象ブランチを列挙
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Configure git user
+      - name: Git identity
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      # 現在チェックアウト中のmasterに書き込まない。リモート追跡だけ更新。
-      - name: Fetch remote tracking branches
+      - name: Fetch
         run: |
           git fetch --prune origin
+          git checkout ${{ matrix.team_branch }}
+          # 念のため、リモートの状態に合わせる（ローカル汚染防止）
+          git reset --hard origin/${{ matrix.team_branch }}
 
-      - name: Prepare local team branch from origin
-        run: |
-          # リモートが存在しない場合は失敗させる（設定ミス検知）
-          git show-ref --verify --quiet refs/remotes/origin/${{ matrix.team_branch }}
-          # ローカルの team ブランチを origin/<team> から作成/更新（強制）
-          git checkout -B ${{ matrix.team_branch }} origin/${{ matrix.team_branch }}
-
-      - name: Merge origin/master into team branch (no-ff)
-        id: merge
+      # === ここが肝 ===
+      # mergeではなくrebase。成功すればマージコミットは一切出ない
+      - name: Rebase team branch onto master
+        id: rebase
         run: |
           set -e
-          # 競合なし→0、競合あり→非0で失敗させる
-          if git merge --no-ff --no-edit origin/master ; then
-            echo "merged=true" >> $GITHUB_OUTPUT
-          else
-            echo "merged=false" >> $GITHUB_OUTPUT
-            exit 1
-          fi
+          git rebase origin/master || echo "need_pr=true" >> "$GITHUB_OUTPUT"
 
-      - name: Push if merged
-        if: steps.merge.outputs.merged == 'true'
+      - name: Push (force-with-lease) if rebase succeeded
+        if: steps.rebase.outputs.need_pr != 'true'
         run: |
-          git push origin HEAD:${{ matrix.team_branch }}
+          # 直線履歴維持。branch protectionでforce禁止ならこの方法は使えない
+          git push origin HEAD:${{ matrix.team_branch }} --force-with-lease
 
-      - name: Create PR on conflict
-        if: failure()
+      # 競合が出たときだけ、手動解決用のPRを作る（このときだけ最終的にmergeコミットが生じ得る）
+      - name: Abort rebase if conflicted
+        if: steps.rebase.outputs.need_pr == 'true'
+        run: |
+          git rebase --abort || true
+
+      - name: Create PR for conflict resolution
+        if: steps.rebase.outputs.need_pr == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "chore(sync): merge master into ${{ matrix.team_branch }}"
           title: "Sync master → ${{ matrix.team_branch }}（競合解消が必要）"
+          commit-message: "chore(sync): prepare conflict resolution for ${{ matrix.team_branch }}"
           body: |
-            `origin/master` の最新を `${{ matrix.team_branch }}` に取り込む際に競合が発生しました。
-            このPRで競合を解消してください。
+            `master` の更新を `${{ matrix.team_branch }}` に取り込む際に競合が発生しました。
+            このPR上で解消してください（解消後はマージコミットが1つだけ生じます）。
           branch: "automation/sync-master-into-${{ matrix.team_branch }}"
           base: "${{ matrix.team_branch }}"
           labels: "sync, needs-conflict-resolution"
