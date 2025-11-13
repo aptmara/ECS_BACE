@@ -535,7 +535,7 @@ public:
 
             auto it = s->map.find(id);
             if (it != s->map.end()) {
-                fn(Entity{ id, generations_[id] }, *it->second);
+                fn(Entity{id, generations_[id]}, *it->second);
             }
         }
     }

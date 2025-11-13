@@ -293,7 +293,6 @@ class GamepadSystem {
      * @brief ボタンの状態
      */
     enum ButtonState : uint8_t {
-
         None = 0,      ///< 何も押されていない
         Down = 1,      ///< このフレームで押された
         Pressed = 2,   ///< 押され続けている
