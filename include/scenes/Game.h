@@ -95,6 +95,8 @@ class GameScene : public IScene {
         Entity gameStats = world.Create().With<GameStats>().Build(); ownedEntities_.push_back(gameStats);
         Entity stageProgress = world.Create().With<StageProgress>().Build(); ownedEntities_.push_back(stageProgress);
         Entity collisionSystem = world.Create().With<CollisionDetectionSystem>().Build(); ownedEntities_.push_back(collisionSystem);
+        Entity stageEntity_ = world.Create().With<StageCreate>().Build();ownedEntities_.push_back(stageEntity_);
+
 #ifdef _DEBUG
         Entity debugRenderer = world.Create().With<CollisionDebugRenderer>().Build(); ownedEntities_.push_back(debugRenderer);
 #endif
@@ -103,14 +105,9 @@ class GameScene : public IScene {
         float tileSize = 1.0f;//床（1マス）サイズ指定
         CreateFloor(world, gridSize,tileSize);
         CreatePlayer(world);
-        CreateStart(world);
-        CreateGoal(world);
-        CreateTestEnemy(world);
-        CreateWall(world,{3.0f,0.0f,3.0f});
-        CreateWall(world, {-1.0f, 0.0f, 3.0f});
-        CreateUI(world, screenWidth, screenHeight);
         // ステージ1をセットアップ
         SetupStage(world, 1);
+        CreateUI(world, screenWidth, screenHeight);
         DEBUGLOG("GameWithUIScene の初期化が正常に完了しました");
     }
     void OnUpdate(World &world, InputSystem &input, float deltaTime) override {
@@ -394,8 +391,54 @@ class GameScene : public IScene {
         ownedEntities_.push_back(player);
     }
 
-    void CreateStart(World &world) {
-        Transform t{{-3.0f,0.0f,5.0f},{0,0,0},{1,1,1}};
+    void CreateStageMap(World &world) {
+        world.ForEach<StageCreate>([&](Entity stageEntity, StageCreate &stagecreate) {
+            float tileSize = 1.0f;
+        
+
+            //マップサイズの取得
+            if (stagecreate.stageMap.empty() || stagecreate.stageMap[0].empty())
+                return;
+            float mapWidth = static_cast<float>(stagecreate.stageMap[0].size());
+            float mapHeight = static_cast<float>(stagecreate.stageMap.size());
+
+            //オフセット計算
+            const float offsetX = (mapWidth * tileSize) * 0.5f - (tileSize * 0.5f);
+            const float offsetZ = (mapHeight * tileSize) * 0.5f - (tileSize * 0.5f);
+
+            for (int y = 0; y < stagecreate.stageMap.size(); ++y) {
+                for (int x = 0; x < stagecreate.stageMap[y].size(); ++x) {
+                    //CSVファイル内の値の読み込み
+                    int blockType = stagecreate.stageMap[y][x];
+
+                    float worldX = (static_cast<float>(x) * tileSize) - offsetX;
+                    float worldY = 0.0f;
+                    float worldZ = (static_cast<float>(y) * tileSize) - offsetZ;
+
+                    const DirectX::XMFLOAT3 blockposition = {worldX, worldY, worldZ};
+
+                    if (blockType != 0) {
+                        switch (blockType) {
+                            case 1:
+                                CreateStart(world, blockposition);
+                                break;
+                            case 2:
+                                CreateGoal(world, blockposition);
+                                break;
+                            case 3:
+                                CreateWall(world, blockposition);
+                                break;
+                        }
+                    }
+                }
+            }
+        });
+       
+    }
+
+
+    void CreateStart(World &world, const DirectX::XMFLOAT3 &position) {
+        Transform t{position,{0,0,0},{1,1,1}};
 
         MeshRenderer r;
         r.meshType = MeshType::Cube;
@@ -409,11 +452,11 @@ class GameScene : public IScene {
                       .Build();
 
         startEntity_ = e;
-        ownedEntities_.push_back(e);
+        stageOwnedEntities_.push_back(e);
     }
 
-    void CreateGoal(World &world) {
-        Transform t{{5.0f,0.0f,5.0f},{0,0,0},{1,1,1}};
+    void CreateGoal(World &world, const DirectX::XMFLOAT3 &position) {
+        Transform t{position,{0,0,0},{1,1,1}};
 
         MeshRenderer r;
         r.meshType = MeshType::Cube;
@@ -427,7 +470,7 @@ class GameScene : public IScene {
                       .Build();
 
         goalEntity_ = e;
-        ownedEntities_.push_back(e);
+        stageOwnedEntities_.push_back(e);
     }
 
     void CreateWall(World &world, const DirectX::XMFLOAT3 &position) {
@@ -436,21 +479,44 @@ class GameScene : public IScene {
         renderer.meshType = MeshType::Cube;
         renderer.color = DirectX::XMFLOAT3{1.0f, 1.0f, 1.0f};
         Entity wall = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<WallTag>().With<CollisionBox>(DirectX::XMFLOAT3{1.0f, 2.0f, 1.0f}).With<WallCollisionHandler>().Build();
-        ownedEntities_.push_back(wall);
+        stageOwnedEntities_.push_back(wall);
     }
 
     void CreateTestEnemy(World &world) {
         Transform transform{{1.5f, 0.0f, 5.0f},{0.0f, 0.0f, 0.0f},{1.0f, 1.0f, 1.0f}};
         MeshRenderer renderer; renderer.meshType = MeshType::Sphere; renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f};
         Entity enemy = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<EnemyTag>().With<CollisionSphere>(0.5f).With<EnemyCollisionHandler>().Build();
-        ownedEntities_.push_back(enemy);
+        stageOwnedEntities_.push_back(enemy);
     }
 
     void SetupStage(World &world, int stage) {
-        float goalX = 5.0f + static_cast<float>(stage - 1) * 2.0f;
-        if (world.IsAlive(goalEntity_)) { if (auto* tGoal = world.TryGet<Transform>(goalEntity_)) { tGoal->position = { goalX, 0.0f, 5.0f }; } }
-        if (world.IsAlive(startEntity_)) { if (auto* tStart = world.TryGet<Transform>(startEntity_)) { tStart->position = { -3.0f, 0.0f, 5.0f }; } }
-        if (world.IsAlive(playerEntity_)) { if (auto* tPlayer = world.TryGet<Transform>(playerEntity_)) { tPlayer->position = { -3.0f, 0.0f, 5.0f }; } }
+        //既存のステージ要素をリセット
+        for (const auto &entity : stageOwnedEntities_) {
+            if (world.IsAlive(entity)) {
+                world.DestroyEntityWithCause(entity, World::Cause::SceneUnload);            
+            }
+        }
+        stageOwnedEntities_.clear();
+        startEntity_ = {};
+        goalEntity_ = {};
+
+        CreateStageMap(world);
+        CreateTestEnemy(world);
+
+        //プレイヤーの位置をリセット
+        if (world.IsAlive(playerEntity_) && world.IsAlive(startEntity_)) {
+            auto *tPlayer = world.TryGet<Transform>(playerEntity_);
+            auto *tStart = world.TryGet<Transform>(startEntity_);
+
+            if (tPlayer && tStart) {
+                tPlayer->position = {tStart->position.x,0.0f,tStart->position.z};
+
+            }
+        }
+     // float goalX = 5.0f + static_cast<float>(stage - 1) * 2.0f;
+     // if (world.IsAlive(goalEntity_)) { if (auto* tGoal = world.TryGet<Transform>(goalEntity_)) { tGoal->position = { goalX, 0.0f, 5.0f }; } }
+     // if (world.IsAlive(startEntity_)) { if (auto* tStart = world.TryGet<Transform>(startEntity_)) { tStart->position = { -3.0f, 0.0f, 5.0f }; } }
+     // if (world.IsAlive(playerEntity_)) { if (auto* tPlayer = world.TryGet<Transform>(playerEntity_)) { tPlayer->position = { -3.0f, 0.0f, 5.0f }; } }
     }
 
     //プレイヤーのスタート合図
@@ -464,7 +530,9 @@ class GameScene : public IScene {
 
     TextSystem textSystem_;
     std::vector<Entity> ownedEntities_;
+    std::vector<Entity> stageOwnedEntities_;
     Entity playerEntity_{};
+    Entity stageEntity{};
     Entity startEntity_{};
     Entity goalEntity_{};
 };
