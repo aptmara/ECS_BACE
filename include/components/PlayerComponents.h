@@ -148,25 +148,19 @@ struct PlayerMovement : Behaviour {
             if (angle > 0.5f)
             {
                 isCharging = true;
-                while (isCharging)
+                
+                //角度を求める処理
+                stickDir = {gx / angle, gy / angle};
+                float currentCharge = gamepad_->GetLeftStickChargeAmount(1.0f);
+
+                //経過時間に応じてチャージ量を溜める
+                ChargePower += currentCharge * dt;
+
+                //1.0以上は溜めれない
+                if (ChargePower > 1.0f)
                 {
-                    //角度を求める処理
-                    stickDir = {gx / angle, gy / angle};
-                    float currentCharge = gamepad_->GetLeftStickChargeAmount(1.0f);
-
-                    //経過時間に応じてチャージ量を溜める
-                    ChargePower += currentCharge * dt;
-
-                    //1.0以上は溜めれない
-                    if (ChargePower > 1.0f)
-                    {
-                        ChargePower = 1.0f;
-                    } 
-
-                    v->speed = 1.0f;
-
-                    break;
-                }
+                    ChargePower = 1.0f;
+                } 
             }
 
             //スティックが元の位置に戻ったらプレイヤー移動
