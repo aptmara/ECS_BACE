@@ -191,6 +191,7 @@ class GameScene : public IScene {
                             .With<PlayerTag>()
                             .With<PlayerVelocity>()
                             .With<PlayerMovement>()
+                            .With<PlayerGuide>()
                             .With<CollisionBox>(DirectX::XMFLOAT3{0.8f, 2.0f, 0.8f})
                             .With<PlayerCollisionHandler>()
                             .Build();
