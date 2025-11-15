@@ -96,9 +96,6 @@ class GameScene : public IScene {
         Entity collisionSystem = world.Create().With<CollisionDetectionSystem>().Build(); ownedEntities_.push_back(collisionSystem);
         Entity stageEntity_ = world.Create().With<StageCreate>().Build();ownedEntities_.push_back(stageEntity_);
 
-#ifdef _DEBUG
-        Entity debugRenderer = world.Create().With<CollisionDebugRenderer>().Build(); ownedEntities_.push_back(debugRenderer);
-#endif
         world.Create().With<DirectionalLight>();
         int gridSize = 15;//床(全体)のサイズ指定
         float tileSize = 1.0f;//床（1マス）サイズ指定
