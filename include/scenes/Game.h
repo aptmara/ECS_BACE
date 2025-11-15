@@ -224,7 +224,7 @@ class GameScene : public IScene {
 
                     float worldX = (static_cast<float>(x) * tileSize) - offsetX;
                     float worldY = 0.0f;
-                    float worldZ = (static_cast<float>(y) * tileSize) - offsetZ;
+                    float worldZ = offsetZ - (static_cast<float>(y) * tileSize);
 
                     const DirectX::XMFLOAT3 blockposition = {worldX, worldY, worldZ};
 
