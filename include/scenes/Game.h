@@ -55,7 +55,6 @@ struct EnemyCollisionHandler : ICollisionHandler {
     void OnCollisionEnter(World &w, Entity self, Entity other, const CollisionInfo &info) override {
         if (w.Has<PlayerTag>(other)) {
             DEBUGLOG("敵がプレイヤーと衝突");
-
         }
     }
 };
@@ -174,12 +173,8 @@ class GameScene : public IScene {
                                    .Build();
 
                 ownedEntities_.push_back(floor);
-
             }
-
         }
-       
-
     }
 
     void CreatePlayer(World &world) {
@@ -190,8 +185,8 @@ class GameScene : public IScene {
         };
 
         MeshRenderer renderer;
-        renderer.meshType = MeshType::Cube;
-        renderer.color = DirectX::XMFLOAT3{0.0f, 1.0f, 0.0f};
+        renderer.meshType = MeshType::Sphere;
+        renderer.color = DirectX::XMFLOAT3{0.0f, 0.0f, 1.0f};
 
         Entity player = world.Create()
                             .With<Transform>(transform)
@@ -199,7 +194,6 @@ class GameScene : public IScene {
                             .With<PlayerTag>()
                             .With<PlayerVelocity>()
                             .With<PlayerMovement>()
-                            .With<Rotator>(45.0f)
                             .With<CollisionBox>(DirectX::XMFLOAT3{0.8f, 2.0f, 0.8f})
                             .With<PlayerCollisionHandler>()
                             .Build();
@@ -230,7 +224,7 @@ class GameScene : public IScene {
 
                     float worldX = (static_cast<float>(x) * tileSize) - offsetX;
                     float worldY = 0.0f;
-                    float worldZ = (static_cast<float>(y) * tileSize) - offsetZ;
+                    float worldZ = offsetZ - (static_cast<float>(y) * tileSize);
 
                     const DirectX::XMFLOAT3 blockposition = {worldX, worldY, worldZ};
 
@@ -250,7 +244,6 @@ class GameScene : public IScene {
                 }
             }
         });
-       
     }
 
 
@@ -299,13 +292,6 @@ class GameScene : public IScene {
         stageOwnedEntities_.push_back(wall);
     }
 
-    void CreateTestEnemy(World &world) {
-        Transform transform{{1.5f, 0.0f, 5.0f},{0.0f, 0.0f, 0.0f},{1.0f, 1.0f, 1.0f}};
-        MeshRenderer renderer; renderer.meshType = MeshType::Sphere; renderer.color = DirectX::XMFLOAT3{1.0f, 0.0f, 0.0f};
-        Entity enemy = world.Create().With<Transform>(transform).With<MeshRenderer>(renderer).With<EnemyTag>().With<CollisionSphere>(0.5f).With<EnemyCollisionHandler>().Build();
-        stageOwnedEntities_.push_back(enemy);
-    }
-
     void SetupStage(World &world, int stage) {
         //既存のステージ要素をリセット
         for (const auto &entity : stageOwnedEntities_) {
@@ -318,7 +304,6 @@ class GameScene : public IScene {
         goalEntity_ = {};
 
         CreateStageMap(world);
-        CreateTestEnemy(world);
 
         //プレイヤーの位置をリセット
         if (world.IsAlive(playerEntity_) && world.IsAlive(startEntity_)) {
