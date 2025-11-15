@@ -1,6 +1,9 @@
 ï»¿/**
  * @file StageComponents.h
  * @brief ã‚¹ãƒ†ãƒ¼ã‚¸é€²è¡Œç”¨ã®ã‚¿ã‚°ã¨çŠ¶æ…‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+ * @author å±±å†…é™½
+ * @date 2025
+ * @version 5.0
  */
 #pragma once
 
@@ -35,48 +38,52 @@ struct StageProgress : IComponent {
 
 /**
  * @struct StageCreate
- * @brief CSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İA‚»‚ê‚ğŠî‚ÉƒXƒe[ƒW‚ğ¶¬
+ * @brief CSVãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã€ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’ç”Ÿæˆ
  */
 struct StageCreate : IComponent {
-    //ƒtƒ@ƒCƒ‹‚ÌéŒ¾
+    /**
+     * @brief ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     */
     ifstream m_file;
 
-    //ƒXƒe[ƒWƒf[ƒ^‚ğ•Û‚·‚é‚½‚ß‚Ì“ñŸŒ³”z—ñ
+    /**
+     * @brief ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹2æ¬¡å…ƒãƒ™ã‚¯ã‚¿ãƒ¼
+     */
     vector<vector<int>> stageMap;
 
+    /**
+     * @brief ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @details CSVãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚ªãƒ¼ãƒ—ãƒ³ã—ã€ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
+     */
     StageCreate() {
-        m_file.open("Assets/StageData/aaa.csv");         //ƒpƒX‚Ìw’è
-        //ƒtƒ@ƒCƒ‹‚ªŠJ‚¯‚È‚©‚Á‚½‚Ìˆ—iƒGƒ‰[ƒƒO“™j
+        m_file.open("Assets/StageData/aaa.csv");
         if (!m_file.is_open()) {
-            cerr << "ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½B" << endl;
+            cerr << "ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚ªãƒ¼ãƒ—ãƒ³ã«å¤±æ•—ã—ã¾ã—ãŸã€‚" << endl;
         } else {
-            //ƒtƒ@ƒCƒ‹‚ªŠJ‚¢‚Ä‚¢‚éê‡AƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚Åƒf[ƒ^‚ğ“Ç‚İ‚Ş
             loadStageData();
         }
     }
 
+    /**
+     * @brief ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
+     * @details CSVãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ‘ãƒ¼ã‚¹ã—ã€stageMapã«æ ¼ç´
+     */
     void loadStageData() {
         string line;
         while (getline(m_file, line)) {
-            //1s•ª‚Ìƒf[ƒ^‚ğŠi”[‚·‚éƒxƒNƒ^
             vector<int> row;
-            //ƒJƒ“ƒ}‹æØ‚è‚Åƒp[ƒX
             stringstream sstream(line);
             string cell;
 
-            while(getline(sstream, cell,',')){
+            while (getline(sstream, cell, ',')) {
                 try {
-                    //•¶š—ñ‚ğ®”‚É•ÏŠ·‚µ‚ÄƒxƒNƒ^‚É’Ç‰Á
                     row.push_back(stoi(cell));
                 } catch (const std::invalid_argument &error) {
-                    //”’l•ÏŠ·ƒGƒ‰[‚Ìˆ—
-                    cerr << "Invalid number in CSV: " << cell << endl;
+                    cerr << "ç„¡åŠ¹ãªæ•°å€¤: " << cell << endl;
                 } catch (const std::out_of_range &error) {
-                    //”ÍˆÍŠOƒGƒ‰[‚Ìˆ—
-                    cerr << "Number out of range in CSV: " << cell << endl;
+                    cerr << "ç¯„å›²å¤–ã®æ•°å€¤: " << cell << endl;
                 }
             }
-            //ˆ—‚µ‚½s‚ğƒxƒNƒ^[‚ÉŠi”[
             stageMap.push_back(row);
         }
         m_file.close();

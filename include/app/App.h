@@ -468,7 +468,7 @@ private:
 
         hwnd_ = CreateWindowW(
             wc.lpszClassName,
-            L"シューティングゲーム - A/D:移動 スペース:発射 ESC:終了",
+            L"はじく！",
             WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, CW_USEDEFAULT,
             rc.right - rc.left, rc.bottom - rc.top,

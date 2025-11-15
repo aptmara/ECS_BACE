@@ -186,7 +186,7 @@ class GameScene : public IScene {
         Transform transform{
             {0.0f, 0.0f, 5.0f},
             {0.0f, 0.0f, 0.0f},
-            {1.0f, 1.0f, 1.0f},
+            {0.8f, 0.8f, 0.8f},
         };
 
         MeshRenderer renderer;
@@ -200,7 +200,7 @@ class GameScene : public IScene {
                             .With<PlayerVelocity>()
                             .With<PlayerMovement>()
                             .With<Rotator>(45.0f)
-                            .With<CollisionBox>(DirectX::XMFLOAT3{1.0f, 2.0f, 1.0f})
+                            .With<CollisionBox>(DirectX::XMFLOAT3{0.8f, 2.0f, 0.8f})
                             .With<PlayerCollisionHandler>()
                             .Build();
 

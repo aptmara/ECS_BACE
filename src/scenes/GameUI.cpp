@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * @file GameUI.cpp
- * @brief GameScene ‚Ì UI \’z‚ÆƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgÀ‘•
+ * @brief GameScene ã® UI æ§‹ç¯‰ã¨ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆå®Ÿè£…
  */
 #include "pch.h"
 #include "scenes/Game.h"
@@ -10,13 +10,13 @@
 void GameScene::CreateTextFormats() {
     TextSystem::TextFormat hudFormat;
     hudFormat.fontSize = 24.0f;
-    hudFormat.fontFamily = L"ƒƒCƒŠƒI";
+    hudFormat.fontFamily = L"ãƒ¡ã‚¤ãƒªã‚ª";
     hudFormat.alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
     textSystem_.CreateTextFormat("hud", hudFormat);
 
     TextSystem::TextFormat pauseFormat;
     pauseFormat.fontSize = 72.0f;
-    pauseFormat.fontFamily = L"ƒƒCƒŠƒI";
+    pauseFormat.fontFamily = L"ãƒ¡ã‚¤ãƒªã‚ª";
     pauseFormat.alignment = DWRITE_TEXT_ALIGNMENT_CENTER;
     pauseFormat.paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER;
     textSystem_.CreateTextFormat("pause", pauseFormat);
@@ -33,7 +33,7 @@ void GameScene::CreateTextFormats() {
 
     TextSystem::TextFormat titleFormat;
     titleFormat.fontSize = 20.0f;
-    titleFormat.fontFamily = L"ƒƒCƒŠƒI";
+    titleFormat.fontFamily = L"ãƒ¡ã‚¤ãƒªã‚ª";
     titleFormat.style = DWRITE_FONT_STYLE_ITALIC;
     titleFormat.alignment = DWRITE_TEXT_ALIGNMENT_JUSTIFIED;
     titleFormat.paragraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT_FAR;
@@ -69,7 +69,7 @@ void GameScene::CreateUI(World &world, float screenWidth, float screenHeight) {
     scoreTransform.anchor = {0.0f, 0.0f};
     scoreTransform.pivot = {0.0f, 0.0f};
 
-    UIText scoreText{L"ƒXƒRƒA: 0"};
+    UIText scoreText{L"ã‚¹ã‚³ã‚¢: 0"};
     scoreText.color = {1.0f, 1.0f, 0.0f, 1.0f};
     scoreText.formatId = "hud";
 
@@ -85,7 +85,7 @@ void GameScene::CreateUI(World &world, float screenWidth, float screenHeight) {
     timeTransform.anchor = {0.0f, 0.0f};
     timeTransform.pivot = {0.0f, 0.0f};
 
-    UIText timeText{L"ŠÔ: 00:00"};
+    UIText timeText{L"æ™‚é–“: 00:00"};
     timeText.color = {1.0f, 1.0f, 1.0f, 1.0f};
     timeText.formatId = "hud";
 
