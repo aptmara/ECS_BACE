@@ -189,14 +189,15 @@ public:
     // 起因タグ（ログ解析用）
     enum class Cause {
         Unknown = 0,
-        Spawner = 1,
-        WaveTimer = 2,
-        Collision = 3,
-        LifetimeExpired = 4,
-        SceneInit = 5,
-        SceneTeardown = 6,   // シーン終了時
-        SceneUnload = 7,     // シーン切り替え時
-        AppShutdown = 8      // アプリケーション終了時
+        Spawner,
+        WaveTimer,
+        Collision,
+        LifetimeExpired,
+        StageReset,
+        SceneInit,
+        SceneTeardown,   // シーン終了時
+        SceneUnload,     // シーン切り替え時
+        AppShutdown      // アプリケーション終了時
     };
 
     static const char* CauseToString(Cause c) {
