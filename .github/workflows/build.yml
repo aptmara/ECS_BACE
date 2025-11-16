@@ -27,12 +27,51 @@ jobs:
     
     - name: Build solution
       run: msbuild HEW_GAME.sln /p:Configuration=${{ matrix.config }} /p:Platform=${{ matrix.platform }} /m
-    
+
     - name: Check for build errors
       if: failure()
       run: |
         echo "Build failed for config=${{ matrix.config }}, platform=${{ matrix.platform }}"
         exit 1
+
+    # ====== ここから Release/master 用の成果物収集＋配布 ======
+
+    - name: Collect build outputs (Release/master only)
+      if: github.ref == 'refs/heads/master' && matrix.config == 'Release'
+      run: |
+        mkdir artifact
+
+        REM exe と Release の中身
+        xcopy /E /I /Y ".\x64\Release\*" artifact\
+
+        REM Assets フォルダも丸ごと入れる
+        xcopy /E /I /Y ".\Assets\*" artifact\Assets\
+
+    - name: Upload artifact (optional, for Actions UI)
+      if: github.ref == 'refs/heads/master' && matrix.config == 'Release'
+      uses: actions/upload-artifact@v4
+      with:
+        name: HEW_GAME-${{ matrix.platform }}-${{ matrix.config }}
+        path: artifact/**
+        compression-level: 9
+        if-no-files-found: error
+
+    - name: Archive build for release
+      if: github.ref == 'refs/heads/master' && matrix.config == 'Release'
+      run: |
+        powershell Compress-Archive -Path artifact\* -DestinationPath HEW_GAME.zip -Force
+
+    - name: Create GitHub Release
+      if: github.ref == 'refs/heads/master' && matrix.config == 'Release'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v0.1.${{ github.run_number }}
+        name: "Auto build ${{ github.run_number }}"
+        draft: false
+        prerelease: true
+        files: HEW_GAME.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   compile-check:
     runs-on: windows-latest
