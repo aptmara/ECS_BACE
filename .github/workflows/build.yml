@@ -38,6 +38,7 @@ jobs:
 
     - name: Collect build outputs (Release/master only)
       if: github.ref == 'refs/heads/master' && matrix.config == 'Release'
+      shell: cmd
       run: |
         mkdir artifact
 
