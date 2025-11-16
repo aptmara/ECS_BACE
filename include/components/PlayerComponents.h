@@ -87,8 +87,8 @@ struct PlayerMovement : Behaviour {
     InputSystem *input_ = nullptr;     ///< 入力システムへのポインタ
     GamepadSystem *gamepad_ = nullptr; ///< ゲームパッドシステムへのポインタ
     // チャージ挙動設定
-    float minChargeSpeedFactor = 0.3f;   ///< チャージ中の最低速度係数(0.0-1.0)
-    float chargeMaxTime = 1.0f;          ///< チャージ最大時間(秒)
+    float minChargeSpeedFactor = 0.2f;   ///< チャージ中の最低速度係数(0.0-1.0)
+    float chargeMaxTime = 0.7f;          ///< チャージ最大時間(秒)
 
     // 入力モード
     bool flickOnly = true;               ///< 左スティックの通常移動を無効化し、はじく移動（チャージ&リリース）のみ有効にする
@@ -158,10 +158,10 @@ struct PlayerMovement : Behaviour {
             // チャージ状態更新（統合）
             bool chargingSys = gamepad_->IsLeftStickCharging();
             bool effectiveCharging = chargingSys && chargingNowLocal;
-            if (effectiveCharging) 
+            if (effectiveCharging)
             {
                 isCharging_ = true;
-               
+
                 float charge = gamepad_->GetLeftStickChargeAmount(chargeMaxTime); // 0..1
                 slowFactor = std::max(minChargeSpeedFactor, 1.0f - charge);
             }
@@ -170,7 +170,7 @@ struct PlayerMovement : Behaviour {
             bool releasedSys = gamepad_->IsLeftStickReleased();
             bool releasedLocal = (wasCharging_ && !chargingNowLocal);
 
-            if (releasedSys || releasedLocal) 
+            if (releasedSys || releasedLocal)
             {
                 float dirLen = std::sqrt(lastStickDir_.x * lastStickDir_.x + lastStickDir_.y * lastStickDir_.y);
                 if (dirLen > 1e-5f)
@@ -179,7 +179,7 @@ struct PlayerMovement : Behaviour {
                     v->velocity.y = (lastStickDir_.y / dirLen) * v->speed;
                     float yawRad = std::atan2(v->velocity.y, v->velocity.x);
                     t->rotation.y = yawRad * (180.0f / 3.1415926535f);
-               
+
                 isCharging_ = false;
                 slowFactor = 1.0f;
                 }
@@ -194,8 +194,8 @@ struct PlayerMovement : Behaviour {
                 inputDir.y += -gy;
             }
         }
-        
-        if (inputDir.x != 0.0f || inputDir.y != 0.0f) 
+
+        if (inputDir.x != 0.0f || inputDir.y != 0.0f)
         {
             v->UpdateVelocity(inputDir);
         }
@@ -211,7 +211,7 @@ struct PlayerMovement : Behaviour {
         if (t->position.z > limitY)  t->position.z =  limitY;
     }
 
-    float CalcMoveRotation() 
+    float CalcMoveRotation()
     {
         return std::atan2f(lastStickDir_.y, lastStickDir_.x) * (180.0f / 3.1415926535f);
     }
@@ -224,12 +224,12 @@ struct PlayerMovement : Behaviour {
 /**
  * @struct PlayerGuide
  * @brief プレイヤーガイド表示をするBehaviour
- * 
+ *
  * @details
  * 新たにガイド用のエンティティを追加します。
  * 追加したエンティティはPlayerMoveコンポーネントで取得できる、チャージ状態の有無で表示可否を行います。
- * チャージ中は進行予測方向にガイドが表示されるようにしています。 * 
- * 
+ * チャージ中は進行予測方向にガイドが表示されるようにしています。 *
+ *
  * @par 使用例
  * @code
  * Entity player = world.Create()
@@ -241,7 +241,7 @@ struct PlayerMovement : Behaviour {
  * auto& guide = world.Add<PlayerGuide>(player);
  * @endcode
  */
-struct PlayerGuide : Behaviour 
+struct PlayerGuide : Behaviour
 {
     // コンポーネント保存用変数
     PlayerMovement *playerMove{};
@@ -283,7 +283,7 @@ struct PlayerGuide : Behaviour
     * @details
     * selfエンティティからTransformコンポーネントを取得し、その座標にガイドを作成しています。
     */
-    void OnStart(World &w, Entity self) override 
+    void OnStart(World &w, Entity self) override
     {
         // コンポーネントの取得
         selfTransform = w.TryGet<Transform>(self);  // エンティティ(プレイヤー)の移動情報
@@ -302,7 +302,7 @@ struct PlayerGuide : Behaviour
      * 各コンポーネントを取得し、ガイドの方向、場所を指定します。
      * また、チャージ状態でない場合は、スケールを0にして非表示にしています。
      */
-    void OnUpdate(World &w, Entity self, float dt) override 
+    void OnUpdate(World &w, Entity self, float dt) override
     {
         // 各コンポーネントの取得
         playerMove    = w.TryGet<PlayerMovement>(self);         // エンティティ(プレイヤー)の移動情報
@@ -317,7 +317,7 @@ struct PlayerGuide : Behaviour
         guidTransform->rotation.y = -rad * (180.0f / 3.1415926535f); // deg(度)変換
 
         // チャージ状態の判別処理
-        if (!playerMove->isCharging_) 
+        if (!playerMove->isCharging_)
         {
             guidTransform->scale = {0, 0, 0};   // チャージしてないときはガイドの大きさを0にする
         }
